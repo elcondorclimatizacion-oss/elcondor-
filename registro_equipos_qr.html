@@ -3,517 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex, nofollow">
-    <title>Registro de Equipos QR - El Cóndor</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Soporte Técnico - El Cóndor</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0a0a0a;
-            --panel-bg: #151515;
-            --border-color: #333;
-            --text-main: #e0e0e0;
-            --text-muted: #888;
-            --accent-main: #00ffcc; /* Tech Cyan */
-            --accent-glow: rgba(0, 255, 204, 0.2);
-            --hvac-color: #38bdf8;
-            --elec-color: #ffcc00;
-            --cctv-color: #f87171;
-            --whatsapp-green: #25D366;
-        }
+        :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --whatsapp: #25D366; --text: #f8fafc; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); padding: 1rem; margin: 0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
+        .container { width: 100%; max-width: 500px; margin-top: 2rem; }
+        .panel { display: none; background: var(--card); border-radius: 24px; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
+        .btn { border: none; border-radius: 12px; padding: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; }
+        input, select, textarea { width: 100%; padding: 1rem; margin-top: 0.8rem; background: #000; color: white; border: 1px solid #444; border-radius: 12px; font-family: 'JetBrains Mono', monospace; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
-            padding: 2rem;
-            background-image: 
-                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 20px 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            max-width: 1200px;
-            width: 100%;
-        }
-
-        @media (max-width: 900px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* --- STYLES COMPARTIDOS --- */
-        .panel {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 2rem;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .panel-header {
-            font-family: 'JetBrains Mono', monospace;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 1rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .panel-header.admin { color: var(--accent-main); }
-        .panel-header.client { color: #fff; }
-
-        .mono-text {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* --- FORMULARIO ADM --- */
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-bottom: 0.5rem;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        input[type="text"], 
-        input[type="date"], 
-        select, 
-        textarea {
-            width: 100%;
-            background: #000;
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 0.8rem 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: var(--accent-main);
-            box-shadow: 0 0 0 2px var(--accent-glow);
-        }
-
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            border: none;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .btn-submit {
-            background: var(--accent-main);
-            color: #000;
-            margin-top: 1rem;
-        }
-
-        .btn-submit:hover {
-            background: #00ccaa;
-            transform: translateY(-2px);
-        }
-
-        /* --- VISTA CLIENTE (ID TARJETA) --- */
-        .id-card {
-            background: linear-gradient(135deg, #1f2937, #111827);
-            border: 2px solid #4b5563;
-            border-radius: 12px;
-            padding: 0;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-        }
-        
-        .id-card.empty {
-            opacity: 0.5;
-            filter: grayscale(1);
-        }
-
-        .id-header {
-            background: rgba(0,0,0,0.5);
-            padding: 1.5rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo-small {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 800;
-            font-size: 1.1rem;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .logo-img-container-small {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 2px solid var(--accent-main);
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 0 10px var(--accent-glow);
-            transition: all 0.3s ease;
-        }
-
-        .logo-img-small {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .service-badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .badge-hvac { background: rgba(56, 189, 248, 0.2); color: var(--hvac-color); border: 1px solid rgba(56, 189, 248, 0.4); }
-        .badge-elec { background: rgba(255, 204, 0, 0.2); color: var(--elec-color); border: 1px solid rgba(255, 204, 0, 0.4); }
-        .badge-cctv { background: rgba(248, 113, 113, 0.2); color: var(--cctv-color); border: 1px solid rgba(248, 113, 113, 0.4); }
-
-        .id-body {
-            padding: 2rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .data-row {
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px dashed rgba(255,255,255,0.1);
-            padding-bottom: 0.5rem;
-        }
-
-        .data-label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .data-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            color: #fff;
-        }
-
-        .technical-details {
-            background: rgba(0,0,0,0.3);
-            padding: 1rem;
-            border-radius: 6px;
-            border-left: 3px solid var(--accent-main);
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-
-        .id-footer {
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.4);
-            border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .btn-whatsapp-client {
-            background: var(--whatsapp-green);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            text-decoration: none;
-        }
-
-        .btn-whatsapp-client:hover {
-            background: #1faf53;
-        }
-
-        /* --- QR SECTION --- */
-        .qr-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-            background: #fff;
-            border-radius: 8px;
-            margin: 0 auto;
-            width: fit-content;
-        }
-        
-        .qr-wrapper {
-            margin-top: 1.5rem;
-            text-align: center;
-            display: none;
-        }
-
-        .qr-title {
-            color: var(--accent-main);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        /* Estilo exclusivo Ficha Cliente */
+        #clientFicha { border: 2px solid var(--accent); }
+        .data-label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 1.5rem; }
+        .data-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .btn-wpp { background: var(--whatsapp); color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 2rem; }
     </style>
 </head>
 <body>
 
-    <div class="main-container">
-        
-        <!-- [1] FORMULARIO ADMIN -->
-        <div class="panel" style="border-top: 4px solid var(--accent-main);">
-            <div class="panel-header admin">
-                ▶ [ZONA RESTRINGIDA] - ALTA DE EQUIPO
-            </div>
+    <div class="container">
+        <!-- 1. LOGIN -->
+        <div id="view_login" class="panel" style="display: block; text-align: center;">
+            <img src="logocondor.jpeg" width="100" style="border-radius: 50%; margin-bottom: 1.5rem; border: 3px solid var(--accent);">
+            <h2>ACCESO PRIVADO</h2>
+            <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 2rem;">Solo para personal técnico de El Cóndor.</p>
+            <input type="password" id="pin_input" placeholder="Ingrese PIN Técnico">
+            <button class="btn" style="background: var(--accent); color: #000; margin-top: 1rem;" onclick="validate()">ENTRAR AL PANEL</button>
+        </div>
+
+        <!-- 2. ADMIN PANEL (CARGA) -->
+        <div id="view_admin" class="panel">
+            <h2 style="color: var(--accent);">NUEVO SERVICE</h2>
+            <input type="text" id="in_eq" placeholder="Equipo / Modelo">
+            <textarea id="in_dt" placeholder="Detalle del trabajo realizado"></textarea>
+            <select id="in_nx">
+                <option value="6 Meses">Service en 6 meses</option>
+                <option value="1 Año">Service en 1 año</option>
+            </select>
+            <button class="btn" style="background: var(--accent); color: #000; margin-top: 2rem;" onclick="generate()">GENERAR QR INTERACTIVO</button>
             
-            <form id="equipoForm">
-                <div class="form-group">
-                    <label>Tipo de Trabajo</label>
-                    <select id="f_tipo_trabajo" required>
-                        <option value="" disabled selected>-- SELECCIONAR --</option>
-                        <option value="HVAC">❄️ AIRE ACONDICIONADO</option>
-                        <option value="ELEC">⚡ ELECTRICIDAD (Tableros)</option>
-                        <option value="CCTV">👁️ CCTV / CÁMARAS</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Identificación del Equipo (Marca - Modelo - Nro Serie)</label>
-                    <input type="text" id="f_identificacion" placeholder="Ej: BGH Silent Air - TS30 - SN:987654" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Datos Técnicos (Presión, Carga, IPs, Componentes)</label>
-                    <textarea id="f_datos_tecnicos" rows="3" placeholder="Ej: Carga 900grs R410, Presión 120PSI, Termica 20A"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>Fecha de Intervención</label>
-                    <input type="date" id="f_fecha" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Próximo Service Sugerido</label>
-                    <select id="f_proximo_service" required>
-                        <option value="6 Meses">En 6 Meses</option>
-                        <option value="1 Año" selected>En 1 Año (Recomendado)</option>
-                        <option value="2 Años">En 2 Años</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn btn-submit">GENERAR FICHA Y QR</button>
-            </form>
-
-            <div class="qr-wrapper" id="qrWrapper">
-                <div class="qr-title">CÓDIGO QR PARA PEGAR EN EL EQUIPO</div>
-                <div class="qr-container">
-                    <img id="qrImage" src="" alt="Código QR" width="150" height="150">
-                    <p style="color: #000; font-size: 0.7rem; margin-top: 5px; font-weight: bold; text-align: center;">ID: <span id="qrIdTag"></span></p>
-                </div>
-                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 1rem; text-align: center;">Imprime este código y pégalo en el chasis del equipo.</p>
+            <div id="qr_result" style="display: none; text-align: center; margin-top: 2rem; background: white; padding: 1rem; border-radius: 15px;">
+                <img id="qr_img" src="">
+                <p id="qr_url_txt" style="color: #000; font-size: 10px; word-break: break-all; margin-top: 10px;"></p>
+                <button class="btn" style="background: #000; color: #fff; margin-top: 1rem;" onclick="location.reload()">NUEVA CARGA</button>
             </div>
         </div>
 
-        <!-- [2] VISTA FICHA CLIENTE -->
-        <div class="panel" style="border-top: 4px solid #4b5563;">
-            <div class="panel-header client" style="border-color: #4b5563;">
-                ◉ VISTA PREVIA (FICHA DIGITAL CLIENTE)
-            </div>
-
-            <div class="id-card empty" id="fichaCliente">
-                <div class="id-header">
-                    <div class="logo-small">
-                        <div class="logo-img-container-small" id="ficha_logo_container">
-                            <img src="logocondor.jpeg" alt="Logo" class="logo-img-small">
-                        </div>
-                        <span>EL CÓNDOR</span>
-                    </div>
-                    <div class="service-badge badge-hvac" id="ficha_badge_tipo">
-                        ---
-                    </div>
-                </div>
-
-                <div class="id-body">
-                    <div class="data-row">
-                        <span class="data-label">Equipo Instalado / Intervenido</span>
-                        <span class="data-value" id="ficha_identificacion">Esperando datos...</span>
-                    </div>
-
-                    <div class="data-row">
-                        <span class="data-label">Fecha de Intervención</span>
-                        <span class="data-value" id="ficha_fecha">--/--/----</span>
-                    </div>
-
-                    <div class="data-row">
-                        <span class="data-label">Historial Técnico Oficial</span>
-                        <div class="technical-details mono-text" id="ficha_datos_tecnicos">
-                           ...
-                        </div>
-                    </div>
-
-                    <div class="data-row" style="border:none;">
-                        <span class="data-label" style="color: var(--accent-main);">Próximo Mantenimiento Sugerido</span>
-                        <span class="data-value" id="ficha_proximo_service">--</span>
-                    </div>
-                </div>
-
-                <div class="id-footer">
-                    <button class="btn btn-whatsapp-client" id="btnWhatsappClient" disabled>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 1.902 6.541L.069 24l5.632-1.474A11.933 11.933 0 0 0 11.944 24c6.627 0 12-5.373 12-12S18.571 0 11.944 0zM19.1 17.584c-.31.874-1.517 1.614-2.115 1.637-.624.024-1.396.16-4.524-1.144-3.766-1.567-6.216-5.409-6.402-5.656-.188-.247-1.529-2.034-1.529-3.882 0-1.847.962-2.756 1.3-3.125.34-.37 1.05-.595 1.487-.595.143 0 .284.004.411.01.32.015.688-.04 1.107.973.435 1.053 1.233 3.012 1.343 3.235.109.224.225.539.066.852-.158.314-.241.51-.482.791-.241.28-.507.618-.727.818-.241.224-.492.467-.215.942.277.476 1.233 2.035 2.64 3.292 1.82 1.628 3.327 2.126 3.805 2.35.478.225.758.188 1.037-.123.279-.313 1.205-1.4 1.529-1.884.324-.484.647-.404 1.082-.247.435.158 2.758 1.298 3.233 1.535.475.237.792.356.908.552.116.196.116 1.127-.194 2.001z"/>
-                        </svg>
-                        SOLICITAR MANTENIMIENTO
-                    </button>
-                    <p style="font-size: 0.75rem; text-align: center; color: #888;">Este botón enviará un mensaje automático a nuestro departamento técnico.</p>
+        <!-- 3. CLIENTE (VISTA QR) -->
+        <div id="view_client" class="panel">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
+                <img src="logocondor.jpeg" width="50" style="border-radius: 50%;">
+                <div>
+                    <h3 style="margin: 0;">EL CÓNDOR</h3>
+                    <p style="margin: 0; font-size: 0.7rem; color: var(--accent);">HISTORIAL TÉCNICO DIGITAL</p>
                 </div>
             </div>
+
+            <span class="data-label">Equipo</span>
+            <div class="data-value" id="out_eq">---</div>
+
+            <span class="data-label">Historial de Trabajo</span>
+            <div id="out_dt" style="font-size: 0.9rem; margin-top: 0.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">---</div>
+
+            <span class="data-label">Próximo Mantenimiento</span>
+            <div class="data-value" id="out_nx" style="color: var(--accent); border: none;">---</div>
+
+            <a href="#" id="link_wpp" class="btn btn-wpp">SOLICITAR SERVICE</a>
+            
+            <p style="text-align: center; font-size: 0.6rem; color: #64748b; margin-top: 2rem;">ID de Seguimiento: <span id="out_id">---</span></p>
         </div>
-
     </div>
 
     <script>
-        // Set today's date as default
-        document.getElementById('f_fecha').valueAsDate = new Date();
+        const PIN = "1234";
+        const GHP_URL = "https://elcondorclimatizacion-oss.github.io/elcondor-/registro_equipos_qr.html";
 
-        document.getElementById('equipoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        window.onload = function() {
+            const p = new URLSearchParams(window.location.search);
+            if (p.has('id')) {
+                // MODO CLIENTE: Ocultar todo y mostrar ficha
+                document.getElementById('view_login').style.display = 'none';
+                document.getElementById('view_admin').style.display = 'none';
+                document.getElementById('view_client').style.display = 'block';
 
-            // 1. Obtener datos
-            const tipo = document.getElementById('f_tipo_trabajo').value;
-            const identificacion = document.getElementById('f_identificacion').value.trim();
-            const datosTecnicos = document.getElementById('f_datos_tecnicos').value.trim();
-            const fechaStr = document.getElementById('f_fecha').value;
-            const proximoSrv = document.getElementById('f_proximo_service').value;
+                document.getElementById('out_eq').innerText = p.get('eq');
+                document.getElementById('out_dt').innerText = p.get('dt');
+                document.getElementById('out_nx').innerText = p.get('nx');
+                document.getElementById('out_id').innerText = p.get('id');
 
-            // Formatear Fecha (DD/MM/YYYY)
-            const [year, month, day] = fechaStr.split('-');
-            const fechaFormateada = `${day}/${month}/${year}`;
-
-            // 2. Actualizar Ficha Visual
-            const ficha = document.getElementById('fichaCliente');
-            ficha.classList.remove('empty');
-
-            document.getElementById('ficha_identificacion').innerText = identificacion;
-            document.getElementById('ficha_fecha').innerText = fechaFormateada;
-            document.getElementById('ficha_datos_tecnicos').innerText = datosTecnicos || "Sin observaciones registradas.";
-            document.getElementById('ficha_proximo_service').innerText = proximoSrv;
-
-            // Actualizar Badge y Color de Borde del Logo según tipo de trabajo
-            const badge = document.getElementById('ficha_badge_tipo');
-            const logoContainer = document.getElementById('ficha_logo_container');
-            
-            badge.className = 'service-badge'; // Reset classes
-            
-            if(tipo === 'HVAC') {
-                badge.innerText = "❄️ A/ACONDICIONADO";
-                badge.classList.add('badge-hvac');
-                logoContainer.style.borderColor = "var(--hvac-color)";
-                logoContainer.style.boxShadow = "0 0 15px rgba(56, 189, 248, 0.4)";
-            } else if(tipo === 'ELEC') {
-                badge.innerText = "⚡ ELECTRICIDAD";
-                badge.classList.add('badge-elec');
-                logoContainer.style.borderColor = "var(--elec-color)";
-                logoContainer.style.boxShadow = "0 0 15px rgba(255, 204, 0, 0.4)";
-            } else if(tipo === 'CCTV') {
-                badge.innerText = "👁️ SEGURIDAD/CCTV";
-                badge.classList.add('badge-cctv');
-                logoContainer.style.borderColor = "var(--cctv-color)";
-                logoContainer.style.boxShadow = "0 0 15px rgba(248, 113, 113, 0.4)";
+                const msg = `Hola El Cóndor, solicito service para ID: ${p.get('id')} (${p.get('eq')})`;
+                document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
             }
+        }
 
-            // 3. Configurar Botón WhatsApp del Cliente
-            const btnWpp = document.getElementById('btnWhatsappClient');
-            btnWpp.disabled = false;
-            
-            // Reemplaza los ceros por tu número real de empresa
-            const numeroDestino = '5491126139527'; 
-            const mensajeWpp = `Hola El Cóndor, necesito service preventivo/correctivo para el equipo *${identificacion}* que instalaron/revisaron el *${fechaFormateada}*.`;
-            
-            btnWpp.onclick = function() {
-                window.open(`https://wa.me/${numeroDestino}?text=${mensajeWpp}`, '_blank');
-            };
+        function validate() {
+            if (document.getElementById('pin_input').value === PIN) {
+                document.getElementById('view_login').style.display = 'none';
+                document.getElementById('view_admin').style.display = 'block';
+            } else { alert("PIN Incorrecto"); }
+        }
 
-            // 4. Generar QR Code
-            const qrWrapper = document.getElementById('qrWrapper');
-            const qrImage = document.getElementById('qrImage');
-            const qrIdTag = document.getElementById('qrIdTag');
-            
-            qrWrapper.style.display = 'block';
-            
-            // Generamos un ID Aleatorio corto para la etiqueta impresa
-            const randomID = "EC-" + Math.floor(1000 + Math.random() * 9000);
-            qrIdTag.innerText = randomID;
+        function generate() {
+            const id = "EC-" + Math.floor(Math.random()*9000 + 1000);
+            const eq = document.getElementById('in_eq').value;
+            const dt = document.getElementById('in_dt').value;
+            const nx = document.getElementById('in_nx').value;
 
-            // Placeholder URL para el QR (Aquí idealmente iría la URL donde alojarás esta ficha para el cliente, Ej: elcondor.com/equipos/EC-1234)
-            // Por ahora vamos a codificar la información técnica básica de esta ficha para que al menos se lea si se escanea sin internet
+            const final = `${GHP_URL}?id=${id}&eq=${encodeURIComponent(eq)}&dt=${encodeURIComponent(dt)}&nx=${encodeURIComponent(nx)}`;
             
-            const qrDataStr = `EL CONDOR - REGISTRO TECNICO\nID:${randomID}\nEq:${identificacion}\nInst:${fechaFormateada}\nNxt_Srv:${proximoSrv}`;
-            const encodedText = encodeURIComponent(qrDataStr);
-            
-            // Usamos la API de goqr.me para obtener la imagen
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodedText}&margin=0`;
-            
-            // Animación suave de confirmación en el botón
-            const btnSubmit = document.querySelector('.btn-submit');
-            const prevText = btnSubmit.innerText;
-            btnSubmit.innerText = "✓ FICHA GENERADA";
-            btnSubmit.style.background = "var(--whatsapp-green)";
-            setTimeout(() => {
-                btnSubmit.innerText = prevText;
-                btnSubmit.style.background = "var(--accent-main)";
-            }, 2000);
-        });
+            document.getElementById('qr_result').style.display = 'block';
+            document.getElementById('qr_img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(final)}`;
+            document.getElementById('qr_url_txt').innerText = final;
+        }
     </script>
 </body>
 </html>

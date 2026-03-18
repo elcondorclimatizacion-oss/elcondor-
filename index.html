@@ -35,7 +35,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            padding: 2rem 1rem; /* Añade margen arriba y abajo para pantallas chicas */
+            overflow-x: hidden; /* Permite escrollear hacia abajo si la pantalla es pequeña */
+            box-sizing: border-box;
         }
 
         .welcome-card {
@@ -44,34 +46,38 @@
             -webkit-backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
-            padding: 3rem 4rem;
+            padding: 2.5rem 2rem; /* Achicamos un poco el relleno para que entre mejor */
             max-width: 600px;
-            width: 90%;
+            width: 100%;
             text-align: center;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255,255,255,0.1);
             transform: translateY(30px);
             opacity: 0;
             animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            margin: auto;
         }
 
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--accent-main), #0ea5e9);
-            border-radius: 20px;
-            margin: 0 auto 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
+        .logo-img-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid rgba(56, 189, 248, 0.5);
             box-shadow: 0 10px 25px var(--accent-glow);
-            transform: rotate(-10deg);
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            background: #fff; /* Por si el JPEG tiene fondos complejos, blanco base ayuda */
         }
 
-        .welcome-card:hover .logo-placeholder {
-            transform: rotate(0deg) scale(1.05);
+        .logo-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .welcome-card:hover .logo-img-container {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px var(--accent-glow);
         }
 
         h1 {
@@ -219,7 +225,9 @@
 <body>
 
     <div class="welcome-card">
-        <div class="logo-placeholder">EC</div>
+        <div class="logo-img-container">
+            <img src="logocondor.jpeg" alt="Logo de El Cóndor">
+        </div>
         <h1>El Cóndor</h1>
         <h2>Servicios Integrales</h2>
         <p style="margin-bottom: 2rem; line-height: 1.6;"><strong>Soluciones profesionales en Climatización, Energía y Seguridad.</strong><br> Brindamos soporte técnico de precisión y confiabilidad para su tranquilidad.</p>

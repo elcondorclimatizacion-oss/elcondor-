@@ -177,21 +177,32 @@
         .logo-small {
             font-family: 'JetBrains Mono', monospace;
             font-weight: 800;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #fff;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
-        .logo-icon {
-            width: 30px; height: 30px;
-            background: linear-gradient(135deg, var(--hvac-color), var(--accent-main));
-            border-radius: 8px;
-            display: flex; flex-shrink: 0;
-            align-items: center; justify-content: center;
-            color: #000; font-size: 1rem;
-            transform: rotate(-10deg);
+        .logo-img-container-small {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent-main);
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 0 10px var(--accent-glow);
+            transition: all 0.3s ease;
+        }
+
+        .logo-img-small {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .service-badge {
@@ -363,7 +374,9 @@
             <div class="id-card empty" id="fichaCliente">
                 <div class="id-header">
                     <div class="logo-small">
-                        <div class="logo-icon id-logo-icon">EC</div>
+                        <div class="logo-img-container-small" id="ficha_logo_container">
+                            <img src="logocondor.jpeg" alt="Logo" class="logo-img-small">
+                        </div>
                         <span>EL CÓNDOR</span>
                     </div>
                     <div class="service-badge badge-hvac" id="ficha_badge_tipo">
@@ -436,24 +449,27 @@
             document.getElementById('ficha_datos_tecnicos').innerText = datosTecnicos || "Sin observaciones registradas.";
             document.getElementById('ficha_proximo_service').innerText = proximoSrv;
 
-            // Actualizar Badge y Color Icono según tipo de trabajo
+            // Actualizar Badge y Color de Borde del Logo según tipo de trabajo
             const badge = document.getElementById('ficha_badge_tipo');
-            const logoIcon = document.querySelector('.id-logo-icon');
+            const logoContainer = document.getElementById('ficha_logo_container');
             
             badge.className = 'service-badge'; // Reset classes
             
             if(tipo === 'HVAC') {
                 badge.innerText = "❄️ A/ACONDICIONADO";
                 badge.classList.add('badge-hvac');
-                logoIcon.style.background = "linear-gradient(135deg, var(--hvac-color), #0ea5e9)";
+                logoContainer.style.borderColor = "var(--hvac-color)";
+                logoContainer.style.boxShadow = "0 0 15px rgba(56, 189, 248, 0.4)";
             } else if(tipo === 'ELEC') {
                 badge.innerText = "⚡ ELECTRICIDAD";
                 badge.classList.add('badge-elec');
-                logoIcon.style.background = "linear-gradient(135deg, var(--elec-color), #ca8a04)";
+                logoContainer.style.borderColor = "var(--elec-color)";
+                logoContainer.style.boxShadow = "0 0 15px rgba(255, 204, 0, 0.4)";
             } else if(tipo === 'CCTV') {
                 badge.innerText = "👁️ SEGURIDAD/CCTV";
                 badge.classList.add('badge-cctv');
-                logoIcon.style.background = "linear-gradient(135deg, var(--cctv-color), #b91c1c)";
+                logoContainer.style.borderColor = "var(--cctv-color)";
+                logoContainer.style.boxShadow = "0 0 15px rgba(248, 113, 113, 0.4)";
             }
 
             // 3. Configurar Botón WhatsApp del Cliente

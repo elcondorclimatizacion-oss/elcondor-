@@ -266,22 +266,43 @@
             const nombre = document.getElementById('nombre').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
             const servicio = document.getElementById('servicio').value;
-            
+            const btn = e.submitter;
+
             if(!nombre || !telefono || !servicio) {
                 alert('Por favor, completa todos los campos.');
                 return;
             }
-            
-            // Reemplaza los ceros por el número de tu empresa con código de área
-            // Ej: para Argentina 54 + 9 + (código de área sin 0) + (número sin 15)
-            const numeroDestino = '5491126139527'; 
-            
-            const mensaje = `Hola Equipo Técnico de El Cóndor, solicito asistencia/presupuesto.%0A%0A*Nombre completo:* ${nombre}%0A*Teléfono de contacto:* ${telefono}%0A*Servicio Técnico Solicitado:* ${servicio}%0A%0AQuedo a la espera de su confirmación. ¡Muchas gracias!`;
-            
-            const whatsappUrl = `https://wa.me/${numeroDestino}?text=${mensaje}`;
-            
-            window.open(whatsappUrl, '_blank');
+
+            // Cambiar estado del botón
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = "PROCESANDO SOLICITUD...";
+            btn.disabled = true;
+
+            // 1. ENVIAR A GOOGLE DRIVE (IA AGENT)
+            // Reemplaza esta URL por la de tu Aplicación Web de Google Apps Script
+            const URL_GOOGLE_SCRIPT = "TU_URL_DE_APPS_SCRIPT_AQUI"; 
+
+            fetch(URL_GOOGLE_SCRIPT, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ nombre, telefono, servicio })
+            }).then(() => {
+                console.log("Datos enviados al Drive");
+            }).catch(err => console.error("Error al enviar al Drive", err))
+            .finally(() => {
+                // 2. ABRIR WHATSAPP
+                const numeroDestino = '5491126139527'; 
+                const mensaje = `Hola Equipo Técnico de El Cóndor, solicito asistencia/presupuesto.%0A%0A*Nombre:* ${nombre}%0A*Teléfono:* ${telefono}%0A*Servicio:* ${servicio}%0A%0AQuedo a la espera de su confirmación.`;
+                
+                const whatsappUrl = `https://wa.me/${numeroDestino}?text=${mensaje}`;
+                window.open(whatsappUrl, '_blank');
+                
+                // Reset botón
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            });
         });
     </script>
 </body>
-</html>  
+</html>

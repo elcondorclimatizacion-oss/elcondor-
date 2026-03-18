@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="El Cóndor - Servicios Integrales">
+    <title>El Cóndor - Servicios Integrales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0f172a; /* deep slate */
+            --panel-bg: rgba(30, 41, 59, 0.7);
+            --accent-main: #38bdf8; /* vivid sky blue */
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.1), transparent 25%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .welcome-card {
+            background: var(--panel-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 3rem 4rem;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            transform: translateY(30px);
+            opacity: 0;
+            animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-main), #0ea5e9);
+            border-radius: 20px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            box-shadow: 0 10px 25px var(--accent-glow);
+            transform: rotate(-10deg);
+            transition: transform 0.4s ease;
+        }
+
+        .welcome-card:hover .logo-placeholder {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--accent-main);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        p {
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(to right, #0ea5e9, #2563eb);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -10px rgba(37, 99, 235, 0.7);
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -10px rgba(37, 99, 235, 0.8);
+            filter: brightness(1.1);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-main);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2rem;
+        }
+        
+        select.form-control option {
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+        }
+
+        .btn-whatsapp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px -10px rgba(37, 211, 102, 0.7);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -10px rgba(37, 211, 102, 0.8);
+            filter: brightness(1.1);
+        }
+
+        .btn-whatsapp:active {
+            transform: translateY(1px);
+        }
+
+        .btn-whatsapp svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        @keyframes slideUpFade {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="welcome-card">
+        <div class="logo-placeholder">EC</div>
+        <h1>El Cóndor</h1>
+        <h2>Servicios Integrales</h2>
+        <p style="margin-bottom: 2rem; line-height: 1.6;"><strong>Soluciones profesionales en Climatización, Energía y Seguridad.</strong><br> Brindamos soporte técnico de precisión y confiabilidad para su tranquilidad.</p>
+        <form id="quoteForm">
+            <div class="form-group">
+                <label for="nombre" class="form-label">Nombre Completo</label>
+                <input type="text" id="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="tel" id="telefono" class="form-control" placeholder="Ej. +54 9 11 1234-5678" required>
+            </div>
+            <div class="form-group">
+                <label for="servicio" class="form-label">Tipo de Servicio</label>
+                <select id="servicio" class="form-control" required>
+                    <option value="" disabled selected>Selecciona un servicio técnico</option>
+                    <option value="INSTALACIÓN / SERVICE DE AIRE ACONDICIONADO">INSTALACIÓN / SERVICE DE AIRE ACONDICIONADO</option>
+                    <option value="ELECTRICIDAD (TABLEROS Y BOCAS)">ELECTRICIDAD (TABLEROS Y BOCAS)</option>
+                    <option value="CÁMARAS DE SEGURIDAD">CÁMARAS DE SEGURIDAD</option>
+                    <option value="URGENCIAS TÉCNICAS">URGENCIAS TÉCNICAS</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-whatsapp">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 1.902 6.541L.069 24l5.632-1.474A11.933 11.933 0 0 0 11.944 24c6.627 0 12-5.373 12-12S18.571 0 11.944 0zM19.1 17.584c-.31.874-1.517 1.614-2.115 1.637-.624.024-1.396.16-4.524-1.144-3.766-1.567-6.216-5.409-6.402-5.656-.188-.247-1.529-2.034-1.529-3.882 0-1.847.962-2.756 1.3-3.125.34-.37 1.05-.595 1.487-.595.143 0 .284.004.411.01.32.015.688-.04 1.107.973.435 1.053 1.233 3.012 1.343 3.235.109.224.225.539.066.852-.158.314-.241.51-.482.791-.241.28-.507.618-.727.818-.241.224-.492.467-.215.942.277.476 1.233 2.035 2.64 3.292 1.82 1.628 3.327 2.126 3.805 2.35.478.225.758.188 1.037-.123.279-.313 1.205-1.4 1.529-1.884.324-.484.647-.404 1.082-.247.435.158 2.758 1.298 3.233 1.535.475.237.792.356.908.552.116.196.116 1.127-.194 2.001z"/>
+                </svg>
+                Enviar por WhatsApp
+            </button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('nombre').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const servicio = document.getElementById('servicio').value;
+            
+            if(!nombre || !telefono || !servicio) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+            
+            // Reemplaza los ceros por el número de tu empresa con código de área
+            // Ej: para Argentina 54 + 9 + (código de área sin 0) + (número sin 15)
+            const numeroDestino = '5491126139527'; 
+            
+            const mensaje = `Hola Equipo Técnico de El Cóndor, solicito asistencia/presupuesto.%0A%0A*Nombre completo:* ${nombre}%0A*Teléfono de contacto:* ${telefono}%0A*Servicio Técnico Solicitado:* ${servicio}%0A%0AQuedo a la espera de su confirmación. ¡Muchas gracias!`;
+            
+            const whatsappUrl = `https://wa.me/${numeroDestino}?text=${mensaje}`;
+            
+            window.open(whatsappUrl, '_blank');
+        });
+    </script>
+</body>
+</html>

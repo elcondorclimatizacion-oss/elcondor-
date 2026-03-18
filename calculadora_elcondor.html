@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Calculadora Interna - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #121212;
+            --border-color: #333;
+            --text-color: #e0e0e0;
+            --accent-color: #ffcc00; /* Industrial Safety Yellow */
+            --accent-hover: #ffaa00;
+            --sys-color: #00ffcc; /* Tech Cyan */
+            --danger-color: #ff3333;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem;
+            line-height: 1.5;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid var(--border-color);
+            background: var(--panel-bg);
+            padding: 2rem;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px;
+            width: 20px; height: 20px;
+            border-top: 4px solid var(--accent-color);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .container::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; right: -2px;
+            width: 20px; height: 20px;
+            border-bottom: 4px solid var(--accent-color);
+            border-right: 4px solid var(--accent-color);
+        }
+
+        header {
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: var(--sys-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .module {
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            background: #0a0a0a;
+            position: relative;
+            padding: 2rem 1.5rem 1.5rem;
+        }
+
+        .module-title {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: var(--sys-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            border: 1px solid var(--sys-color);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        input[type="number"], select {
+            background: #111;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.75rem;
+            font-size: 1rem;
+            border-radius: 0;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        input[type="number"]:focus, select:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 5px rgba(255, 204, 0, 0.2);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: #151515;
+            border: 1px solid #222;
+        }
+
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .checkbox-label {
+            margin: 0;
+            color: var(--text-color);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .total-section {
+            background: #1a1a1a;
+            border: 2px solid var(--accent-color);
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px dashed #333;
+        }
+
+        .summary-item span:last-child {
+            color: var(--sys-color);
+            font-weight: bold;
+        }
+
+        .final-price-box {
+            background: var(--accent-color);
+            color: #000;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 1.5rem 0;
+            text-shadow: 1px 1px 0px rgba(255,255,255,0.3);
+            border: 4px solid #fff;
+        }
+
+        .btn-action {
+            display: block;
+            width: 100%;
+            background: transparent;
+            color: var(--sys-color);
+            border: 2px solid var(--sys-color);
+            padding: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            background: var(--sys-color);
+            color: #000;
+        }
+
+        .btn-whatsapp {
+            border-color: #25D366;
+            color: #25D366;
+            margin-top: 1rem;
+        }
+        
+        .btn-whatsapp:hover {
+            background: #25D366;
+            color: #000;
+        }
+
+        .notice {
+            font-size: 0.75rem;
+            color: #666;
+            text-align: center;
+            margin-top: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-price-box {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>CALCULADORA OPE</h1>
+            <div class="tagline">v1.2 // EL CONDOR SERVICIOS INTEGRALES // USO INTERNO</div>
+        </header>
+
+        <!-- MODULO HVAC -->
+        <div class="module">
+            <div class="module-title">[01] MODULO HVAC</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="hvac_frig">Capacidad del Equipo</label>
+                    <select id="hvac_frig" onchange="calculateQuotation()">
+                        <option value="0">--- Ninguno ---</option>
+                        <option value="90000">Split 2500 Frigorías ($90.000 Base)</option>
+                        <option value="100000">Split 3000 Frigorías ($100.000 Base)</option>
+                        <option value="120000">Split 4500 Frigorías ($120.000 Base)</option>
+                        <option value="140000">Split 6000 Frigorías ($140.000 Base)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hvac_metros">Metros Cañería Extra ($12.500/m)</label>
+                    <input type="number" id="hvac_metros" min="0" value="0" oninput="calculateQuotation()">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="hvac_altura" onchange="calculateQuotation()">
+                <label for="hvac_altura" class="checkbox-label">Trabajo en Altura (Recargo $30.000)</label>
+            </div>
+        </div>
+
+        <!-- MODULO ELECTRICIDAD -->
+        <div class="module">
+            <div class="module-title">[02] MODULO ELECTRICIDAD</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="elec_bocas">Cantidad de Bocas ($18.500 c/u)</label>
+                    <input type="number" id="elec_bocas" min="0" value="0" oninput="calculateQuotation()">
+                </div>
+                <div class="form-group" style="justify-content: flex-end;">
+                    <div class="checkbox-group" style="margin-top: 0;">
+                        <input type="checkbox" id="elec_tablero" onchange="calculateQuotation()">
+                        <label for="elec_tablero" class="checkbox-label">Instalar Tablero Secc. (Base $45.000)</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODULO SEGURIDAD -->
+        <div class="module">
+            <div class="module-title">[03] MODULO SEGURIDAD</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="seg_camaras">Cantidad de Cámaras (Base M.O: $25.000 c/u)</label>
+                    <input type="number" id="seg_camaras" min="0" value="0" oninput="calculateQuotation()">
+                </div>
+                <div class="form-group">
+                    <label for="seg_utp">Metros de UTP a tirar (M.O: $500/m)</label>
+                    <input type="number" id="seg_utp" min="0" value="0" oninput="calculateQuotation()">
+                </div>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="seg_app" onchange="calculateQuotation()">
+                <label for="seg_app" class="checkbox-label">Configuración App/NVR/Red ($15.000)</label>
+            </div>
+        </div>
+
+        <!-- CIERRE Y MATERIALES -->
+        <div class="module" style="border-color: var(--accent-color);">
+            <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[04] CIERRE Y MATERIALES</div>
+            <div class="form-group">
+                <label for="mat_total" style="color: var(--accent-color);">Total Materiales Facturados ($)</label>
+                <input type="number" id="mat_total" min="0" value="0" style="font-size: 1.5rem; padding: 1rem; background: #222;" oninput="calculateQuotation()">
+            </div>
+        </div>
+
+        <!-- RESUMEN FINAL -->
+        <div class="total-section">
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <span>M.O. HVAC:</span>
+                    <span id="res_hvac">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>M.O. Electricidad:</span>
+                    <span id="res_elec">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>M.O. Seguridad:</span>
+                    <span id="res_seg">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Total Materiales:</span>
+                    <span id="res_mat">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Subtotal Base (M.O. + Mat.):</span>
+                    <span id="res_subtotal">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Viáticos + Herramientas (15%):</span>
+                    <span id="res_viaticos">$0</span>
+                </div>
+                <div class="summary-item">
+                    <span>Total Operativo:</span>
+                    <span id="res_operativo">$0</span>
+                </div>
+                <div class="summary-item" style="border-bottom: none;">
+                    <span>Margen Ganancia/Garantía (35%):</span>
+                    <span id="res_margen">$0</span>
+                </div>
+            </div>
+
+            <div class="final-price-box">
+                <span style="font-size: 1rem; display: block; color: rgba(0,0,0,0.6);">PRECIO FINAL SUGERIDO</span>
+                <span id="final_price">$ 0</span>
+            </div>
+
+            <button class="btn-action btn-whatsapp" onclick="copyToClipboard()">[COPIAR RESUMEN PARA CLIENTE]</button>
+            <div class="notice">Solo personal autorizado. Los costos internos no se incluirán en el copiado.</div>
+        </div>
+    </div>
+
+    <script>
+        // Variables internas de precios fijos configurables
+        const PRECIO_HVAC_METRO_CANERIA = 12500;
+        const PRECIO_HVAC_ALTURA = 30000;
+        
+        const PRECIO_ELEC_BOCA = 18500;
+        const PRECIO_ELEC_TABLERO = 45000;
+        
+        const PRECIO_SEG_CAMARA = 25000; // M.O instalación de cámara
+        const PRECIO_SEG_UTP = 500;      // M.O tirado de cable por metro
+        const PRECIO_SEG_APP = 15000;    // Configuración
+
+        // Parámetros comerciales
+        const COEF_VIATICOS = 0.15;      // 15% sobre (M.O + Materiales)
+        const COEF_GANANCIA = 0.35;      // 35% sobre Total Operativo
+
+        function armarFormatoMoneda(valor) {
+            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(valor);
+        }
+
+        function calculateQuotation() {
+            // 1. Calculo HVAC
+            const hvacBase = parseInt(document.getElementById('hvac_frig').value) || 0;
+            const hvacMetros = parseInt(document.getElementById('hvac_metros').value) || 0;
+            const hvacAltura = document.getElementById('hvac_altura').checked ? PRECIO_HVAC_ALTURA : 0;
+            const totalHvac = hvacBase + (hvacMetros * PRECIO_HVAC_METRO_CANERIA) + hvacAltura;
+
+            // 2. Calculo Electricidad
+            const elecBocas = parseInt(document.getElementById('elec_bocas').value) || 0;
+            const elecTablero = document.getElementById('elec_tablero').checked ? PRECIO_ELEC_TABLERO : 0;
+            const totalElec = (elecBocas * PRECIO_ELEC_BOCA) + elecTablero;
+
+            // 3. Calculo Seguridad
+            const segCamaras = parseInt(document.getElementById('seg_camaras').value) || 0;
+            const segUtp = parseInt(document.getElementById('seg_utp').value) || 0;
+            const segApp = document.getElementById('seg_app').checked ? PRECIO_SEG_APP : 0;
+            const totalSeg = (segCamaras * PRECIO_SEG_CAMARA) + (segUtp * PRECIO_SEG_UTP) + segApp;
+
+            // 4. Materiales 
+            const totalMateriales = parseInt(document.getElementById('mat_total').value) || 0;
+
+            // 5. Cálculos Finales
+            const subtotalTrabajo = totalHvac + totalElec + totalSeg;
+            const subtotalBase = subtotalTrabajo + totalMateriales; // Mano de Obra + Materiales
+            const viaticos = subtotalBase * COEF_VIATICOS;
+            const totalOperativo = subtotalBase + viaticos;
+            const margen = totalOperativo * COEF_GANANCIA;
+            const precioFinal = totalOperativo + margen;
+
+            // Update UI
+            document.getElementById('res_hvac').innerText = armarFormatoMoneda(totalHvac);
+            document.getElementById('res_elec').innerText = armarFormatoMoneda(totalElec);
+            document.getElementById('res_seg').innerText = armarFormatoMoneda(totalSeg);
+            document.getElementById('res_mat').innerText = armarFormatoMoneda(totalMateriales);
+            document.getElementById('res_subtotal').innerText = armarFormatoMoneda(subtotalBase);
+            document.getElementById('res_viaticos').innerText = armarFormatoMoneda(viaticos);
+            document.getElementById('res_operativo').innerText = armarFormatoMoneda(totalOperativo);
+            document.getElementById('res_margen').innerText = armarFormatoMoneda(margen);
+            document.getElementById('final_price').innerText = armarFormatoMoneda(precioFinal);
+
+            // Guardar variables globales para exportar
+            window.cotizacionActual = {
+                final: precioFinal,
+                hvac: totalHvac > 0,
+                elec: totalElec > 0,
+                seg: totalSeg > 0
+            };
+        }
+
+        function copyToClipboard() {
+            if(!window.cotizacionActual || window.cotizacionActual.final === 0) {
+                alert("La cotización está en 0. Ingrese los datos primero.");
+                return;
+            }
+
+            let textoWhatsapp = `*COTIZACIÓN DE SERVICIOS - EL CÓNDOR*\n`;
+            textoWhatsapp += `-------------------------------------------------\n`;
+            
+            let servicios = [];
+            if(window.cotizacionActual.hvac) servicios.push("- Instalación/Soluciones en Aire Acondicionado\n");
+            if(window.cotizacionActual.elec) servicios.push("- Trabajos de Electricidad e Instalación\n");
+            if(window.cotizacionActual.seg) servicios.push("- Instalación y Configuración de Seguridad/CCTV\n");
+
+            if(servicios.length > 0) {
+                textoWhatsapp += `Servicios contemplados:\n`;
+                servicios.forEach(s => textoWhatsapp += s);
+                textoWhatsapp += `\n`;
+            }
+
+            textoWhatsapp += `Incluye:\n`;
+            textoWhatsapp += `✅ Materiales e Insumos necesarios para la obra.\n`;
+            textoWhatsapp += `✅ Mano de obra especializada y herramientas.\n`;
+            textoWhatsapp += `✅ Traslados y viáticos del equipo técnico.\n`;
+            textoWhatsapp += `✅ Garantía de instalación El Cóndor.\n\n`;
+            
+            textoWhatsapp += `*PRECIO FINAL (LLAVE EN MANO): ${armarFormatoMoneda(window.cotizacionActual.final)}*\n\n`;
+            textoWhatsapp += `_Presupuesto sujeto a modificaciones en caso de imprevistos ocultos en obra o cambios en los precios de los materiales. Validez: 7 días._`;
+
+            navigator.clipboard.writeText(textoWhatsapp).then(() => {
+                const btn = document.querySelector('.btn-whatsapp');
+                const prevText = btn.innerText;
+                btn.innerText = "[¡COPIADO CON ÉXITO!]";
+                btn.style.background = "#25D366";
+                btn.style.color = "#000";
+                
+                setTimeout(() => {
+                    btn.innerText = prevText;
+                    btn.style.background = "transparent";
+                    btn.style.color = "#25D366";
+                }, 3000);
+            }).catch(err => {
+                alert("Error al copiar al portapapeles. Inténtalo de nuevo.");
+                console.error('Error in copyToClipboard:', err);
+            });
+        }
+
+        // Init calc
+        calculateQuotation();
+    </script>
+</body>
+</html>

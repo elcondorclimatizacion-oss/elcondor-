@@ -109,9 +109,18 @@
         /* Footer */
         footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); }
 
+        /* Gallery Section */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+        .gallery-item { border-radius: 20px; overflow: hidden; height: 350px; border: 1px solid rgba(255,255,255,0.1); transition: 0.5s; position: relative; }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .gallery-item:hover img { transform: scale(1.1); }
+        .gallery-item::after { content: ''; position: absolute; inset: 0; background: linear-gradient(transparent, rgba(15,23,42,0.8)); opacity: 0; transition: 0.3s; }
+        .gallery-item:hover::after { opacity: 1; }
+
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
             .tech-section { grid-template-columns: 1fr; }
+            .gallery-item { height: 250px; }
         }
     </style>
 </head>
@@ -158,17 +167,32 @@
             </div>
         </div>
 
+        <section class="section-title">
+            <h2>Nuestros Trabajos</h2>
+            <p style="color:var(--text-muted);">Realidad y precisión en cada intervención.</p>
+            <div class="underline"></div>
+        </section>
+
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.07.06 PM.jpeg" alt="Trabajo Real 1"></div>
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM.jpeg" alt="Trabajo Real 2"></div>
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM.jpeg" alt="Trabajo Real 3"></div>
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.00 AM.jpeg" alt="Trabajo Real 4"></div>
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg" alt="Trabajo Real 5"></div>
+            <div class="gallery-item"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (1).jpeg" alt="Trabajo Real 6"></div>
+        </div>
+
         <section class="tech-section">
             <div class="tech-text">
-                <h2>Tecnología que da Confianza</h2>
-                <p style="margin-bottom: 1.5rem;">Somos pioneros en el uso de **Trazabilidad QR**. Cada equipo que intervenimos cuenta con su propia "caja negra" digital para que usted conozca el historial exacto del service.</p>
-                <div style="display:flex; flex-direction:column; gap:10px;">
-                    <a href="calculadora_elcondor.html" style="color:var(--accent); text-decoration:none; font-weight:700;">➜ Probar Calculadora de Precios</a>
-                    <a href="registro_equipos_qr.html" style="color:var(--accent); text-decoration:none; font-weight:700;">➜ Ver Sistema de Equipos QR</a>
-                </div>
+                <h2>Tecnología con Trazabilidad</h2>
+                <p style="margin-bottom: 1.5rem;">Somos pioneros en implementar **Trazabilidad Digital mediante QR**. Cada equipo que intervenimos cuenta con su propia "hoja de vida" digital, permitiéndole a usted y a nuestros técnicos conocer el historial exacto de mantenimiento con un solo escaneo.</p>
+                <p style="color: var(--accent); font-weight: 700;">Seguridad, Transparencia y Eficiencia.</p>
             </div>
             <div style="text-align:center;">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://elcondorclimatizacion-oss.github.io/elcondor-/" style="border: 10px solid white; border-radius: 10px; width: 150px;" alt="QR Demo">
+                <div style="background: white; padding: 15px; border-radius: 20px; display: inline-block; box-shadow: 0 0 30px var(--accent-glow);">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PROYECTO_EL_CONDOR" style="width: 150px; display: block;" alt="QR Tech Highlight">
+                </div>
+                <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">SISTEMA DE CONTROL EXCLUSIVO EL CÓNDOR</p>
             </div>
         </section>
 
@@ -223,7 +247,7 @@
             btn.disabled = true;
 
             // --- LLAVE DE CONEXION ---
-            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwJRoDVkhDTQIVBXhoPckJdCIelqQeww0wx9JZiEfUagij6WFq5Sk4v5EtG7ye4_UEA/exec"; 
+            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbzHhagquSvgbmeOLL7WSb8-45EOBJvf1nbqgylkMPU9rBi92yBuUzi-nbvA-zptKndp/exec"; 
 
             const finalUrl = `${URL_GOOGLE_SCRIPT}?nombre=${encodeURIComponent(nombre)}&telefono=${encodeURIComponent(telefono)}&servicio=${encodeURIComponent(servicio)}`;
 

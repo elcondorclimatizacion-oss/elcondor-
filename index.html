@@ -285,7 +285,6 @@
     </footer>
 
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHhagquSvgbmeOLL7WSb8-45EOBJvf1nbqgylkMPU9rBi92yBuUzi-nbvA-zptKndp/exec"; 
 
         // --- Lógica del Carrusel ---
         let currentSlide = 0;
@@ -300,7 +299,7 @@
         }
         
         // --- Formulario ---
-        document.getElementById('contactForm').addEventListener('submit', function(e) {
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const nombre = document.getElementById('nombre').value.trim();
             const telefono = document.getElementById('telefono').value.trim();
@@ -319,7 +318,7 @@
             fetch(finalUrl, { mode: 'no-cors' })
             .finally(() => {
                 const numeroDestino = '5491126139527'; 
-                const mensaje = `Hola El Cóndor, solicito presupuesto. *Nombre:* ${nombre}. *Servicio:* ${servicio}.`;
+                const mensaje = encodeURIComponent(`Hola El Cóndor, solicito presupuesto. *Nombre:* ${nombre}. *Servicio:* ${servicio}.`);
                 window.open(`https://wa.me/${numeroDestino}?text=${mensaje}`, '_blank');
                 
                 btn.innerHTML = originalBtnText;

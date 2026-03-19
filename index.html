@@ -315,15 +315,16 @@
 
             const finalUrl = `${URL_GOOGLE_SCRIPT}?nombre=${encodeURIComponent(nombre)}&telefono=${encodeURIComponent(telefono)}&servicio=${encodeURIComponent(servicio)}`;
 
-            fetch(finalUrl, { mode: 'no-cors' })
-            .finally(() => {
-                const numeroDestino = '5491126139527'; 
-                const mensaje = encodeURIComponent(`Hola El Cóndor, solicito presupuesto. *Nombre:* ${nombre}. *Servicio:* ${servicio}.`);
-                window.open(`https://wa.me/${numeroDestino}?text=${mensaje}`, '_blank');
-                
+            fetch(finalUrl, { mode: 'no-cors' });
+
+            const numeroDestino = '5491126139527'; 
+            const mensaje = encodeURIComponent(`Hola El Cóndor, solicito presupuesto. *Nombre:* ${nombre}. *Servicio:* ${servicio}.`);
+            window.open(`https://wa.me/${numeroDestino}?text=${mensaje}`, '_blank');
+            
+            setTimeout(() => {
                 btn.innerHTML = originalBtnText;
                 btn.disabled = false;
-            });
+            }, 1000);
         });
     </script>
 </body>

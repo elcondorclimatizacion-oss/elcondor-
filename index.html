@@ -3,263 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="El Cóndor - Servicios Integrales">
+    <meta name="description" content="El Cóndor - Servicios Integrales de Climatización, Energía y Seguridad">
     <title>El Cóndor - Servicios Integrales</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #0f172a; /* deep slate */
-            --panel-bg: rgba(30, 41, 59, 0.7);
-            --accent-main: #38bdf8; /* vivid sky blue */
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #38bdf8;
             --accent-glow: rgba(56, 189, 248, 0.4);
-            --text-main: #f8fafc;
+            --text: #f8fafc;
             --text-muted: #94a3b8;
+            --glass: rgba(30, 41, 59, 0.7);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--primary-bg);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(14, 165, 233, 0.1), transparent 25%);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem 1rem; /* Añade margen arriba y abajo para pantallas chicas */
-            overflow-x: hidden; /* Permite escrollear hacia abajo si la pantalla es pequeña */
-            box-sizing: border-box;
-        }
-
-        .welcome-card {
-            background: var(--panel-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 2.5rem 2rem; /* Achicamos un poco el relleno para que entre mejor */
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255,255,255,0.1);
-            transform: translateY(30px);
-            opacity: 0;
-            animation: slideUpFade 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            margin: auto;
-        }
-
-        .logo-img-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 1.5rem;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid rgba(56, 189, 248, 0.5);
-            box-shadow: 0 10px 25px var(--accent-glow);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-            background: #fff; /* Por si el JPEG tiene fondos complejos, blanco base ayuda */
-        }
-
-        .logo-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .welcome-card:hover .logo-img-container {
-            transform: scale(1.05);
-            box-shadow: 0 15px 35px var(--accent-glow);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.5rem;
-            background: linear-gradient(to right, #fff, #93c5fd);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        h2 {
-            font-size: 1.25rem;
-            font-weight: 500;
-            color: var(--accent-main);
-            margin-bottom: 1.5rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-        }
-
-        p {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
             line-height: 1.6;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            font-size: 1.1rem;
+            overflow-x: hidden;
         }
 
-        .btn {
-            display: inline-block;
-            background: linear-gradient(to right, #0ea5e9, #2563eb);
-            color: white;
-            text-decoration: none;
-            padding: 1rem 2.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px -10px rgba(37, 99, 235, 0.7);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -10px rgba(37, 99, 235, 0.8);
-            filter: brightness(1.1);
-        }
-
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            font-weight: 500;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--accent-main);
-            box-shadow: 0 0 0 3px var(--accent-glow);
-        }
-
-        select.form-control {
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2394a3b8'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-            background-size: 1.2rem;
-        }
-        
-        select.form-control option {
-            background-color: var(--primary-bg);
-            color: var(--text-main);
-        }
-
-        .btn-whatsapp {
-            display: inline-flex;
+        /* Hero Section */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.8)), 
+                        url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&q=80&w=2070') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
-            background: linear-gradient(to right, #25D366, #128C7E);
-            color: white;
-            text-decoration: none;
-            padding: 1rem 2.5rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 20px -10px rgba(37, 211, 102, 0.7);
-            border: none;
-            cursor: pointer;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .nav-sticky {
+            position: fixed;
+            top: 0;
             width: 100%;
-            margin-top: 0.5rem;
+            padding: 1.5rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .btn-whatsapp:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -10px rgba(37, 211, 102, 0.8);
-            filter: brightness(1.1);
+        .logo-nav { width: 50px; border-radius: 50%; }
+
+        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -2px; }
+        .hero-sub { font-size: 1.25rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 2rem; }
+
+        .btn-main {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: 0.3s;
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
-        .btn-whatsapp:active {
-            transform: translateY(1px);
-        }
+        .btn-main:hover { transform: scale(1.05); }
 
-        .btn-whatsapp svg {
-            width: 24px;
-            height: 24px;
-        }
+        /* Container & Sections */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
 
-        @keyframes slideUpFade {
-            0% {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .section-title .underline { width: 60px; height: 4px; background: var(--accent); margin: 0 auto; }
+
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card {
+            background: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .service-card h3 { margin: 1rem 0; font-size: 1.5rem; }
+
+        /* Technology Section */
+        .tech-section { background: var(--secondary); padding: 4rem 2rem; border-radius: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 4rem 0; }
+        .tech-text h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+
+        /* Form Card */
+        .contact-section { background: var(--glass); padding: 3rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); max-width: 700px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; text-align: left; }
+        label { margin-bottom: 0.5rem; font-weight: 600; color: var(--text-muted); }
+        input, select { padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: var(--primary); color: white; outline: none; }
+        input:focus { border-color: var(--accent); }
+
+        .btn-submit { width: 100%; padding: 1.2rem; background: #25d366; color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        /* Footer */
+        footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .tech-section { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <div class="welcome-card">
-        <div class="logo-img-container">
-            <img src="logocondor.jpeg" alt="Logo de El Cóndor">
+    <nav class="nav-sticky">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="logocondor.jpeg" class="logo-nav" alt="Logo">
+            <span style="font-weight:800; font-size:1.2rem;">EL CÓNDOR</span>
         </div>
-        <h1>El Cóndor</h1>
-        <h2>Servicios Integrales</h2>
-        <p style="margin-bottom: 2rem; line-height: 1.6;"><strong>Soluciones profesionales en Climatización, Energía y Seguridad.</strong><br> Brindamos soporte técnico de precisión y confiabilidad para su tranquilidad.</p>
-        <form id="quoteForm">
-            <div class="form-group">
-                <label for="nombre" class="form-label">Nombre Completo</label>
-                <input type="text" id="nombre" class="form-control" placeholder="Ej. Juan Pérez" required>
+        <div>
+            <a href="https://www.instagram.com/elcondorservicios/" target="_blank" style="color:white; text-decoration:none; font-weight:600;">INSTAGRAM</a>
+        </div>
+    </nav>
+
+    <header>
+        <span class="hero-sub">Ingeniería & Servicios</span>
+        <h1>Soluciones de Precisión</h1>
+        <p style="max-width: 600px; margin-bottom: 2rem; color: var(--text-muted);">Especialistas en climatización industrial, sistemas de energía y seguridad avanzada con trazabilidad digital única en el mercado.</p>
+        <a href="#contacto" class="btn-main">SOLICITAR ASISTENCIA</a>
+    </header>
+
+    <div class="container">
+        <section class="section-title">
+            <h2>Nuestros Servicios</h2>
+            <div class="underline"></div>
+        </section>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div style="font-size: 3rem;">❄️</div>
+                <h3>Climatización v3.0</h3>
+                <p>Instalación y service de sistemas split y centrales con protocolos CAR 2026.</p>
             </div>
-            <div class="form-group">
-                <label for="telefono" class="form-label">Teléfono</label>
-                <input type="tel" id="telefono" class="form-control" placeholder="Ej. +54 9 11 1234-5678" required>
+            <div class="service-card">
+                <div style="font-size: 3rem;">⚡</div>
+                <h3>Energía Industrial</h3>
+                <p>Tableros, automatización y mantenimiento preventivo eléctrico certificado.</p>
             </div>
-            <div class="form-group">
-                <label for="servicio" class="form-label">Tipo de Servicio</label>
-                <select id="servicio" class="form-control" required>
-                    <option value="" disabled selected>Selecciona un servicio técnico</option>
-                    <option value="INSTALACIÓN / SERVICE DE AIRE ACONDICIONADO">INSTALACIÓN / SERVICE DE AIRE ACONDICIONADO</option>
-                    <option value="ELECTRICIDAD (TABLEROS Y BOCAS)">ELECTRICIDAD (TABLEROS Y BOCAS)</option>
-                    <option value="CÁMARAS DE SEGURIDAD">CÁMARAS DE SEGURIDAD</option>
-                    <option value="URGENCIAS TÉCNICAS">URGENCIAS TÉCNICAS</option>
-                </select>
+            <div class="service-card">
+                <div style="font-size: 3rem;">🛡️</div>
+                <h3>Seguridad CCTV</h3>
+                <p>Sistemas de vigilancia de alta definición con monitoreo remoto garantizado.</p>
             </div>
-            <button type="submit" class="btn-whatsapp">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 1.902 6.541L.069 24l5.632-1.474A11.933 11.933 0 0 0 11.944 24c6.627 0 12-5.373 12-12S18.571 0 11.944 0zM19.1 17.584c-.31.874-1.517 1.614-2.115 1.637-.624.024-1.396.16-4.524-1.144-3.766-1.567-6.216-5.409-6.402-5.656-.188-.247-1.529-2.034-1.529-3.882 0-1.847.962-2.756 1.3-3.125.34-.37 1.05-.595 1.487-.595.143 0 .284.004.411.01.32.015.688-.04 1.107.973.435 1.053 1.233 3.012 1.343 3.235.109.224.225.539.066.852-.158.314-.241.51-.482.791-.241.28-.507.618-.727.818-.241.224-.492.467-.215.942.277.476 1.233 2.035 2.64 3.292 1.82 1.628 3.327 2.126 3.805 2.35.478.225.758.188 1.037-.123.279-.313 1.205-1.4 1.529-1.884.324-.484.647-.404 1.082-.247.435.158 2.758 1.298 3.233 1.535.475.237.792.356.908.552.116.196.116 1.127-.194 2.001z"/>
-                </svg>
-                Enviar por WhatsApp
-            </button>
-        </form>
+        </div>
+
+        <section class="tech-section">
+            <div class="tech-text">
+                <h2>Tecnología que da Confianza</h2>
+                <p style="margin-bottom: 1.5rem;">Somos pioneros en el uso de **Trazabilidad QR**. Cada equipo que intervenimos cuenta con su propia "caja negra" digital para que usted conozca el historial exacto del service.</p>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                    <a href="calculadora_elcondor.html" style="color:var(--accent); text-decoration:none; font-weight:700;">➜ Probar Calculadora de Precios</a>
+                    <a href="registro_equipos_qr.html" style="color:var(--accent); text-decoration:none; font-weight:700;">➜ Ver Sistema de Equipos QR</a>
+                </div>
+            </div>
+            <div style="text-align:center;">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://elcondorclimatizacion-oss.github.io/elcondor-/" style="border: 10px solid white; border-radius: 10px; width: 150px;" alt="QR Demo">
+            </div>
+        </section>
+
+        <section id="contacto" class="section-title">
+            <h2>Presupuesto Rápido</h2>
+            <p>Complete sus datos y un técnico se pondrá en contacto en menos de 2 horas.</p>
+        </section>
+
+        <div class="contact-section">
+            <form id="quoteForm">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Ej. 11 2613-9527" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Asistencia</label>
+                    <select id="servicio" required>
+                        <option value="Aire Acondicionado">Aire Acondicionado (Service/Instalación)</option>
+                        <option value="Electricidad">Electricidad / Tableros</option>
+                        <option value="CCTV">Cámaras de Seguridad</option>
+                        <option value="Urgencia">Urgencia 24hs</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <svg style="width:24px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23c-1.48 0-2.93-.39-4.19-1.15l-.3-.17l-3.12.82l.83-3.04l-.2-.32a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.22 8.25-8.22m-3.62 3.03c-.15 0-.39.05-.62.3c-.22.25-.87.85-.87 2.08c0 1.23.89 2.42 1.01 2.58c.12.17 1.75 2.67 4.23 3.74c.59.25 1.05.41 1.41.52c.59.19 1.13.16 1.56.1c.48-.07 1.48-.6 1.68-1.18c.2-.58.2-1.08.14-1.18c-.06-.1-.22-.16-.47-.28c-.25-.13-1.48-.73-1.71-.81c-.23-.08-.39-.12-.55.12c-.17.25-.63.81-.78.98c-.14.16-.29.19-.54.06c-.25-.13-1.06-.39-2.03-1.25c-.75-.67-1.26-1.5-1.41-1.75c-.15-.25-.02-.38.11-.51c.11-.11.25-.3.38-.45c.12-.15.16-.25.25-.42c.09-.17.04-.32-.02-.45c-.06-.13-.55-1.33-.75-1.82c-.21-.48-.41-.42-.56-.43c-.14-.01-.3-.01-.46-.01"/></svg>
+                    ENVIAR CONSULTA
+                </button>
+            </form>
+        </div>
     </div>
 
-        <script>
+    <footer>
+        <img src="logocondor.jpeg" class="logo-nav" alt="Logo" style="width: 80px; margin-bottom: 1rem;">
+        <p>© 2026 El Cóndor Servicios Integrales - Quilmes, Buenos Aires.</p>
+        <p>Expertos en Refrigeración, Energía y Seguridad.</p>
+    </footer>
+
+    <script>
         document.getElementById('quoteForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const nombre = document.getElementById('nombre').value.trim();
@@ -268,11 +219,11 @@
             const btn = e.submitter;
 
             const originalBtnText = btn.innerHTML;
-            btn.innerHTML = "PROCESANDO SOLICITUD...";
+            btn.innerHTML = "CONECTANDO...";
             btn.disabled = true;
 
-            // --- PEGA TU LINK DE GOOGLE AQUÍ ABAJO ---
-            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbxkry7Q4AJuJHdnSD1URz_8XJcctUNnlqQ7EsoQK7qkglkMoy14YaB_nLNBJ0BSfgxX/exec"; 
+            // --- LLAVE DE CONEXION ---
+            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbzHhagquSvgbmeOLL7WSb8-45EOBJvf1nbqgylkMPU9rBi92yBuUzi-nbvA-zptKndp/exec"; 
 
             const finalUrl = `${URL_GOOGLE_SCRIPT}?nombre=${encodeURIComponent(nombre)}&telefono=${encodeURIComponent(telefono)}&servicio=${encodeURIComponent(servicio)}`;
 
@@ -287,6 +238,5 @@
             });
         });
     </script>
-
 </body>
 </html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="El Cóndor - Servicios Integrales de Climatización, Energía y Seguridad">
+    <title>El Cóndor - Servicios Integrales</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.4);
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --glass: rgba(30, 41, 59, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--primary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        header {
+            height: 100vh;
+            background: linear-gradient(rgba(15, 23, 42, 0.75), rgba(15, 23, 42, 0.85)), 
+                        url('FOTOS/WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .nav-sticky {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 2rem;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-nav { width: 50px; border-radius: 50%; }
+
+        h1 { font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem; letter-spacing: -2px; }
+        .hero-sub { font-size: 1.25rem; color: var(--accent); font-weight: 600; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 2rem; }
+
+        .btn-main {
+            padding: 1rem 2.5rem;
+            background: var(--accent);
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            transition: 0.3s;
+            box-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        .btn-main:hover { transform: scale(1.05); }
+
+        /* Container & Sections */
+        .container { max-width: 1200px; margin: 0 auto; padding: 4rem 2rem; }
+
+        .section-title { text-align: center; margin-bottom: 3rem; }
+        .section-title h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .section-title .underline { width: 60px; height: 4px; background: var(--accent); margin: 0 auto; }
+
+        /* Services Grid */
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .service-card {
+            background: var(--secondary);
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: 0.3s;
+        }
+        .service-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .service-card h3 { margin: 1rem 0; font-size: 1.5rem; }
+
+        /* Technology Section */
+        .tech-section { background: var(--secondary); padding: 4rem 2rem; border-radius: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin: 4rem 0; }
+        .tech-text h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+
+        /* Form Card */
+        .contact-section { background: var(--glass); padding: 3rem; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); max-width: 700px; margin: 0 auto; }
+        .form-group { margin-bottom: 1.5rem; display: flex; flex-direction: column; text-align: left; }
+        label { margin-bottom: 0.5rem; font-weight: 600; color: var(--text-muted); }
+        input, select { padding: 1rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: var(--primary); color: white; outline: none; }
+        input:focus { border-color: var(--accent); }
+
+        .btn-submit { width: 100%; padding: 1.2rem; background: #25d366; color: white; border: none; border-radius: 50px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+
+        /* Footer */
+        footer { text-align: center; padding: 4rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); }
+
+        /* Carousel Section */
+        .carousel-container { position: relative; width: 100%; max-width: 1000px; margin: 2rem auto; overflow: hidden; border-radius: 30px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .carousel-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .carousel-slide { min-width: 100%; height: 500px; position: relative; }
+        .carousel-slide img { width: 100%; height: 100%; object-fit: cover; }
+        .carousel-nav { position: absolute; top: 50%; width: 100%; display: flex; justify-content: space-between; padding: 0 1.5rem; transform: translateY(-50%); pointer-events: none; }
+        .carousel-btn { 
+            background: rgba(15, 23, 42, 0.8); color: white; border: none; width: 50px; height: 50px; 
+            border-radius: 50%; cursor: pointer; pointer-events: auto; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; transition: 0.3s; backdrop-filter: blur(5px);
+        }
+        .carousel-btn:hover { background: var(--accent); color: var(--bg); }
+        .carousel-counter { position: absolute; bottom: 1.5rem; right: 2rem; background: rgba(0,0,0,0.6); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .tech-section { grid-template-columns: 1fr; }
+            .carousel-slide { height: 350px; }
+        }
+
+            .tech-section { grid-template-columns: 1fr; }
+            .carousel-slide { height: 350px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-sticky">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <img src="logocondor.jpeg" class="logo-nav" alt="Logo">
+            <span style="font-weight:800; font-size:1.2rem;">EL CÓNDOR</span>
+        </div>
+        <div>
+            <a href="https://www.instagram.com/elcondorservicios/" target="_blank" style="color:white; text-decoration:none; font-weight:600;">INSTAGRAM</a>
+        </div>
+    </nav>
+
+    <header>
+        <span class="hero-sub">Ingeniería & Servicios</span>
+        <h1>Soluciones de Precisión</h1>
+        <p style="max-width: 600px; margin-bottom: 2rem; color: var(--text-muted);">Especialistas en climatización industrial, sistemas de energía y seguridad avanzada con trazabilidad digital única en el mercado.</p>
+        <a href="#contacto" class="btn-main">SOLICITAR ASISTENCIA</a>
+    </header>
+
+    <div class="container">
+        <section class="section-title">
+            <h2>Nuestros Servicios</h2>
+            <div class="underline"></div>
+        </section>
+
+        <div class="services-grid">
+            <div class="service-card">
+                <div style="font-size: 3rem;">❄️</div>
+                <h3>Climatización v3.0</h3>
+                <p>Instalación y service de sistemas split y centrales con protocolos CAR 2026.</p>
+                <p style="margin-top: 1rem; color: var(--accent); font-weight: 700;">Desde $135.000</p>
+            </div>
+            <div class="service-card">
+                <div style="font-size: 3rem;">⚡</div>
+                <h3>Energía Industrial</h3>
+                <p>Tableros, automatización y mantenimiento preventivo eléctrico certificado.</p>
+                <p style="margin-top: 1rem; color: var(--accent); font-weight: 700;">Desde $44.000</p>
+            </div>
+            <div class="service-card">
+                <div style="font-size: 3rem;">🛡️</div>
+                <h3>Seguridad CCTV</h3>
+                <p>Sistemas de vigilancia de alta definición con monitoreo remoto garantizado.</p>
+                <p style="margin-top: 1rem; color: var(--accent); font-weight: 700;">Desde $130.000</p>
+            </div>
+        </div>
+
+        <section class="section-title">
+            <h2>Nuestros Trabajos</h2>
+            <p style="color:var(--text-muted);">Desliza para ver nuestra trayectoria en Quilmes.</p>
+            <div class="underline"></div>
+        </section>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- Las imágenes se cargarán aquí dinámicamente o manualmente -->
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-01 at 11.53.46 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 3.24.03 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 8.02.33 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 8.02.35 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 8.03.58 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 8.04.02 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-03 at 8.04.03 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-04 at 5.54.24 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-04 at 5.54.28 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-04 at 5.54.30 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-04 at 6.08.00 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-12 at 1.11.40 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-12 at 1.11.49 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-12 at 1.11.52 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-12 at 1.12.21 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-12 at 1.12.24 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-15 at 2.43.38 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-15 at 2.43.39 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-15 at 2.43.40 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-15 at 2.43.41 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-04-15 at 2.43.46 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.07.06 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.07.09 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.07.10 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (3).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (4).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM (3).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.50 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.15.51 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.07 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.00 AM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.00 AM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.01 AM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.01 AM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-15 at 1.04.01 AM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.20 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (3).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (3).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (4).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (5).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM.jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM (1).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM (2).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM (3).jpeg" alt=""></div>
+                <div class="carousel-slide"><img src="FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM.jpeg" alt=""></div>
+            </div>
+            <div class="carousel-nav">
+                <button class="carousel-btn" onclick="moveCarousel(-1)">❮</button>
+                <button class="carousel-btn" onclick="moveCarousel(1)">❯</button>
+            </div>
+            <div class="carousel-counter" id="carouselCounter">1 / 63</div>
+        </div>
+
+        <section class="tech-section">
+            <div class="tech-text">
+                <h2>Tecnología con Trazabilidad</h2>
+                <p style="margin-bottom: 1.5rem;">Somos pioneros en implementar **Trazabilidad Digital mediante QR**. Cada equipo que intervenimos cuenta con su propia "hoja de vida" digital, permitiéndole a usted y a nuestros técnicos conocer el historial exacto de mantenimiento con un solo escaneo.</p>
+                <p style="color: var(--accent); font-weight: 700;">Seguridad, Transparencia y Eficiencia.</p>
+            </div>
+            <div style="text-align:center;">
+                <div style="background: white; padding: 15px; border-radius: 20px; display: inline-block; box-shadow: 0 0 30px var(--accent-glow);">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PROYECTO_EL_CONDOR" style="width: 150px; display: block;" alt="QR Tech Highlight">
+                </div>
+                <p style="margin-top:1rem; font-size:0.8rem; color:var(--text-muted);">SISTEMA DE CONTROL EXCLUSIVO EL CÓNDOR</p>
+            </div>
+        </section>
+
+        <section id="contacto" class="section-title">
+            <h2>Presupuesto Rápido</h2>
+            <p>Complete sus datos y un técnico se pondrá en contacto <strong style="color:var(--accent)">en el día</strong>.</p>
+        </section>
+
+        <div class="contact-section">
+            <form id="quoteForm">
+                <div class="form-group">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp / Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Ej. 11 2613-9527" required>
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Asistencia</label>
+                    <select id="servicio" required>
+                        <option value="Aire Acondicionado">Aire Acondicionado (Service/Instalación)</option>
+                        <option value="Electricidad">Electricidad / Tableros</option>
+                        <option value="CCTV">Cámaras de Seguridad</option>
+                        <option value="Urgencia">Urgencia 24hs</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    <svg style="width:24px;" viewBox="0 0 24 24"><path fill="currentColor" d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91c0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23c-1.48 0-2.93-.39-4.19-1.15l-.3-.17l-3.12.82l.83-3.04l-.2-.32a8.188 8.188 0 0 1-1.26-4.38c0-4.54 3.7-8.22 8.25-8.22m-3.62 3.03c-.15 0-.39.05-.62.3c-.22.25-.87.85-.87 2.08c0 1.23.89 2.42 1.01 2.58c.12.17 1.75 2.67 4.23 3.74c.59.25 1.05.41 1.41.52c.59.19 1.13.16 1.56.1c.48-.07 1.48-.6 1.68-1.18c.2-.58.2-1.08.14-1.18c-.06-.1-.22-.16-.47-.28c-.25-.13-1.48-.73-1.71-.81c-.23-.08-.39-.12-.55.12c-.17.25-.63.81-.78.98c-.14.16-.29.19-.54.06c-.25-.13-1.06-.39-2.03-1.25c-.75-.67-1.26-1.5-1.41-1.75c-.15-.25-.02-.38.11-.51c.11-.11.25-.3.38-.45c.12-.15.16-.25.25-.42c.09-.17.04-.32-.02-.45c-.06-.13-.55-1.33-.75-1.82c-.21-.48-.41-.42-.56-.43c-.14-.01-.3-.01-.46-.01"/></svg>
+                    ENVIAR CONSULTA
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <img src="logocondor.jpeg" class="logo-nav" alt="Logo" style="width: 80px; margin-bottom: 1rem;">
+        <p>© 2026 El Cóndor Servicios Integrales - Quilmes, Buenos Aires.</p>
+        <p>Expertos en Refrigeración, Energía y Seguridad.</p>
+    </footer>
+
+    <script>
+
+        // --- Lógica del Carrusel ---
+        let currentSlide = 0;
+        const track = document.getElementById('carouselTrack');
+        const slides = Array.from(track.querySelectorAll('.carousel-slide'));
+        const totalSlides = slides.length;
+        const counter = document.getElementById('carouselCounter');
+
+        function moveCarousel(direction) {
+            currentSlide = (currentSlide + direction + totalSlides) % totalSlides;
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            counter.innerText = `${currentSlide + 1} / ${totalSlides}`;
+        }
+        
+        // --- Formulario ---
+        document.getElementById('quoteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nombre = document.getElementById('nombre').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const servicio = document.getElementById('servicio').value;
+            const btn = e.submitter;
+
+            const originalBtnText = btn.innerHTML;
+            btn.innerHTML = "CONECTANDO...";
+            btn.disabled = true;
+
+            // --- LLAVE DE CONEXION ---
+            const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbzHhagquSvgbmeOLL7WSb8-45EOBJvf1nbqgylkMPU9rBi92yBuUzi-nbvA-zptKndp/exec"; 
+
+            const finalUrl = `${URL_GOOGLE_SCRIPT}?nombre=${encodeURIComponent(nombre)}&telefono=${encodeURIComponent(telefono)}&servicio=${encodeURIComponent(servicio)}`;
+
+            fetch(finalUrl, { mode: 'no-cors' });
+
+            const numeroDestino = '5491126139527'; 
+            const mensaje = encodeURIComponent(`Hola El Cóndor, solicito presupuesto. *Nombre:* ${nombre}. *Servicio:* ${servicio}.`);
+            window.open(`https://wa.me/${numeroDestino}?text=${mensaje}`, '_blank');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalBtnText;
+                btn.disabled = false;
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

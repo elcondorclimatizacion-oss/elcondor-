@@ -446,18 +446,49 @@
         function copy() {
             let t = `*PRESUPUESTO EL CÓNDOR SERVICIOS*\n`;
             t += `------------------------------------\n`;
-            t += `Detalle de soluciones técnicas:\n`;
+            t += `Detalle de soluciones técnicas:\n\n`;
             
-            if(parseInt(document.getElementById('hvac_tipo').value) > 0) t += `✅ Climatización / HVAC\n`;
-            if(parseInt(document.getElementById('elec_bocas_n').value) > 0 || parseInt(document.getElementById('elec_aco').value) > 0) t += `✅ Instalaciones Eléctricas\n`;
-            if(parseInt(document.getElementById('sec_cam_int').value) > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) t += `✅ Seguridad Electrónica CCTV\n`;
+            // HVAC Details
+            if (parseInt(document.getElementById('hvac_tipo').value) > 0) {
+                const mtExtra = parseInt(document.getElementById('hvac_mt').value) || 0;
+                t += `✅ *Climatización / HVAC*\n`;
+                t += `   - Instalación/Service según potencia.\n`;
+                if (mtExtra > 0) t += `   - ${mtExtra}m. de cañería extra.\n`;
+                t += `   - Incluye: Fundas, Cinta de PVC, Ménsulas reforzadas y Cable de interconexión.\n\n`;
+            }
+
+            // ELEC Details
+            if (parseInt(document.getElementById('elec_bocas_n').value) > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || parseInt(document.getElementById('elec_term_m').value) > 0) {
+                t += `✅ *Instalaciones Eléctricas*\n`;
+                const term = parseInt(document.getElementById('elec_term_m').value) || 0;
+                const bocas = parseInt(document.getElementById('elec_bocas_n').value) || 0;
+                if (elec_aco.value !== "0") t += `   - Tablero/Acometida certificada.\n`;
+                if (term > 0) t += `   - ${term} Protecciones (Térmica/Disyuntor).\n`;
+                if (bocas > 0) t += `   - ${bocas} Bocas nuevas/re-cableadas.\n`;
+                if (document.getElementById('elec_jabalina').checked) t += `   - Instalación de Jabalina y Puesta a Tierra (PAT).\n`;
+                t += `   - Incluye: Cajas, conectores y cableado normalizado.\n\n`;
+            }
+
+            // CCTV Details
+            if (parseInt(document.getElementById('sec_cam_int').value) > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
+                t += `✅ *Seguridad Electrónica CCTV*\n`;
+                const xvr = document.getElementById('sec_xvr').options[document.getElementById('sec_xvr').selectedIndex].text.split(' ($')[0];
+                const disco = document.getElementById('sec_disco').options[document.getElementById('sec_disco').selectedIndex].text.split(' ($')[0];
+                const cams = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
+                const utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+
+                t += `   - ${xvr} + ${disco}.\n`;
+                t += `   - ${cams} Cámaras HD (Domos/Bullet/FC).\n`;
+                t += `   - ${utp}m. de cable UTP (100% Cobre).\n`;
+                t += `   - Incluye: Baluns HD, Plugs de alimentación y Jacks.\n\n`;
+            }
             
-            t += `\n*VALOR LLAVE EN MANO: ${fmt(window.lastTotal)}*\n`;
+            t += `*VALOR LLAVE EN MANO: ${fmt(window.lastTotal)}*\n`;
             t += `------------------------------------\n`;
-            t += `Incluye: Materiales seleccionados, Mano de Obra, Seguros, Herramientas y Garantía El Cóndor.\n\n`;
+            t += `VALOR ESTIMADO: Incluye Materiales, Mano de Obra, Seguros, Herramientas y Garantía El Cóndor.\n\n`;
             t += `Validez: 5 días. Precios sujetos a cambios de mercado.`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Copiado para WhatsApp"));
+            navigator.clipboard.writeText(t).then(() => alert("Presupuesto detallado copiado para WhatsApp"));
         }
 
         calc();

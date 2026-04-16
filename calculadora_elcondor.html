@@ -353,7 +353,25 @@
                     <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
                 </div>
             </div>
-            <div class="notice">M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m cableado.</div>
+            <div class="section-title">Accesorios y Conectividad</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cajas Estancas (<span id="lbl_sec_caja"></span>)</label>
+                    <input type="number" id="sec_caja" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Fuentes 12V (<span id="lbl_sec_fuente"></span>)</label>
+                    <input type="number" id="sec_fuente" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Pares Baluns (<span id="lbl_sec_balun"></span>)</label>
+                    <input type="number" id="sec_balun" value="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="notice" style="margin-top:10px; font-size: 0.75rem; color: var(--sys-color);">
+                M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m cableado.
+            </div>
         </div>
 
         <!-- MATERIALES Y OTROS -->
@@ -427,19 +445,22 @@
             sec: {
                 xvr: [
                     { label: "Ninguno", p: 0 },
-                    { label: "XVR 4CH Wizsense", p: 66010 },
-                    { label: "XVR 8CH Wizsense", p: 78925 },
-                    { label: "XVR 16CH Wizsense", p: 165025 }
+                    { label: "XVR 4CH Wizsense (1B04)", p: 63710 },
+                    { label: "XVR 8CH Wizsense (1B08)", p: 76175 },
+                    { label: "XVR 16CH Wizsense (1B16)", p: 159275 }
                 ],
                 disco: [
                     { label: "Ninguno", p: 0 },
-                    { label: "SSD 500GB", p: 64575 },
-                    { label: "HDD 1TB", p: 123410 }
+                    { label: "SSD 500GB (V800)", p: 62325 },
+                    { label: "HDD 1TB (V800)", p: 119110 }
                 ],
-                cam_int: 25830,
-                cam_ext: 27265,
-                cam_fc: 40180,
-                utp_mt: 900,
+                cam_int: 24930,
+                cam_ext: 26315,
+                cam_fc: 38780,
+                utp_mt: 850,
+                caja: 2978,
+                fuente: 5540,
+                balun: 2216,
                 mo_instalacion_cam: 25000,
                 mo_cableado_mt: 500
             },
@@ -518,6 +539,9 @@
             document.getElementById('lbl_sec_utp').innerText = fmt(PRECIOS_CONFIG.sec.utp_mt);
             document.getElementById('lbl_sec_mo_cam').innerText = fmt(PRECIOS_CONFIG.sec.mo_instalacion_cam);
             document.getElementById('lbl_sec_mo_mt').innerText = fmt(PRECIOS_CONFIG.sec.mo_cableado_mt);
+            document.getElementById('lbl_sec_caja').innerText = fmt(PRECIOS_CONFIG.sec.caja);
+            document.getElementById('lbl_sec_fuente').innerText = fmt(PRECIOS_CONFIG.sec.fuente);
+            document.getElementById('lbl_sec_balun').innerText = fmt(PRECIOS_CONFIG.sec.balun);
 
             calc();
         }
@@ -556,8 +580,13 @@
             let c_e = parseInt(document.getElementById('sec_cam_ext').value) || 0;
             let c_f = parseInt(document.getElementById('sec_cam_fc').value) || 0;
             let utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+            let n_caja = parseInt(document.getElementById('sec_caja').value) || 0;
+            let n_fuente = parseInt(document.getElementById('sec_fuente').value) || 0;
+            let n_balun = parseInt(document.getElementById('sec_balun').value) || 0;
             
             sec_mat += (c_i * PRECIOS_CONFIG.sec.cam_int) + (c_e * PRECIOS_CONFIG.sec.cam_ext) + (c_f * PRECIOS_CONFIG.sec.cam_fc) + (utp * PRECIOS_CONFIG.sec.utp_mt);
+            sec_mat += (n_caja * PRECIOS_CONFIG.sec.caja) + (n_fuente * PRECIOS_CONFIG.sec.fuente) + (n_balun * PRECIOS_CONFIG.sec.balun);
+            
             let sec_mo = ((c_i + c_e + c_f) * PRECIOS_CONFIG.sec.mo_instalacion_cam) + (utp * PRECIOS_CONFIG.sec.mo_cableado_mt);
 
             // TOTALS
@@ -621,7 +650,9 @@
                 t += `   - ${xvrLabel} + ${discoLabel}.\n`;
                 t += `   - ${cams} Cámaras HD (Domos/Bullet/FC).\n`;
                 t += `   - ${utp}m. de cable UTP (100% Cobre).\n`;
-                t += `   - Incluye: Baluns HD, Plugs de alimentación y Jacks.\n\n`;
+                t += `   - Incluye: Cajas estancas, fuentes, baluns HD y jacks.\n`;
+                t += `   - Configuración App DMSS/P6SLite para monitoreo remoto.\n`;
+                t += `   - Ajuste de ángulo y enfoque profesional.\n\n`;
             }
             
             t += `*VALOR LLAVE EN MANO: ${fmt(window.lastTotal)}*\n`;

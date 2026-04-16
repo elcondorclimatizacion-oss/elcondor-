@@ -223,18 +223,11 @@
                 <div class="form-group">
                     <label>Tipo de Equipo</label>
                     <select id="hvac_tipo" onchange="calc()">
-                        <option value="0">Seleccionar...</option>
-                        <option value="135000">Instalación Básica (hasta 3499fg) - $135k</option>
-                        <option value="160000">Instalación Básica (3500fg - 5499fg) - $160k</option>
-                        <option value="200000">Instalación Básica (5500fg - 6299fg) - $200k</option>
-                        <option value="220000">Instalación Básica (6300fg - 7999fg) - $220k</option>
-                        <option value="270000">Instalación Básica (8000fg - 8999fg) - $270k</option>
-                        <option value="140000">Montaje sobre Pre-Instalación - $140k</option>
-                        <option value="140000">Pre-Instalación estándar (Cañerías/Caja embutidas) - $140k</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Metros Extra ($12.500/m)</label>
+                    <label>Metros Extra (<span id="lbl_hvac_mt"></span>/m)</label>
                     <input type="number" id="hvac_mt" value="0" min="0" oninput="calc()">
                 </div>
             </div>
@@ -242,29 +235,29 @@
             <div class="section-title">Service y Fallas</div>
             <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Fuga y Carga Gas R410a" onchange="calc()"> Fuga + Carga R410a
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_fuga" onchange="calc()"> Fuga + Carga R410a
+                    <span class="price-tag" id="val_hvac_fuga"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Desinstalación (hasta 6000fg)" onchange="calc()"> Desinstalación
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_desinst" onchange="calc()"> Desinstalación
+                    <span class="price-tag" id="val_hvac_desinst"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="40000" data-label="Visita Técnica" onchange="calc()"> Visita Técnica
-                    <span class="price-tag">$40k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_visita" onchange="calc()"> Visita Técnica
+                    <span class="price-tag" id="val_hvac_visita"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="80000" data-label="Mantenimiento (en lugar)" onchange="calc()"> Mantenimiento Simple
-                    <span class="price-tag">$80k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_manten" onchange="calc()"> Mantenimiento Simple
+                    <span class="price-tag" id="val_hvac_manten"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Mantenimiento (completo c/desinst.)" onchange="calc()"> Limpieza Completa
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_limpieza" onchange="calc()"> Limpieza Completa
+                    <span class="price-tag" id="val_hvac_limpieza"></span>
                 </label>
             </div>
             
             <div class="checkbox-item" style="margin-top: 10px;">
-                <input type="checkbox" id="hvac_altura" onchange="calc()"> Recargo Trabajo en Altura (+$30.000)
+                <input type="checkbox" id="hvac_altura" onchange="calc()"> Recargo Trabajo en Altura (<span id="lbl_hvac_alt"></span>)
             </div>
         </div>
 
@@ -277,18 +270,13 @@
                 <div class="form-group">
                     <label>Acometida</label>
                     <select id="elec_aco" onchange="calc()">
-                        <option value="0">Ninguna</option>
-                        <option value="201700">Monofásica (< 10kW)</option>
-                        <option value="283800">Trifásica (< 10kW)</option>
-                        <option value="373500">Trifásica (11-35kW)</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Gabinete / Tablero</label>
                     <select id="elec_tablero" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="44000">Caja Superficie</option>
-                        <option value="185300">Empotrado Mampostería</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
             </div>
@@ -296,29 +284,33 @@
             <div class="section-title">Protecciones y Bocas</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Cant. Térmicas/Dif. Mono ($81.900 c/u)</label>
-                    <input type="number" id="elec_term_m" value="0" min="0" oninput="calc()">
+                    <label>Cant. Térmicas (<span id="lbl_elec_term"></span> c/u)</label>
+                    <input type="number" id="elec_term" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Bocas Nuevas ($32.000 c/u)</label>
+                    <label>Cant. Disyuntores (<span id="lbl_elec_disy"></span> c/u)</label>
+                    <input type="number" id="elec_disy" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Bocas Nuevas (<span id="lbl_elec_bocas_n"></span> c/u)</label>
                     <input type="number" id="elec_bocas_n" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Re-cableado ($39.500 c/u)</label>
+                    <label>Re-cableado (<span id="lbl_elec_bocas_r"></span> c/u)</label>
                     <input type="number" id="elec_bocas_r" value="0" min="0" oninput="calc()">
                 </div>
             </div>
 
             <div class="section-title">Iluminación</div>
             <div class="form-grid">
-                <div class="form-group"><label>Apliques ($27k)</label><input type="number" class="elec_lum" data-p="27200" data-label="Aplique" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Colgantes ($44k)</label><input type="number" class="elec_lum" data-p="44500" data-label="Colgante" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Tubo LED ($51k)</label><input type="number" class="elec_lum" data-p="51100" data-label="Tubo LED" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Emergencia ($40k)</label><input type="number" class="elec_lum" data-p="40200" data-label="Luz Emergencia" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Apliques (<span id="lbl_elec_aplique"></span>)</label><input type="number" id="elec_aplique" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Colgantes (<span id="lbl_elec_colgante"></span>)</label><input type="number" id="elec_colgante" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Tubo LED (<span id="lbl_elec_tubo"></span>)</label><input type="number" id="elec_tubo" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Emergencia (<span id="lbl_elec_emerg"></span>)</label><input type="number" id="elec_emerg" value="0" oninput="calc()"></div>
             </div>
 
             <div class="checkbox-item" style="margin-top: 10px;">
-                <input type="checkbox" id="elec_jabalina" onchange="calc()"> Instalación Jabalina / PAT (+$94.600)
+                <input type="checkbox" id="elec_jabalina" onchange="calc()"> Instalación Jabalina / PAT (<span id="lbl_elec_jaba"></span>)
             </div>
         </div>
 
@@ -331,18 +323,13 @@
                 <div class="form-group">
                     <label>Grabador XVR</label>
                     <select id="sec_xvr" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="66010">XVR 4CH Wizsense ($66.010)</option>
-                        <option value="78925">XVR 8CH Wizsense ($78.925)</option>
-                        <option value="165025">XVR 16CH Wizsense ($165.025)</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
                 <div class="form-group">
                     <label>Almacenamiento</label>
                     <select id="sec_disco" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="64575">SSD 500GB ($64.575)</option>
-                        <option value="123410">HDD 1TB ($123.410)</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
             </div>
@@ -350,23 +337,23 @@
             <div class="section-title">Cámaras y Mano de Obra</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Cant. Domo Int ($25.830)</label>
+                    <label>Cant. Domo Int (<span id="lbl_sec_cam_int"></span>)</label>
                     <input type="number" id="sec_cam_int" value="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cant. Bullet Ext ($25.830)</label>
+                    <label>Cant. Bullet Ext (<span id="lbl_sec_cam_ext"></span>)</label>
                     <input type="number" id="sec_cam_ext" value="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cámara Full Color ($40.180)</label>
+                    <label>Cámara Full Color (<span id="lbl_sec_cam_fc"></span>)</label>
                     <input type="number" id="sec_cam_fc" value="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cant. Metros UTP ($861/m)</label>
+                    <label>Cant. Metros UTP (<span id="lbl_sec_utp"></span>/m)</label>
                     <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
                 </div>
             </div>
-            <div class="notice">M.O Instalación: $25.000 por cámara + $500/m cableado.</div>
+            <div class="notice">M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m cableado.</div>
         </div>
 
         <!-- MATERIALES Y OTROS -->
@@ -395,23 +382,172 @@
     </div>
 
     <script>
+        const PRECIOS_CONFIG = {
+            hvac: {
+                instalacion: [
+                    { label: "Seleccionar...", p: 0 },
+                    { label: "Instalación Básica (hasta 3499fg)", p: 135000 },
+                    { label: "Instalación Básica (3500fg - 5499fg)", p: 160000 },
+                    { label: "Instalación Básica (5500fg - 6299fg)", p: 200000 },
+                    { label: "Instalación Básica (6300fg - 7999fg)", p: 220000 },
+                    { label: "Instalación Básica (8000fg - 8999fg)", p: 270000 },
+                    { label: "Montaje sobre Pre-Instalación", p: 140000 },
+                    { label: "Pre-Instalación estándar (Cañerías/Caja embutidas)", p: 140000 }
+                ],
+                mt_extra: 12500,
+                altura: 30000,
+                fuga_carga: 110000,
+                desinstalacion: 110000,
+                visita: 40000,
+                mantenimiento: 80000,
+                limpieza: 110000
+            },
+            elec: {
+                acometida: [
+                    { label: "Ninguna", p: 0 },
+                    { label: "Monofásica (< 10kW)", p: 201700 },
+                    { label: "Trifásica (< 10kW)", p: 283800 },
+                    { label: "Trifásica (11-35kW)", p: 373500 }
+                ],
+                tablero: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "Caja Superficie", p: 44000 },
+                    { label: "Empotrado Mampostería", p: 185300 }
+                ],
+                termica_mono: 20000,
+                disyuntor_mono: 25000,
+                boca_nueva: 32000,
+                recableado: 39500,
+                aplique: 27200,
+                colgante: 44500,
+                tubo_led: 51100,
+                emergencia: 40200,
+                jabalina: 94600
+            },
+            sec: {
+                xvr: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "XVR 4CH Wizsense", p: 66010 },
+                    { label: "XVR 8CH Wizsense", p: 78925 },
+                    { label: "XVR 16CH Wizsense", p: 165025 }
+                ],
+                disco: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "SSD 500GB", p: 64575 },
+                    { label: "HDD 1TB", p: 123410 }
+                ],
+                cam_int: 25830,
+                cam_ext: 27265,
+                cam_fc: 40180,
+                utp_mt: 900,
+                mo_instalacion_cam: 25000,
+                mo_cableado_mt: 500
+            },
+            global: {
+                viaticos: 0.15,
+                margen: 0.35
+            }
+        };
+
         function fmt(n) { return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n); }
+
+        function init() {
+            // Poblar HVAC
+            const hvacSelect = document.getElementById('hvac_tipo');
+            PRECIOS_CONFIG.hvac.instalacion.forEach((item, idx) => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                hvacSelect.appendChild(opt);
+            });
+            document.getElementById('lbl_hvac_mt').innerText = fmt(PRECIOS_CONFIG.hvac.mt_extra);
+            document.getElementById('lbl_hvac_alt').innerText = `+${fmt(PRECIOS_CONFIG.hvac.altura)}`;
+            document.getElementById('val_hvac_fuga').innerText = fmt(PRECIOS_CONFIG.hvac.fuga_carga);
+            document.getElementById('val_hvac_desinst').innerText = fmt(PRECIOS_CONFIG.hvac.desinstalacion);
+            document.getElementById('val_hvac_visita').innerText = fmt(PRECIOS_CONFIG.hvac.visita);
+            document.getElementById('val_hvac_manten').innerText = fmt(PRECIOS_CONFIG.hvac.mantenimiento);
+            document.getElementById('val_hvac_limpieza').innerText = fmt(PRECIOS_CONFIG.hvac.limpieza);
+
+            // Poblar ELEC
+            const acoSelect = document.getElementById('elec_aco');
+            PRECIOS_CONFIG.elec.acometida.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                acoSelect.appendChild(opt);
+            });
+
+            const tableroSelect = document.getElementById('elec_tablero');
+            PRECIOS_CONFIG.elec.tablero.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                tableroSelect.appendChild(opt);
+            });
+
+            document.getElementById('lbl_elec_term').innerText = fmt(PRECIOS_CONFIG.elec.termica_mono);
+            document.getElementById('lbl_elec_disy').innerText = fmt(PRECIOS_CONFIG.elec.disyuntor_mono);
+            document.getElementById('lbl_elec_bocas_n').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
+            document.getElementById('lbl_elec_bocas_r').innerText = fmt(PRECIOS_CONFIG.elec.recableado);
+            document.getElementById('lbl_elec_aplique').innerText = fmt(PRECIOS_CONFIG.elec.aplique);
+            document.getElementById('lbl_elec_colgante').innerText = fmt(PRECIOS_CONFIG.elec.colgante);
+            document.getElementById('lbl_elec_tubo').innerText = fmt(PRECIOS_CONFIG.elec.tubo_led);
+            document.getElementById('lbl_elec_emerg').innerText = fmt(PRECIOS_CONFIG.elec.emergencia);
+            document.getElementById('lbl_elec_jaba').innerText = `+${fmt(PRECIOS_CONFIG.elec.jabalina)}`;
+
+            // Poblar SEC
+            const xvrSelect = document.getElementById('sec_xvr');
+            PRECIOS_CONFIG.sec.xvr.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                xvrSelect.appendChild(opt);
+            });
+
+            const discoSelect = document.getElementById('sec_disco');
+            PRECIOS_CONFIG.sec.disco.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                discoSelect.appendChild(opt);
+            });
+
+            document.getElementById('lbl_sec_cam_int').innerText = fmt(PRECIOS_CONFIG.sec.cam_int);
+            document.getElementById('lbl_sec_cam_ext').innerText = fmt(PRECIOS_CONFIG.sec.cam_ext);
+            document.getElementById('lbl_sec_cam_fc').innerText = fmt(PRECIOS_CONFIG.sec.cam_fc);
+            document.getElementById('lbl_sec_utp').innerText = fmt(PRECIOS_CONFIG.sec.utp_mt);
+            document.getElementById('lbl_sec_mo_cam').innerText = fmt(PRECIOS_CONFIG.sec.mo_instalacion_cam);
+            document.getElementById('lbl_sec_mo_mt').innerText = fmt(PRECIOS_CONFIG.sec.mo_cableado_mt);
+
+            calc();
+        }
 
         function calc() {
             // HVAC
             let hvac_mo = parseInt(document.getElementById('hvac_tipo').value) || 0;
-            hvac_mo += (parseInt(document.getElementById('hvac_mt').value) || 0) * 12500;
-            if(document.getElementById('hvac_altura').checked) hvac_mo += 30000;
-            document.querySelectorAll('.hvac_opt:checked').forEach(i => hvac_mo += parseInt(i.dataset.p));
+            hvac_mo += (parseInt(document.getElementById('hvac_mt').value) || 0) * PRECIOS_CONFIG.hvac.mt_extra;
+            if(document.getElementById('hvac_altura').checked) hvac_mo += PRECIOS_CONFIG.hvac.altura;
+            
+            if(document.getElementById('hvac_fuga').checked) hvac_mo += PRECIOS_CONFIG.hvac.fuga_carga;
+            if(document.getElementById('hvac_desinst').checked) hvac_mo += PRECIOS_CONFIG.hvac.desinstalacion;
+            if(document.getElementById('hvac_visita').checked) hvac_mo += PRECIOS_CONFIG.hvac.visita;
+            if(document.getElementById('hvac_manten').checked) hvac_mo += PRECIOS_CONFIG.hvac.mantenimiento;
+            if(document.getElementById('hvac_limpieza').checked) hvac_mo += PRECIOS_CONFIG.hvac.limpieza;
 
             // ELEC
             let elec_mo = parseInt(document.getElementById('elec_aco').value) || 0;
             elec_mo += parseInt(document.getElementById('elec_tablero').value) || 0;
-            elec_mo += (parseInt(document.getElementById('elec_term_m').value) || 0) * 81900;
-            elec_mo += (parseInt(document.getElementById('elec_bocas_n').value) || 0) * 32000;
-            elec_mo += (parseInt(document.getElementById('elec_bocas_r').value) || 0) * 39500;
-            document.querySelectorAll('.elec_lum').forEach(i => elec_mo += (parseInt(i.value)||0) * parseInt(i.dataset.p));
-            if(document.getElementById('elec_jabalina').checked) elec_mo += 94600;
+            elec_mo += (parseInt(document.getElementById('elec_term').value) || 0) * PRECIOS_CONFIG.elec.termica_mono;
+            elec_mo += (parseInt(document.getElementById('elec_disy').value) || 0) * PRECIOS_CONFIG.elec.disyuntor_mono;
+            elec_mo += (parseInt(document.getElementById('elec_bocas_n').value) || 0) * PRECIOS_CONFIG.elec.boca_nueva;
+            elec_mo += (parseInt(document.getElementById('elec_bocas_r').value) || 0) * PRECIOS_CONFIG.elec.recableado;
+            
+            elec_mo += (parseInt(document.getElementById('elec_aplique').value)||0) * PRECIOS_CONFIG.elec.aplique;
+            elec_mo += (parseInt(document.getElementById('elec_colgante').value)||0) * PRECIOS_CONFIG.elec.colgante;
+            elec_mo += (parseInt(document.getElementById('elec_tubo').value)||0) * PRECIOS_CONFIG.elec.tubo_led;
+            elec_mo += (parseInt(document.getElementById('elec_emerg').value)||0) * PRECIOS_CONFIG.elec.emergencia;
+            
+            if(document.getElementById('elec_jabalina').checked) elec_mo += PRECIOS_CONFIG.elec.jabalina;
 
             // SEC
             let sec_mat = parseInt(document.getElementById('sec_xvr').value) || 0;
@@ -421,17 +557,17 @@
             let c_f = parseInt(document.getElementById('sec_cam_fc').value) || 0;
             let utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
             
-            sec_mat += (c_i * 25830) + (c_e * 27265) + (c_f * 40180) + (utp * 861);
-            let sec_mo = ((c_i + c_e + c_f) * 25000) + (utp * 500);
+            sec_mat += (c_i * PRECIOS_CONFIG.sec.cam_int) + (c_e * PRECIOS_CONFIG.sec.cam_ext) + (c_f * PRECIOS_CONFIG.sec.cam_fc) + (utp * PRECIOS_CONFIG.sec.utp_mt);
+            let sec_mo = ((c_i + c_e + c_f) * PRECIOS_CONFIG.sec.mo_instalacion_cam) + (utp * PRECIOS_CONFIG.sec.mo_cableado_mt);
 
             // TOTALS
             let mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
             let base = hvac_mo + elec_mo + sec_mo + sec_mat + mat_extra;
             
             // Margenes
-            let viaticos = base * 0.15;
+            let viaticos = base * PRECIOS_CONFIG.global.viaticos;
             let operativo = base + viaticos;
-            let margen = operativo * 0.35;
+            let margen = operativo * PRECIOS_CONFIG.global.margen;
             let total = operativo + margen;
 
             document.getElementById('tot_hvac').innerText = fmt(hvac_mo);
@@ -458,12 +594,14 @@
             }
 
             // ELEC Details
-            if (parseInt(document.getElementById('elec_bocas_n').value) > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || parseInt(document.getElementById('elec_term_m').value) > 0) {
+            if (parseInt(document.getElementById('elec_bocas_n').value) > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || parseInt(document.getElementById('elec_term').value) > 0 || parseInt(document.getElementById('elec_disy').value) > 0) {
                 t += `✅ *Instalaciones Eléctricas*\n`;
-                const term = parseInt(document.getElementById('elec_term_m').value) || 0;
+                const term = parseInt(document.getElementById('elec_term').value) || 0;
+                const disy = parseInt(document.getElementById('elec_disy').value) || 0;
                 const bocas = parseInt(document.getElementById('elec_bocas_n').value) || 0;
-                if (elec_aco.value !== "0") t += `   - Tablero/Acometida certificada.\n`;
-                if (term > 0) t += `   - ${term} Protecciones (Térmica/Disyuntor).\n`;
+                if (document.getElementById('elec_aco').value !== "0") t += `   - Tablero/Acometida certificada.\n`;
+                if (term > 0) t += `   - ${term} Térmicas.\n`;
+                if (disy > 0) t += `   - ${disy} Disyuntores.\n`;
                 if (bocas > 0) t += `   - ${bocas} Bocas nuevas/re-cableadas.\n`;
                 if (document.getElementById('elec_jabalina').checked) t += `   - Instalación de Jabalina y Puesta a Tierra (PAT).\n`;
                 t += `   - Incluye: Cajas, conectores y cableado normalizado.\n\n`;
@@ -472,12 +610,15 @@
             // CCTV Details
             if (parseInt(document.getElementById('sec_cam_int').value) > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
                 t += `✅ *Seguridad Electrónica CCTV*\n`;
-                const xvr = document.getElementById('sec_xvr').options[document.getElementById('sec_xvr').selectedIndex].text.split(' ($')[0];
-                const disco = document.getElementById('sec_disco').options[document.getElementById('sec_disco').selectedIndex].text.split(' ($')[0];
+                const xvrSelect = document.getElementById('sec_xvr');
+                const xvrLabel = xvrSelect.options[xvrSelect.selectedIndex].text.split(' ($')[0];
+                const discoSelect = document.getElementById('sec_disco');
+                const discoLabel = discoSelect.options[discoSelect.selectedIndex].text.split(' ($')[0];
+                
                 const cams = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
                 const utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
 
-                t += `   - ${xvr} + ${disco}.\n`;
+                t += `   - ${xvrLabel} + ${discoLabel}.\n`;
                 t += `   - ${cams} Cámaras HD (Domos/Bullet/FC).\n`;
                 t += `   - ${utp}m. de cable UTP (100% Cobre).\n`;
                 t += `   - Incluye: Baluns HD, Plugs de alimentación y Jacks.\n\n`;
@@ -491,7 +632,7 @@
             navigator.clipboard.writeText(t).then(() => alert("Presupuesto detallado copiado para WhatsApp"));
         }
 
-        calc();
+        window.onload = init;
     </script>
 </body>
 </html>

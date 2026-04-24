@@ -205,8 +205,8 @@
         .module-elec { border-left: 5px solid var(--elec-color); }
         .module-sec { border-left: 5px solid var(--sec-color); }
 
-        /* OPTIMIZACIÓN MÓVIL */
-        @media (max-width: 600px) {
+        /* OPTIMIZACIÓN MÓVIL Y TABLETS */
+        @media (max-width: 800px) {
             body { padding: 0.5rem; }
             .container { padding: 1rem; }
             h1 { font-size: 1.4rem; }
@@ -214,9 +214,9 @@
             
             .total-section {
                 padding: 0.8rem;
-                position: static; /* Ya no flota sobre los datos */
+                position: static !important; /* Forzamos a que deje de flotar */
                 border-width: 1px;
-                box-shadow: none; /* Quitamos la sombra de flotado */
+                box-shadow: none;
                 margin-top: 2rem;
             }
             .final-price-box {

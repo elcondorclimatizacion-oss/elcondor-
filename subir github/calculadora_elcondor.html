@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Calculadora Interna v2.0 - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #121212;
+            --border-color: #333;
+            --text-color: #e0e0e0;
+            --accent-color: #ffcc00;
+            /* Industrial Safety Yellow */
+            --accent-hover: #ffaa00;
+            --sys-color: #00ffcc;
+            /* Tech Cyan */
+            --danger-color: #ff3333;
+            --hvac-color: #38bdf8;
+            --elec-color: #fbbf24;
+            --sec-color: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            border: 2px solid var(--border-color);
+            background: var(--panel-bg);
+            padding: 2rem;
+            position: relative;
+        }
+
+        header {
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 2rem;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            color: var(--sys-color);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 5px;
+        }
+
+        .module {
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            background: #0a0a0a;
+            position: relative;
+            padding: 1.5rem;
+        }
+
+        .module-title {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: var(--sys-color);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            border: 1px solid var(--sys-color);
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: #777;
+            text-transform: uppercase;
+            margin: 1rem 0 0.5rem;
+            border-bottom: 1px solid #222;
+            padding-bottom: 3px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.75rem;
+            color: #aaa;
+            margin-bottom: 0.3rem;
+        }
+
+        input[type="number"],
+        select {
+            background: #111;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #151515;
+            padding: 8px;
+            border: 1px solid #222;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #444;
+        }
+
+        .price-tag {
+            margin-left: auto;
+            color: var(--sys-color);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .total-section {
+            background: #1a1a1a;
+            border: 2px solid var(--accent-color);
+            padding: 1.5rem;
+            position: sticky;
+            bottom: 10px;
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
+            z-index: 100;
+        }
+
+        .final-price-box {
+            background: var(--accent-color);
+            color: #000;
+            padding: 1rem;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            border: 4px solid #fff;
+        }
+
+        .btn-copy {
+            background: #25D366;
+            color: #000;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .btn-copy:hover {
+            opacity: 0.9;
+        }
+
+        .summary-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+            color: #999;
+        }
+
+        .summary-details span b {
+            color: var(--sys-color);
+        }
+
+        /* Iconos de Rubro */
+        .module-hvac {
+            border-left: 5px solid var(--hvac-color);
+        }
+
+        .module-elec {
+            border-left: 5px solid var(--elec-color);
+        }
+
+        .module-sec {
+            border-left: 5px solid var(--sec-color);
+        }
+
+        /* OPTIMIZACIÓN MÓVIL Y TABLETS */
+        @media (max-width: 800px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            .module {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .total-section {
+                padding: 0.8rem;
+                position: static !important;
+                /* Forzamos a que deje de flotar */
+                border-width: 1px;
+                box-shadow: none;
+                margin-top: 2rem;
+            }
+
+            .final-price-box {
+                padding: 0.5rem;
+                font-size: 1.5rem;
+                border-width: 2px;
+            }
+
+            .btn-copy {
+                padding: 0.7rem;
+                font-size: 0.8rem;
+                margin-top: 0.5rem;
+            }
+
+            .summary-details {
+                grid-template-columns: repeat(2, 1fr);
+                font-size: 0.65rem;
+                gap: 2px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>CALCULADORA EL CONDOR v2.0</h1>
+            <div class="tagline">TECNOLOGÍA EN CLIMATIZACIÓN, ENERGÍA Y SEGURIDAD</div>
+        </header>
+
+        <!-- DATOS DEL PRESUPUESTO -->
+        <div class="module" style="border-color: var(--sys-color); background: rgba(0, 255, 204, 0.05);">
+            <div class="module-title" style="color: var(--sys-color); border-color: var(--sys-color);">[00] DATOS DEL PRESUPUESTO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="text" id="presp_fecha" placeholder="Ej: 27/04/2026">
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="presp_cliente" placeholder="Nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label>Ubicación</label>
+                    <input type="text" id="presp_ubicacion" placeholder="Ej: Quilmes Centro">
+                </div>
+                <div class="form-group">
+                    <label>Referencia / Proyecto</label>
+                    <input type="text" id="presp_ref" placeholder="Ej: Instalación 4 cámaras">
+                </div>
+            </div>
+        </div>
+
+        <!-- HVAC -->
+        <div class="module module-hvac">
+            <div class="module-title" style="color: var(--hvac-color); border-color: var(--hvac-color);">[01]
+                CLIMATIZACIÓN (CACA/CAR)</div>
+
+            <div class="section-title">Instalación y Montaje</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tipo de Equipo</label>
+                    <select id="hvac_tipo" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Metros Extra (<span id="lbl_hvac_mt"></span>/m)</label>
+                    <div style="display: flex; gap: 5px; align-items: center;">
+                        <button type="button" onclick="adjMtHVAC(-1)"
+                            style="padding: 5px 10px; background: #444; color: white; border: none; border-radius: 4px; cursor: pointer;">-</button>
+                        <input type="number" id="hvac_mt" value="0" min="0" oninput="calc()"
+                            style="text-align: center; width: 60px;">
+                        <button type="button" onclick="adjMtHVAC(1)"
+                            style="padding: 5px 10px; background: #444; color: white; border: none; border-radius: 4px; cursor: pointer;">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Kit de Materiales (Caños, Aislación, Accesorios)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Kit de Instalación</label>
+                    <select id="hvac_kit" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="checkbox-item"
+                style="margin: 10px 0; background: #222; padding: 10px; border-radius: 6px; border: 1px dashed var(--hvac-color);">
+                <input type="checkbox" id="hvac_estetico" onchange="calc()">
+                <div>
+                    <b>Incluye Kit Estético (Cablecanal 60x40 + Accesorios)</b><br>
+                    <small style="color: #888;">Incluye codos, uniones y terminales originales p/ 3 metros.</small>
+                </div>
+            </div>
+
+            <div class="section-title">Cañería Cubierta - Cable Canal PVC (opcional)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tiras 2m (<span id="lbl_hvac_tira"></span> c/u)</label>
+                    <input type="number" id="hvac_tira" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Codos (<span id="lbl_hvac_codo"></span> c/u)</label>
+                    <input type="number" id="hvac_codo" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Uniones (<span id="lbl_hvac_union"></span> c/u)</label>
+                    <input type="number" id="hvac_union" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Tapas Salida Pared (<span id="lbl_hvac_tapa"></span> c/u)</label>
+                    <input type="number" id="hvac_tapa" value="0" min="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="section-title">Service y Fallas</div>
+            <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                <label class="checkbox-item">
+                    <input type="checkbox" class="hvac_opt" id="hvac_fuga" onchange="calc()"> Fuga + Carga R410a
+                    <span class="price-tag" id="val_hvac_fuga"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" class="hvac_opt" id="hvac_desinst" onchange="calc()"> Desinstalación
+                    <span class="price-tag" id="val_hvac_desinst"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" class="hvac_opt" id="hvac_visita" onchange="calc()"> Visita Técnica
+                    <span class="price-tag" id="val_hvac_visita"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" class="hvac_opt" id="hvac_manten" onchange="calc()"> Mantenimiento Simple
+                    <span class="price-tag" id="val_hvac_manten"></span>
+                </label>
+                <label class="checkbox-item">
+                    <input type="checkbox" class="hvac_opt" id="hvac_limpieza" onchange="calc()"> Limpieza Completa
+                    <span class="price-tag" id="val_hvac_limpieza"></span>
+                </label>
+            </div>
+
+            <div class="checkbox-item" style="margin-top: 10px;">
+                <input type="checkbox" id="hvac_altura" onchange="calc()"> Recargo Trabajo en Altura (<span
+                    id="lbl_hvac_alt"></span>)
+            </div>
+        </div>
+
+        <!-- ELECTRICIDAD -->
+        <div class="module module-elec">
+            <div class="module-title" style="color: var(--elec-color); border-color: var(--elec-color);">[02]
+                ELECTRICIDAD (Electro Instalador)</div>
+
+            <div class="section-title" style="color:var(--elec-color)">Configuración Base</div>
+            <div class="form-grid" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label>Calidad de Materiales</label>
+                    <select id="elec_calidad" onchange="calc()"
+                        style="border-color: var(--elec-color); font-weight: bold; background: #111; color: var(--elec-color);">
+                        <option value="1">Gama ALTA (Genrod / Prysmian / Schneider 6kA)</option>
+                        <option value="0.85">Gama MEDIA (Roker / Trefilcon / Siemens 4.5kA)</option>
+                        <option value="0.7">Gama BAJA (Conextube / IMSA / SICA 3kA - Bajo Norma)</option>
+                    </select>
+                </div>
+                <div class="form-group" style="justify-content: center; align-items: start; padding-top: 5px;">
+                    <label
+                        style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer; color: #444;">
+                        <input type="checkbox" id="elec_hierro" onchange="calc()" style="width:18px; height: 18px;">
+                        Usar Cañería de Hierro <br>(Aplica Nivel Medio/Alto)
+                    </label>
+                </div>
+            </div>
+
+            <div class="section-title">Acometida y Tablero</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Acometida</label>
+                    <select id="elec_aco" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Gabinete / Tablero</label>
+                    <select id="elec_tablero" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">Protecciones y Bocas</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cant. Térmicas (<span id="lbl_elec_term"></span> c/u)</label>
+                    <input type="number" id="elec_term" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cant. Disyuntores (<span id="lbl_elec_disy"></span> c/u)</label>
+                    <input type="number" id="elec_disy" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Bocas Nuevas: PUNTOS (Ilum) <br> (M.O: <span id="lbl_elec_bocas_p"></span> + Mat: <span
+                            id="lbl_mat_boca_p"></span>)</label>
+                    <input type="number" id="elec_bocas_p" value="0" min="0" oninput="calc()" style="margin-top:5px;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas Nuevas: TOMAS (Enchufes) <br> (M.O: <span id="lbl_elec_bocas_t"></span> + Mat: <span
+                            id="lbl_mat_boca_t"></span>)</label>
+                    <input type="number" id="elec_bocas_t" value="0" min="0" oninput="calc()" style="margin-top:5px;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas Re-cableado <br> (M.O: <span id="lbl_elec_bocas_r"></span> + Mat: <span
+                            id="lbl_mat_boca_r"></span>)</label>
+                    <input type="number" id="elec_bocas_r" value="0" min="0" oninput="calc()" style="margin-top:5px;">
+                </div>
+            </div>
+            <div
+                style="font-size:0.75rem; color:#666; margin-top:5px; line-height:1.6; background:#f9f9f9; padding:8px; border-radius:6px; border:1px solid #e5e7eb;">
+                ⚡ <b>La "Boca Completa Llave en Mano" (Mat) incluye:</b><br>
+                1 caja octogonal, caño PVC/Hierro 5m, cable 2.5mm, caja rectangular, tapa, y módulo bastidor armados.
+                Los Puntos suman automáticamente el Plafón LED ecó al proveedor.
+            </div>
+
+            <!-- METROS EXTRA POR BOCA (>5m) -->
+            <div class="form-grid" style="margin-top:15px;">
+                <div class="form-group">
+                    <label>Canalización Extra (>5m p/boca) - Llave en mano</label>
+                    <input type="number" id="elec_mt_extra" value="0" min="0" oninput="calc()" placeholder="0">
+                </div>
+                <div class="form-group"
+                    style="justify-content: center; padding-top: 22px; font-size: 0.75rem; color: #666;">
+                    +$5.500/m (Incluye M.O. + Caños/Accesorios)
+                </div>
+            </div>
+
+            <!-- BANDEJAS PORTACABLES -->
+            <div class="section-title">Bandejas Metálicas Portacables (Metros Lineales)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Ancho (mm)</label>
+                    <select id="elec_bandeja_tipo" onchange="calc()"
+                        style="background: #111; color: var(--text-color);">
+                        <option value="300">Hasta 300 mm</option>
+                        <option value="450">Ancho 450 mm</option>
+                        <option value="600">Ancho 600 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Metros (M.O: <span id="lbl_band_mo_dinamico"></span>/m)</label>
+                    <input type="number" id="elec_bandeja_mt" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group" style="justify-content: center; padding-top:15px;">
+                    <label class="checkbox-item" style="margin:0;">
+                        <input type="checkbox" id="elec_bandeja_alt" onchange="calc()"> Trabajo en Alta (>3m)
+                    </label>
+                </div>
+            </div>
+            <div
+                style="font-size:0.75rem; color:#666; margin-top:5px; margin-bottom:15px; line-height:1.6; background:#f9f9f9; padding:8px; border-radius:6px; border:1px solid #e5e7eb;">
+                ⚡ <b>Kit Bandeja Incluye:</b> Tramos de bandeja galvanizada, ménsulas de sujeción, grapas, uniones
+                puente, y bulonería completa. M.O. calculada por metro de tendido aéreo.
+            </div>
+
+            <div class="section-title" style="border-bottom-color:#f59e0b; color:#f59e0b; margin-top:1.5rem;">Cables
+                Adicionales por Metro y Accesorios (Fuera del Kit)</div>
+            <div style="font-size:0.7rem; color:#888; margin-bottom:1rem;">
+                ⚡ Especifique si necesita agregar metros de cable o materiales sueltos.
+            </div>
+
+            <div class="section-title">Cables (metros · precio desde rollo 100m)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cable 1.5mm (<span id="lbl_m_c15"></span>/m)</label>
+                    <input type="number" id="m_c15" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 2.5mm (<span id="lbl_m_c25"></span>/m)</label>
+                    <input type="number" id="m_c25" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 4mm (<span id="lbl_m_c40"></span>/m)</label>
+                    <input type="number" id="m_c40" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 6mm (<span id="lbl_m_c60"></span>/m)</label>
+                    <input type="number" id="m_c60" value="0" min="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div style="margin-bottom:1.5rem; font-size:0.75rem; color:var(--sys-color); text-align:right;">
+                Subtotal Líneas/Cables Principales: <b id="tot_mat_ind_inline">$0</b>
+            </div>
+
+            <div class="section-title">Iluminación</div>
+            <div class="form-grid">
+                <div class="form-group"><label>Apliques (<span id="lbl_elec_aplique"></span>)</label><input
+                        type="number" id="elec_aplique" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Colgantes (<span id="lbl_elec_colgante"></span>)</label><input
+                        type="number" id="elec_colgante" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Tubo LED (<span id="lbl_elec_tubo"></span>)</label><input type="number"
+                        id="elec_tubo" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Emergencia (<span id="lbl_elec_emerg"></span>)</label><input
+                        type="number" id="elec_emerg" value="0" oninput="calc()"></div>
+            </div>
+
+            <div class="checkbox-item" style="margin-top: 10px;">
+                <input type="checkbox" id="elec_jabalina" onchange="calc()"> Instalación Jabalina / PAT (<span
+                    id="lbl_elec_jaba"></span>)
+            </div>
+        </div>
+
+        <!-- SEGURIDAD CCTV -->
+        <div class="module module-sec">
+            <div class="module-title" style="color: var(--sec-color); border-color: var(--sec-color);">[03] SEGURIDAD
+                CCTV (Dahua/Imou)</div>
+
+            <!-- PROMOCIONES -->
+            <div
+                style="background: rgba(46, 204, 113, 0.1); padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px dashed #2ecc71;">
+                <p
+                    style="font-weight: 800; color: #2ecc71; margin-bottom: 0.8rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+                    🔥 OFERTAS LANZAMIENTO (100m Inc.)</p>
+                <div style="display: flex; gap: 0.8rem;">
+                    <button type="button" onclick="applyCombo(4)"
+                        style="background: #2ecc71; color: white; padding: 0.8rem; font-size: 0.9rem; font-weight: 800; flex: 1; cursor: pointer; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);">COMBO
+                        4 CAM</button>
+                    <button type="button" onclick="applyCombo(8)"
+                        style="background: #2ecc71; color: white; padding: 0.8rem; font-size: 0.9rem; font-weight: 800; flex: 1; cursor: pointer; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);">COMBO
+                        8 CAM</button>
+                </div>
+            </div>
+
+            <div class="section-title">Equipos (Materiales)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Grabador XVR</label>
+                    <select id="sec_xvr" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Almacenamiento</label>
+                    <select id="sec_disco" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">Cámaras y Mano de Obra</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cant. Domo Int (<span id="lbl_sec_cam_int"></span>)</label>
+                    <input type="number" id="sec_cam_int" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cant. Bullet Ext (<span id="lbl_sec_cam_ext"></span>)</label>
+                    <input type="number" id="sec_cam_ext" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cámara Full Color (<span id="lbl_sec_cam_fc"></span>)</label>
+                    <input type="number" id="sec_cam_fc" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cant. Metros UTP (<span id="lbl_sec_utp"></span>/m)</label>
+                    <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
+                </div>
+            </div>
+            <div class="section-title">Accesorios y Conectividad</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cajas Estancas (<span id="lbl_sec_caja"></span>)</label>
+                    <input type="number" id="sec_caja" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Fuentes 12V (<span id="lbl_sec_fuente"></span>)</label>
+                    <input type="number" id="sec_fuente" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Pares Baluns (<span id="lbl_sec_balun"></span>)</label>
+                    <input type="number" id="sec_balun" value="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="notice" style="margin-top:10px; font-size: 0.75rem; color: var(--sys-color);">
+                M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m
+                cableado.
+            </div>
+        </div>
+
+        <!-- MATERIALES Y OTROS -->
+        <div class="module" style="border-color: var(--accent-color);">
+            <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[04] OTROS MATERIALES Y AJUSTES</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Materiales Extra / Varios ($)</label>
+                    <input type="number" id="mat_extra" value="0" oninput="calc()" style="background: #222;">
+                </div>
+                <div class="form-group">
+                    <label>Margen de Ganancia (%)</label>
+                    <input type="number" id="global_margen" value="35" oninput="calc()" style="background: #222; color: #55ff55; font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label>Viáticos (%)</label>
+                    <input type="number" id="global_viaticos" value="15" oninput="calc()" style="background: #222; color: #ff5555; font-weight: bold;">
+                </div>
+            </div>
+        </div>
+
+        <!-- TOTAL -->
+        <div class="total-section">
+            <div class="summary-details">
+                <span>M.O HVAC: <b id="tot_hvac">0</b></span>
+                <span>M.O ELEC: <b id="tot_elec">0</b></span>
+                <span>MAT ELEC: <b id="tot_elec_mat">—</b></span>
+                <span>MAT SUELTOS: <b id="tot_mat_ind">—</b></span>
+                <span>M.O SEC: <b id="tot_sec_mo">0</b></span>
+                <span>MAT SEC: <b id="tot_sec_mat">0</b></span>
+            </div>
+            <div class="final-price-box">
+                <span style="font-size: 0.9rem; display: block; opacity: 0.7;">PRECIO FINAL ESTIMADO (LLAVE EN
+                    MANO)</span>
+                <span id="res_final">$ 0</span>
+            </div>
+
+            <!-- PANEL PRIVADO DE RENTABILIDAD -->
+            <div id="private_dashboard"
+                style="background: #111; border: 1px solid #333; margin: 15px 0; padding: 15px; border-radius: 8px; text-align: left; font-size: 0.9rem;">
+                <div
+                    style="color: #00ffcc; font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 5px;">
+                    📊 PANEL INTERNO DEL INSTALADOR (NO ENVIAR)</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="color: #aaa;">Costo Neto Materiales:</span>
+                    <strong id="dash_mat_cost" style="color: #ff5555;">$0</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="color: #aaa;">Ganancia Neta (M.O. + Margen + Viáticos):</span>
+                    <strong id="dash_profit" style="color: #55ff55;">$0</strong>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #333;">
+                    <span style="color: #aaa;">Tiempo Estimado de Obra:</span>
+                    <strong id="dash_days" style="color: #fff;">0 Días</strong>
+                </div>
+            </div>
+
+            <button class="btn-copy" onclick="copy()">[COPIAR PRESUPUESTO PARA WHATSAPP]</button>
+            <button class="btn-copy" onclick="copyProveedor()" style="background: #007bff; margin-top: 10px;">[COPIAR
+                LISTA PARA PROVEEDOR]</button>
+        </div>
+    </div>
+
+    <script>
+        const PRECIOS_CONFIG = {
+            hvac: {
+                instalacion: [
+                    { label: "Seleccionar...", p: 0 },
+                    { label: "Instalación Básica (hasta 3499fg)", p: 135000 },
+                    { label: "Instalación Básica (3500fg - 5499fg)", p: 160000 },
+                    { label: "Instalación Básica (5500fg - 6299fg)", p: 200000 },
+                    { label: "Instalación Básica (6300fg - 7999fg)", p: 220000 },
+                    { label: "Instalación Básica (8000fg - 8999fg)", p: 270000 },
+                    { label: "Montaje sobre Pre-Instalación", p: 140000 },
+                    { label: "Pre-Instalación estándar (Cañerías/Caja embutidas)", p: 140000 }
+                ],
+                // KITS BASE POR FRIGORÍAS (Precio para Gama Baja)
+                kits: [
+                    { label: "Sin kit de materiales", p: 0, pipes: "" },
+                    { label: "Kit 2250-3000fg (1/4 - 3/8)", p: 95000, pipes: "1/4\" y 3/8\"" },
+                    { label: "Kit 4500fg (1/4 - 1/2)", p: 125000, pipes: "1/4\" y 1/2\"" },
+                    { label: "Kit 6000fg (3/8 - 5/8)", p: 155000, pipes: "3/8\" y 5/8\"" }
+                ],
+                // FACTORES DE CALIDAD PARA MATERIALES AA
+                kits_factores: {
+                    high: { f: 1.50, desc: "Kit Eluma/Muller + K-Flex + Prysmian" },
+                    medium: { f: 1.25, desc: "Kit Termomecánica + Hinterland + Trefilcon" },
+                    low: { f: 1.00, desc: "Kit Cobre Std + Blanco + IMSA" }
+                },
+                // KIT CABLECANAL 60x40 (3M + ACC)
+                kits_cc: {
+                    high: { p: 85000, desc: "Zoloda/HellermannTyton 60x40" },
+                    medium: { f: 0.85, desc: "HellermannTyton 60x40" }, // Usa factor sobre high
+                    low: { p: 45000, desc: "Kalop 60x40" }
+                },
+                // METRO EXTRA (M.O + MAT)
+                mt_extra_val: {
+                    high: 65000,
+                    medium: 45000,
+                    low: 35000
+                },
+                canal_tira: 33000,
+                canal_codo: 3000,
+                canal_union: 2500,
+                canal_tapa: 5000,
+                mt_extra: 15000, // Legacy, replaced by mt_extra_val in calc
+                altura: 30000,
+                fuga_carga: 110000,
+                desinstalacion: 110000,
+                visita: 40000,
+                mantenimiento: 80000,
+                limpieza: 110000
+            },
+            elec: {
+                acometida: [
+                    { label: "Ninguna", p: 0 },
+                    { label: "Monofásica (< 10kW)", p: 85000 },
+                    { label: "Trifásica (< 10kW)", p: 120000 },
+                    { label: "Trifásica (11-35kW)", p: 160000 }
+                ],
+                tablero_mo: {
+                    sup: 35000,
+                    emp: 95000
+                },
+                tablero_mat_precios: {
+                    high: { 4: 12500, 8: 19500, 12: 32500, 18: 45500, 24: 58500, 36: 82500 }, // Q-Energy
+                    medium: { 4: 18500, 8: 28500, 12: 46500, 18: 68000, 24: 89500, 36: 128000 }, // Europea
+                    low: { 4: 10500, 8: 16500, 12: 28500, 18: 38500, 24: 52500, 36: 72500 }  // Luxury
+                },
+                termica_mono: 15000,
+                disyuntor_mono: 18000,
+                mat_termica: 35300,
+                mat_disyuntor: 81500,
+                boca_nueva: 26000,
+                recableado: 28500,
+                cano_mt: 10000,
+                // KIT MATERIALES POR BOCA (estándar AAIERIC caja-a-caja hasta 5m)
+                // 2 oct + caño semirígido 5m + cable 2.5mm x3col + caja rect + bastidor + toma/punto + plafón
+                mat_boca_kit: 48500,
+                aplique: 27200,
+                colgante: 44500,
+                tubo_led: 51100,
+                emergencia: 40200,
+                jabalina: 94600,
+                bandejas_tarifas: {
+                    '300': { mo_norm: 32950, mo_alt: 35800, mat: 20000 },
+                    '450': { mo_norm: 35800, mo_alt: 39400, mat: 28000 },
+                    '600': { mo_norm: 39800, mo_alt: 43300, mat: 35000 }
+                }
+            },
+            sec: {
+                xvr: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "XVR 4CH Wizsense (1B04)", p: 41800 },
+                    { label: "XVR 8CH Wizsense (1B08)", p: 54400 },
+                    { label: "XVR 16CH Wizsense (1B16)", p: 112000 }
+                ],
+                disco: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "HDD Blue 1TB", p: 127300 },
+                    { label: "HDD Blue 2TB", p: 165700 }
+                ],
+                cam_int: 21500,
+                cam_ext: 27500,
+                cam_fc: 42000,
+                utp_mt: 1200,
+                caja: 4500,
+                fuente: 8500,
+                balun: 4200,
+                jack: 1500,
+                zapatilla: 12000,
+                gabinete: 45000,
+                mo_instalacion_cam: 48000,
+                mo_cableado_mt: 1000
+            },
+            global: {
+                viaticos: 0.15,
+                margen: 0.35
+            },
+            // ─── CATÁLOGO MATERIALES ELÉCTRICOS ───────────────────────────────
+            // Ref: Electrocity.com.ar 19/04/2026  ·  Actualizar periódicamente
+            mat_electrico: {
+                // Cables: precio por metro calculado desde rollo 100m (Prysmian/Premium)
+                cable_15_m: 1000,   // Unipolar 1.5mm
+                cable_25_m: 1450,   // Unipolar 2.5mm
+                cable_40_m: 2150,   // Unipolar 4mm
+                cable_60_m: 3100,   // Unipolar 6mm
+                // Caños PVC semirígidos corrugados
+                cano_20_m: 2325,   // /metro ø20mm
+                cano_22_m: 2600,   // /metro ø22mm (estimado)
+                cano_25_m: 3000,   // /metro ø25mm (estimado)
+                // Curvas
+                curva_20: 276,   // curva ø20mm c/u
+                curva_22: 300,   // curva ø22mm c/u
+                curva_25: 350,   // curva ø25mm c/u
+                // Uniones
+                union_20: 150,   // union ø20mm c/u
+                union_22: 180,   // union ø22mm c/u
+                union_25: 220,   // union ø25mm c/u
+                // Conectores
+                conect_20: 173,   // conector ø20mm c/u
+                conect_22: 200,   // conector ø22mm c/u
+                conect_25: 250,   // conector ø25mm c/u
+                // Grampas
+                grampa_20: 223,   // grampa ø20mm c/u
+                grampa_22: 250,   // grampa ø22mm c/u
+                grampa_25: 290,   // grampa ø25mm c/u
+                // Cajas y terminaciones
+                caja_oct: 400,
+                caja_rect: 600,
+                tapa_ciega: 150,
+                toma_10a: 3145,
+                plafon: 2274,
+                ficha_bp: 800
+            }
+        };
+
+        function fmt(n) { return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n); }
+
+        function init() {
+            // Seteo de fecha actual
+            const now = new Date();
+            document.getElementById('presp_fecha').value = now.toLocaleDateString('es-AR');
+
+            // Poblar HVAC
+            const hvacSelect = document.getElementById('hvac_tipo');
+            PRECIOS_CONFIG.hvac.instalacion.forEach((item, idx) => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                hvacSelect.appendChild(opt);
+            });
+            document.getElementById('lbl_hvac_mt').innerText = fmt(PRECIOS_CONFIG.hvac.mt_extra);
+            document.getElementById('lbl_hvac_alt').innerText = `+${fmt(PRECIOS_CONFIG.hvac.altura)}`;
+            document.getElementById('val_hvac_fuga').innerText = fmt(PRECIOS_CONFIG.hvac.fuga_carga);
+            document.getElementById('val_hvac_desinst').innerText = fmt(PRECIOS_CONFIG.hvac.desinstalacion);
+            document.getElementById('val_hvac_visita').innerText = fmt(PRECIOS_CONFIG.hvac.visita);
+            document.getElementById('val_hvac_manten').innerText = fmt(PRECIOS_CONFIG.hvac.mantenimiento);
+            document.getElementById('val_hvac_limpieza').innerText = fmt(PRECIOS_CONFIG.hvac.limpieza);
+
+            // Poblar kits HVAC
+            const kitSelect = document.getElementById('hvac_kit');
+            kitSelect.innerHTML = "";
+            PRECIOS_CONFIG.hvac.kits.forEach((item, idx) => {
+                const opt = document.createElement('option');
+                opt.value = idx;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                kitSelect.appendChild(opt);
+            });
+
+            document.getElementById('lbl_hvac_tira').innerText = fmt(PRECIOS_CONFIG.hvac.canal_tira);
+            document.getElementById('lbl_hvac_codo').innerText = fmt(PRECIOS_CONFIG.hvac.canal_codo);
+            document.getElementById('lbl_hvac_union').innerText = fmt(PRECIOS_CONFIG.hvac.canal_union);
+            document.getElementById('lbl_hvac_tapa').innerText = fmt(PRECIOS_CONFIG.hvac.canal_tapa);
+
+            const acoSelect = document.getElementById('elec_aco');
+            PRECIOS_CONFIG.elec.acometida.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} - ${fmt(item.p)}` : item.label;
+                acoSelect.appendChild(opt);
+            });
+
+            const tableroSelect = document.getElementById('elec_tablero');
+            tableroSelect.innerHTML = `
+                <option value="none">Sin Tablero/Gabinete</option>
+                <option value="sup">Caja de Superficie (Automática)</option>
+                <option value="emp">Empotrado Mampostería (Automática)</option>
+            `;
+
+            document.getElementById('lbl_elec_bocas_p').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
+            document.getElementById('lbl_elec_bocas_t').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
+            document.getElementById('lbl_elec_bocas_r').innerText = fmt(PRECIOS_CONFIG.elec.recableado);
+            document.getElementById('lbl_elec_aplique').innerText = fmt(PRECIOS_CONFIG.elec.aplique);
+            document.getElementById('lbl_elec_colgante').innerText = fmt(PRECIOS_CONFIG.elec.colgante);
+            document.getElementById('lbl_elec_tubo').innerText = fmt(PRECIOS_CONFIG.elec.tubo_led);
+            document.getElementById('lbl_elec_emerg').innerText = fmt(PRECIOS_CONFIG.elec.emergencia);
+            document.getElementById('lbl_elec_jaba').innerText = `+${fmt(PRECIOS_CONFIG.elec.jabalina)}`;
+
+            const xvrSelect = document.getElementById('sec_xvr');
+            PRECIOS_CONFIG.sec.xvr.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                xvrSelect.appendChild(opt);
+            });
+
+            const discoSelect = document.getElementById('sec_disco');
+            PRECIOS_CONFIG.sec.disco.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.p;
+                opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                discoSelect.appendChild(opt);
+            });
+
+            document.getElementById('lbl_sec_cam_int').innerText = fmt(PRECIOS_CONFIG.sec.cam_int);
+            document.getElementById('lbl_sec_cam_ext').innerText = fmt(PRECIOS_CONFIG.sec.cam_ext);
+            document.getElementById('lbl_sec_cam_fc').innerText = fmt(PRECIOS_CONFIG.sec.cam_fc);
+            document.getElementById('lbl_sec_utp').innerText = fmt(PRECIOS_CONFIG.sec.utp_mt);
+            document.getElementById('lbl_sec_caja').innerText = fmt(PRECIOS_CONFIG.sec.caja);
+            document.getElementById('lbl_sec_fuente').innerText = fmt(PRECIOS_CONFIG.sec.fuente);
+            document.getElementById('lbl_sec_balun').innerText = fmt(PRECIOS_CONFIG.sec.balun);
+            document.getElementById('lbl_sec_mo_cam').innerText = fmt(PRECIOS_CONFIG.sec.mo_instalacion_cam);
+            document.getElementById('lbl_sec_mo_mt').innerText = fmt(PRECIOS_CONFIG.sec.mo_cableado_mt);
+
+            const ME = PRECIOS_CONFIG.mat_electrico;
+            document.getElementById('lbl_m_c15').innerText = fmt(ME.cable_15_m);
+            document.getElementById('lbl_m_c25').innerText = fmt(ME.cable_25_m);
+            document.getElementById('lbl_m_c40').innerText = fmt(ME.cable_40_m);
+            document.getElementById('lbl_m_c60').innerText = fmt(ME.cable_60_m);
+
+            calc();
+        }
+
+        function calc() {
+            const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
+
+            let hvac_mo = parseInt(document.getElementById('hvac_tipo').value) || 0;
+            const hvac_mt = parseInt(document.getElementById('hvac_mt').value) || 0;
+
+            let hvacBaseKey = 'high';
+            if (calidad === 0.85) hvacBaseKey = 'medium';
+            else if (calidad < 0.8) hvacBaseKey = 'low';
+
+            const kitIdx = parseInt(document.getElementById('hvac_kit').value) || 0;
+            const kitObj = PRECIOS_CONFIG.hvac.kits[kitIdx];
+            const factorMat = PRECIOS_CONFIG.hvac.kits_factores[hvacBaseKey].f;
+            const kit_mat_base = kitObj.p * factorMat;
+
+            let cc_mat_base = 0;
+            if (document.getElementById('hvac_estetico').checked) {
+                const ccObj = PRECIOS_CONFIG.hvac.kits_cc;
+                if (hvacBaseKey === 'medium') cc_mat_base = ccObj.high.p * ccObj.medium.f;
+                else cc_mat_base = ccObj[hvacBaseKey].p;
+            }
+
+            const mt_extra_price = PRECIOS_CONFIG.hvac.mt_extra_val[hvacBaseKey];
+
+            hvac_mo += hvac_mt * (mt_extra_price * 0.4);
+            let hvac_mat = kit_mat_base + cc_mat_base + (hvac_mt * (mt_extra_price * 0.6));
+
+            document.getElementById('lbl_hvac_mt').innerText = fmt(mt_extra_price);
+
+            if (document.getElementById('hvac_fuga').checked) hvac_mo += PRECIOS_CONFIG.hvac.fuga_carga;
+            if (document.getElementById('hvac_desinst').checked) hvac_mo += PRECIOS_CONFIG.hvac.desinstalacion;
+            if (document.getElementById('hvac_visita').checked) hvac_mo += PRECIOS_CONFIG.hvac.visita;
+            if (document.getElementById('hvac_manten').checked) hvac_mo += PRECIOS_CONFIG.hvac.mantenimiento;
+            if (document.getElementById('hvac_limpieza').checked) hvac_mo += PRECIOS_CONFIG.hvac.limpieza;
+            if (document.getElementById('hvac_altura').checked) hvac_mo += PRECIOS_CONFIG.hvac.altura;
+
+            hvac_mat += (parseInt(document.getElementById('hvac_tira').value) || 0) * PRECIOS_CONFIG.hvac.canal_tira;
+            hvac_mat += (parseInt(document.getElementById('hvac_codo').value) || 0) * PRECIOS_CONFIG.hvac.canal_codo;
+            hvac_mat += (parseInt(document.getElementById('hvac_union').value) || 0) * PRECIOS_CONFIG.hvac.canal_union;
+            hvac_mat += (parseInt(document.getElementById('hvac_tapa').value) || 0) * PRECIOS_CONFIG.hvac.canal_tapa;
+
+            window.lastHvacBaseDesc = PRECIOS_CONFIG.hvac.kits_factores[hvacBaseKey].desc;
+            window.lastHvacPipes = kitObj.pipes;
+            window.lastHvacKitLabel = kitObj.label;
+            window.lastHvacCCDesc = PRECIOS_CONFIG.hvac.kits_cc[hvacBaseKey].desc;
+            window.lastHvacMtExtra = hvac_mt;
+            window.lastHvacCcAct = document.getElementById('hvac_estetico').checked;
+            window.lastHvacKitAct = kitIdx > 0;
+
+            const mat_boca_ajustado = PRECIOS_CONFIG.elec.mat_boca_kit * calidad;
+
+            document.getElementById('lbl_mat_boca_p').innerText = fmt(mat_boca_ajustado);
+            document.getElementById('lbl_mat_boca_t').innerText = fmt(mat_boca_ajustado);
+            document.getElementById('lbl_mat_boca_r').innerText = fmt(mat_boca_ajustado);
+
+            let elec_mo = parseInt(document.getElementById('elec_aco').value) || 0;
+            const tabTipo = document.getElementById('elec_tablero').value;
+            const n_term = parseInt(document.getElementById('elec_term').value) || 0;
+            const n_disy = parseInt(document.getElementById('elec_disy').value) || 0;
+            const required_mods = (n_term + n_disy) * 2;
+
+            let suggested_size = 0;
+            if (required_mods > 0) {
+                if (required_mods <= 4) suggested_size = 4;
+                else if (required_mods <= 8) suggested_size = 8;
+                else if (required_mods <= 12) suggested_size = 12;
+                else if (required_mods <= 18) suggested_size = 18;
+                else suggested_size = 24;
+            }
+
+            let tab_mo_val = 0;
+            let tab_mat_val = 0;
+
+            const sizeKey = suggested_size || 4;
+            let brandKey = 'high';
+            if (calidad === 0.85) brandKey = 'medium';
+            else if (calidad < 0.8) brandKey = 'low';
+
+            if (tabTipo === 'sup') {
+                tab_mo_val = PRECIOS_CONFIG.elec.tablero_mo.sup;
+                tab_mat_val = PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0;
+            } else if (tabTipo === 'emp') {
+                tab_mo_val = PRECIOS_CONFIG.elec.tablero_mo.emp;
+                tab_mat_val = (PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0) * 1.3;
+            }
+            elec_mo += tab_mo_val;
+            window.lastTabMatFinal = tab_mat_val;
+            window.lastTabSize = suggested_size;
+            window.lastTabTipo = tabTipo;
+
+            elec_mo += n_term * PRECIOS_CONFIG.elec.termica_mono;
+            elec_mo += (parseInt(document.getElementById('elec_disy').value) || 0) * PRECIOS_CONFIG.elec.disyuntor_mono;
+            const bocas_p = parseInt(document.getElementById('elec_bocas_p').value) || 0;
+            const bocas_t = parseInt(document.getElementById('elec_bocas_t').value) || 0;
+            const bocas_n = bocas_p + bocas_t;
+            const bocas_r = parseInt(document.getElementById('elec_bocas_r').value) || 0;
+            const mt_extra_boca = parseInt(document.getElementById('elec_mt_extra').value) || 0;
+            elec_mo += bocas_n * PRECIOS_CONFIG.elec.boca_nueva;
+            elec_mo += bocas_r * PRECIOS_CONFIG.elec.recableado;
+
+            const p_term_total = PRECIOS_CONFIG.elec.termica_mono + (PRECIOS_CONFIG.elec.mat_termica * calidad);
+            const p_disy_total = PRECIOS_CONFIG.elec.disyuntor_mono + (PRECIOS_CONFIG.elec.mat_disyuntor * calidad);
+            document.getElementById('lbl_elec_term').innerText = fmt(p_term_total);
+            document.getElementById('lbl_elec_disy').innerText = fmt(p_disy_total);
+
+            const precio_mo_canaliz = 2500;
+            const precio_mat_canaliz = 3000 * calidad;
+            elec_mo += mt_extra_boca * precio_mo_canaliz;
+
+            elec_mo += (parseInt(document.getElementById('elec_aplique').value) || 0) * PRECIOS_CONFIG.elec.aplique;
+            elec_mo += (parseInt(document.getElementById('elec_colgante').value) || 0) * PRECIOS_CONFIG.elec.colgante;
+            elec_mo += (parseInt(document.getElementById('elec_tubo').value) || 0) * PRECIOS_CONFIG.elec.tubo_led;
+            elec_mo += (parseInt(document.getElementById('elec_emerg').value) || 0) * PRECIOS_CONFIG.elec.emergencia;
+
+            const b_tipo = document.getElementById('elec_bandeja_tipo').value;
+            const b_mt = parseInt(document.getElementById('elec_bandeja_mt').value) || 0;
+            const b_alt = document.getElementById('elec_bandeja_alt').checked;
+            const tarifas_b = PRECIOS_CONFIG.elec.bandejas_tarifas[b_tipo];
+            const b_mo_unit = b_alt ? tarifas_b.mo_alt : tarifas_b.mo_norm;
+            const b_mat_unit = tarifas_b.mat;
+            document.getElementById('lbl_band_mo_dinamico').innerText = fmt(b_mo_unit);
+            elec_mo += b_mt * b_mo_unit;
+
+            if (document.getElementById('elec_jabalina').checked) elec_mo += PRECIOS_CONFIG.elec.jabalina;
+
+            const totalBocas = bocas_n + bocas_r;
+            let elec_mat = (totalBocas * mat_boca_ajustado) + (mt_extra_boca * precio_mat_canaliz);
+            elec_mat += (parseInt(document.getElementById('elec_term').value) || 0) * PRECIOS_CONFIG.elec.mat_termica * calidad;
+            elec_mat += (parseInt(document.getElementById('elec_disy').value) || 0) * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
+            elec_mat += window.lastTabMatFinal;
+            elec_mat += b_mt * b_mat_unit * calidad;
+
+            const ME2 = PRECIOS_CONFIG.mat_electrico;
+            let mat_ind = 0;
+            mat_ind += (parseInt(document.getElementById('m_c15').value) || 0) * ME2.cable_15_m;
+            mat_ind += (parseInt(document.getElementById('m_c25').value) || 0) * ME2.cable_25_m;
+            mat_ind += (parseInt(document.getElementById('m_c40').value) || 0) * ME2.cable_40_m;
+            mat_ind += (parseInt(document.getElementById('m_c60').value) || 0) * ME2.cable_60_m;
+            document.getElementById('tot_mat_ind_inline').innerText = fmt(mat_ind);
+
+            let sec_mat = parseInt(document.getElementById('sec_xvr').value) || 0;
+            sec_mat += parseInt(document.getElementById('sec_disco').value) || 0;
+            let c_i = parseInt(document.getElementById('sec_cam_int').value) || 0;
+            let c_e = parseInt(document.getElementById('sec_cam_ext').value) || 0;
+            let c_f = parseInt(document.getElementById('sec_cam_fc').value) || 0;
+            let utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+            const n_cams = c_i + c_e + c_f;
+            // Cálculo automático de insumos por cámara
+            let insumos_sec = n_cams * (PRECIOS_CONFIG.sec.caja + PRECIOS_CONFIG.sec.fuente + PRECIOS_CONFIG.sec.balun + (PRECIOS_CONFIG.sec.jack * 2));
+
+            // Si hay DVR, sumamos Gabinete y Zapatilla(s)
+            if (parseInt(document.getElementById('sec_xvr').value) > 0) {
+                const zapatillas_qty = n_cams > 4 ? 2 : 1;
+                insumos_sec += PRECIOS_CONFIG.sec.gabinete + (PRECIOS_CONFIG.sec.zapatilla * zapatillas_qty);
+            }
+
+            sec_mat += (c_i * PRECIOS_CONFIG.sec.cam_int) + (c_e * PRECIOS_CONFIG.sec.cam_ext) + (c_f * PRECIOS_CONFIG.sec.cam_fc) + (utp * PRECIOS_CONFIG.sec.utp_mt);
+            sec_mat += insumos_sec;
+            let sec_mo = (n_cams * PRECIOS_CONFIG.sec.mo_instalacion_cam) + (utp * PRECIOS_CONFIG.sec.mo_cableado_mt);
+            let mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
+            let total_mo = hvac_mo + elec_mo + sec_mo;
+            let total_mat = hvac_mat + elec_mat + mat_ind + sec_mat + mat_extra;
+            const final_viaticos_pct = (parseFloat(document.getElementById('global_viaticos').value) || 15) / 100;
+            const final_margen_pct = (parseFloat(document.getElementById('global_margen').value) || 35) / 100;
+
+            const base = total_mo + total_mat;
+            const viaticos = base * final_viaticos_pct;
+            const operativo = base + viaticos;
+            const margen = operativo * final_margen_pct;
+            const total = operativo + margen;
+            const ganancia_neta = total_mo + viaticos + margen;
+
+            const elec_days = (bocas_n + bocas_r) / 6;
+            const hvac_tareas = (parseInt(document.getElementById('hvac_tipo').value) > 0 ? 1 : 0);
+            const hvac_days = hvac_tareas > 0 ? 0.7 : 0;
+            const sec_days = ((c_i + c_e + c_f) / 4);
+            let total_days = Math.ceil(elec_days + hvac_days + sec_days);
+            if (total_days === 0 && base > 0) total_days = 1;
+
+            document.getElementById('tot_hvac').innerText = fmt(hvac_mo + hvac_mat);
+            document.getElementById('tot_elec').innerText = fmt(elec_mo);
+            document.getElementById('tot_elec_mat').innerText = elec_mat > 0 ? fmt(elec_mat) : '—';
+            document.getElementById('tot_mat_ind').innerText = mat_ind > 0 ? fmt(mat_ind) : '—';
+            document.getElementById('tot_sec_mo').innerText = fmt(sec_mo);
+            document.getElementById('tot_sec_mat').innerText = fmt(sec_mat);
+            document.getElementById('res_final').innerText = fmt(total);
+
+            document.getElementById('dash_mat_cost').innerText = fmt(total_mat);
+            document.getElementById('dash_profit').innerText = fmt(ganancia_neta);
+            document.getElementById('dash_days').innerText = total_days > 0 ? `${total_days} Día${total_days > 1 ? 's' : ''}` : '-';
+
+            window.lastTotal = total;
+            window.lastTotalMO = total_mo + viaticos + margen * (total_mo / base); // Pro-rated margin
+            // Actually, let's keep it simple as the user suggested: total honorarios y total inversion.
+            // We can treat (viaticos + margen) as part of the total spread.
+            // But usually, "Total Honorarios" is total_mo + a part of margin.
+            // Let's use the same ratio as the components.
+            const ratioMO = total_mo / base;
+            const ratioMat = total_mat / base;
+            window.lastTotalMOFinal = total_mo + (viaticos + margen) * ratioMO;
+            window.lastTotalMatFinal = total_mat + (viaticos + margen) * ratioMat;
+
+            // BREAKDOWN lists
+            const moList = [];
+            const matList = [];
+
+            if (parseInt(document.getElementById('hvac_tipo').value) > 0) {
+                moList.push("Instalación/Service de Climatización según potencia");
+                if (window.lastHvacCcAct) moList.push("Canalización estética y prolijidad en terminaciones");
+                if (window.lastHvacKitAct) matList.push(`Kit de materiales AA (${window.lastHvacPipes})`);
+                if (window.lastHvacCcAct) matList.push(`Kit Cablecanal estético 60x40 con accesorios`);
+                if (hvac_mt > 0) matList.push(`${hvac_mt}m de cañería de cobre y aislación extra`);
+            }
+
+            if (totalBocas > 0 || parseInt(document.getElementById('elec_aco').value) > 0) {
+                moList.push(`${totalBocas} bocas de electricidad (Mano de obra certificada)`);
+                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación de Acometida/Tablero");
+                if (totalBocas > 0) matList.push(`${totalBocas * 15}m de cable normalizado (F/N/T)`);
+                if (totalBocas > 0) matList.push(`${totalBocas} cajas, caños y bastidores completos`);
+            }
+
+            if (n_cams > 0) {
+                moList.push(`Instalación y configuración de ${n_cams} cámaras de seguridad`);
+                moList.push("Configuración de monitoreo remoto en dispositivos");
+                matList.push(`${n_cams} Cámaras de seguridad Dahua/Hikvision`);
+                matList.push(`Grabador XVR + Almacenamiento específico para vigilancia`);
+                matList.push(`Fuentes, cajas estancas y conectores de alta calidad`);
+                if (utp > 0) matList.push(`${utp}m de cable UTP exterior 100% cobre`);
+            }
+
+            window.lastMoBreakdown = moList;
+            window.lastMatBreakdown = matList;
+
+            window.snapMatInd = {
+                c15: parseInt(document.getElementById('m_c15').value) || 0,
+                c25: parseInt(document.getElementById('m_c25').value) || 0,
+                c40: parseInt(document.getElementById('m_c40').value) || 0,
+                c60: parseInt(document.getElementById('m_c60').value) || 0
+            };
+        }
+
+        function adjMtHVAC(val) {
+            const el = document.getElementById('hvac_mt');
+            let v = parseInt(el.value) || 0;
+            v += val;
+            if (v < 0) v = 0;
+            el.value = v;
+            calc();
+        }
+
+        function copy() {
+            const fecha = document.getElementById('presp_fecha').value;
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
+            const referencia = document.getElementById('presp_ref').value || "Presupuesto de Servicios";
+
+            let t = `*PRESUPUESTO DE SERVICIOS - EL CONDOR*\n`;
+            t += `Fecha: ${fecha}\n`;
+            t += `Cliente: ${cliente}\n`;
+            t += `Ubicación: ${ubicacion}\n`;
+            t += `Referencia: ${referencia}\n\n`;
+            t += `Estimado/a:\n`;
+            t += `Es un gusto saludarles. Presentamos nuestra propuesta técnica y comercial para la implementación del sistema solicitado en su espacio.\n\n`;
+            t += `En *El Cóndor* priorizamos la integridad estructural y la estética de sus espacios. Por ello, este presupuesto contempla un trabajo meticuloso, asegurando que los tendidos no alteren la visual y garantizando la máxima prolijidad en las terminaciones de mampostería. A continuación detallamos el alcance de los trabajos a realizar y los materiales provistos.\n\n`;
+
+            t += `*DETALLE DE MANO DE OBRA:*\n`;
+            if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
+                window.lastMoBreakdown.forEach(item => {
+                    t += `✅ ${item}\n`;
+                });
+            } else {
+                t += `✅ Relevamiento y ejecución de servicios técnicos especializados.\n`;
+            }
+            t += `\n*Nota sobre la ejecución:* El trabajo contempla una jornada técnica, llevada a cabo por nuestro equipo técnico asegurando rapidez y un control de calidad en cada conexión.\n\n`;
+
+            t += `*DETALLE DE MATERIALES A UTILIZAR:*\n`;
+            if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                window.lastMatBreakdown.forEach(item => {
+                    t += `📦 ${item}\n`;
+                });
+            } else {
+                t += `📦 Materiales normalizados según normativas vigentes.\n`;
+            }
+            t += `\n`;
+
+            t += `*RESUMEN DE COTIZACIÓN FINAL*\n`;
+            t += `- Total inversión en materiales: ${fmt(window.lastTotalMatFinal)}\n`;
+            t += `- Total honorarios mano de obra: ${fmt(window.lastTotalMOFinal)}\n`;
+            t += `*TOTAL A ABONAR: ${fmt(window.lastTotal)}*\n\n`;
+
+            t += `*CONDICIONES DE TRABAJO Y PAGO*\n`;
+            t += `- *Garantía:* La mano de obra cuenta con una garantía técnica de 6 meses. Todos los equipos electrónicos instalados poseen la garantía oficial de su fabricante (12 meses).\n`;
+            t += `- *Forma de pago:* 60% de anticipo al momento de aprobar el presupuesto. El 40% restante se abonará al finalizar la instalación y verificar el correcto funcionamiento del sistema.\n\n`;
+
+            t += `Atentamente, *El Cóndor Mantenimiento Integral.*`;
+
+            navigator.clipboard.writeText(t).then(() => alert("Presupuesto profesional copiado para WhatsApp"));
+        }
+
+        function copyProveedor() {
+            let t = `*LISTADO DE MATERIALES (EL CÓNDOR)*\n`;
+            t += `------------------------------------\n`;
+
+            const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
+            let req_marcas = "Genrod / Prysmian / Schneider 6kA";
+            let brandProt = "Schneider 6kA";
+            if (calidad === 0.85) {
+                req_marcas = "Roker / Trefilcon / Siemens 4.5kA";
+                brandProt = "Siemens 4.5kA";
+            } else if (calidad < 0.8) {
+                req_marcas = "Conextube / IMSA / SICA 3kA (Bajo Norma)";
+                brandProt = "SICA 3kA";
+            }
+
+            t += `_Por favor cotizar prioritariamente en las siguientes marcas:_\n`;
+            t += `👉 *${req_marcas}*\n\n`;
+
+            const list = [];
+
+            const bocas_p = parseInt(document.getElementById('elec_bocas_p').value) || 0;
+            const bocas_t = parseInt(document.getElementById('elec_bocas_t').value) || 0;
+            const bocas_r = parseInt(document.getElementById('elec_bocas_r').value) || 0;
+            const total_bocas = bocas_p + bocas_t + bocas_r;
+            const usaHierro = document.getElementById('elec_hierro').checked;
+
+            let canoname = "Caño PVC Semipesado";
+            let cablename = "Cable Unipolar";
+            if (usaHierro && calidad >= 0.85) canoname = "Caño Hierro Semipesado";
+            else if (calidad === 1) { canoname = "Caño PVC Genrod"; cablename = "Cable Prysmian"; }
+            else if (calidad === 0.85) { canoname = "Caño PVC Roker"; cablename = "Cable Trefilcon"; }
+            else if (calidad < 0.8) { canoname = "Caño PVC Conextube"; cablename = "Cable IMSA"; }
+
+            const boxname = (usaHierro && calidad >= 0.85) ? " DE HIERRO semipesado" : "";
+
+            if (total_bocas > 0) {
+                list.push(`-- MATERIAL BÁSICO DE BOCAS (SEGÚN AEA 771) --`);
+                if (bocas_p > 0) list.push(`${bocas_p}u Cajas octogonales chicas (Techo/Plafón)${boxname}`);
+                const total_rect = bocas_p + bocas_t;
+                if (total_rect > 0) list.push(`${total_rect}u Cajas rectangulares 10x5 (Llaves/Tomas)${boxname}`);
+
+                list.push(`${total_bocas * 5}m ${canoname} 20mm`);
+                list.push(`${total_bocas * 15}m ${cablename} 2.5mm (Repartido en Fase/Neutro/Tierra)`);
+                if (bocas_t > 0) list.push(`${bocas_t}u Módulos Tomacorriente DOBLES armados completos sin tapones`);
+                if (bocas_p > 0) {
+                    list.push(`${bocas_p}u Módulos Interruptor DOBLES (Puntos) armados completos sin tapones`);
+                    list.push(`${bocas_p}u Plafón/Aplique LED (Económico)`);
+                }
+            }
+
+            const acoSelect = document.getElementById('elec_aco');
+            if (acoSelect.selectedIndex > 0) list.push(`1u Kit Pilar/Acometida: ${acoSelect.options[acoSelect.selectedIndex].text.split(' - ')[0]}`);
+
+            let tabBrand = "Genrod Q-Energy";
+            if (calidad === 0.85) tabBrand = "Roker Europea";
+            else if (calidad < 0.8) tabBrand = "Conextube Luxury";
+
+            if (window.lastTabSize > 0) {
+                const tipoDesc = window.lastTabTipo === 'sup' ? 'Superficie' : 'Embutir';
+                list.push(`1u Gabinete/Tablero ${tipoDesc} de ${window.lastTabSize} Módulos DIN (${tabBrand})`);
+            }
+
+            const terms = parseInt(document.getElementById('elec_term').value) || 0;
+            const disys = parseInt(document.getElementById('elec_disy').value) || 0;
+
+            if (terms > 0) list.push(`${terms}u Térmicas Bipolares (${brandProt})`);
+            if (disys > 0) list.push(`${disys}u Disyuntores Diferenciales (${brandProt})`);
+
+            if (parseInt(document.getElementById('elec_aplique').value)) list.push(`${parseInt(document.getElementById('elec_aplique').value)}u Aplique de Pared/Techo`);
+            if (parseInt(document.getElementById('elec_colgante').value)) list.push(`${parseInt(document.getElementById('elec_colgante').value)}u Lámpara Colgante`);
+            if (parseInt(document.getElementById('elec_tubo').value)) list.push(`${parseInt(document.getElementById('elec_tubo').value)}u Tubo LED`);
+            if (parseInt(document.getElementById('elec_emerg').value)) list.push(`${parseInt(document.getElementById('elec_emerg').value)}u Luz de Emergencia`);
+            if (document.getElementById('elec_jabalina').checked) list.push(`1u Jabalina + Caja de inspección + Tomacable`);
+
+            const sm = window.snapMatInd || {};
+            if (sm.c15 || sm.c25 || sm.c40 || sm.c60) list.push(`\n-- LÍNEAS ADICIONALES --`);
+            if (sm.c15) list.push(`${sm.c15}m Cable unipolar 1.5mm extra`);
+            if (sm.c25) list.push(`${sm.c25}m Cable unipolar 2.5mm extra`);
+            if (sm.c40) list.push(`${sm.c40}m Cable unipolar 4mm extra`);
+            if (sm.c60) list.push(`${sm.c60}m Cable unipolar 6mm extra`);
+
+            const b_mt_prov = parseInt(document.getElementById('elec_bandeja_mt').value) || 0;
+            const b_tipo_prov = document.getElementById('elec_bandeja_tipo').value;
+            if (b_mt_prov > 0) {
+                list.push(`\n-- BANDEJAS PORTACABLES --`);
+                list.push(`${b_mt_prov}m Bandeja Portacables chapa galvanizada ${b_tipo_prov}mm + Accesorios (ménsulas, grapas, uniones y tornillería/bulonería completa)`);
+            }
+
+            if (window.lastHvacKitAct) {
+                list.push(`\n-- MATERIAL AIRE ACONDICIONADO (${window.lastHvacBaseDesc}) --`);
+                list.push(` • 3m Caño de Cobre (${window.lastHvacPipes})`);
+                list.push(` • 2u Fundas aislantes (una p/ cada caño)`);
+                list.push(` • 4m Cable TPR 5x1.5mm (Interconexión)`);
+                list.push(` • 4u Tacos antivibratorios de goma (p/ pie de unidad ext.)`);
+                list.push(` • 3m Manguera cristal de drenaje`);
+                list.push(` • 1u Cinta de PVC para terminación`);
+
+                if (window.lastHvacCcAct) {
+                    list.push(`\n-- CANALIZACIÓN ESTÉTICA (${window.lastHvacCCDesc}) --`);
+                    list.push(` 2u Tiras de Cablecanal 60x40 (4 metros total)`);
+                    list.push(` • Codos, uniones y terminales originales del sistema`);
+                }
+
+                if (window.lastHvacMtExtra > 0) {
+                    list.push(`\n-- EXTRAS DE CAÑERÍA (${window.lastHvacMtExtra} metros) --`);
+                    list.push(` • ${window.lastHvacMtExtra}m Caño de cobre extra`);
+                    list.push(` • ${window.lastHvacMtExtra}m Aislación y cable extra`);
+                }
+            }
+
+            // 4. CCTV
+            const cams = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
+            if (cams > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
+                list.push(`\n-- MATERIAL CCTV --`);
+                const xvrSelect = document.getElementById('sec_xvr');
+                if (xvrSelect.selectedIndex > 0) list.push(`1u ${xvrSelect.options[xvrSelect.selectedIndex].text.split(' - ')[0]}`);
+                const discoSelect = document.getElementById('sec_disco');
+                if (discoSelect.selectedIndex > 0) list.push(`1u ${discoSelect.options[discoSelect.selectedIndex].text.split(' - ')[0]}`);
+                if (cams > 0) list.push(`${cams}u Cámaras según XVR`);
+                const utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+                if (utp > 0) list.push(`${utp}m Cable UTP Exterior Cobre Vainilla`);
+                const fuentes = parseInt(document.getElementById('sec_fuente').value) || 0;
+                if (fuentes > 0) list.push(`${fuentes}u Fuentes 12v (o Pulpo)`);
+                const baluns_prov = cams;
+                if (baluns_prov > 0) list.push(`${baluns_prov}u Pares de Balun HD (${baluns_prov * 2} conectores total)`);
+                const jacks_prov = cams * 2;
+                if (jacks_prov > 0) list.push(`${jacks_prov}u Conectores Jack Plug (Macho/Hembra)`);
+                const cajas_prov = cams;
+                if (cajas_prov > 0) list.push(`${cajas_prov}u Cajas Estancas 10x10`);
+                if (parseInt(document.getElementById('sec_xvr').value) > 0) {
+                    list.push(`1u Gabinete Metálico de pared para DVR y Conexiones`);
+                    const zapQty = cams > 4 ? 2 : 1;
+                    list.push(`${zapQty}u Zapatilla de 5 tomas reforzada`);
+                }
+            }
+
+            if (list.length === 0) {
+                alert("No hay materiales suficientes cargados para generar la lista.");
+                return;
+            }
+
+            t += list.map(item => item.startsWith('-') ? item : ` • ${item}`).join('\n');
+            t += `\n\n------------------------------------\nAtte: Instalador El Cóndor.`;
+
+            navigator.clipboard.writeText(t).then(() => alert("Lista de compra copiada para enviar a la Casa de Electricidad"));
+        }
+
+        function applyCombo(n) {
+            // Seteamos XVR según combo
+            const selXvr = document.getElementById('sec_xvr');
+            if (n == 4) selXvr.value = "41800";
+            else selXvr.value = "54400";
+
+            // Seteamos Disco 1TB
+            document.getElementById('sec_disco').value = "127300";
+
+            // Cámaras 2MP (Interior/Exterior)
+            document.getElementById('sec_cam_int').value = Math.floor(n / 2);
+            document.getElementById('sec_cam_ext').value = Math.ceil(n / 2);
+            document.getElementById('sec_cam_fc').value = 0;
+            document.getElementById('sec_utp_mt').value = 100;
+
+            // Ajustamos el Margen Global
+            document.getElementById('global_margen').value = (n == 4) ? 21 : 33;
+
+            // DISPARAR CALCULO
+            calc();
+
+            // Scroll suave
+            const totalSec = document.querySelector('.total-section');
+            if (totalSec) totalSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+
+</html>

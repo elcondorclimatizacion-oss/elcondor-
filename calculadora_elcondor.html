@@ -1263,7 +1263,25 @@
 
             t += `Atentamente, *El Cóndor Mantenimiento Integral.*`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Presupuesto profesional copiado para WhatsApp"));
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(t);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = t;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+            window.open(waUrl, '_blank');
         }
 
         function copyProveedor() {
@@ -1423,7 +1441,25 @@
             t += list.map(item => item.startsWith('-') ? item : ` • ${item}`).join('\n');
             t += `\n\n------------------------------------\nAtte: Instalador El Cóndor.`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Lista de compra copiada para enviar a la Casa de Electricidad"));
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(t);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = t;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+            window.open(waUrl, '_blank');
         }
 
         function applyCombo(n) {

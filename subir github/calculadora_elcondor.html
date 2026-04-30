@@ -614,6 +614,10 @@
                     <label>Cant. Metros UTP (<span id="lbl_sec_utp"></span>/m)</label>
                     <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
                 </div>
+                <div class="form-group" style="background:#222; padding:5px; border-radius:5px; border: 1px solid #333;">
+                    <label style="color:var(--accent-color);">Solo Inst. (Cliente provee M.O.)</label>
+                    <input type="number" id="sec_cam_mo_only" value="0" oninput="calc()" style="background:#111; color:var(--accent-color);">
+                </div>
             </div>
             <div class="section-title">Accesorios y Conectividad</div>
             <div class="form-grid">
@@ -1096,9 +1100,11 @@
             let c_e = parseInt(document.getElementById('sec_cam_ext').value) || 0;
             let c_f = parseInt(document.getElementById('sec_cam_fc').value) || 0;
             let utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+            let c_mo_only = parseInt(document.getElementById('sec_cam_mo_only').value) || 0;
             const n_cams = c_i + c_e + c_f;
-            // Cálculo automático de insumos por cámara
-            let insumos_sec = n_cams * (PRECIOS_CONFIG.sec.caja + PRECIOS_CONFIG.sec.fuente + PRECIOS_CONFIG.sec.balun + (PRECIOS_CONFIG.sec.jack * 2));
+            const n_cams_mo = n_cams + c_mo_only;
+            // Cálculo automático de insumos por cámara (cajas, fuentes, baluns, plugs) para TODAS las cámaras a instalar
+            let insumos_sec = n_cams_mo * (PRECIOS_CONFIG.sec.caja + PRECIOS_CONFIG.sec.fuente + PRECIOS_CONFIG.sec.balun + (PRECIOS_CONFIG.sec.jack * 2));
 
             // Si hay DVR, sumamos Gabinete y Zapatilla(s)
             if (parseInt(document.getElementById('sec_xvr').value) > 0) {
@@ -1108,7 +1114,7 @@
 
             sec_mat += (c_i * PRECIOS_CONFIG.sec.cam_int) + (c_e * PRECIOS_CONFIG.sec.cam_ext) + (c_f * PRECIOS_CONFIG.sec.cam_fc) + (utp * PRECIOS_CONFIG.sec.utp_mt);
             sec_mat += insumos_sec;
-            let sec_mo = (n_cams * PRECIOS_CONFIG.sec.mo_instalacion_cam) + (utp * PRECIOS_CONFIG.sec.mo_cableado_mt);
+            let sec_mo = (n_cams_mo * PRECIOS_CONFIG.sec.mo_instalacion_cam) + (utp * PRECIOS_CONFIG.sec.mo_cableado_mt);
             let mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
             let total_mo = hvac_mo + elec_mo + sec_mo;
             let total_mat = hvac_mat + elec_mat + mat_ind + sec_mat + mat_extra;
@@ -1125,7 +1131,7 @@
             const elec_days = (bocas_n + bocas_r) / 6;
             const hvac_tareas = (parseInt(document.getElementById('hvac_tipo').value) > 0 ? 1 : 0);
             const hvac_days = hvac_tareas > 0 ? 0.7 : 0;
-            const sec_days = ((c_i + c_e + c_f) / 4);
+            const sec_days = ((c_i + c_e + c_f + c_mo_only) / 4);
             let total_days = Math.ceil(elec_days + hvac_days + sec_days);
             if (total_days === 0 && base > 0) total_days = 1;
 
@@ -1171,12 +1177,23 @@
                 if (totalBocas > 0) matList.push(`${totalBocas} cajas, caños y bastidores completos`);
             }
 
-            if (n_cams > 0) {
-                moList.push(`Instalación y configuración de ${n_cams} cámaras de seguridad`);
+            if (n_cams_mo > 0) {
+                if (n_cams > 0) {
+                    moList.push(`Instalación y configuración de ${n_cams} cámaras de seguridad (Provisión y Colocación)`);
+                    matList.push(`${n_cams} Cámaras de seguridad Dahua/Hikvision`);
+                }
+                if (c_mo_only > 0) {
+                    moList.push(`Instalación de ${c_mo_only} cámaras provistas por el cliente (Solo Mano de Obra)`);
+                }
+                
                 moList.push("Configuración de monitoreo remoto en dispositivos");
-                matList.push(`${n_cams} Cámaras de seguridad Dahua/Hikvision`);
-                matList.push(`Grabador XVR + Almacenamiento específico para vigilancia`);
-                matList.push(`Fuentes, cajas estancas y conectores de alta calidad`);
+                
+                // Estos insumos se cobran siempre
+                matList.push(`Fuentes, cajas estancas, baluns y conectores de alta calidad`);
+                
+                if (parseInt(document.getElementById('sec_xvr').value) > 0 || parseInt(document.getElementById('sec_disco').value) > 0) {
+                    matList.push(`Grabador XVR + Almacenamiento específico para vigilancia`);
+                }
                 if (utp > 0) matList.push(`${utp}m de cable UTP exterior 100% cobre`);
             }
 
@@ -1246,7 +1263,25 @@
 
             t += `Atentamente, *El Cóndor Mantenimiento Integral.*`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Presupuesto profesional copiado para WhatsApp"));
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(t);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = t;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+            window.open(waUrl, '_blank');
         }
 
         function copyProveedor() {
@@ -1360,27 +1395,40 @@
             }
 
             // 4. CCTV
-            const cams = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
-            if (cams > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
+            const cams_prop = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
+            const cams_mo_only = parseInt(document.getElementById('sec_cam_mo_only').value) || 0;
+            const cams_total = cams_prop + cams_mo_only;
+            
+            if (cams_total > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
                 list.push(`\n-- MATERIAL CCTV --`);
                 const xvrSelect = document.getElementById('sec_xvr');
                 if (xvrSelect.selectedIndex > 0) list.push(`1u ${xvrSelect.options[xvrSelect.selectedIndex].text.split(' - ')[0]}`);
                 const discoSelect = document.getElementById('sec_disco');
                 if (discoSelect.selectedIndex > 0) list.push(`1u ${discoSelect.options[discoSelect.selectedIndex].text.split(' - ')[0]}`);
-                if (cams > 0) list.push(`${cams}u Cámaras según XVR`);
+                
+                if (cams_prop > 0) list.push(`${cams_prop}u Cámaras según XVR`);
+                
                 const utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
                 if (utp > 0) list.push(`${utp}m Cable UTP Exterior Cobre Vainilla`);
+                
+                // Conectores, cajas y fuentes se calculan para TODAS las cámaras
                 const fuentes = parseInt(document.getElementById('sec_fuente').value) || 0;
-                if (fuentes > 0) list.push(`${fuentes}u Fuentes 12v (o Pulpo)`);
-                const baluns_prov = cams;
-                if (baluns_prov > 0) list.push(`${baluns_prov}u Pares de Balun HD (${baluns_prov * 2} conectores total)`);
-                const jacks_prov = cams * 2;
-                if (jacks_prov > 0) list.push(`${jacks_prov}u Conectores Jack Plug (Macho/Hembra)`);
-                const cajas_prov = cams;
-                if (cajas_prov > 0) list.push(`${cajas_prov}u Cajas Estancas 10x10`);
+                if (fuentes > 0) {
+                    list.push(`${fuentes}u Fuentes 12V Extras`);
+                } else if (cams_total > 0) {
+                    // Si no se puso fuente manual pero hay cámaras, sumamos una general o pulpo
+                    list.push(`${cams_total}u Fuentes 12v (o utilizar 1 Fuente Pulpo)`);
+                }
+                
+                if (cams_total > 0) {
+                    list.push(`${cams_total}u Pares de Balun HD (${cams_total * 2} conectores total)`);
+                    list.push(`${cams_total * 2}u Conectores Jack Plug (Macho/Hembra)`);
+                    list.push(`${cams_total}u Cajas Estancas 10x10`);
+                }
+                
                 if (parseInt(document.getElementById('sec_xvr').value) > 0) {
                     list.push(`1u Gabinete Metálico de pared para DVR y Conexiones`);
-                    const zapQty = cams > 4 ? 2 : 1;
+                    const zapQty = cams_total > 4 ? 2 : 1;
                     list.push(`${zapQty}u Zapatilla de 5 tomas reforzada`);
                 }
             }
@@ -1393,7 +1441,25 @@
             t += list.map(item => item.startsWith('-') ? item : ` • ${item}`).join('\n');
             t += `\n\n------------------------------------\nAtte: Instalador El Cóndor.`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Lista de compra copiada para enviar a la Casa de Electricidad"));
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(t);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = t;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+            window.open(waUrl, '_blank');
         }
 
         function applyCombo(n) {

@@ -1549,18 +1549,27 @@
         function generarPDF() {
             prepararDocumento();
             const element = document.getElementById('doc_template_wrapper');
+            const container = element.parentElement;
             const cliente = document.getElementById('presp_cliente').value || "Presupuesto";
             const opt = {
                 margin:       10,
                 filename:     `Presupuesto_${cliente.replace(/\s+/g, '_')}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true },
+                html2canvas:  { scale: 2, useCORS: true, windowWidth: 800 },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
             
-            element.parentElement.style.display = 'block';
+            // Posicionarlo en un lugar visible pero por debajo para html2canvas
+            container.style.position = 'absolute';
+            container.style.left = '0px';
+            container.style.top = '0px';
+            container.style.zIndex = '-9999';
+            container.style.display = 'block';
+            
             html2pdf().set(opt).from(element).save().then(() => {
-                element.parentElement.style.display = 'none';
+                // Restaurar ocultamiento
+                container.style.display = 'none';
+                container.style.left = '-9999px';
             });
         }
 

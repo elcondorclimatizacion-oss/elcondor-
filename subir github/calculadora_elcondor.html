@@ -1585,9 +1585,17 @@
             
             const footer = "</body></html>";
             
+            // Cambiar la imagen a absoluta para que Word la pueda descargar
+            const logoEl = document.getElementById('doc_logo');
+            const originalSrc = logoEl.src;
+            logoEl.src = "https://elcondorclimatizacion-oss.github.io/elcondor-/logocondor.jpeg";
+            
             element.parentElement.style.display = 'block';
             const htmlContent = header + element.innerHTML + footer;
             element.parentElement.style.display = 'none';
+            
+            // Restaurar a local para PDF
+            logoEl.src = originalSrc;
             
             const blob = new Blob(['\ufeff', htmlContent], {
                 type: 'application/msword'
@@ -1620,7 +1628,7 @@
                     <h3 style="color: #666; margin: 5px 0 0 0; font-size: 16px;">El Cóndor Mantenimiento Integral</h3>
                 </div>
                 <div style="text-align: right;">
-                    <img src="https://raw.githubusercontent.com/elcondorclimatizacion-oss/elcondor-/master/logocondor.jpeg" alt="Logo El Cóndor" style="max-height: 80px; max-width: 150px; display: inline-block;">
+                    <img id="doc_logo" src="logocondor.jpeg" width="150" height="80" alt="Logo El Cóndor" style="max-height: 80px; max-width: 150px; display: inline-block;">
                 </div>
             </div>
 

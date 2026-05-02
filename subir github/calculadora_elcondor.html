@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
     <title>Calculadora Interna v2.0 - El Cóndor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
@@ -294,6 +295,14 @@
                 <div class="form-group">
                     <label>Ubicación</label>
                     <input type="text" id="presp_ubicacion" placeholder="Ej: Quilmes Centro">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="presp_tel" placeholder="Ej: 1140890580">
+                </div>
+                <div class="form-group">
+                    <label>Turno coordinado</label>
+                    <input type="text" id="presp_turno" placeholder="Ej: 14/10/2026 a las 10hs.">
                 </div>
                 <div class="form-group">
                     <label>Referencia / Proyecto</label>
@@ -700,6 +709,10 @@
             <button class="btn-copy" onclick="copy()">[COPIAR PRESUPUESTO PARA WHATSAPP]</button>
             <button class="btn-copy" onclick="copyProveedor()" style="background: #007bff; margin-top: 10px;">[COPIAR
                 LISTA PARA PROVEEDOR]</button>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn-copy" onclick="generarPDF()" style="background: #e74c3c; flex: 1; padding: 12px; font-size: 0.9rem;">[📄 DESCARGAR PDF]</button>
+                <button class="btn-copy" onclick="generarWord()" style="background: #2b579a; flex: 1; color: white; padding: 12px; font-size: 0.9rem;">[📝 DESCARGAR WORD]</button>
+            </div>
         </div>
     </div>
 
@@ -1222,46 +1235,41 @@
             const cliente = document.getElementById('presp_cliente').value || "Cliente";
             const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
             const referencia = document.getElementById('presp_ref').value || "Presupuesto de Servicios";
+            const telefono = document.getElementById('presp_tel').value || "";
+            const turno = document.getElementById('presp_turno').value || "A coordinar";
 
-            let t = `*PRESUPUESTO DE SERVICIOS - EL CONDOR*\n`;
-            t += `Fecha: ${fecha}\n`;
-            t += `Cliente: ${cliente}\n`;
-            t += `Ubicación: ${ubicacion}\n`;
-            t += `Referencia: ${referencia}\n\n`;
-            t += `Estimado/a:\n`;
-            t += `Es un gusto saludarles. Presentamos nuestra propuesta técnica y comercial para la implementación del sistema solicitado en su espacio.\n\n`;
-            t += `En *El Cóndor* priorizamos la integridad estructural y la estética de sus espacios. Por ello, este presupuesto contempla un trabajo meticuloso, asegurando que los tendidos no alteren la visual y garantizando la máxima prolijidad en las terminaciones de mampostería. A continuación detallamos el alcance de los trabajos a realizar y los materiales provistos.\n\n`;
+            let t = `Cliente: ${cliente}\n`;
+            if (telefono) t += `Teléfono: ${telefono}\n`;
+            t += `Domicilio: ${ubicacion}\n`;
+            t += `Turno coordinado: ${turno}\n\n`;
 
-            t += `*DETALLE DE MANO DE OBRA:*\n`;
+            t += `Trabajo a realizar:\n`;
             if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
                 window.lastMoBreakdown.forEach(item => {
-                    t += `✅ ${item}\n`;
+                    t += `${item}\n`;
                 });
             } else {
-                t += `✅ Relevamiento y ejecución de servicios técnicos especializados.\n`;
-            }
-            t += `\n*Nota sobre la ejecución:* El trabajo contempla una jornada técnica, llevada a cabo por nuestro equipo técnico asegurando rapidez y un control de calidad en cada conexión.\n\n`;
-
-            t += `*DETALLE DE MATERIALES A UTILIZAR:*\n`;
-            if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
-                window.lastMatBreakdown.forEach(item => {
-                    t += `📦 ${item}\n`;
-                });
-            } else {
-                t += `📦 Materiales normalizados según normativas vigentes.\n`;
+                t += `Relevamiento y ejecución de servicios técnicos especializados.\n`;
             }
             t += `\n`;
 
-            t += `*RESUMEN DE COTIZACIÓN FINAL*\n`;
-            t += `- Total inversión en materiales: ${fmt(window.lastTotalMatFinal)}\n`;
-            t += `- Total honorarios mano de obra: ${fmt(window.lastTotalMOFinal)}\n`;
-            t += `*TOTAL A ABONAR: ${fmt(window.lastTotal)}*\n\n`;
+            t += `Materiales para la instalación:\n`;
+            if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                window.lastMatBreakdown.forEach(item => {
+                    t += `${item}\n`;
+                });
+            } else {
+                t += `Materiales normalizados según normativas vigentes.\n`;
+            }
+            t += `\n`;
 
-            t += `*CONDICIONES DE TRABAJO Y PAGO*\n`;
-            t += `- *Garantía:* La mano de obra cuenta con una garantía técnica de 6 meses. Todos los equipos electrónicos instalados poseen la garantía oficial de su fabricante (12 meses).\n`;
-            t += `- *Forma de pago:* 60% de anticipo al momento de aprobar el presupuesto. El 40% restante se abonará al finalizar la instalación y verificar el correcto funcionamiento del sistema.\n\n`;
+            t += `Resumen:\n`;
+            t += `Total inversión en materiales: ${fmt(window.lastTotalMatFinal)}\n`;
+            t += `Total honorarios mano de obra: ${fmt(window.lastTotalMOFinal)}\n`;
+            t += `TOTAL A ABONAR: ${fmt(window.lastTotal)}\n\n`;
 
-            t += `Atentamente, *El Cóndor Mantenimiento Integral.*`;
+            t += `Garantía técnica de 6 meses.\n`;
+            t += `Pago: 60% anticipo, 40% al finalizar.`;
 
             const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
             try {
@@ -1488,8 +1496,156 @@
             if (totalSec) totalSec.scrollIntoView({ behavior: 'smooth' });
         }
 
+        function prepararDocumento() {
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
+            const referencia = document.getElementById('presp_ref').value || "Presupuesto de Servicios";
+            const telefono = document.getElementById('presp_tel').value || "";
+            const turno = document.getElementById('presp_turno').value || "A coordinar";
+            const fecha = document.getElementById('presp_fecha').value;
+
+            document.getElementById('doc_cliente').innerText = cliente;
+            document.getElementById('doc_tel').innerText = telefono;
+            document.getElementById('doc_domicilio').innerText = ubicacion;
+            document.getElementById('doc_turno').innerText = turno;
+            document.getElementById('doc_fecha').innerText = fecha;
+            document.getElementById('doc_ref').innerText = referencia;
+
+            const ulTrabajos = document.getElementById('doc_trabajos');
+            ulTrabajos.innerHTML = "";
+            if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
+                window.lastMoBreakdown.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerText = item;
+                    li.style.marginBottom = "5px";
+                    ulTrabajos.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.innerText = "Relevamiento y ejecución de servicios técnicos especializados.";
+                ulTrabajos.appendChild(li);
+            }
+
+            const ulMateriales = document.getElementById('doc_materiales');
+            ulMateriales.innerHTML = "";
+            if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                window.lastMatBreakdown.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerText = item;
+                    li.style.marginBottom = "5px";
+                    ulMateriales.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.innerText = "Materiales normalizados según normativas vigentes.";
+                ulMateriales.appendChild(li);
+            }
+
+            document.getElementById('doc_tot_mat').innerText = fmt(window.lastTotalMatFinal);
+            document.getElementById('doc_tot_mo').innerText = fmt(window.lastTotalMOFinal);
+            document.getElementById('doc_tot_final').innerText = fmt(window.lastTotal);
+        }
+
+        function generarPDF() {
+            prepararDocumento();
+            const element = document.getElementById('doc_template_wrapper');
+            const cliente = document.getElementById('presp_cliente').value || "Presupuesto";
+            const opt = {
+                margin:       10,
+                filename:     `Presupuesto_${cliente.replace(/\s+/g, '_')}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2 },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            element.parentElement.style.display = 'block';
+            html2pdf().set(opt).from(element).save().then(() => {
+                element.parentElement.style.display = 'none';
+            });
+        }
+
+        function generarWord() {
+            prepararDocumento();
+            const element = document.getElementById('doc_template_wrapper');
+            const cliente = document.getElementById('presp_cliente').value || "Presupuesto";
+            
+            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Presupuesto</title></head><body>";
+            
+            const footer = "</body></html>";
+            
+            element.parentElement.style.display = 'block';
+            const htmlContent = header + element.innerHTML + footer;
+            element.parentElement.style.display = 'none';
+            
+            const blob = new Blob(['\ufeff', htmlContent], {
+                type: 'application/msword'
+            });
+            const url = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(htmlContent);
+            const filename = `Presupuesto_${cliente.replace(/\s+/g, '_')}.doc`;
+            
+            const downloadLink = document.createElement("a");
+            document.body.appendChild(downloadLink);
+            if(navigator.msSaveOrOpenBlob){
+                navigator.msSaveOrOpenBlob(blob, filename);
+            }else{
+                downloadLink.href = url;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+            document.body.removeChild(downloadLink);
+        }
+
         window.onload = init;
     </script>
+
+    <!-- PLANTILLA PARA PDF/WORD (OCULTA) -->
+    <div id="doc_template_container" style="display: none; position: absolute; left: -9999px;">
+        <div id="doc_template_wrapper" style="font-family: Arial, sans-serif; color: #000; background: #fff; padding: 40px; width: 800px; box-sizing: border-box; font-size: 14px; line-height: 1.6;">
+            <!-- Header with Logo Right -->
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <h2 style="color: #000; margin: 0; font-size: 24px; text-transform: uppercase;">Presupuesto de Servicios</h2>
+                    <h3 style="color: #666; margin: 5px 0 0 0; font-size: 16px;">El Cóndor Mantenimiento Integral</h3>
+                </div>
+                <div style="text-align: right;">
+                    <img src="https://raw.githubusercontent.com/elcondorclimatizacion-oss/elcondor-/master/logocondor.jpeg" alt="Logo El Cóndor" style="max-height: 80px; max-width: 150px; display: inline-block;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="margin-bottom: 5px;"><b>Cliente:</b> <span id="doc_cliente"></span></div>
+                <div style="margin-bottom: 5px;"><b>Teléfono:</b> <span id="doc_tel"></span></div>
+                <div style="margin-bottom: 5px;"><b>Domicilio:</b> <span id="doc_domicilio"></span></div>
+                <div style="margin-bottom: 5px;"><b>Turno coordinado:</b> <span id="doc_turno"></span></div>
+                <div style="margin-bottom: 5px;"><b>Fecha de Emisión:</b> <span id="doc_fecha"></span></div>
+                <div style="margin-top: 5px;"><b>Referencia:</b> <span id="doc_ref"></span></div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 16px;">Trabajo a realizar:</h4>
+                <ul id="doc_trabajos" style="margin: 0; padding-left: 20px;"></ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 16px;">Materiales para la instalación:</h4>
+                <ul id="doc_materiales" style="margin: 0; padding-left: 20px;"></ul>
+            </div>
+
+            <div style="margin-top: 30px; border: 2px solid #333; padding: 15px; background: #f9f9f9; text-align: right;">
+                <h3 style="margin: 0; font-size: 18px; color: #333; font-weight: normal;">Total inversión en materiales: <span id="doc_tot_mat" style="font-weight: bold;"></span></h3>
+                <h3 style="margin: 5px 0 0 0; font-size: 18px; color: #333; font-weight: normal;">Total honorarios mano de obra: <span id="doc_tot_mo" style="font-weight: bold;"></span></h3>
+                <h2 style="margin: 15px 0 0 0; font-size: 24px; color: #000; border-top: 1px dashed #ccc; padding-top: 15px;">TOTAL A ABONAR: <span id="doc_tot_final"></span></h2>
+            </div>
+            
+            <div style="margin-top: 30px; font-size: 12px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                <p style="margin: 0;"><b>Garantía:</b> La mano de obra cuenta con una garantía técnica de 6 meses. Los equipos electrónicos poseen garantía oficial de su fabricante.<br>
+                <b>Forma de pago:</b> 60% de anticipo al aprobar. 40% restante al finalizar la instalación.</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -243,6 +243,28 @@
                 gap: 2px;
             }
         }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                display: none !important;
+            }
+            #doc_template_container {
+                display: block !important;
+                position: static !important;
+                left: 0 !important;
+                width: 100% !important;
+            }
+            #doc_template_wrapper {
+                width: 100% !important;
+                padding: 20px !important;
+            }
+        }
     </style>
 </head>
 
@@ -514,7 +536,7 @@
             <button class="btn-copy" onclick="copy()">[COPIAR PRESUPUESTO PARA WHATSAPP]</button>
             <button class="btn-copy" onclick="copyProveedor()" style="background: #007bff; color: white; margin-top: 10px;">[COPIAR
                 LISTA PARA PROVEEDOR]</button>
-            <button class="btn-copy" onclick="generarWord()" style="background: #2b579a; margin-top: 10px; color: white;">[📝 DESCARGAR PRESUPUESTO EN WORD]</button>
+            <button class="btn-copy" onclick="generarPDF()" style="background: #e11d48; margin-top: 10px; color: white;">[📝 GUARDAR PRESUPUESTO EN PDF]</button>
         </div>
     </div>
 
@@ -1054,41 +1076,12 @@
             document.getElementById('doc_tot_final').innerText = fmt(window.lastTotal);
         }
 
-        function generarWord() {
+        function generarPDF() {
             prepararDocumento();
-            const element = document.getElementById('doc_template_wrapper');
-            const cliente = document.getElementById('presp_cliente').value || "Presupuesto";
-            
-            const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
-            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
-            "xmlns='http://www.w3.org/TR/REC-html40'>"+
-            "<head><meta charset='utf-8'><title>Presupuesto</title></head><body>";
-            
-            const footer = "</body></html>";
-            
-            element.parentElement.style.display = 'block';
-            const htmlContent = header + element.innerHTML + footer;
-            element.parentElement.style.display = 'none';
-            
-            const blob = new Blob(['\ufeff', htmlContent], {
-                type: 'application/msword'
-            });
-            
-            const filename = `Presupuesto_HIGHVOLT_${cliente.replace(/\s+/g, '_')}.doc`;
-            const downloadLink = document.createElement("a");
-            document.body.appendChild(downloadLink);
-            
-            if (navigator.msSaveOrOpenBlob) {
-                navigator.msSaveOrOpenBlob(blob, filename);
-            } else {
-                const url = URL.createObjectURL(blob);
-                downloadLink.href = url;
-                downloadLink.download = filename;
-                downloadLink.click();
-                setTimeout(() => URL.revokeObjectURL(url), 100);
-            }
-            
-            document.body.removeChild(downloadLink);
+            // Retraso minimo para asegurar que se dibuje en el DOM antes de imprimir
+            setTimeout(() => {
+                window.print();
+            }, 300);
         }
 
         window.onload = init;

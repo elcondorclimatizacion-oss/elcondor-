@@ -245,6 +245,9 @@
         }
 
         @media print {
+            @page {
+                margin: 0;
+            }
             body {
                 background: white;
                 color: black;
@@ -262,7 +265,8 @@
             }
             #doc_template_wrapper {
                 width: 100% !important;
-                padding: 20px !important;
+                padding: 15mm 20mm !important;
+                box-sizing: border-box;
             }
         }
     </style>
@@ -1100,6 +1104,52 @@
             document.getElementById('doc_fecha').innerText = fecha;
             document.getElementById('doc_ref').innerText = referencia;
 
+            const divMemoria = document.getElementById('doc_memoria');
+            const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
+            const usaHierro = document.getElementById('elec_hierro').checked;
+            
+            let txtMarcaCanal = "PVC Genrod";
+            let txtMarcaCable = "Prysmian";
+            let txtMarcaProt = "Schneider";
+            
+            if (usaHierro && calidad >= 0.85) txtMarcaCanal = "Hierro Semipesado";
+            else if (calidad === 0.85) { txtMarcaCanal = "PVC Roker"; txtMarcaCable = "Trefilcon"; txtMarcaProt = "Siemens"; }
+            else if (calidad < 0.8) { txtMarcaCanal = "PVC Conextube"; txtMarcaCable = "IMSA"; txtMarcaProt = "SICA"; }
+
+            let memoriaHtml = `<p>El presente presupuesto está orientado a ejecutar una instalación eléctrica de refacción completa, toda realizada en sistema embutido, pensada para brindar seguridad, mantenimiento futuro y capacidad de ampliación.</p>`;
+            memoriaHtml += `<p>La canalización principal se contempla con <b>caños rígidos de ${txtMarcaCanal}</b>, evitando el uso de caños corrugados para minimizar interferencias mecánicas y térmicas, garantizar una excelente sección de paso para futuras ampliaciones y facilitar operaciones de mantenimiento.</p>`;
+            
+            const c_tug = parseInt(document.getElementById('elec_boca_tug').value) || 0;
+            const c_tue = (parseInt(document.getElementById('elec_boca_tue25').value) || 0) + (parseInt(document.getElementById('elec_boca_tue40').value) || 0);
+            const c_iug = (parseInt(document.getElementById('elec_centro_iug').value) || 0) + (parseInt(document.getElementById('elec_llave_iug').value) || 0);
+            
+            memoriaHtml += `<p><b>Distribución de Circuitos:</b> Se contemplan puntos de conexión embutidos, resolviendo comandos y consumos a través de módulos armados para mejor estética y menor deterioro mecánico. `;
+            if(c_tug > 0) memoriaHtml += `Se incluyen circuitos TUG (Toma de Uso General). `;
+            if(c_tue > 0) memoriaHtml += `Se incluyen circuitos TUE (Toma de Uso Especial) dimensionados para cargas mayores. `;
+            if(c_iug > 0) memoriaHtml += `Se incluyen circuitos IUG (Iluminación de Uso General). `;
+            memoriaHtml += `</p>`;
+
+            let tp_text = "";
+            let ts_text = "";
+            if (window.lastTpSize > 0 && window.lastTpTipo !== 'none') {
+                tp_text = `<li style="margin-bottom:4px;"><b>Tablero Principal (TP):</b> Dimensionado para ${window.lastTpSize} módulos, incluyendo las protecciones principales (${txtMarcaProt}) y correcta vinculación a la línea.</li>`;
+            }
+            if (window.lastTsSize > 0 && window.lastTsTipo !== 'none') {
+                ts_text = `<li style="margin-bottom:4px;"><b>Tablero Seccional (TS):</b> Tablero de distribución de ${window.lastTsSize} módulos, con protecciones termomagnéticas y diferencial (${txtMarcaProt}), dimensionado con margen de capacidad para futuras ampliaciones.</li>`;
+            }
+            
+            if(tp_text || ts_text) {
+                memoriaHtml += `<p style="margin-bottom: 5px;"><b>Gestión y Protección Eléctrica:</b></p><ul style="margin-top:0;">${tp_text}${ts_text}</ul>`;
+            }
+
+            if (document.getElementById('elec_jabalina').checked) {
+                memoriaHtml += `<p>Se incluye sistema de Puesta A Tierra física (PAT) completa, con electrodo normalizado y cableado acorde.</p>`;
+            }
+
+            memoriaHtml += `<p>En cuanto a cableado, se considera el tendido con <b>conductores ${txtMarcaCable}</b> normados con aislación adecuada para instalación fija en vivienda, asegurando el estricto cumplimiento de las normas AEA/IRAM.</p>`;
+
+            divMemoria.innerHTML = memoriaHtml;
+
             const ulTrabajos = document.getElementById('doc_trabajos');
             ulTrabajos.innerHTML = "";
             if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
@@ -1172,13 +1222,16 @@
                 <div style="margin-bottom: 5px;"><b>Referencia:</b> <span id="doc_ref"></span></div>
             </div>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">1. Detalle de Trabajos y Mano de Obra</h3>
+            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">1. Descripción Técnica del Proyecto</h3>
+            <div id="doc_memoria" style="margin: 10px 0; padding-left: 10px; text-align: justify; font-size: 13px;"></div>
+
+            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">2. Detalle de Trabajos y Mano de Obra</h3>
             <ul id="doc_trabajos" style="margin: 10px 0; padding-left: 20px;"></ul>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">2. Materiales e Insumos Considerados</h3>
+            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">3. Materiales e Insumos Considerados</h3>
             <ul id="doc_materiales" style="margin: 10px 0; padding-left: 20px;"></ul>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">3. Resumen Económico</h3>
+            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">4. Resumen Económico</h3>
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">Total Inversión en Materiales:</td>

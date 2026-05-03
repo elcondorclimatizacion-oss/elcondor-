@@ -696,8 +696,12 @@
             const n_disy_ts = parseInt(document.getElementById('elec_disy_ts').value) || 0;
             const required_mods_ts = (n_term_ts + n_disy_ts) * 2;
 
-            function getSuggestedSize(req) {
-                if (req === 0) return 0;
+            const tp_tipo = document.getElementById('elec_tablero_tp').value;
+            const ts_tipo = document.getElementById('elec_tablero_ts').value;
+
+            function getSuggestedSize(req, tipo) {
+                if (tipo === 'none') return 0;
+                if (req === 0) return 4; // Tamaño mínimo si hay tablero pero aún no cargaron térmicas
                 if (req <= 4) return 4;
                 if (req <= 8) return 8;
                 if (req <= 12) return 12;
@@ -706,8 +710,8 @@
                 return 36;
             }
 
-            const suggested_size_tp = getSuggestedSize(required_mods_tp);
-            const suggested_size_ts = getSuggestedSize(required_mods_ts);
+            const suggested_size_tp = getSuggestedSize(required_mods_tp, tp_tipo);
+            const suggested_size_ts = getSuggestedSize(required_mods_ts, ts_tipo);
 
             let brandKey = 'high';
             if (calidad === 0.85) brandKey = 'medium';
@@ -726,9 +730,6 @@
                 }
                 return { mo, mat };
             }
-
-            const tp_tipo = document.getElementById('elec_tablero_tp').value;
-            const ts_tipo = document.getElementById('elec_tablero_ts').value;
 
             const tp_prices = getTableroPrice(tp_tipo, suggested_size_tp);
             const ts_prices = getTableroPrice(ts_tipo, suggested_size_ts);

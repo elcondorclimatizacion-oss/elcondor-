@@ -332,8 +332,8 @@
                 </div>
             </div>
 
-            <div class="section-title">Acometida y Tablero</div>
-            <div class="form-grid">
+            <div class="section-title">Acometida y Tablero Principal (TP - Medidor)</div>
+            <div class="form-grid" style="border: 1px dashed var(--accent-color); padding: 10px; margin-bottom: 15px; border-radius: 8px;">
                 <div class="form-group">
                     <label>Acometida</label>
                     <select id="elec_aco" onchange="calc()">
@@ -341,24 +341,40 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Gabinete / Tablero</label>
-                    <select id="elec_tablero" onchange="calc()">
+                    <label>Gabinete TP</label>
+                    <select id="elec_tablero_tp" onchange="calc()">
                         <!-- Dinámico -->
                     </select>
                 </div>
+                <div class="form-group">
+                    <label>Térmicas TP (<span id="lbl_elec_term_tp"></span>)</label>
+                    <input type="number" id="elec_term_tp" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Disyuntores TP (<span id="lbl_elec_disy_tp"></span>)</label>
+                    <input type="number" id="elec_disy_tp" value="0" min="0" oninput="calc()">
+                </div>
             </div>
 
-            <div class="section-title">Protecciones y Bocas Detalladas (IUG, TUG, TUE)</div>
-            <div class="form-grid">
+            <div class="section-title">Tablero Seccional (TS - Interior)</div>
+            <div class="form-grid" style="border: 1px dashed #38bdf8; padding: 10px; margin-bottom: 15px; border-radius: 8px;">
                 <div class="form-group">
-                    <label>Cant. Térmicas (<span id="lbl_elec_term"></span> c/u)</label>
-                    <input type="number" id="elec_term" value="0" min="0" oninput="calc()">
+                    <label>Gabinete TS</label>
+                    <select id="elec_tablero_ts" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Cant. Disyuntores (<span id="lbl_elec_disy"></span> c/u)</label>
-                    <input type="number" id="elec_disy" value="0" min="0" oninput="calc()">
+                    <label>Térmicas TS (<span id="lbl_elec_term_ts"></span>)</label>
+                    <input type="number" id="elec_term_ts" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Disyuntores TS (<span id="lbl_elec_disy_ts"></span>)</label>
+                    <input type="number" id="elec_disy_ts" value="0" min="0" oninput="calc()">
                 </div>
             </div>
+
+            <div class="section-title">Bocas Detalladas (IUG, TUG, TUE)</div>
 
             <!-- NUEVO SECTOR DE BOCAS -->
             <div class="form-grid" style="margin-top: 15px;">
@@ -631,12 +647,13 @@
                 acoSelect.appendChild(opt);
             });
 
-            const tableroSelect = document.getElementById('elec_tablero');
-            tableroSelect.innerHTML = `
+            const optsGabinete = `
                 <option value="none">Sin Tablero/Gabinete</option>
                 <option value="sup">Caja de Superficie (Automática)</option>
                 <option value="emp">Empotrado Mampostería (Automática)</option>
             `;
+            document.getElementById('elec_tablero_tp').innerHTML = optsGabinete;
+            document.getElementById('elec_tablero_ts').innerHTML = optsGabinete;
 
             document.getElementById('lbl_mo_centro').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
             document.getElementById('lbl_mo_llave').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
@@ -670,42 +687,65 @@
             document.getElementById('lbl_mat_tue40').innerText = fmt(PRECIOS_CONFIG.elec.mat_tue40 * calidad);
 
             let elec_mo = parseInt(document.getElementById('elec_aco').value) || 0;
-            const tabTipo = document.getElementById('elec_tablero').value;
-            const n_term = parseInt(document.getElementById('elec_term').value) || 0;
-            const n_disy = parseInt(document.getElementById('elec_disy').value) || 0;
-            const required_mods = (n_term + n_disy) * 2;
+            
+            const n_term_tp = parseInt(document.getElementById('elec_term_tp').value) || 0;
+            const n_disy_tp = parseInt(document.getElementById('elec_disy_tp').value) || 0;
+            const required_mods_tp = (n_term_tp + n_disy_tp) * 2;
 
-            let suggested_size = 0;
-            if (required_mods > 0) {
-                if (required_mods <= 4) suggested_size = 4;
-                else if (required_mods <= 8) suggested_size = 8;
-                else if (required_mods <= 12) suggested_size = 12;
-                else if (required_mods <= 18) suggested_size = 18;
-                else suggested_size = 24;
+            const n_term_ts = parseInt(document.getElementById('elec_term_ts').value) || 0;
+            const n_disy_ts = parseInt(document.getElementById('elec_disy_ts').value) || 0;
+            const required_mods_ts = (n_term_ts + n_disy_ts) * 2;
+
+            function getSuggestedSize(req) {
+                if (req === 0) return 0;
+                if (req <= 4) return 4;
+                if (req <= 8) return 8;
+                if (req <= 12) return 12;
+                if (req <= 18) return 18;
+                if (req <= 24) return 24;
+                return 36;
             }
 
-            let tab_mo_val = 0;
-            let tab_mat_val = 0;
+            const suggested_size_tp = getSuggestedSize(required_mods_tp);
+            const suggested_size_ts = getSuggestedSize(required_mods_ts);
 
-            const sizeKey = suggested_size || 4;
             let brandKey = 'high';
             if (calidad === 0.85) brandKey = 'medium';
             else if (calidad < 0.8) brandKey = 'low';
 
-            if (tabTipo === 'sup') {
-                tab_mo_val = PRECIOS_CONFIG.elec.tablero_mo.sup;
-                tab_mat_val = PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0;
-            } else if (tabTipo === 'emp') {
-                tab_mo_val = PRECIOS_CONFIG.elec.tablero_mo.emp;
-                tab_mat_val = (PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0) * 1.3;
+            function getTableroPrice(tipo, sizeKey) {
+                if (tipo === 'none' || sizeKey === 0) return { mo: 0, mat: 0 };
+                let mo = 0;
+                let mat = 0;
+                if (tipo === 'sup') {
+                    mo = PRECIOS_CONFIG.elec.tablero_mo.sup;
+                    mat = PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0;
+                } else if (tipo === 'emp') {
+                    mo = PRECIOS_CONFIG.elec.tablero_mo.emp;
+                    mat = (PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0) * 1.3;
+                }
+                return { mo, mat };
             }
-            elec_mo += tab_mo_val;
-            window.lastTabMatFinal = tab_mat_val;
-            window.lastTabSize = suggested_size;
-            window.lastTabTipo = tabTipo;
+
+            const tp_tipo = document.getElementById('elec_tablero_tp').value;
+            const ts_tipo = document.getElementById('elec_tablero_ts').value;
+
+            const tp_prices = getTableroPrice(tp_tipo, suggested_size_tp);
+            const ts_prices = getTableroPrice(ts_tipo, suggested_size_ts);
+
+            elec_mo += tp_prices.mo + ts_prices.mo;
+            const total_tab_mat = tp_prices.mat + ts_prices.mat;
+            
+            window.lastTpSize = suggested_size_tp;
+            window.lastTsSize = suggested_size_ts;
+            window.lastTpTipo = tp_tipo;
+            window.lastTsTipo = ts_tipo;
+
+            const n_term = n_term_tp + n_term_ts;
+            const n_disy = n_disy_tp + n_disy_ts;
 
             elec_mo += n_term * PRECIOS_CONFIG.elec.termica_mono;
-            elec_mo += (parseInt(document.getElementById('elec_disy').value) || 0) * PRECIOS_CONFIG.elec.disyuntor_mono;
+            elec_mo += n_disy * PRECIOS_CONFIG.elec.disyuntor_mono;
 
             const c_centro = parseInt(document.getElementById('elec_centro_iug').value) || 0;
             const c_llave = parseInt(document.getElementById('elec_llave_iug').value) || 0;
@@ -722,8 +762,10 @@
 
             const p_term_total = PRECIOS_CONFIG.elec.termica_mono + (PRECIOS_CONFIG.elec.mat_termica * calidad);
             const p_disy_total = PRECIOS_CONFIG.elec.disyuntor_mono + (PRECIOS_CONFIG.elec.mat_disyuntor * calidad);
-            document.getElementById('lbl_elec_term').innerText = fmt(p_term_total);
-            document.getElementById('lbl_elec_disy').innerText = fmt(p_disy_total);
+            document.getElementById('lbl_elec_term_tp').innerText = fmt(p_term_total);
+            document.getElementById('lbl_elec_disy_tp').innerText = fmt(p_disy_total);
+            document.getElementById('lbl_elec_term_ts').innerText = fmt(p_term_total);
+            document.getElementById('lbl_elec_disy_ts').innerText = fmt(p_disy_total);
 
             const precio_mo_canaliz = 2500;
             const precio_mat_canaliz = 3000 * calidad;
@@ -754,9 +796,9 @@
             elec_mat += c_tue40 * PRECIOS_CONFIG.elec.mat_tue40 * calidad;
             elec_mat += bocas_r * PRECIOS_CONFIG.elec.mat_tug * calidad;
 
-            elec_mat += (parseInt(document.getElementById('elec_term').value) || 0) * PRECIOS_CONFIG.elec.mat_termica * calidad;
-            elec_mat += (parseInt(document.getElementById('elec_disy').value) || 0) * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
-            elec_mat += window.lastTabMatFinal;
+            elec_mat += n_term * PRECIOS_CONFIG.elec.mat_termica * calidad;
+            elec_mat += n_disy * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
+            elec_mat += total_tab_mat;
             elec_mat += b_mt * b_mat_unit * calidad;
 
             const ME2 = PRECIOS_CONFIG.mat_electrico;
@@ -805,9 +847,11 @@
             const moList = [];
             const matList = [];
 
-            if (totalBocas > 0 || parseInt(document.getElementById('elec_aco').value) > 0) {
-                moList.push(`${totalBocas} bocas/cajas de electricidad (Mano de obra certificada)`);
-                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación de Acometida/Tablero");
+            if (totalBocas > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || tp_tipo !== 'none' || ts_tipo !== 'none') {
+                if (totalBocas > 0) moList.push(`${totalBocas} bocas/cajas de electricidad (Mano de obra certificada)`);
+                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación de Acometida Eléctrica");
+                if (tp_tipo !== 'none') moList.push(`Armado y montaje de Tablero Principal (TP) ${tp_tipo==='emp'?'empotrado':'de superficie'}`);
+                if (ts_tipo !== 'none') moList.push(`Armado y montaje de Tablero Seccional (TS) ${ts_tipo==='emp'?'empotrado':'de superficie'}`);
                 
                 let cablesSum = "";
                 if (c_centro + c_llave > 0) cablesSum += `1.5mm `;
@@ -816,10 +860,15 @@
                 
                 if (totalBocas > 0) matList.push(`${totalBocas * 15}m de cable normalizado (${cablesSum.trim()})`);
                 if (totalBocas > 0) matList.push(`${totalBocas} cajas, caños y módulos completos según circuito`);
+                
+                if (n_term > 0 || n_disy > 0) {
+                    matList.push(`Protecciones: ${n_term} Térmicas, ${n_disy} Disyuntores`);
+                }
             }
 
             window.lastMoBreakdown = moList;
             window.lastMatBreakdown = matList;
+            window.totalBocas_mem = totalBocas;
 
             window.snapMatInd = {
                 c15: parseInt(document.getElementById('m_c15').value) || 0,
@@ -966,16 +1015,25 @@
             if (calidad === 0.85) tabBrand = "Roker Europea";
             else if (calidad < 0.8) tabBrand = "Conextube Luxury";
 
-            if (window.lastTabSize > 0) {
-                const tipoDesc = window.lastTabTipo === 'sup' ? 'Superficie' : 'Embutir';
-                list.push(`1u Gabinete/Tablero ${tipoDesc} de ${window.lastTabSize} Módulos DIN (${tabBrand})`);
+            if (window.lastTpSize > 0 && window.lastTpTipo !== 'none') {
+                const tipoDescTp = window.lastTpTipo === 'sup' ? 'Superficie' : 'Embutir';
+                list.push(`1u Gabinete/Tablero PRINCIPAL (TP) ${tipoDescTp} de ${window.lastTpSize} Módulos DIN (${tabBrand})`);
+            }
+            if (window.lastTsSize > 0 && window.lastTsTipo !== 'none') {
+                const tipoDescTs = window.lastTsTipo === 'sup' ? 'Superficie' : 'Embutir';
+                list.push(`1u Gabinete/Tablero SECCIONAL (TS) ${tipoDescTs} de ${window.lastTsSize} Módulos DIN (${tabBrand})`);
             }
 
-            const terms = parseInt(document.getElementById('elec_term').value) || 0;
-            const disys = parseInt(document.getElementById('elec_disy').value) || 0;
+            const terms_tp = parseInt(document.getElementById('elec_term_tp').value) || 0;
+            const disys_tp = parseInt(document.getElementById('elec_disy_tp').value) || 0;
+            const terms_ts = parseInt(document.getElementById('elec_term_ts').value) || 0;
+            const disys_ts = parseInt(document.getElementById('elec_disy_ts').value) || 0;
 
-            if (terms > 0) list.push(`${terms}u Térmicas Bipolares (${brandProt})`);
-            if (disys > 0) list.push(`${disys}u Disyuntores Diferenciales (${brandProt})`);
+            const total_terms = terms_tp + terms_ts;
+            const total_disys = disys_tp + disys_ts;
+
+            if (total_terms > 0) list.push(`${total_terms}u Térmicas Bipolares (${brandProt})`);
+            if (total_disys > 0) list.push(`${total_disys}u Disyuntores Diferenciales (${brandProt})`);
 
             if (parseInt(document.getElementById('elec_aplique').value)) list.push(`${parseInt(document.getElementById('elec_aplique').value)}u Aplique de Pared/Techo`);
             if (parseInt(document.getElementById('elec_colgante').value)) list.push(`${parseInt(document.getElementById('elec_colgante').value)}u Lámpara Colgante`);

@@ -308,6 +308,13 @@
                     <label>Referencia / Proyecto</label>
                     <input type="text" id="presp_ref" placeholder="Ej: Instalación eléctrica general">
                 </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Modalidad de Contratación</label>
+                    <select id="presp_modalidad" onchange="calc()" style="font-weight: bold; background: #222; border-color: #fbbf24;">
+                        <option value="llave">Llave en Mano (Incluye Materiales)</option>
+                        <option value="solo_mo">Solo Mano de Obra (Materiales provistos por el cliente)</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -328,11 +335,12 @@
                     </select>
                 </div>
                 <div class="form-group" style="justify-content: center; align-items: start; padding-top: 5px;">
-                    <label
-                        style="display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer; color: #aaa;">
-                        <input type="checkbox" id="elec_hierro" onchange="calc()" style="width:18px; height: 18px;">
-                        Usar Cañería de Hierro <br>(Aplica Nivel Medio/Alto)
-                    </label>
+                    <label>Tipo de Instalación</label>
+                    <select id="elec_tipo_inst" onchange="cambiarTipoInst()"
+                        style="border-color: #38bdf8; font-weight: bold; background: #111; color: #38bdf8; margin-top:5px;">
+                        <option value="embutida">PVC Embutido (Mampostería)</option>
+                        <option value="exterior">PVC a la Vista (Exterior)</option>
+                    </select>
                 </div>
             </div>
 
@@ -405,6 +413,18 @@
                 <div class="form-group">
                     <label>Bocas Re-cableado <br> (M.O: <span id="lbl_elec_bocas_r"></span> + Mat: prom 2.5mm)</label>
                     <input type="number" id="elec_bocas_r" value="0" min="0" oninput="calc()" style="margin-top:5px;">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 20px;">Bocas Secundarias Agrupadas (Comparten cañería)</div>
+            <div class="form-grid" style="margin-bottom: 15px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333;">
+                <div class="form-group">
+                    <label>TUG Agrupadas (Tomas extras) <br> (M.O: <span id="lbl_mo_agrup_tug"></span> + Mat. reducido)</label>
+                    <input type="number" id="elec_agrup_tug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #2b2;">
+                </div>
+                <div class="form-group">
+                    <label>IUG Agrupadas (Llaves extras) <br> (M.O: <span id="lbl_mo_agrup_iug"></span> + Mat. reducido)</label>
+                    <input type="number" id="elec_agrup_iug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #55f;">
                 </div>
             </div>
 
@@ -583,6 +603,7 @@
                 mat_termica: 35300,
                 mat_disyuntor: 81500,
                 boca_nueva: 26000,
+                boca_exterior: 20000,
                 recableado: 28500,
                 cano_mt: 10000,
                 
@@ -628,6 +649,10 @@
                 grampa_20: 223,
                 grampa_22: 250,
                 grampa_25: 290,
+                tarugo_6: 50,
+                tornillo_6: 50,
+                tarugo_8: 80,
+                tornillo_8: 80,
                 caja_oct: 400,
                 caja_rect: 600,
                 tapa_ciega: 150,
@@ -638,6 +663,20 @@
         };
 
         function fmt(n) { return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n); }
+
+        function cambiarTipoInst() {
+            const tipo = document.getElementById('elec_tipo_inst').value;
+            const tp = document.getElementById('elec_tablero_tp');
+            const ts = document.getElementById('elec_tablero_ts');
+            if (tipo === 'exterior') {
+                if (tp.value === 'emp') tp.value = 'sup';
+                if (ts.value === 'emp') ts.value = 'sup';
+            } else {
+                if (tp.value === 'sup') tp.value = 'emp';
+                if (ts.value === 'sup') ts.value = 'emp';
+            }
+            calc();
+        }
 
         function init() {
             const now = new Date();
@@ -659,11 +698,6 @@
             document.getElementById('elec_tablero_tp').innerHTML = optsGabinete;
             document.getElementById('elec_tablero_ts').innerHTML = optsGabinete;
 
-            document.getElementById('lbl_mo_centro').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
-            document.getElementById('lbl_mo_llave').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
-            document.getElementById('lbl_mo_tug').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
-            document.getElementById('lbl_mo_tue25').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
-            document.getElementById('lbl_mo_tue40').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
             document.getElementById('lbl_elec_bocas_r').innerText = fmt(PRECIOS_CONFIG.elec.recableado);
 
             document.getElementById('lbl_elec_aplique').innerText = fmt(PRECIOS_CONFIG.elec.aplique);
@@ -759,8 +793,24 @@
             const c_tue40 = parseInt(document.getElementById('elec_boca_tue40').value) || 0;
             const bocas_r = parseInt(document.getElementById('elec_bocas_r').value) || 0;
 
+            const agrup_tug = parseInt(document.getElementById('elec_agrup_tug').value) || 0;
+            const agrup_iug = parseInt(document.getElementById('elec_agrup_iug').value) || 0;
+
+            const tipoInst = document.getElementById('elec_tipo_inst').value;
+            const precio_boca_mo = tipoInst === 'exterior' ? PRECIOS_CONFIG.elec.boca_exterior : PRECIOS_CONFIG.elec.boca_nueva;
+
+            document.getElementById('lbl_mo_centro').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_llave').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tug').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tue25').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tue40').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_agrup_tug').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_agrup_iug').innerText = fmt(precio_boca_mo);
+
             const bocas_n = c_centro + c_llave + c_tug + c_tue25 + c_tue40;
-            elec_mo += bocas_n * PRECIOS_CONFIG.elec.boca_nueva;
+            const bocas_agrupadas = agrup_tug + agrup_iug;
+            
+            elec_mo += (bocas_n + bocas_agrupadas) * precio_boca_mo;
             elec_mo += bocas_r * PRECIOS_CONFIG.elec.recableado;
 
             const mt_extra_boca = parseInt(document.getElementById('elec_mt_extra').value) || 0;
@@ -792,7 +842,7 @@
 
             if (document.getElementById('elec_jabalina').checked) elec_mo += PRECIOS_CONFIG.elec.jabalina;
 
-            const totalBocas = bocas_n + bocas_r;
+            const totalBocas = bocas_n + bocas_r + bocas_agrupadas;
             let elec_mat = mt_extra_boca * precio_mat_canaliz;
             elec_mat += c_centro * PRECIOS_CONFIG.elec.mat_centro * calidad;
             elec_mat += c_llave * PRECIOS_CONFIG.elec.mat_llave * calidad;
@@ -800,6 +850,22 @@
             elec_mat += c_tue25 * PRECIOS_CONFIG.elec.mat_tue25 * calidad;
             elec_mat += c_tue40 * PRECIOS_CONFIG.elec.mat_tue40 * calidad;
             elec_mat += bocas_r * PRECIOS_CONFIG.elec.mat_tug * calidad;
+
+            // Materiales de bocas agrupadas (Módulo + Caja + 1m caño + 3m cable)
+            const ME = PRECIOS_CONFIG.mat_electrico;
+            const mat_tug_agrup = ME.caja_rect + ME.toma_10a + (ME.cano_20_m * 1) + (ME.cable_25_m * 3);
+            const mat_iug_agrup = ME.caja_rect + ME.ficha_bp + (ME.cano_20_m * 1) + (ME.cable_15_m * 3);
+            elec_mat += agrup_tug * mat_tug_agrup * calidad;
+            elec_mat += agrup_iug * mat_iug_agrup * calidad;
+
+            if (tipoInst === 'exterior' && (bocas_n + bocas_agrupadas) > 0) {
+                const total_metros_cano = (bocas_n * 5) + (bocas_agrupadas * 1) + mt_extra_boca;
+                const cant_tiras = Math.ceil(total_metros_cano / 3);
+                const cant_fijaciones = cant_tiras * 6;
+                elec_mat += cant_fijaciones * (ME.grampa_20 + ME.tarugo_6 + ME.tornillo_6) * calidad;
+                const total_cajas = c_centro + c_llave + c_tug + c_tue25 + c_tue40 + bocas_r + bocas_agrupadas;
+                elec_mat += total_cajas * 2 * (ME.tarugo_8 + ME.tornillo_8) * calidad;
+            }
 
             elec_mat += n_term * PRECIOS_CONFIG.elec.mat_termica * calidad;
             elec_mat += n_disy * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
@@ -821,7 +887,8 @@
             const final_viaticos_pct = (parseFloat(document.getElementById('global_viaticos').value) || 15) / 100;
             const final_margen_pct = (parseFloat(document.getElementById('global_margen').value) || 35) / 100;
 
-            const base = total_mo + total_mat;
+            const modalidad = document.getElementById('presp_modalidad') ? document.getElementById('presp_modalidad').value : 'llave';
+            const base = modalidad === 'solo_mo' ? total_mo : (total_mo + total_mat);
             const viaticos = base * final_viaticos_pct;
             const operativo = base + viaticos;
             const margen = operativo * final_margen_pct;
@@ -843,20 +910,27 @@
             document.getElementById('dash_days').innerText = total_days > 0 ? `${total_days} Día${total_days > 1 ? 's' : ''}` : '-';
 
             window.lastTotal = total;
+            window.lastModalidad = modalidad;
             const ratioMO = base > 0 ? (total_mo / base) : 0;
-            const ratioMat = base > 0 ? (total_mat / base) : 0;
+            const ratioMat = (base > 0 && modalidad === 'llave') ? (total_mat / base) : 0;
             window.lastTotalMOFinal = total_mo + (viaticos + margen) * ratioMO;
-            window.lastTotalMatFinal = total_mat + (viaticos + margen) * ratioMat;
+            window.lastTotalMatFinal = modalidad === 'solo_mo' ? 0 : (total_mat + (viaticos + margen) * ratioMat);
 
             // BREAKDOWN lists
             const moList = [];
             const matList = [];
 
+            const tipoInstDesc = tipoInst === 'exterior' ? 'a la vista (exterior)' : 'embutida de cañería';
             if (totalBocas > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || tp_tipo !== 'none' || ts_tipo !== 'none') {
-                if (totalBocas > 0) moList.push(`${totalBocas} bocas/cajas de electricidad (Mano de obra certificada)`);
-                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación de Acometida Eléctrica");
-                if (tp_tipo !== 'none') moList.push(`Armado y montaje de Tablero Principal (TP) ${tp_tipo==='emp'?'empotrado':'de superficie'}`);
-                if (ts_tipo !== 'none') moList.push(`Armado y montaje de Tablero Seccional (TS) ${ts_tipo==='emp'?'empotrado':'de superficie'}`);
+                moList.push("Dimensionamiento de circuitos, cálculo de demanda e ingeniería de detalle.");
+                if (totalBocas > 0) moList.push(`Canalización ${tipoInstDesc} para ${totalBocas} bocas/cajas de electricidad.`);
+                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación técnica de Acometida Eléctrica.");
+                if (tp_tipo !== 'none') moList.push(`Embutir y armar Tablero Principal (TP) ${tp_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (ts_tipo !== 'none') moList.push(`Embutir y armar Tablero Seccional (TS) ${ts_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (document.getElementById('elec_jabalina').checked) moList.push("Colocación de jabalina para Puesta a Tierra (PAT) como corresponde bajo norma.");
+                
+                moList.push("Medición y pruebas de puesta a tierra, disyuntor y llaves mediante el Comprobador de instalaciones multifunción.");
+                moList.push("Elaboración de croquis/plano básico de cómo vamos a electrificar la vivienda (instalación bajo normas y mano de obra técnica).");
                 
                 let cablesSum = "";
                 if (c_centro + c_llave > 0) cablesSum += `1.5mm `;
@@ -971,45 +1045,58 @@
             const c_tue25 = parseInt(document.getElementById('elec_boca_tue25').value) || 0;
             const c_tue40 = parseInt(document.getElementById('elec_boca_tue40').value) || 0;
             const bocas_r = parseInt(document.getElementById('elec_bocas_r').value) || 0;
+            const agrup_tug = parseInt(document.getElementById('elec_agrup_tug').value) || 0;
+            const agrup_iug = parseInt(document.getElementById('elec_agrup_iug').value) || 0;
             const total_bocas = c_centro + c_llave + c_tug + c_tue25 + c_tue40 + bocas_r;
-            const usaHierro = document.getElementById('elec_hierro').checked;
+            const total_agrupadas = agrup_tug + agrup_iug;
+            const total_absoluto = total_bocas + total_agrupadas;
+            const tipoInst = document.getElementById('elec_tipo_inst').value;
+            const esExterior = tipoInst === 'exterior';
 
             let canoname = "Caño PVC Semipesado";
             let cablename = "Cable Unipolar";
-            if (usaHierro && calidad >= 0.85) canoname = "Caño Hierro Semipesado";
-            else if (calidad === 1) { canoname = "Caño PVC Genrod"; cablename = "Cable Prysmian"; }
+            if (calidad === 1) { canoname = "Caño PVC Genrod"; cablename = "Cable Prysmian"; }
             else if (calidad === 0.85) { canoname = "Caño PVC Roker"; cablename = "Cable Trefilcon"; }
             else if (calidad < 0.8) { canoname = "Caño PVC Conextube"; cablename = "Cable IMSA"; }
+            
+            if (esExterior) canoname = canoname.replace("PVC", "PVC Exterior (Gris/Tubelectric)");
 
-            const boxname = (usaHierro && calidad >= 0.85) ? " DE HIERRO semipesado" : "";
+            const boxname = esExterior ? " EXTERIORES de PVC" : "";
 
-            if (total_bocas > 0) {
+            if (total_absoluto > 0) {
                 list.push(`-- MATERIAL BÁSICO DE BOCAS (SEGÚN AEA 771) --`);
                 if (c_centro > 0) list.push(`${c_centro}u Cajas octogonales chicas (Techo/Plafón)${boxname}`);
                 
-                const total_rect = c_llave + c_tug + c_tue25 + c_tue40 + bocas_r;
+                const total_rect = c_llave + c_tug + c_tue25 + c_tue40 + bocas_r + total_agrupadas;
                 if (total_rect > 0) list.push(`${total_rect}u Cajas rectangulares 10x5 (Llaves/Tomas)${boxname}`);
 
                 const mt_extra_boca = parseInt(document.getElementById('elec_mt_extra').value) || 0;
-                const total_metros_cano = (total_bocas * 5) + mt_extra_boca;
+                const total_metros_cano = (total_bocas * 5) + (total_agrupadas * 1) + mt_extra_boca;
                 const cant_tiras = Math.ceil(total_metros_cano / 3);
 
                 list.push(`${total_metros_cano}m ${canoname} 20mm (Aprox. ${cant_tiras} tiras de 3m)`);
                 list.push(`${total_bocas * 2}u Conectores para caño 20mm`);
                 list.push(`${total_bocas}u Curvas para caño 20mm`);
                 list.push(`${cant_tiras}u Uniones para caño 20mm`);
+                
+                if (esExterior) {
+                    const cant_fijaciones = cant_tiras * 6;
+                    list.push(`${cant_fijaciones}u Grampas para caño 20mm`);
+                    list.push(`${cant_fijaciones}u Tarugos y Tornillos #6 (para grampas)`);
+                    list.push(`${total_absoluto * 2}u Tarugos y Tornillos #8 (para amurar cajas)`);
+                }
 
-                const m_15 = c_centro * 15;
-                const m_25 = (c_tug + c_tue25 + bocas_r) * 15;
+                const m_15 = (c_centro * 15) + (agrup_iug * 3);
+                const m_25 = ((c_tug + c_tue25 + bocas_r) * 15) + (agrup_tug * 3);
                 const m_40 = c_tue40 * 15;
 
                 if (m_15 > 0) list.push(`${m_15}m ${cablename} 1.5mm (Repartido en colores)`);
                 if (m_25 > 0) list.push(`${m_25}m ${cablename} 2.5mm (Repartido en Fase/Neutro/Tierra)`);
                 if (m_40 > 0) list.push(`${m_40}m ${cablename} 4.0mm (Repartido en Fase/Neutro/Tierra)`);
 
-                if (c_tug > 0) list.push(`${c_tug}u Módulos Tomacorriente 10A (Armados completos sin tapones)`);
+                if (c_tug + agrup_tug > 0) list.push(`${c_tug + agrup_tug}u Módulos Tomacorriente 10A (Armados completos sin tapones)`);
                 if (c_tue25 + c_tue40 > 0) list.push(`${c_tue25 + c_tue40}u Módulos Tomacorriente 20A Especial (Armados)`);
-                if (c_llave > 0) list.push(`${c_llave}u Módulos Interruptor de Luz (Armados completos sin tapones)`);
+                if (c_llave + agrup_iug > 0) list.push(`${c_llave + agrup_iug}u Módulos Interruptor de Luz (Armados completos sin tapones)`);
                 if (c_centro > 0) list.push(`${c_centro}u Plafón/Aplique LED (Económico)`);
             }
 
@@ -1106,24 +1193,32 @@
 
             const divMemoria = document.getElementById('doc_memoria');
             const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
-            const usaHierro = document.getElementById('elec_hierro').checked;
+            const tipoInst = document.getElementById('elec_tipo_inst').value;
+            const esExterior = tipoInst === 'exterior';
             
             let txtMarcaCanal = "PVC Genrod";
             let txtMarcaCable = "Prysmian";
             let txtMarcaProt = "Schneider";
             
-            if (usaHierro && calidad >= 0.85) txtMarcaCanal = "Hierro Semipesado";
-            else if (calidad === 0.85) { txtMarcaCanal = "PVC Roker"; txtMarcaCable = "Trefilcon"; txtMarcaProt = "Siemens"; }
+            if (calidad === 0.85) { txtMarcaCanal = "PVC Roker"; txtMarcaCable = "Trefilcon"; txtMarcaProt = "Siemens"; }
             else if (calidad < 0.8) { txtMarcaCanal = "PVC Conextube"; txtMarcaCable = "IMSA"; txtMarcaProt = "SICA"; }
 
-            let memoriaHtml = `<p>El presente presupuesto está orientado a ejecutar una instalación eléctrica de refacción completa, toda realizada en sistema embutido, pensada para brindar seguridad, mantenimiento futuro y capacidad de ampliación.</p>`;
-            memoriaHtml += `<p>La canalización principal se contempla con <b>caños rígidos de ${txtMarcaCanal}</b>, evitando el uso de caños corrugados para minimizar interferencias mecánicas y térmicas, garantizar una excelente sección de paso para futuras ampliaciones y facilitar operaciones de mantenimiento.</p>`;
+            const txtInst = esExterior ? "a la vista (exterior)" : "en sistema embutido";
+
+            let memoriaHtml = `<p>El presente presupuesto está orientado a ejecutar una instalación eléctrica de refacción completa, toda realizada ${txtInst}, pensada para brindar seguridad, mantenimiento futuro y capacidad de ampliación, cumpliendo con las más estrictas reglamentaciones vigentes (AEA 771).</p>`;
+            memoriaHtml += `<p>Todos los materiales a utilizar se encuentran bajo certificación técnica. Se utilizarán bastidores, módulos de tomas y llaves de efecto marca <b>Cambre</b> (o calidad equivalente), conductores normalizados marca <b>${txtMarcaCable}</b>, cañerías y gabinetes marca <b>${txtMarcaCanal.replace('PVC ', '')}</b>, y protecciones termomagnéticas/diferenciales marca <b>${txtMarcaProt}</b>.</p>`;
+            if (esExterior) {
+                memoriaHtml += `<p>La canalización principal se contempla con caños rígidos con grampas de fijación, evitando el uso de cablecanales para lograr una mayor durabilidad mecánica y protección UV.</p>`;
+            } else {
+                memoriaHtml += `<p>La canalización principal se contempla con caños rígidos, evitando el uso de caños corrugados para minimizar interferencias mecánicas y térmicas, garantizar una excelente sección de paso para futuras ampliaciones y facilitar operaciones de mantenimiento.</p>`;
+            }
             
             const c_tug = parseInt(document.getElementById('elec_boca_tug').value) || 0;
             const c_tue = (parseInt(document.getElementById('elec_boca_tue25').value) || 0) + (parseInt(document.getElementById('elec_boca_tue40').value) || 0);
             const c_iug = (parseInt(document.getElementById('elec_centro_iug').value) || 0) + (parseInt(document.getElementById('elec_llave_iug').value) || 0);
             
-            memoriaHtml += `<p><b>Distribución de Circuitos:</b> Se contemplan puntos de conexión embutidos, resolviendo comandos y consumos a través de módulos armados para mejor estética y menor deterioro mecánico. `;
+            const txtPuntos = esExterior ? "exteriores (cajas de superficie)" : "embutidos";
+            memoriaHtml += `<p><b>Distribución de Circuitos:</b> Se contemplan puntos de conexión ${txtPuntos}, resolviendo comandos y consumos a través de módulos armados para mejor estética y menor deterioro mecánico. `;
             if(c_tug > 0) memoriaHtml += `Se incluyen circuitos TUG (Toma de Uso General). `;
             if(c_tue > 0) memoriaHtml += `Se incluyen circuitos TUE (Toma de Uso Especial) dimensionados para cargas mayores. `;
             if(c_iug > 0) memoriaHtml += `Se incluyen circuitos IUG (Iluminación de Uso General). `;
@@ -1156,7 +1251,7 @@
                 window.lastMoBreakdown.forEach(item => {
                     const li = document.createElement('li');
                     li.innerText = item;
-                    li.style.marginBottom = "5px";
+                    li.style.marginBottom = "2px";
                     ulTrabajos.appendChild(li);
                 });
             } else {
@@ -1171,7 +1266,7 @@
                 window.lastMatBreakdown.forEach(item => {
                     const li = document.createElement('li');
                     li.innerText = item;
-                    li.style.marginBottom = "5px";
+                    li.style.marginBottom = "2px";
                     ulMateriales.appendChild(li);
                 });
             } else {
@@ -1180,7 +1275,15 @@
                 ulMateriales.appendChild(li);
             }
 
-            document.getElementById('doc_tot_mat').innerText = fmt(window.lastTotalMatFinal);
+            if (window.lastModalidad === 'solo_mo') {
+                document.getElementById('doc_tot_mat').innerText = "A cargo del cliente";
+                document.getElementById('doc_lbl_total').innerText = "TOTAL ESTIMADO (Solo Mano de Obra):";
+                document.getElementById('doc_cond_mat').innerHTML = "- Materiales provistos por el cliente. La garantía técnica NO cubre fallas derivadas de materiales defectuosos.";
+            } else {
+                document.getElementById('doc_tot_mat').innerText = fmt(window.lastTotalMatFinal);
+                document.getElementById('doc_lbl_total').innerText = "TOTAL ESTIMADO (Llave en Mano):";
+                document.getElementById('doc_cond_mat').innerHTML = "- Los materiales cotizados están sujetos a disponibilidad y variaciones del mercado.";
+            }
             document.getElementById('doc_tot_mo').innerText = fmt(window.lastTotalMOFinal);
             document.getElementById('doc_tot_final').innerText = fmt(window.lastTotal);
         }
@@ -1198,40 +1301,39 @@
 
     <!-- PLANTILLA PARA PDF/WORD (OCULTA) -->
     <div id="doc_template_container" style="display: none; position: absolute; left: -9999px;">
-        <div id="doc_template_wrapper" style="font-family: Arial, sans-serif; color: #000; background: #fff; padding: 40px; width: 800px; box-sizing: border-box; font-size: 14px; line-height: 1.6;">
+        <div id="doc_template_wrapper" style="font-family: Arial, sans-serif; color: #000; background: #fff; padding: 20px; width: 800px; box-sizing: border-box; font-size: 13px; line-height: 1.35;">
             <!-- Header -->
-            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #fbbf24; padding-bottom: 10px; margin-bottom: 20px;">
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #fbbf24; padding-bottom: 5px; margin-bottom: 10px;">
                 <div style="flex: 1;">
-                    <h2 style="color: #000; margin: 0; font-size: 24px; text-transform: uppercase;">Presupuesto Eléctrico</h2>
-                    <h3 style="color: #555; margin: 5px 0 0 0; font-size: 16px;">HIGH-VOLT Servicio</h3>
+                    <h2 style="color: #000; margin: 0; font-size: 22px; text-transform: uppercase;">Presupuesto Eléctrico</h2>
+                    <h3 style="color: #555; margin: 2px 0 0 0; font-size: 15px;">HIGH-VOLT Servicio</h3>
                 </div>
                 <div style="text-align: right;">
-                    <!-- Placeholder para logo HIGH-VOLT -->
-                    <div style="width: 150px; height: 50px; background: #fbbf24; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">
+                    <div style="width: 130px; height: 40px; background: #fbbf24; color: #000; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 16px;">
                         HIGH-VOLT
                     </div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 20px;">
-                <div style="margin-bottom: 5px;"><b>Cliente:</b> <span id="doc_cliente"></span></div>
-                <div style="margin-bottom: 5px;"><b>Teléfono:</b> <span id="doc_tel"></span></div>
-                <div style="margin-bottom: 5px;"><b>Domicilio:</b> <span id="doc_domicilio"></span></div>
-                <div style="margin-bottom: 5px;"><b>Turno:</b> <span id="doc_turno"></span></div>
-                <div style="margin-bottom: 5px;"><b>Fecha:</b> <span id="doc_fecha"></span></div>
-                <div style="margin-bottom: 5px;"><b>Referencia:</b> <span id="doc_ref"></span></div>
+            <div style="margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px;">
+                <div><b>Cliente:</b> <span id="doc_cliente"></span></div>
+                <div><b>Turno:</b> <span id="doc_turno"></span></div>
+                <div><b>Teléfono:</b> <span id="doc_tel"></span></div>
+                <div><b>Fecha:</b> <span id="doc_fecha"></span></div>
+                <div><b>Domicilio:</b> <span id="doc_domicilio"></span></div>
+                <div><b>Referencia:</b> <span id="doc_ref"></span></div>
             </div>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">1. Descripción Técnica del Proyecto</h3>
-            <div id="doc_memoria" style="margin: 10px 0; padding-left: 10px; text-align: justify; font-size: 13px;"></div>
+            <h3 style="background: #eee; padding: 6px 10px; margin: 10px 0 5px 0; font-size: 15px;">1. Descripción Técnica del Proyecto</h3>
+            <div id="doc_memoria" style="margin: 5px 0; padding-left: 10px; text-align: justify; font-size: 12px;"></div>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">2. Detalle de Trabajos y Mano de Obra</h3>
-            <ul id="doc_trabajos" style="margin: 10px 0; padding-left: 20px;"></ul>
+            <h3 style="background: #eee; padding: 6px 10px; margin: 10px 0 5px 0; font-size: 15px;">2. Detalle de Trabajos y Mano de Obra</h3>
+            <ul id="doc_trabajos" style="margin: 5px 0; padding-left: 20px; font-size: 12px;"></ul>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">3. Materiales e Insumos Considerados</h3>
-            <ul id="doc_materiales" style="margin: 10px 0; padding-left: 20px;"></ul>
+            <h3 style="background: #eee; padding: 6px 10px; margin: 10px 0 5px 0; font-size: 15px; page-break-before: always;">3. Materiales e Insumos Considerados</h3>
+            <ul id="doc_materiales" style="margin: 5px 0; padding-left: 20px; font-size: 12px;"></ul>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">4. Resumen Económico</h3>
+            <h3 style="background: #eee; padding: 6px 10px; margin: 10px 0 5px 0; font-size: 15px;">4. Resumen Económico</h3>
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
                 <tr>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">Total Inversión en Materiales:</td>
@@ -1242,22 +1344,22 @@
                     <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;" id="doc_tot_mo"></td>
                 </tr>
                 <tr>
-                    <td style="padding: 12px 8px; font-size: 18px; font-weight: bold; background: #fbbf24; color: #000;">TOTAL ESTIMADO (Llave en Mano):</td>
+                    <td id="doc_lbl_total" style="padding: 12px 8px; font-size: 18px; font-weight: bold; background: #fbbf24; color: #000;">TOTAL ESTIMADO (Llave en Mano):</td>
                     <td style="padding: 12px 8px; font-size: 18px; font-weight: bold; background: #fbbf24; color: #000; text-align: right;" id="doc_tot_final"></td>
                 </tr>
             </table>
 
-            <div style="margin-top: 30px; font-size: 12px; color: #666; border-top: 1px solid #ccc; padding-top: 10px;">
+            <div style="margin-top: 15px; font-size: 11px; color: #666; border-top: 1px solid #ccc; padding-top: 10px; line-height: 1.4;">
                 <b>Condiciones:</b><br>
                 - Los valores expresados pueden sufrir modificaciones si el cliente altera el proyecto original en obra.<br>
                 - Garantía técnica de mano de obra por 6 meses.<br>
                 - Forma de pago: 60% anticipo, 40% al finalizar la obra.<br>
-                - Los materiales cotizados están sujetos a disponibilidad y variaciones del mercado.
+                <span id="doc_cond_mat">- Los materiales cotizados están sujetos a disponibilidad y variaciones del mercado.</span>
             </div>
             
-            <div style="margin-top: 40px; text-align: center;">
-                <p>_____________________________________</p>
-                <p><b>Firma Instalador - HIGH-VOLT</b></p>
+            <div style="margin-top: 25px; text-align: center;">
+                <p style="margin:0;">_____________________________________</p>
+                <p style="margin:5px 0 0 0;"><b>Firma Instalador - HIGH-VOLT</b></p>
             </div>
         </div>
     </div>

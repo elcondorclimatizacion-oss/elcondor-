@@ -87,11 +87,9 @@
             const datos = { tarea, lugar, urgencia };
 
             try {
-                // Usamos el modo 'no-cors' para Apps Script o simplemente manejamos la redirección
                 fetch(scriptUrl, {
                     method: 'POST',
                     mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(datos)
                 }).then(() => {
                     status.innerText = "✅ ¡Agendado en Google Sheets!";

@@ -369,9 +369,12 @@
 
         <!-- Vista de Historial -->
         <div id="history" class="view">
-            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
                 <h1 style="font-size: 2rem;">Historial de Tareas Realizadas</h1>
-                <button onclick="clearHistory()" class="btn-danger">🗑️ Limpiar Historial</button>
+                <div style="display:flex; gap:10px;">
+                    <button onclick="restoreCloudTasks()" class="btn-complete" style="background:rgba(56,189,248,0.1); color:var(--accent); border-color:rgba(56,189,248,0.3);">🔄 Restaurar Ocultas Nube</button>
+                    <button onclick="clearHistory()" class="btn-danger">🗑️ Limpiar Historial</button>
+                </div>
             </header>
             <div class="card">
                 <div id="historyList">
@@ -448,28 +451,44 @@
         }
 
         async function fetchCloudTasks() {
+            const targetUrl = CLOUD_URL + "&t=" + new Date().getTime();
             try {
-                // Intentamos conectar a la nube siempre, incluso si es local, por si hay permisos o caché
-                const res = await fetch(CLOUD_URL + "&t=" + new Date().getTime());
-                if (!res.ok) throw new Error("Error HTTP");
+                const res = await fetch(targetUrl);
+                if (!res.ok) throw new Error("Error HTTP directo");
                 const data = await res.text();
-                const lines = data.split('\n').filter(l => l.trim() !== "");
-                cloudTasks = lines.slice(1).map(line => {
-                    const c = line.split(',').map(field => field.replace(/^"|"$/g, '').trim());
-                    return { 
-                        id: 'cloud_' + Math.random().toString(36).substr(2, 9),
-                        fecha: c[0] || new Date().toLocaleDateString(), 
-                        tarea: c[1] || '', 
-                        lugar: c[2] || 'General', 
-                        urgencia: c[3] || 'Media',
-                        isCloud: true 
-                    };
-                }).filter(t => t.tarea !== '');
-                updateStatusBadge("Conectado a la Nube", "success");
+                processCSVData(data, "Conectado a la Nube (Directo)");
             } catch(e) {
-                updateStatusBadge("Modo Base Local Nativa", "local");
-                console.warn("Aviso: Modo local sin conexión directa a Sheets activado.");
+                // Si el navegador bloquea la lectura directa por CORS (típico en archivos locales file://),
+                // usamos automáticamente un proxy público robusto para garantizar la autonomía operativa.
+                try {
+                    updateStatusBadge("Conectando vía Proxy...", "normal");
+                    const proxyUrl = "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl);
+                    const resProxy = await fetch(proxyUrl);
+                    if (!resProxy.ok) throw new Error("Error Proxy");
+                    const dataProxy = await resProxy.text();
+                    processCSVData(dataProxy, "Conectado a la Nube (Proxy Seguro)");
+                } catch(err) {
+                    updateStatusBadge("Modo Base Local Nativa", "local");
+                    console.warn("Aviso: Sin conexión a internet o proxy bloqueado. Operando de forma offline.");
+                }
             }
+        }
+
+        function processCSVData(data, successMsg) {
+            const lines = data.split('\n').filter(l => l.trim() !== "");
+            cloudTasks = lines.slice(1).map(line => {
+                const c = line.split(',').map(field => field.replace(/^"|"$/g, '').trim());
+                return { 
+                    id: 'cloud_' + Math.random().toString(36).substr(2, 9),
+                    fecha: c[0] || new Date().toLocaleDateString(), 
+                    tarea: c[1] || '', 
+                    lugar: c[2] || 'General', 
+                    urgencia: c[3] || 'Media',
+                    isCloud: true 
+                };
+            }).filter(t => t.tarea !== '');
+            updateStatusBadge(successMsg, "success");
+            renderTasks();
         }
 
         function getCombinedTasks() {
@@ -580,6 +599,15 @@
                 localStorage.setItem('condor_completed_tasks', JSON.stringify([]));
                 renderHistory();
                 renderTasks();
+            }
+        }
+
+        function restoreCloudTasks() {
+            if (confirm("¿Querés volver a mostrar en pendientes las tareas de la nube que habías marcado como realizadas o archivadas?")) {
+                archivedCloudTasks = [];
+                localStorage.setItem('condor_archived_cloud', JSON.stringify([]));
+                renderTasks();
+                updateStatusBadge("Tareas de nube restauradas", "success");
             }
         }
 

@@ -11,13 +11,16 @@
         :root {
             --bg: #05070a;
             --panel: #0f172a;
+            --panel-hover: #1e293b;
             --accent: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
             --text: #f8fafc;
             --text-muted: #94a3b8;
             --danger: #ef4444;
             --success: #22c55e;
             --warning: #f59e0b;
             --purple: #a855f7;
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,36 +34,42 @@
             overflow: hidden;
         }
 
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
         aside {
             width: 260px;
             background: var(--panel);
-            border-right: 1px solid rgba(255,255,255,0.05);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             padding: 2rem 1rem;
+            z-index: 10;
         }
 
         .logo-section {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
             padding: 0 10px;
         }
 
-        .logo-section img { width: 40px; border-radius: 50%; }
+        .logo-section img { width: 45px; height: 45px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 15px rgba(0,0,0,0.5); }
 
         .nav-item {
-            padding: 12px 15px;
-            border-radius: 10px;
+            padding: 14px 16px;
+            border-radius: 12px;
             color: var(--text-muted);
             text-decoration: none;
-            margin-bottom: 5px;
-            transition: 0.3s;
+            margin-bottom: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-weight: 500;
+            gap: 12px;
+            font-weight: 600;
             cursor: pointer;
             border: none;
             background: transparent;
@@ -69,87 +78,202 @@
             font-size: 1rem;
         }
 
-        .nav-item:hover, .nav-item.active {
-            background: rgba(56, 189, 248, 0.1);
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: rgba(56, 189, 248, 0.12);
             color: var(--accent);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 12px 12px 0;
         }
 
         main {
             flex: 1;
-            padding: 2rem;
+            padding: 2.5rem;
             overflow-y: auto;
+            background: radial-gradient(circle at top right, rgba(15, 23, 42, 0.5), transparent 50%), var(--bg);
         }
 
-        .view { display: none; }
-        .view.active { display: block; }
+        .view { display: none; opacity: 0; transition: opacity 0.3s ease; }
+        .view.active { display: block; opacity: 1; }
 
         .card {
             background: var(--panel);
-            border-radius: 20px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.05);
-            margin-bottom: 1.5rem;
+            border-radius: 24px;
+            padding: 1.8rem;
+            border: 1px solid var(--border);
+            margin-bottom: 1.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
         }
 
         .dashboard-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 1.5rem;
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 1024px) {
+            .dashboard-grid { grid-template-columns: 1fr; }
         }
 
         .time-block {
             display: flex;
             gap: 15px;
-            padding: 12px;
+            padding: 16px;
             border-left: 4px solid var(--accent);
             background: rgba(255,255,255,0.02);
-            margin-bottom: 8px;
-            border-radius: 0 10px 10px 0;
+            margin-bottom: 12px;
+            border-radius: 0 16px 16px 0;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+            border-left-width: 4px;
         }
 
-        .time-block.work { border-color: var(--warning); background: rgba(245, 158, 11, 0.05); }
-        .time-block.spiritual { border-color: var(--purple); background: rgba(168, 85, 247, 0.05); }
-        .time-block.family { border-color: var(--success); background: rgba(34, 197, 94, 0.05); }
+        .time-block:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: var(--border);
+            border-left-color: inherit;
+            transform: translateY(-2px);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 6px;
+        }
+
+        .tag-alta { background: rgba(239, 68, 68, 0.15); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3); }
+        .tag-media { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.3); }
+        .tag-baja { background: rgba(56, 189, 248, 0.15); color: var(--accent); border: 1px solid rgba(56, 189, 248, 0.3); }
+
+        .btn-complete {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-complete:hover {
+            background: var(--success);
+            color: #000;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+            transform: scale(1.05);
+        }
 
         .habit-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            background: rgba(255,255,255,0.03);
-            border-radius: 12px;
-            margin-bottom: 8px;
+            padding: 14px 16px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .habit-item:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: var(--border);
         }
 
         input[type="checkbox"] {
-            width: 20px; height: 20px; accent-color: var(--accent); cursor: pointer;
+            width: 22px; height: 22px; accent-color: var(--accent); cursor: pointer;
+            border-radius: 6px;
         }
 
         .btn-sync {
             background: transparent; color: var(--accent); border: 1px solid var(--accent);
-            padding: 10px; border-radius: 10px; font-size: 0.8rem; cursor: pointer; width: 100%; margin-bottom: 10px;
+            padding: 12px; border-radius: 12px; font-weight: 700; font-size: 0.85rem; cursor: pointer; width: 100%; margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sync:hover {
+            background: var(--accent); color: var(--bg);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .btn-wa {
-            background: #25d366; color: white; border: none; padding: 12px; border-radius: 10px;
-            font-weight: 800; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: #25d366; color: white; border: none; padding: 14px; border-radius: 12px;
+            font-weight: 800; font-size: 0.9rem; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-wa:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1); color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 8px 16px; border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger); color: white; box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
         }
 
         #modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 100;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px); z-index: 100;
             align-items: center; justify-content: center;
         }
 
         .modal-content {
-            background: var(--panel); padding: 2rem; border-radius: 20px; width: 90%; max-width: 500px;
+            background: var(--panel); padding: 2.5rem; border-radius: 28px; width: 90%; max-width: 500px;
+            border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         input[type="text"], select {
-            width: 100%; padding: 12px; margin-bottom: 1rem; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); color: white; border-radius: 10px;
+            width: 100%; padding: 14px; margin-bottom: 1.2rem; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border); color: white; border-radius: 12px; font-family: inherit; font-size: 1rem;
+            outline: none; transition: border-color 0.2s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            border-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        select option { background: var(--panel); color: white; }
+
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+            border-radius: 20px; font-size: 0.85rem; font-weight: 600;
+            background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+        }
+
+        .empty-state {
+            text-align: center; padding: 3rem 1rem; color: var(--text-muted);
+        }
+
+        .completed-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px; background: rgba(34, 197, 94, 0.03); border-left: 4px solid var(--success);
+            border-radius: 0 14px 14px 0; margin-bottom: 12px;
         }
     </style>
 </head>
@@ -157,55 +281,82 @@
 
     <aside>
         <div class="logo-section">
-            <img src="logocondor.jpeg" alt="Logo">
-            <span style="font-weight:800; font-size:1.1rem;">LIFE OPS</span>
+            <img src="logocondor.jpeg" alt="Logo" onerror="this.src='https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=ElCondor'">
+            <div>
+                <span style="font-weight:800; font-size:1.15rem; display:block;">LIFE OPS</span>
+                <span style="font-size:0.75rem; color:var(--accent); font-weight:600;">EL CÓNDOR V3.0</span>
+            </div>
         </div>
         
-        <button onclick="switchView('dashboard')" class="nav-item active" id="nav-dashboard">🏠 Dashboard Trabajo</button>
-        <button onclick="switchView('life')" class="nav-item" id="nav-life">🧘 Planificador de Vida</button>
-        <button onclick="switchView('history')" class="nav-item" id="nav-history">📊 Historial</button>
+        <button onclick="switchView('dashboard')" class="nav-item active" id="nav-dashboard">
+            <span style="font-size:1.2rem;">🏠</span> Dashboard Tareas
+        </button>
+        <button onclick="switchView('life')" class="nav-item" id="nav-life">
+            <span style="font-size:1.2rem;">🧘</span> Planificador de Vida
+        </button>
+        <button onclick="switchView('history')" class="nav-item" id="nav-history">
+            <span style="font-size:1.2rem;">📊</span> Historial Realizadas
+        </button>
         
         <div style="margin-top: auto;">
-            <button class="btn-sync" onclick="syncWithCloud()">🔄 SINCRONIZAR NUBE</button>
+            <button class="btn-sync" onclick="syncDataManual()">🔄 SINCRONIZAR NUBE</button>
             <button class="btn-wa" onclick="sendWhatsAppSummary()">📲 HOJA DE RUTA</button>
         </div>
     </aside>
 
     <main>
+        <!-- Vista Principal Dashboard -->
         <div id="dashboard" class="view active">
-            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
                 <div>
-                    <h1 style="font-size: 1.8rem;">Command Center El Cóndor</h1>
-                    <p id="statsText" style="color: var(--text-muted);">Sincronizando...</p>
+                    <h1 style="font-size: 2rem; font-weight:800; letter-spacing:-0.5px;">Command Center Operativo</h1>
+                    <div id="statusBadge" class="status-badge" style="margin-top:8px;">
+                        <span style="color:var(--warning);">⚡</span> Inicializando almacenamiento...
+                    </div>
                 </div>
-                <button onclick="showModal()" style="padding:10px 20px; background:var(--accent); border:none; border-radius:10px; font-weight:800; cursor:pointer;">+ NUEVA TAREA</button>
+                <button onclick="showModal()" style="padding:12px 24px; background:var(--accent); color:var(--bg); border:none; border-radius:12px; font-weight:800; font-size:0.95rem; cursor:pointer; box-shadow:0 4px 15px var(--accent-glow); transition:all 0.2s;">
+                    + NUEVA TAREA
+                </button>
             </header>
 
             <div class="dashboard-grid">
                 <div class="card">
-                    <h2>Tareas en la Nube</h2>
-                    <div id="taskList"></div>
+                    <h2 style="font-size:1.3rem; margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+                        <span>Tareas Pendientes</span>
+                        <span id="taskCountBadge" style="font-size:0.8rem; background:rgba(255,255,255,0.05); padding:4px 10px; border-radius:12px; color:var(--accent);">0</span>
+                    </h2>
+                    <div id="taskList">
+                        <div class="empty-state">Cargando tareas operativas...</div>
+                    </div>
                 </div>
                 <div>
-                    <div class="card" style="background: linear-gradient(180deg, rgba(56, 189, 248, 0.1) 0%, transparent 100%);">
-                        <h2>Resumen</h2>
-                        <div id="resumenStats">Cargando...</div>
+                    <div class="card" style="background: linear-gradient(180deg, rgba(56, 189, 248, 0.05) 0%, transparent 100%);">
+                        <h2 style="font-size:1.2rem; margin-bottom:1rem;">Estado del Sistema</h2>
+                        <div id="resumenStats" style="font-size:1.1rem; font-weight:600; color:var(--text); margin-bottom:1rem;">
+                            Listo para operar.
+                        </div>
+                        <p style="font-size:0.85rem; color:var(--text-muted); line-height:1.5;">
+                            Modo dual inteligente: Funciona de forma nativa y fluida al abrirlo desde tu carpeta local (<code style="color:var(--accent);">file://</code>) con guardado automático.
+                        </p>
                     </div>
-                    <a href="agendar.html" style="display:block; text-align:center; padding:15px; background:rgba(255,255,255,0.05); color:white; text-decoration:none; border-radius:12px; font-weight:600; border:1px solid rgba(255,255,255,0.1);">📱 Abrir Agendador Móvil</a>
+                    <a href="agendar.html" style="display:block; text-align:center; padding:16px; background:rgba(255,255,255,0.03); color:white; text-decoration:none; border-radius:16px; font-weight:700; font-size:0.95rem; border:1px solid var(--border); transition:all 0.2s;">
+                        📱 Abrir Agendador Móvil
+                    </a>
                 </div>
             </div>
         </div>
 
+        <!-- Vista de Planificador de Vida -->
         <div id="life" class="view">
-            <h1 style="margin-bottom: 1rem;">Planificador de Vida & Hábitos</h1>
+            <h1 style="margin-bottom: 1.5rem; font-size: 2rem;">Planificador de Vida & Hábitos</h1>
             <div class="dashboard-grid">
                 <div class="card">
-                    <h2>Mi Rutina Modular</h2>
+                    <h2 style="font-size:1.3rem; margin-bottom:1.5rem;">Mi Rutina Estratégica</h2>
                     <div id="routineContainer"></div>
                 </div>
                 <div>
                     <div class="card">
-                        <h2>Hábitos Sagrados</h2>
+                        <h2 style="font-size:1.2rem; margin-bottom:1.2rem;">Hábitos Sagrados Diarios</h2>
                         <div class="habit-item"><span>🧘 Cultivación / Qigong</span><input type="checkbox" id="habit1" onchange="saveHabits()"></div>
                         <div class="habit-item"><span>🏋️ Gimnasio / Deporte</span><input type="checkbox" id="habit2" onchange="saveHabits()"></div>
                         <div class="habit-item"><span>📚 Lectura Diaria</span><input type="checkbox" id="habit3" onchange="saveHabits()"></div>
@@ -216,25 +367,34 @@
             </div>
         </div>
 
+        <!-- Vista de Historial -->
         <div id="history" class="view">
-            <h1>Historial de Servicios</h1>
-            <div id="historyList"></div>
+            <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+                <h1 style="font-size: 2rem;">Historial de Tareas Realizadas</h1>
+                <button onclick="clearHistory()" class="btn-danger">🗑️ Limpiar Historial</button>
+            </header>
+            <div class="card">
+                <div id="historyList">
+                    <div class="empty-state">No hay tareas marcadas como realizadas todavía.</div>
+                </div>
+            </div>
         </div>
     </main>
 
+    <!-- Modal de Creación -->
     <div id="modal">
         <div class="modal-content">
-            <h2>Nueva Tarea</h2>
-            <input type="text" id="m_tarea" placeholder="¿Qué hay que hacer?">
-            <input type="text" id="m_lugar" placeholder="¿Dónde?">
+            <h2 style="margin-bottom:1.5rem; font-size:1.5rem;">Agregar Tarea Operativa</h2>
+            <input type="text" id="m_tarea" placeholder="¿Qué acción hay que realizar?">
+            <input type="text" id="m_lugar" placeholder="¿Dónde o con qué cliente?">
             <select id="m_urgencia">
-                <option value="Baja">Baja</option>
-                <option value="Media" selected>Media</option>
-                <option value="Alta">Alta 🔥</option>
+                <option value="Baja">Prioridad Baja</option>
+                <option value="Media" selected>Prioridad Media</option>
+                <option value="Alta">Prioridad ALTA 🔥</option>
             </select>
-            <div style="display: flex; gap: 10px;">
-                <button onclick="hideModal()" style="flex:1; padding:12px; background:transparent; color:white; border:1px solid rgba(255,255,255,0.1); border-radius:10px;">Cancelar</button>
-                <button onclick="saveTask()" style="flex:1; padding:12px; background:var(--accent); color:var(--bg); border:none; border-radius:10px; font-weight:800;">Guardar</button>
+            <div style="display: flex; gap: 12px; margin-top:1rem;">
+                <button onclick="hideModal()" style="flex:1; padding:14px; background:rgba(255,255,255,0.05); color:white; border:1px solid var(--border); border-radius:12px; font-weight:600; cursor:pointer;">Cancelar</button>
+                <button onclick="saveTask()" style="flex:1; padding:14px; background:var(--accent); color:var(--bg); border:none; border-radius:12px; font-weight:800; cursor:pointer; box-shadow:0 4px 15px var(--accent-glow);">Guardar Tarea</button>
             </div>
         </div>
     </div>
@@ -245,86 +405,274 @@
         const CLOUD_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSzL8mZHTnwK67QGGvsXmB02K0cSLm7gSppQapF_S16z-E2kZr1pNe9amYPvxinnuT-4eVv7sQErFzr/pub?output=csv";
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxxwocEZ4NzwyAAvnCutx1P_8J0LMh2AfV2ChOXjLUJVyfp0hOr1-DhhjGVg2g1TvOrg/exec";
 
-        let tasks = [];
+        // Estructuras locales de datos garantizadas
+        let localTasks = JSON.parse(localStorage.getItem('condor_local_tasks')) || [];
+        let completedTasks = JSON.parse(localStorage.getItem('condor_completed_tasks')) || [];
+        let archivedCloudTasks = JSON.parse(localStorage.getItem('condor_archived_cloud')) || [];
         let habits = JSON.parse(localStorage.getItem('condor_habits')) || {};
+        let cloudTasks = [];
+
+        // Identificar si estamos ejecutando desde carpeta local (file:///)
+        const isLocalOrigin = window.location.protocol === 'file:';
 
         function switchView(viewId) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.view').forEach(v => { v.classList.remove('active'); });
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            document.getElementById('nav-' + viewId).classList.add('active');
-            if(viewId === 'life') renderRoutine();
+            const targetView = document.getElementById(viewId);
+            if (targetView) targetView.classList.add('active');
+            const navBtn = document.getElementById('nav-' + viewId);
+            if (navBtn) navBtn.classList.add('active');
+            if (viewId === 'life') renderRoutine();
+            if (viewId === 'history') renderHistory();
         }
 
-        async function syncWithCloud() {
-            document.getElementById('statsText').innerText = "🔄 Sincronizando...";
+        function updateStatusBadge(text, type = 'normal') {
+            const badge = document.getElementById('statusBadge');
+            if (!badge) return;
+            if (type === 'success') {
+                badge.innerHTML = `<span style="color:var(--success);">🟢</span> ${text}`;
+                badge.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+            } else if (type === 'warning' || type === 'local') {
+                badge.innerHTML = `<span style="color:var(--warning);">⚡</span> ${text}`;
+                badge.style.borderColor = 'rgba(245, 158, 11, 0.3)';
+            } else {
+                badge.innerHTML = `<span>⏳</span> ${text}`;
+                badge.style.borderColor = 'var(--border)';
+            }
+        }
+
+        async function syncDataManual() {
+            updateStatusBadge("Sincronizando...", "normal");
+            await fetchCloudTasks();
+            renderTasks();
+        }
+
+        async function fetchCloudTasks() {
             try {
+                // Intentamos conectar a la nube siempre, incluso si es local, por si hay permisos o caché
                 const res = await fetch(CLOUD_URL + "&t=" + new Date().getTime());
+                if (!res.ok) throw new Error("Error HTTP");
                 const data = await res.text();
                 const lines = data.split('\n').filter(l => l.trim() !== "");
-                tasks = lines.slice(1).map(line => {
+                cloudTasks = lines.slice(1).map(line => {
                     const c = line.split(',').map(field => field.replace(/^"|"$/g, '').trim());
-                    return { fecha: c[0], tarea: c[1], lugar: c[2], urgencia: c[3] };
-                }).filter(t => t.tarea);
-                renderTasks();
-                document.getElementById('statsText').innerText = `✅ Sincronizado: ${tasks.length} tareas.`;
-            } catch(e) { 
-                document.getElementById('statsText').innerText = "⚠️ Error de red. Usá el link de GitHub.";
+                    return { 
+                        id: 'cloud_' + Math.random().toString(36).substr(2, 9),
+                        fecha: c[0] || new Date().toLocaleDateString(), 
+                        tarea: c[1] || '', 
+                        lugar: c[2] || 'General', 
+                        urgencia: c[3] || 'Media',
+                        isCloud: true 
+                    };
+                }).filter(t => t.tarea !== '');
+                updateStatusBadge("Conectado a la Nube", "success");
+            } catch(e) {
+                updateStatusBadge("Modo Base Local Nativa", "local");
+                console.warn("Aviso: Modo local sin conexión directa a Sheets activado.");
             }
+        }
+
+        function getCombinedTasks() {
+            const combined = [...localTasks];
+            cloudTasks.forEach(ct => {
+                const isArchived = archivedCloudTasks.some(desc => desc.toLowerCase() === ct.tarea.toLowerCase());
+                const yaCompletada = completedTasks.some(comp => comp.tarea.toLowerCase() === ct.tarea.toLowerCase());
+                const yaEnLocal = combined.some(lt => lt.tarea.toLowerCase() === ct.tarea.toLowerCase());
+                if (!isArchived && !yaCompletada && !yaEnLocal) {
+                    combined.push(ct);
+                }
+            });
+            return combined;
         }
 
         function renderTasks() {
             const list = document.getElementById('taskList');
-            list.innerHTML = tasks.map((t, i) => `
-                <div class="time-block ${t.urgencia && t.urgencia.toLowerCase().includes('alta') ? 'work' : ''}" style="border-left-color: ${t.urgencia && t.urgencia.toLowerCase().includes('alta') ? 'var(--danger)' : 'var(--accent)'}">
-                    <div><strong>${t.tarea}</strong><br><small>${t.lugar} | ${t.fecha}</small></div>
+            const countBadge = document.getElementById('taskCountBadge');
+            const combined = getCombinedTasks();
+
+            if (countBadge) countBadge.innerText = combined.length;
+            document.getElementById('resumenStats').innerText = `${combined.length} tareas activas para ejecutar.`;
+
+            if (combined.length === 0) {
+                list.innerHTML = `<div class="empty-state">✨ ¡Al día! No hay tareas operativas pendientes.</div>`;
+                return;
+            }
+
+            list.innerHTML = combined.map((t, index) => {
+                const isAlta = t.urgencia && t.urgencia.toLowerCase().includes('alta');
+                const isBaja = t.urgencia && t.urgencia.toLowerCase().includes('baja');
+                const tagClass = isAlta ? 'tag-alta' : (isBaja ? 'tag-baja' : 'tag-media');
+                const tagText = isAlta ? 'ALTA 🔥' : (isBaja ? 'Baja' : 'Media');
+                const borderLeftColor = isAlta ? 'var(--danger)' : (isBaja ? 'var(--accent)' : 'var(--warning)');
+
+                return `
+                    <div class="time-block" style="border-left-color: ${borderLeftColor}; background: ${isAlta ? 'rgba(239,68,68,0.03)' : 'rgba(255,255,255,0.015)'}">
+                        <div>
+                            <strong style="font-size: 1.1rem; display:block; margin-bottom:2px;">${t.tarea}</strong>
+                            <span style="font-size:0.85rem; color:var(--text-muted);">📍 ${t.lugar} | 📅 ${t.fecha}</span>
+                            <br>
+                            <span class="tag ${tagClass}">${tagText}</span>
+                            ${t.isCloud ? '<span class="tag" style="background:rgba(255,255,255,0.05); color:var(--text-muted); font-size:0.65rem;">☁️ Nube</span>' : '<span class="tag" style="background:rgba(56,189,248,0.05); color:var(--accent); font-size:0.65rem;">💾 Local</span>'}
+                        </div>
+                        <button class="btn-complete" onclick="markTaskCompleted(${index})" title="Marcar como realizada">
+                            <svg style="width:16px; height:16px;" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            Completar
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function markTaskCompleted(index) {
+            try {
+                const combined = getCombinedTasks();
+                const t = combined[index];
+                if (!t) return;
+
+                const completedItem = {
+                    ...t,
+                    completadaEn: new Date().toLocaleString()
+                };
+                completedTasks.unshift(completedItem);
+                localStorage.setItem('condor_completed_tasks', JSON.stringify(completedTasks));
+
+                if (!t.isCloud) {
+                    localTasks = localTasks.filter(lt => lt.tarea.toLowerCase() !== t.tarea.toLowerCase());
+                    localStorage.setItem('condor_local_tasks', JSON.stringify(localTasks));
+                } else {
+                    archivedCloudTasks.push(t.tarea);
+                    localStorage.setItem('condor_archived_cloud', JSON.stringify(archivedCloudTasks));
+                }
+
+                renderTasks();
+                renderHistory();
+                updateStatusBadge(`✓ Tarea completada`, "success");
+            } catch(e) {
+                console.error("Error al marcar completada", e);
+            }
+        }
+
+        function renderHistory() {
+            const list = document.getElementById('historyList');
+            if (!list) return;
+
+            if (completedTasks.length === 0) {
+                list.innerHTML = `<div class="empty-state">No hay tareas realizadas en el historial.</div>`;
+                return;
+            }
+
+            list.innerHTML = completedTasks.map(t => `
+                <div class="completed-item">
+                    <div>
+                        <strong style="text-decoration: line-through; color:var(--text-muted); font-size:1.05rem;">${t.tarea}</strong>
+                        <br>
+                        <span style="font-size:0.8rem; color:var(--success);">✓ Realizada el ${t.completadaEn || t.fecha}</span>
+                        <span style="font-size:0.8rem; color:var(--text-muted); margin-left:10px;">📍 ${t.lugar}</span>
+                    </div>
+                    <span style="color:var(--success); font-weight:800;">REALIZADA</span>
                 </div>
             `).join('');
-            document.getElementById('resumenStats').innerText = `Total: ${tasks.length} tareas activas.`;
+        }
+
+        function clearHistory() {
+            if (confirm("¿Estás seguro de limpiar todo el historial de tareas completadas?")) {
+                completedTasks = [];
+                localStorage.setItem('condor_completed_tasks', JSON.stringify([]));
+                renderHistory();
+                renderTasks();
+            }
         }
 
         function renderRoutine() {
             const container = document.getElementById('routineContainer');
+            if (!container) return;
             const routine = [
-                { time: "06:00 - 08:00", text: "Cultivación, Qigong y Lectura", type: "spiritual" },
-                { time: "08:00 - 16:00", text: "BLOQUE DE TRABAJO EL CÓNDOR", type: "work" },
-                { time: "16:00 - 17:30", text: "Prospección / Cierre", type: "work" },
-                { time: "18:00 - 19:30", text: "Gimnasio", type: "spiritual" },
-                { time: "20:00 - 01:00", text: "FAMILIA Y ESPOSA", type: "family" }
+                { time: "06:00 - 08:00", text: "Cultivación, Qigong y Lectura Diaria", type: "spiritual" },
+                { time: "08:00 - 16:00", text: "BLOQUE CENTRAL: Operación El Cóndor", type: "work" },
+                { time: "16:00 - 17:30", text: "Prospección Estratégica / Cierre", type: "work" },
+                { time: "18:00 - 19:30", text: "Entrenamiento Físico / Gimnasio", type: "spiritual" },
+                { time: "20:00 - 01:00", text: "TIEMPO SAGRADO: Familia y Esposa", type: "family" }
             ];
             container.innerHTML = routine.map(r => `
-                <div class="time-block ${r.type}">
-                    <div style="min-width: 90px; opacity:0.6;">${r.time}</div>
-                    <div><strong>${r.text}</strong></div>
+                <div class="time-block ${r.type}" style="border-left-width: 4px;">
+                    <div style="min-width: 100px; font-weight:700; color:var(--text-muted); font-size:0.9rem;">${r.time}</div>
+                    <div style="flex:1;"><strong>${r.text}</strong></div>
                 </div>
             `).join('');
         }
 
-        function showModal() { document.getElementById('modal').style.display = 'flex'; }
-        function hideModal() { document.getElementById('modal').style.display = 'none'; }
-
-        async function saveTask() {
-            const tarea = document.getElementById('m_tarea').value;
-            const lugar = document.getElementById('m_lugar').value;
-            const urgencia = document.getElementById('m_urgencia').value;
-            if(!tarea) return;
-            const newTask = { tarea, lugar, urgencia, fecha: new Date().toLocaleDateString() };
-            
-            // Envío a la nube
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(newTask) });
-            
-            hideModal();
-            alert("✅ Tarea enviada a la nube. Aparecerá en unos minutos.");
-            syncWithCloud();
+        function showModal() { 
+            const m = document.getElementById('modal');
+            if (m) m.style.display = 'flex'; 
+            document.getElementById('m_tarea').focus();
+        }
+        
+        function hideModal() { 
+            const m = document.getElementById('modal');
+            if (m) m.style.display = 'none'; 
+            document.getElementById('m_tarea').value = '';
+            document.getElementById('m_lugar').value = '';
         }
 
-        async function sendWhatsAppSummary() {
-            if (tasks.length === 0) return alert("No hay tareas.");
-            let msg = `*HOJA DE RUTA - EL CÓNDOR*%0A%0A`;
-            tasks.forEach((t, i) => { msg += `${i+1}. ${t.tarea} (${t.lugar})%0A`; });
+        function saveTask() {
+            const tareaInput = document.getElementById('m_tarea');
+            const lugarInput = document.getElementById('m_lugar');
+            const urgenciaInput = document.getElementById('m_urgencia');
+
+            const tarea = tareaInput.value.trim();
+            const lugar = lugarInput.value.trim() || 'General';
+            const urgencia = urgenciaInput.value;
+
+            if (!tarea) {
+                alert("Por favor escribí la acción a realizar.");
+                return;
+            }
+
+            const newTask = { 
+                id: 'local_' + Math.random().toString(36).substr(2, 9),
+                tarea, 
+                lugar, 
+                urgencia, 
+                fecha: new Date().toLocaleDateString() 
+            };
+            
+            localTasks.push(newTask);
+            localStorage.setItem('condor_local_tasks', JSON.stringify(localTasks));
+
+            if (!isLocalOrigin) {
+                try {
+                    fetch(SCRIPT_URL, { 
+                        method: 'POST', 
+                        mode: 'no-cors', 
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(newTask) 
+                    }).catch(e => {});
+                } catch(e){}
+            }
+
+            hideModal();
+            renderTasks();
+            updateStatusBadge("¡Tarea guardada con éxito!", "success");
+        }
+
+        function sendWhatsAppSummary() {
+            const combined = getCombinedTasks();
+            if (combined.length === 0) {
+                alert("No hay tareas pendientes para enviar en la hoja de ruta.");
+                return;
+            }
+            let msg = `*HOJA DE RUTA OPERATIVA - EL CÓNDOR*%0A📅 Fecha: ${new Date().toLocaleDateString()}%0A%0A`;
+            combined.forEach((t, i) => { 
+                const urgFlag = t.urgencia.toLowerCase().includes('alta') ? ' 🔥' : '';
+                msg += `*${i+1}.* ${t.tarea} _(${t.lugar})_${urgFlag}%0A`; 
+            });
+            msg += `%0A🦅 _Sistema Operativo Centralizado_`;
+            
             const url = `https://api.callmebot.com/whatsapp.php?phone=${PHONE}&text=${msg}&apikey=${API_KEY}`;
-            fetch(url, { mode: 'no-cors' });
-            alert("✅ Hoja de ruta enviada.");
+            fetch(url, { mode: 'no-cors' }).catch(e => {});
+            
+            window.open(`https://wa.me/${PHONE}?text=${msg}`, '_blank');
+            updateStatusBadge("Hoja de ruta enviada a WhatsApp", "success");
         }
 
         function saveHabits() {
@@ -336,18 +684,24 @@
                 h5: document.getElementById('habit5').checked
             };
             localStorage.setItem('condor_habits', JSON.stringify(h));
+            updateStatusBadge("Hábitos actualizados", "success");
         }
 
         function loadHabits() {
-            if(habits.h1) document.getElementById('habit1').checked = true;
-            if(habits.h2) document.getElementById('habit2').checked = true;
-            if(habits.h3) document.getElementById('habit3').checked = true;
-            if(habits.h4) document.getElementById('habit4').checked = true;
-            if(habits.h5) document.getElementById('habit5').checked = true;
+            if (habits.h1) document.getElementById('habit1').checked = true;
+            if (habits.h2) document.getElementById('habit2').checked = true;
+            if (habits.h3) document.getElementById('habit3').checked = true;
+            if (habits.h4) document.getElementById('habit4').checked = true;
+            if (habits.h5) document.getElementById('habit5').checked = true;
         }
 
-        syncWithCloud();
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') hideModal();
+        });
+
         loadHabits();
+        renderHistory();
+        syncDataManual();
     </script>
 </body>
 </html>

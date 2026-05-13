@@ -1580,12 +1580,14 @@
             }
 
             const tipoInstDesc = tipoInst === 'exterior' ? 'a la vista (exterior)' : 'embutida de cañería';
-            if (totalBocasElec > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || tp_tipo !== 'none' || ts_tipo !== 'none') {
+            const isTpActive = tp_tipo !== 'none' && tp_tipo !== '0';
+            const isTsActive = ts_tipo !== 'none' && ts_tipo !== '0';
+            if (totalBocasElec > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || isTpActive || isTsActive) {
                 moList.push("Dimensionamiento de circuitos, cálculo de demanda e ingeniería de detalle.");
                 if (totalBocasElec > 0) moList.push(`Canalización ${tipoInstDesc} para ${totalBocasElec} bocas/cajas de electricidad.`);
                 if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación técnica de Acometida Eléctrica.");
-                if (tp_tipo !== 'none') moList.push(`Embutir y armar Tablero Principal (TP) ${tp_tipo==='emp'?'en mampostería':'de superficie'}.`);
-                if (ts_tipo !== 'none') moList.push(`Embutir y armar Tablero Seccional (TS) ${ts_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (isTpActive) moList.push(`Embutir y armar Tablero Principal (TP) ${tp_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (isTsActive) moList.push(`Embutir y armar Tablero Seccional (TS) ${ts_tipo==='emp'?'en mampostería':'de superficie'}.`);
                 if (document.getElementById('elec_jabalina').checked) moList.push("Colocación de jabalina para Puesta a Tierra (PAT) como corresponde bajo norma.");
                 moList.push("Medición y pruebas de puesta a tierra, disyuntor y llaves mediante el Comprobador de instalaciones multifunción.");
                 

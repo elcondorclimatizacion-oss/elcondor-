@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,9 +15,11 @@
             --panel-bg: #121212;
             --border-color: #333;
             --text-color: #e0e0e0;
-            --accent-color: #ffcc00; /* Industrial Safety Yellow */
+            --accent-color: #ffcc00;
+            /* Industrial Safety Yellow */
             --accent-hover: #ffaa00;
-            --sys-color: #00ffcc; /* Tech Cyan */
+            --sys-color: #00ffcc;
+            /* Tech Cyan */
             --danger-color: #ff3333;
             --hvac-color: #38bdf8;
             --elec-color: #fbbf24;
@@ -35,7 +38,7 @@
             color: var(--text-color);
             padding: 2rem 1rem;
             line-height: 1.5;
-            background-image: 
+            background-image:
                 linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
             background-size: 20px 20px;
@@ -120,7 +123,8 @@
             margin-bottom: 0.3rem;
         }
 
-        input[type="number"], select {
+        input[type="number"],
+        select {
             background: #111;
             border: 1px solid var(--border-color);
             color: var(--text-color);
@@ -129,7 +133,8 @@
             outline: none;
         }
 
-        input:focus, select:focus {
+        input:focus,
+        select:focus {
             border-color: var(--accent-color);
         }
 
@@ -161,7 +166,7 @@
             padding: 1.5rem;
             position: sticky;
             bottom: 10px;
-            box-shadow: 0 -10px 30px rgba(0,0,0,0.8);
+            box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8);
             z-index: 100;
         }
 
@@ -187,7 +192,9 @@
             margin-top: 1rem;
         }
 
-        .btn-copy:hover { opacity: 0.9; }
+        .btn-copy:hover {
+            opacity: 0.9;
+        }
 
         .summary-details {
             display: grid;
@@ -198,183 +205,607 @@
             color: #999;
         }
 
-        .summary-details span b { color: var(--sys-color); }
+        .summary-details span b {
+            color: var(--sys-color);
+        }
 
         /* Iconos de Rubro */
-        .module-hvac { border-left: 5px solid var(--hvac-color); }
-        .module-elec { border-left: 5px solid var(--elec-color); }
-        .module-sec { border-left: 5px solid var(--sec-color); }
+        .module-hvac {
+            border-left: 5px solid var(--hvac-color);
+        }
+
+        .module-elec {
+            border-left: 5px solid var(--elec-color);
+        }
+
+        .module-sec {
+            border-left: 5px solid var(--sec-color);
+        }
+
+        /* OPTIMIZACIÓN MÓVIL Y TABLETS */
+        @media (max-width: 800px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            .module {
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .total-section {
+                padding: 0.8rem;
+                position: static !important;
+                /* Forzamos a que deje de flotar */
+                border-width: 1px;
+                box-shadow: none;
+                margin-top: 2rem;
+            }
+
+            .final-price-box {
+                padding: 0.5rem;
+                font-size: 1.5rem;
+                border-width: 2px;
+            }
+
+            .btn-copy {
+                padding: 0.7rem;
+                font-size: 0.8rem;
+                margin-top: 0.5rem;
+            }
+
+            .summary-details {
+                grid-template-columns: repeat(2, 1fr);
+                font-size: 0.65rem;
+                gap: 2px;
+            }
+        }
+
+        /* ESTILOS PARA IMPRESIÓN A PDF */
+        @media print {
+            @page {
+                margin: 0.5cm;
+                size: auto;
+            }
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                display: none !important;
+            }
+            #doc_template_container {
+                display: block !important;
+                position: relative !important;
+                left: 0 !important;
+                width: 100% !important;
+            }
+            #doc_template_wrapper {
+                width: 100% !important;
+                padding: 10px !important;
+                font-size: 11px !important;
+            }
+            #doc_template_wrapper h2 { font-size: 16px !important; margin-bottom: 2px !important; }
+            #doc_template_wrapper h3 { font-size: 13px !important; margin: 2px 0 !important; }
+            #doc_template_wrapper h4 { font-size: 12px !important; margin: 5px 0 2px 0 !important; }
+            #doc_logo { max-height: 40px !important; width: auto !important; }
+            .doc-section { margin-bottom: 5px !important; }
+            #doc_trabajos, #doc_materiales { padding-left: 12px !important; margin: 0 !important; }
+            #doc_trabajos li, #doc_materiales li { margin-bottom: 1px !important; line-height: 1.2 !important; }
+            .total-box-pdf { margin-top: 10px !important; padding: 10px !important; }
+            .footer-pdf { margin-top: 10px !important; font-size: 10px !important; }
+        }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <header>
             <h1>CALCULADORA EL CONDOR v2.0</h1>
-            <div class="tagline">TECNOLOGÍA EN CLIMATIZACIÓN, ENERGÍA Y SEGURIDAD</div>
+            <div class="tagline">TECNOLOGÍA EN CLIMATIZACIóN, ENERGÍA Y SEGURIDAD</div>
         </header>
+
+        <!-- DATOS DEL PRESUPUESTO -->
+        <div class="module" style="border-color: var(--sys-color); background: rgba(0, 255, 204, 0.05);">
+            <div class="module-title" style="color: var(--sys-color); border-color: var(--sys-color);">[00] DATOS DEL PRESUPUESTO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Fecha</label>
+                    <input type="text" id="presp_fecha" placeholder="Ej: 27/04/2026">
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="presp_cliente" placeholder="Nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label>Ubicación</label>
+                    <input type="text" id="presp_ubicacion" placeholder="Ej: Quilmes Centro">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono</label>
+                    <input type="text" id="presp_tel" placeholder="Ej: 1140890580">
+                </div>
+                <div class="form-group">
+                    <label>Turno coordinado</label>
+                    <input type="text" id="presp_turno" placeholder="Ej: 14/10/2026 a las 10hs.">
+                </div>
+                <div class="form-group">
+                    <label>Referencia / Proyecto</label>
+                    <input type="text" id="presp_ref" placeholder="Ej: Instalación 4 cámaras">
+                </div>
+                <div class="form-group">
+                    <label>Tipo de Cliente</label>
+                    <select id="presp_tipo_cliente" onchange="calc()" style="background: #222; border-color: var(--sys-color);">
+                        <option value="Particular">Particular / Residencial</option>
+                        <option value="Empresa">Empresa / Comercio</option>
+                        <option value="Consorcio">Consorcio / Administración</option>
+                    </select>
+                </div>
+                <div class="form-group" style="grid-column: 1 / -1;">
+                    <label>Modalidad de Contratación</label>
+                    <select id="presp_modalidad" onchange="calc()" style="font-weight: bold; background: #222; border-color: #fbbf24;">
+                        <option value="llave">Llave en Mano (Incluye Materiales)</option>
+                        <option value="solo_mo">Solo Mano de Obra (Materiales provistos por el cliente)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
 
         <!-- HVAC -->
         <div class="module module-hvac">
-            <div class="module-title" style="color: var(--hvac-color); border-color: var(--hvac-color);">[01] CLIMATIZACIÓN (CACA/CAR)</div>
-            
+            <div class="module-title" style="color: var(--hvac-color); border-color: var(--hvac-color);">[01]
+                CLIMATIZACIóN (CACA/CAR)</div>
+
             <div class="section-title">Instalación y Montaje</div>
             <div class="form-grid">
                 <div class="form-group">
                     <label>Tipo de Equipo</label>
                     <select id="hvac_tipo" onchange="calc()">
-                        <option value="0">Seleccionar...</option>
-                        <option value="135000">Instalación Básica (hasta 3499fg) - $135k</option>
-                        <option value="160000">Instalación Básica (3500fg - 5499fg) - $160k</option>
-                        <option value="200000">Instalación Básica (5500fg - 6299fg) - $200k</option>
-                        <option value="220000">Instalación Básica (6300fg - 7999fg) - $220k</option>
-                        <option value="270000">Instalación Básica (8000fg - 8999fg) - $270k</option>
-                        <option value="140000">Montaje sobre Pre-Instalación - $140k</option>
-                        <option value="140000">Pre-Instalación estándar (Cañerías/Caja embutidas) - $140k</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Metros Extra ($12.500/m)</label>
-                    <input type="number" id="hvac_mt" value="0" min="0" oninput="calc()">
+                    <label>Metros Extra (<span id="lbl_hvac_mt"></span>/m)</label>
+                    <div style="display: flex; gap: 5px; align-items: center;">
+                        <button type="button" onclick="adjMtHVAC(-1)"
+                            style="padding: 5px 10px; background: #444; color: white; border: none; border-radius: 4px; cursor: pointer;">-</button>
+                        <input type="number" id="hvac_mt" value="0" min="0" oninput="calc()"
+                            style="text-align: center; width: 60px;">
+                        <button type="button" onclick="adjMtHVAC(1)"
+                            style="padding: 5px 10px; background: #444; color: white; border: none; border-radius: 4px; cursor: pointer;">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-title">Kit de Materiales (Caños, Aislación, Accesorios)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Kit de Instalación</label>
+                    <select id="hvac_kit" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+            </div>
+
+            <div class="checkbox-item"
+                style="margin: 10px 0; background: #222; padding: 10px; border-radius: 6px; border: 1px dashed var(--hvac-color);">
+                <input type="checkbox" id="hvac_estetico" onchange="calc()">
+                <div>
+                    <b>Incluye Kit Estético (Cablecanal 60x40 + Accesorios)</b><br>
+                    <small style="color: #888;">Incluye codos, uniones y terminales originales p/ 3 metros.</small>
+                </div>
+            </div>
+
+            <div class="section-title">Cañería Cubierta - Cable Canal PVC (opcional)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tiras 2m (<span id="lbl_hvac_tira"></span> c/u)</label>
+                    <input type="number" id="hvac_tira" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Codos (<span id="lbl_hvac_codo"></span> c/u)</label>
+                    <input type="number" id="hvac_codo" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Uniones (<span id="lbl_hvac_union"></span> c/u)</label>
+                    <input type="number" id="hvac_union" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Tapas Salida Pared (<span id="lbl_hvac_tapa"></span> c/u)</label>
+                    <input type="number" id="hvac_tapa" value="0" min="0" oninput="calc()">
                 </div>
             </div>
 
             <div class="section-title">Service y Fallas</div>
             <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Fuga y Carga Gas R410a" onchange="calc()"> Fuga + Carga R410a
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_fuga" onchange="calc()"> Fuga + Carga R410a
+                    <span class="price-tag" id="val_hvac_fuga"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Desinstalación (hasta 6000fg)" onchange="calc()"> Desinstalación
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_desinst" onchange="calc()"> Desinstalación
+                    <span class="price-tag" id="val_hvac_desinst"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="40000" data-label="Visita Técnica" onchange="calc()"> Visita Técnica
-                    <span class="price-tag">$40k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_visita" onchange="calc()"> Visita Técnica
+                    <span class="price-tag" id="val_hvac_visita"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="80000" data-label="Mantenimiento (en lugar)" onchange="calc()"> Mantenimiento Simple
-                    <span class="price-tag">$80k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_manten" onchange="calc()"> Mantenimiento Simple
+                    <span class="price-tag" id="val_hvac_manten"></span>
                 </label>
                 <label class="checkbox-item">
-                    <input type="checkbox" class="hvac_opt" data-p="110000" data-label="Mantenimiento (completo c/desinst.)" onchange="calc()"> Limpieza Completa
-                    <span class="price-tag">$110k</span>
+                    <input type="checkbox" class="hvac_opt" id="hvac_limpieza" onchange="calc()"> Limpieza Completa
+                    <span class="price-tag" id="val_hvac_limpieza"></span>
                 </label>
             </div>
-            
+
             <div class="checkbox-item" style="margin-top: 10px;">
-                <input type="checkbox" id="hvac_altura" onchange="calc()"> Recargo Trabajo en Altura (+$30.000)
+                <input type="checkbox" id="hvac_altura" onchange="calc()"> Recargo Trabajo en Altura (<span
+                    id="lbl_hvac_alt"></span>)
             </div>
         </div>
 
         <!-- ELECTRICIDAD -->
-        <div class="module module-elec">
-            <div class="module-title" style="color: var(--elec-color); border-color: var(--elec-color);">[02] ELECTRICIDAD (Electro Instalador)</div>
-            
-            <div class="section-title">Acometida y Tablero</div>
-            <div class="form-grid">
+        <div class="module" style="border-color: var(--elec-color);">
+            <div class="module-title" style="color: var(--elec-color); border-color: var(--elec-color);">[02]
+                ELECTRICIDAD (Electro Instalador)</div>
+
+            <!-- MODALIDAD RAPIDA -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <button type="button" onclick="setModalidad('solo_mo')" style="flex: 1; padding: 0.6rem; background: #444; color: #fbbf24; border: 1px solid #fbbf24; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;">SOLO MANO DE OBRA</button>
+                <button type="button" onclick="setModalidad('llave')" style="flex: 1; padding: 0.6rem; background: #fbbf24; color: #000; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;">LLAVE EN MANO</button>
+            </div>
+
+            <div class="section-title" style="color:var(--elec-color)">Configuración Base</div>
+            <div class="form-grid" style="margin-bottom: 1.5rem;">
+                <div class="form-group">
+                    <label>Calidad de Materiales</label>
+                    <select id="elec_calidad" onchange="calc()"
+                        style="border-color: var(--elec-color); font-weight: bold; background: #111; color: var(--elec-color);">
+                        <option value="1">Gama ALTA (Genrod / Prysmian / Schneider 6kA)</option>
+                        <option value="0.85">Gama MEDIA (Roker / Trefilcon / Siemens 4.5kA)</option>
+                        <option value="0.7">Gama BAJA (Conextube / IMSA / SICA 3kA - Bajo Norma)</option>
+                    </select>
+                </div>
+                <div class="form-group" style="justify-content: center; align-items: start; padding-top: 5px;">
+                    <label>Tipo de Instalación</label>
+                    <select id="elec_tipo_inst" onchange="cambiarTipoInst()"
+                        style="border-color: #38bdf8; font-weight: bold; background: #111; color: #38bdf8; margin-top:5px;">
+                        <option value="embutida">PVC Embutido (Mampostería)</option>
+                        <option value="exterior">PVC a la Vista (Exterior)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="section-title">Acometida y Tablero Principal (TP - Medidor)</div>
+            <div class="form-grid" style="border: 1px dashed var(--elec-color); padding: 10px; margin-bottom: 15px; border-radius: 8px;">
                 <div class="form-group">
                     <label>Acometida</label>
                     <select id="elec_aco" onchange="calc()">
-                        <option value="0">Ninguna</option>
-                        <option value="201700">Monofásica (< 10kW)</option>
-                        <option value="283800">Trifásica (< 10kW)</option>
-                        <option value="373500">Trifásica (11-35kW)</option>
+                        <!-- Dinámico -->
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Gabinete / Tablero</label>
-                    <select id="elec_tablero" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="44000">Caja Superficie</option>
-                        <option value="185300">Empotrado Mampostería</option>
+                    <label>Gabinete TP</label>
+                    <select id="elec_tablero_tp" onchange="calc()">
+                        <!-- Dinámico -->
                     </select>
                 </div>
-            </div>
-
-            <div class="section-title">Protecciones y Bocas</div>
-            <div class="form-grid">
                 <div class="form-group">
-                    <label>Cant. Térmicas/Dif. Mono ($81.900 c/u)</label>
-                    <input type="number" id="elec_term_m" value="0" min="0" oninput="calc()">
+                    <label>Térmicas TP (<span id="lbl_elec_term_tp"></span>)</label>
+                    <input type="number" id="elec_term_tp" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Bocas Nuevas ($32.000 c/u)</label>
-                    <input type="number" id="elec_bocas_n" value="0" min="0" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Re-cableado ($39.500 c/u)</label>
-                    <input type="number" id="elec_bocas_r" value="0" min="0" oninput="calc()">
+                    <label>Disyuntores TP (<span id="lbl_elec_disy_tp"></span>)</label>
+                    <input type="number" id="elec_disy_tp" value="0" min="0" oninput="calc()">
                 </div>
             </div>
 
-            <div class="section-title">Iluminación</div>
+            <div class="section-title">Tablero Seccional (TS - Interior)</div>
+            <div class="form-grid" style="border: 1px dashed #38bdf8; padding: 10px; margin-bottom: 15px; border-radius: 8px;">
+                <div class="form-group">
+                    <label>Gabinete TS</label>
+                    <select id="elec_tablero_ts" onchange="calc()">
+                        <!-- Dinámico -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Térmicas TS (<span id="lbl_elec_term_ts"></span>)</label>
+                    <input type="number" id="elec_term_ts" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Disyuntores TS (<span id="lbl_elec_disy_ts"></span>)</label>
+                    <input type="number" id="elec_disy_ts" value="0" min="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div class="section-title">Bocas Detalladas (IUG, TUG, TUE)</div>
+
+            <!-- NUEVO SECTOR DE BOCAS -->
+            <div class="form-grid" style="margin-top: 15px;">
+                <div class="form-group">
+                    <label>Centros de Techo (IUG 1.5mm) <br> (M.O: <span id="lbl_mo_centro"></span> + Mat: <span id="lbl_mat_centro"></span>)</label>
+                    <input type="number" id="elec_centro_iug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #55f;">
+                </div>
+                <div class="form-group">
+                    <label>Cajas de Llave (Pared IUG) <br> (M.O: <span id="lbl_mo_llave"></span> + Mat: <span id="lbl_mat_llave"></span>)</label>
+                    <input type="number" id="elec_llave_iug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #55f;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas TUG (Tomas 2.5mm) <br> (M.O: <span id="lbl_mo_tug"></span> + Mat: <span id="lbl_mat_tug"></span>)</label>
+                    <input type="number" id="elec_boca_tug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #2b2;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas TUE (Aires 2.5mm) <br> (M.O: <span id="lbl_mo_tue25"></span> + Mat: <span id="lbl_mat_tue25"></span>)</label>
+                    <input type="number" id="elec_boca_tue25" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #f55;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas TUE (Aires 4.0mm) <br> (M.O: <span id="lbl_mo_tue40"></span> + Mat: <span id="lbl_mat_tue40"></span>)</label>
+                    <input type="number" id="elec_boca_tue40" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #f55;">
+                </div>
+                <div class="form-group">
+                    <label>Bocas Re-cableado <br> (M.O: <span id="lbl_elec_bocas_r"></span> + Mat: prom 2.5mm)</label>
+                    <input type="number" id="elec_bocas_r" value="0" min="0" oninput="calc()" style="margin-top:5px;">
+                </div>
+            </div>
+
+            <div class="section-title" style="margin-top: 20px;">Bocas Secundarias Agrupadas (Comparten cañería)</div>
+            <div class="form-grid" style="margin-bottom: 15px; background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333;">
+                <div class="form-group">
+                    <label>TUG Agrupadas (Tomas extras) <br> (M.O: <span id="lbl_mo_agrup_tug"></span> + Mat. reducido)</label>
+                    <input type="number" id="elec_agrup_tug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #2b2;">
+                </div>
+                <div class="form-group">
+                    <label>IUG Agrupadas (Llaves extras) <br> (M.O: <span id="lbl_mo_agrup_iug"></span> + Mat. reducido)</label>
+                    <input type="number" id="elec_agrup_iug" value="0" min="0" oninput="calc()" style="margin-top:5px; border-color: #55f;">
+                </div>
+            </div>
+
+            <div
+                style="font-size:0.75rem; color:#666; margin-top:5px; line-height:1.6; background:#111; padding:8px; border-radius:6px; border:1px solid #333;">
+                ⚡ <b>La nueva lógica de bocas separa materiales por circuito:</b><br>
+                - <b>IUG:</b> Cada centro incluye caja octogonal y plafón. Cada llave incluye caja rectangular y módulo interruptor.<br>
+                - <b>TUG/TUE:</b> Incluyen cajas rectangulares y módulos tomas (10A o 20A según circuito).<br>
+                - <b>Cables:</b> Cada boca asume 5m de caño y 15m del cable respectivo (1.5mm, 2.5mm o 4.0mm).
+            </div>
+
+            <!-- METROS EXTRA POR BOCA (>5m) -->
+            <div class="form-grid" style="margin-top:15px;">
+                <div class="form-group">
+                    <label>Canalización Extra (>5m p/boca) - Llave en mano</label>
+                    <input type="number" id="elec_mt_extra" value="0" min="0" oninput="calc()" placeholder="0">
+                </div>
+                <div class="form-group"
+                    style="justify-content: center; padding-top: 22px; font-size: 0.75rem; color: #666;">
+                    +$5.500/m (Incluye M.O. + Caños/Accesorios)
+                </div>
+            </div>
+
+            <!-- BANDEJAS PORTACABLES -->
+            <div class="section-title">Bandejas Metálicas Portacables (Metros Lineales)</div>
             <div class="form-grid">
-                <div class="form-group"><label>Apliques ($27k)</label><input type="number" class="elec_lum" data-p="27200" data-label="Aplique" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Colgantes ($44k)</label><input type="number" class="elec_lum" data-p="44500" data-label="Colgante" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Tubo LED ($51k)</label><input type="number" class="elec_lum" data-p="51100" data-label="Tubo LED" value="0" oninput="calc()"></div>
-                <div class="form-group"><label>Emergencia ($40k)</label><input type="number" class="elec_lum" data-p="40200" data-label="Luz Emergencia" value="0" oninput="calc()"></div>
+                <div class="form-group">
+                    <label>Ancho (mm)</label>
+                    <select id="elec_bandeja_tipo" onchange="calc()"
+                        style="background: #111; color: var(--text-color);">
+                        <option value="300">Hasta 300 mm</option>
+                        <option value="450">Ancho 450 mm</option>
+                        <option value="600">Ancho 600 mm</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Metros (M.O: <span id="lbl_band_mo_dinamico"></span>/m)</label>
+                    <input type="number" id="elec_bandeja_mt" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group" style="justify-content: center; padding-top:15px;">
+                    <label class="checkbox-item" style="margin:0;">
+                        <input type="checkbox" id="elec_bandeja_alt" onchange="calc()"> Trabajo en Alta (>3m)
+                    </label>
+                </div>
+            </div>
+
+            <div class="section-title" style="border-bottom-color:var(--elec-color); color:var(--elec-color); margin-top:1.5rem;">Cables
+                Adicionales por Metro y Accesorios (Fuera del Kit)</div>
+            <div style="font-size:0.7rem; color:#888; margin-bottom:1rem;">
+                ⚡ Especifique si necesita agregar metros de cable o materiales sueltos para las LÍNEAS PRINCIPALES.
+            </div>
+
+            <div class="section-title">Cables (metros · precio desde rollo 100m)</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cable 1.5mm (<span id="lbl_m_c15"></span>/m)</label>
+                    <input type="number" id="m_c15" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 2.5mm (<span id="lbl_m_c25"></span>/m)</label>
+                    <input type="number" id="m_c25" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 4mm (<span id="lbl_m_c40"></span>/m)</label>
+                    <input type="number" id="m_c40" value="0" min="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cable 6mm (<span id="lbl_m_c60"></span>/m)</label>
+                    <input type="number" id="m_c60" value="0" min="0" oninput="calc()">
+                </div>
+            </div>
+
+            <div style="margin-bottom:1.5rem; font-size:0.75rem; color:var(--sys-color); text-align:right;">
+                Subtotal Líneas/Cables Principales: <b id="tot_mat_ind_inline">$0</b>
+            </div>
+
+            <div class="section-title">Iluminación Extra</div>
+            <div class="form-grid">
+                <div class="form-group"><label>Apliques Extra (<span id="lbl_elec_aplique"></span>)</label><input
+                        type="number" id="elec_aplique" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Colgantes (<span id="lbl_elec_colgante"></span>)</label><input
+                        type="number" id="elec_colgante" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Tubo LED (<span id="lbl_elec_tubo"></span>)</label><input type="number"
+                        id="elec_tubo" value="0" oninput="calc()"></div>
+                <div class="form-group"><label>Emergencia (<span id="lbl_elec_emerg"></span>)</label><input
+                        type="number" id="elec_emerg" value="0" oninput="calc()"></div>
             </div>
 
             <div class="checkbox-item" style="margin-top: 10px;">
-                <input type="checkbox" id="elec_jabalina" onchange="calc()"> Instalación Jabalina / PAT (+$94.600)
+                <input type="checkbox" id="elec_jabalina" onchange="calc()"> Instalación Jabalina / PAT (<span
+                    id="lbl_elec_jaba"></span>)
             </div>
         </div>
 
+
+
         <!-- SEGURIDAD CCTV -->
         <div class="module module-sec">
-            <div class="module-title" style="color: var(--sec-color); border-color: var(--sec-color);">[03] SEGURIDAD CCTV (Dahua/Imou)</div>
-            
-            <div class="section-title">Equipos (Materiales)</div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Grabador XVR</label>
-                    <select id="sec_xvr" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="66010">XVR 4CH Wizsense ($66.010)</option>
-                        <option value="78925">XVR 8CH Wizsense ($78.925)</option>
-                        <option value="165025">XVR 16CH Wizsense ($165.025)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Almacenamiento</label>
-                    <select id="sec_disco" onchange="calc()">
-                        <option value="0">Ninguno</option>
-                        <option value="64575">SSD 500GB ($64.575)</option>
-                        <option value="123410">HDD 1TB ($123.410)</option>
-                    </select>
+            <div class="module-title" style="color: var(--sec-color); border-color: var(--sec-color);">[03] SEGURIDAD
+                CCTV (Dahua/Imou)</div>
+
+            <!-- PROMOCIONES -->
+            <div
+                style="background: rgba(46, 204, 113, 0.1); padding: 1.2rem; border-radius: 12px; margin-bottom: 1.5rem; border: 2px dashed #2ecc71;">
+                <p
+                    style="font-weight: 800; color: #2ecc71; margin-bottom: 0.8rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">
+                    🔥 OFERTAS LANZAMIENTO (100m Inc.)</p>
+                <div style="display: flex; gap: 0.8rem;">
+                    <button type="button" onclick="applyCombo(4)"
+                        style="background: #2ecc71; color: white; padding: 0.8rem; font-size: 0.9rem; font-weight: 800; flex: 1; cursor: pointer; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);">COMBO
+                        4 CAM</button>
+                    <button type="button" onclick="applyCombo(8)"
+                        style="background: #2ecc71; color: white; padding: 0.8rem; font-size: 0.9rem; font-weight: 800; flex: 1; cursor: pointer; border: none; border-radius: 8px; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3);">COMBO
+                        8 CAM</button>
                 </div>
             </div>
 
-            <div class="section-title">Cámaras y Mano de Obra</div>
+            <!-- MODALIDAD RAPIDA -->
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem;">
+                <button type="button" onclick="setModalidad('solo_mo')" style="flex: 1; padding: 0.6rem; background: #444; color: #fbbf24; border: 1px solid #fbbf24; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;">SOLO MANO DE OBRA</button>
+                <button type="button" onclick="setModalidad('llave')" style="flex: 1; padding: 0.6rem; background: #fbbf24; color: #000; border: none; border-radius: 6px; font-size: 0.8rem; font-weight: bold; cursor: pointer;">LLAVE EN MANO</button>
+            </div>
+
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Cant. Domo Int ($25.830)</label>
-                    <input type="number" id="sec_cam_int" value="0" oninput="calc()">
+                    <label>Marca de Equipamiento</label>
+                    <select id="sec_brand" onchange="updateBrandOptions(); calc()" style="border-color: var(--sec-color); font-weight: bold;">
+                        <option value="dahua">Dahua Technology</option>
+                        <option value="hikvision">Hikvision</option>
+                        <option value="imou">Imou (Dahua)</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label>Cant. Bullet Ext ($25.830)</label>
-                    <input type="number" id="sec_cam_ext" value="0" oninput="calc()">
+                    <label>Grabador (XVR/NVR)</label>
+                    <select id="sec_xvr" onchange="calc()"></select>
                 </div>
                 <div class="form-group">
-                    <label>Cámara Full Color ($40.180)</label>
-                    <input type="number" id="sec_cam_fc" value="0" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Cant. Metros UTP ($861/m)</label>
-                    <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
+                    <label>Disco de Almacenamiento</label>
+                    <select id="sec_disco" onchange="calc()"></select>
                 </div>
             </div>
-            <div class="notice">M.O Instalación: $25.000 por cámara + $500/m cableado.</div>
+
+            <div class="section-title">Selección de Cámaras</div>
+            <div id="sec_camera_list">
+                <!-- Slot 1 -->
+                <div class="form-grid" style="margin-bottom: 5px;">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <select id="sec_cam_type_1" onchange="calc()" class="sec-cam-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="sec_cam_qty_1" value="0" oninput="calc()" placeholder="Cant.">
+                    </div>
+                </div>
+                <!-- Slot 2 -->
+                <div class="form-grid" style="margin-bottom: 5px;">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <select id="sec_cam_type_2" onchange="calc()" class="sec-cam-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="sec_cam_qty_2" value="0" oninput="calc()" placeholder="Cant.">
+                    </div>
+                </div>
+                <!-- Slot 3 -->
+                <div class="form-grid" style="margin-bottom: 15px;">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <select id="sec_cam_type_3" onchange="calc()" class="sec-cam-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <input type="number" id="sec_cam_qty_3" value="0" oninput="calc()" placeholder="Cant.">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Modo de Cableado</label>
+                    <select id="sec_utp_mode" onchange="calc()" style="background: #111; color: var(--sec-color); border-color: var(--sec-color); font-weight: bold;">
+                        <option value="mt">Por Metro (Fraccionado)</option>
+                        <option value="rollo">Rollo Cerrado (305m)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Cant. UTP (<span id="lbl_sec_utp_mode_val"></span>)</label>
+                    <input type="number" id="sec_utp_mt" value="0" oninput="calc()">
+                </div>
+                <div class="form-group" style="background:#222; padding:5px; border-radius:5px; border: 1px solid #333;">
+                    <label style="color:var(--accent-color);">Solo Inst. (M.O. Extra)</label>
+                    <input type="number" id="sec_cam_mo_only" value="0" oninput="calc()" style="background:#111; color:var(--accent-color);">
+                </div>
+            </div>
+
+            <div class="section-title">Accesorios y Conectividad</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Cajas Estancas (<span id="lbl_sec_caja"></span>)</label>
+                    <input type="number" id="sec_caja" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Fuentes 12V (<span id="lbl_sec_fuente"></span>)</label>
+                    <input type="number" id="sec_fuente" value="0" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Pares Baluns (<span id="lbl_sec_balun"></span>)</label>
+                    <input type="number" id="sec_balun" value="0" oninput="calc()">
+                </div>
+                <div class="form-group" style="border: 1px solid #c0392b; background: rgba(192, 57, 43, 0.1);">
+                    <label style="color:#e74c3c;">Rejas de Prot. (<span id="lbl_sec_reja"></span>)</label>
+                    <input type="number" id="sec_rejas" value="0" oninput="calc()" style="color:#e74c3c; border-color:#c0392b;">
+                </div>
+                <div class="form-group" style="border: 1px solid #3498db; background: rgba(52, 152, 219, 0.1);">
+                    <label style="color:#3498db;">Soportes Ext. (<span id="lbl_sec_soporte"></span>)</label>
+                    <input type="number" id="sec_soportes" value="0" oninput="calc()" style="color:#3498db; border-color:#3498db;">
+                </div>
+            </div>
+
+            <div class="notice" style="margin-top:10px; font-size: 0.75rem; color: var(--sys-color);">
+                M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m
+                cableado.
+            </div>
         </div>
 
         <!-- MATERIALES Y OTROS -->
         <div class="module" style="border-color: var(--accent-color);">
-            <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[04] OTROS MATERIALES</div>
-            <div class="form-group">
-                <label>Suma de Materiales Extra / Facturas externas ($)</label>
-                <input type="number" id="mat_extra" value="0" oninput="calc()" style="background: #222; font-size: 1.2rem;">
+            <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[04] OTROS MATERIALES Y AJUSTES</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Materiales Extra / Varios ($)</label>
+                    <input type="number" id="mat_extra" value="0" oninput="calc()" style="background: #222;">
+                </div>
+                <div class="form-group">
+                    <label>Margen de Ganancia (%)</label>
+                    <input type="number" id="global_margen" value="35" oninput="calc()" style="background: #222; color: #55ff55; font-weight: bold;">
+                </div>
+                <div class="form-group">
+                    <label>Viáticos (%)</label>
+                    <input type="number" id="global_viaticos" value="15" oninput="calc()" style="background: #222; color: #ff5555; font-weight: bold;">
+                </div>
             </div>
         </div>
 
@@ -383,115 +814,1123 @@
             <div class="summary-details">
                 <span>M.O HVAC: <b id="tot_hvac">0</b></span>
                 <span>M.O ELEC: <b id="tot_elec">0</b></span>
+                <span>MAT ELEC: <b id="tot_elec_mat">—</b></span>
+                <span>MAT SUELTOS: <b id="tot_mat_ind">—</b></span>
                 <span>M.O SEC: <b id="tot_sec_mo">0</b></span>
                 <span>MAT SEC: <b id="tot_sec_mat">0</b></span>
             </div>
             <div class="final-price-box">
-                <span style="font-size: 0.9rem; display: block; opacity: 0.7;">PRECIO FINAL ESTIMADO (LLAVE EN MANO)</span>
+                <span style="font-size: 0.9rem; display: block; opacity: 0.7;">PRECIO FINAL ESTIMADO (LLAVE EN
+                    MANO)</span>
                 <span id="res_final">$ 0</span>
             </div>
+
+            <!-- PANEL PRIVADO DE RENTABILIDAD -->
+            <div id="private_dashboard"
+                style="background: #111; border: 1px solid #333; margin: 15px 0; padding: 15px; border-radius: 8px; text-align: left; font-size: 0.9rem;">
+                <div
+                    style="color: #00ffcc; font-weight: bold; margin-bottom: 5px; border-bottom: 1px solid #333; padding-bottom: 5px;">
+                    📊 PANEL INTERNO DEL INSTALADOR (NO ENVIAR)</div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="color: #aaa;">Costo Neto Materiales:</span>
+                    <strong id="dash_mat_cost" style="color: #ff5555;">$0</strong>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 4px;">
+                    <span style="color: #aaa;">Ganancia Neta (M.O. + Margen + Viáticos):</span>
+                    <strong id="dash_profit" style="color: #55ff55;">$0</strong>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #333;">
+                    <span style="color: #aaa;">Tiempo Estimado de Obra:</span>
+                    <strong id="dash_days" style="color: #fff;">0 Días</strong>
+                </div>
+            </div>
+
             <button class="btn-copy" onclick="copy()">[COPIAR PRESUPUESTO PARA WHATSAPP]</button>
+            <button class="btn-copy" onclick="copyProveedor()" style="background: #007bff; margin-top: 10px;">[COPIAR
+                LISTA PARA PROVEEDOR]</button>
+            <button class="btn-copy" onclick="generarPDF()" style="background: #e74c3c; margin-top: 10px; color: white;">[📝 DESCARGAR PRESUPUESTO EN PDF]</button>
         </div>
     </div>
 
     <script>
+        const PRECIOS_CONFIG = {
+            hvac: {
+                instalacion: [
+                    { label: "Seleccionar...", p: 0 },
+                    { label: "Instalación Básica (hasta 3499fg)", p: 135000 },
+                    { label: "Instalación Básica (3500fg - 5499fg)", p: 160000 },
+                    { label: "Instalación Básica (5500fg - 6299fg)", p: 200000 },
+                    { label: "Instalación Básica (6300fg - 7999fg)", p: 220000 },
+                    { label: "Instalación Básica (8000fg - 8999fg)", p: 270000 },
+                    { label: "Montaje sobre Pre-Instalación", p: 140000 },
+                    { label: "Pre-Instalación estándar (Cañerías/Caja embutidas)", p: 140000 }
+                ],
+                kits: [
+                    { label: "Sin kit de materiales", p: 0, pipes: "" },
+                    { label: "Kit 2250-3000fg (1/4 - 3/8)", p: 95000, pipes: "1/4\" y 3/8\"" },
+                    { label: "Kit 4500fg (1/4 - 1/2)", p: 125000, pipes: "1/4\" y 1/2\"" },
+                    { label: "Kit 6000fg (3/8 - 5/8)", p: 155000, pipes: "3/8\" y 5/8\"" }
+                ],
+                kits_factores: {
+                    high: { f: 1.50, desc: "Kit Eluma/Muller + K-Flex + Prysmian" },
+                    medium: { f: 1.25, desc: "Kit Termomecánica + Hinterland + Trefilcon" },
+                    low: { f: 1.00, desc: "Kit Cobre Std + Blanco + IMSA" }
+                },
+                kits_cc: {
+                    high: { p: 85000, desc: "Zoloda/HellermannTyton 60x40" },
+                    medium: { f: 0.85, desc: "HellermannTyton 60x40" },
+                    low: { p: 45000, desc: "Kalop 60x40" }
+                },
+                mt_extra_val: {
+                    high: 65000,
+                    medium: 45000,
+                    low: 35000
+                },
+                canal_tira: 33000,
+                canal_codo: 3000,
+                canal_union: 2500,
+                canal_tapa: 5000,
+                mt_extra: 15000,
+                altura: 30000,
+                fuga_carga: 110000,
+                desinstalacion: 110000,
+                visita: 40000,
+                mantenimiento: 80000,
+                limpieza: 110000
+            },
+            elec: {
+                acometida: [
+                    { label: "Ninguna", p: 0 },
+                    { label: "Monofásica (< 10kW)", p: 85000 },
+                    { label: "Trifásica (< 10kW)", p: 120000 },
+                    { label: "Trifásica (11-35kW)", p: 160000 }
+                ],
+                tablero_mo: {
+                    sup: 35000,
+                    emp: 95000
+                },
+                tablero_mat_precios: {
+                    high: { 4: 12500, 8: 19500, 12: 32500, 18: 45500, 24: 58500, 36: 82500 },
+                    medium: { 4: 18500, 8: 28500, 12: 46500, 18: 68000, 24: 89500, 36: 128000 },
+                    low: { 4: 10500, 8: 16500, 12: 28500, 18: 38500, 24: 52500, 36: 72500 }
+                },
+                termica_mono: 15000,
+                disyuntor_mono: 18000,
+                mat_termica: 35300,
+                mat_disyuntor: 81500,
+                boca_nueva: 26000,
+                boca_exterior: 20000,
+                recableado: 28500,
+                cano_mt: 10000,
+                mat_centro: 30000,
+                mat_llave: 16000,
+                mat_tug: 38000,
+                mat_tue25: 40000,
+                mat_tue40: 50000,
+                aplique: 27200,
+                colgante: 44500,
+                tubo_led: 51100,
+                emergencia: 40200,
+                jabalina: 94600,
+                bandejas_tarifas: {
+                    '300': { mo_norm: 32950, mo_alt: 35800, mat: 20000 },
+                    '450': { mo_norm: 35800, mo_alt: 39400, mat: 28000 },
+                    '600': { mo_norm: 39800, mo_alt: 43300, mat: 35000 }
+                }
+            },
+            sec: {
+                brands: {
+                    dahua: {
+                        name: "Dahua Technology",
+                        xvr: [
+                            { label: "Seleccionar XVR...", p: 0 },
+                            { label: "XVR 4CH Wizsense (1B04)", p: 74000 },
+                            { label: "XVR 8CH Wizsense (1B08)", p: 89000 },
+                            { label: "XVR 16CH Wizsense (1B16)", p: 163000 }
+                        ],
+                        cameras: [
+                            { label: "Seleccionar Cámara...", p: 0, tech: "analog" },
+                            { label: "Bullet 1080p Plástica (B1A21)", p: 21000, tech: "analog" },
+                            { label: "Bullet 1080p Metálica (B2A21)", p: 24000, tech: "analog" },
+                            { label: "Domo 1080p Plástica (T1A21)", p: 19500, tech: "analog" },
+                            { label: "Full Color 1080p (LED)", p: 33000, tech: "analog" },
+                            { label: "Domo 2MP Dual Light Audio (1239)", p: 46000, tech: "analog" },
+                            { label: "Cámara PT 360° (HAC-PT1200)", p: 60000, tech: "analog" },
+                            { label: "IP Bullet 2MP (HFW1230)", p: 48000, tech: "ip" },
+                            { label: "IP Domo 2MP (T1230)", p: 45000, tech: "ip" },
+                            { label: "IP PT 360° WIFI (P3AE)", p: 57000, tech: "ip" }
+                        ]
+                    },
+                    hikvision: {
+                        name: "Hikvision / HiLook",
+                        xvr: [
+                            { label: "Seleccionar DVR...", p: 0 },
+                            { label: "DVR 4CH 7204HGHI", p: 77220 },
+                            { label: "DVR 8CH 7208HGHI", p: 117260 },
+                            { label: "DVR 16CH 7216HGHI", p: 214500 }
+                        ],
+                        cameras: [
+                            { label: "Seleccionar Cámara...", p: 0, tech: "analog" },
+                            { label: "Bullet 1080p (16D0T-ITPF)", p: 20020, tech: "analog" },
+                            { label: "Bullet 1080p Metálica", p: 24310, tech: "analog" },
+                            { label: "Full Color 1080p", p: 38000, tech: "analog" },
+                            { label: "Cámara PTZ 360° (2AE4225)", p: 341000, tech: "analog" },
+                            { label: "IP Bullet 2MP", p: 50050, tech: "ip" },
+                            { label: "IP Domo 2MP", p: 48000, tech: "ip" },
+                            { label: "IP PTZ 360° (2DE4225)", p: 615000, tech: "ip" }
+                        ]
+                    },
+                    imou: {
+                        name: "Imou (Dahua Technology)",
+                        xvr: [
+                            { label: "Seleccionar NVR...", p: 0 },
+                            { label: "NVR Imou 4CH WIFI", p: 85000 },
+                            { label: "NVR Imou 8CH WIFI", p: 115000 }
+                        ],
+                        cameras: [
+                            { label: "Seleccionar Cámara...", p: 0, tech: "ip" },
+                            { label: "Ranger 2 (360° Interior)", p: 32000, tech: "ip" },
+                            { label: "Cue 2 (Interior)", p: 28000, tech: "ip" },
+                            { label: "Bullet 2 (Exterior)", p: 38000, tech: "ip" },
+                            { label: "Cruiser (360° Exterior)", p: 78000, tech: "ip" },
+                            { label: "Cruiser SE (360° Económica)", p: 62000, tech: "ip" }
+                        ]
+                    }
+                },
+                disco: [
+                    { label: "Ninguno", p: 0 },
+                    { label: "HDD 512GB (Económico)", p: 85000 },
+                    { label: "HDD Skyhawk 1TB", p: 135000 },
+                    { label: "HDD Skyhawk 2TB", p: 175000 },
+                    { label: "HDD Skyhawk 4TB", p: 285000 }
+                ],
+                caja: 4500,
+                fuente: 7800,
+                balun: 1400,
+                jack: 1500,
+                rj45: 800,
+                reja_proteccion: 12500,
+                soporte_cam: 16000,
+                zapatilla: 12000,
+                gabinete: 45000,
+                utp_mt: 1500,
+                utp_rollo: 100000,
+                mo_instalacion_cam: 48000,
+                mo_cableado_mt: 1000
+            },
+            global: {
+                viaticos: 0.15,
+                margen: 0.35
+            },
+            mat_electrico: {
+                cable_15_m: 1000,
+                cable_25_m: 1450,
+                cable_40_m: 2150,
+                cable_60_m: 3100,
+                cano_20_m: 2325,
+                cano_22_m: 2600,
+                cano_25_m: 3000,
+                curva_20: 276,
+                curva_22: 300,
+                curva_25: 350,
+                union_20: 150,
+                union_22: 180,
+                union_25: 220,
+                conect_20: 173,
+                conect_22: 200,
+                conect_25: 250,
+                grampa_20: 223,
+                grampa_22: 250,
+                grampa_25: 290,
+                tarugo_6: 50,
+                tornillo_6: 50,
+                tarugo_8: 80,
+                tornillo_8: 80,
+                caja_oct: 400,
+                caja_rect: 600,
+                tapa_ciega: 150,
+                toma_10a: 3145,
+                plafon: 2274,
+                ficha_bp: 800
+            }
+        };
+
         function fmt(n) { return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n); }
+        function safeSetText(id, txt) { const el = document.getElementById(id); if (el) el.innerText = txt; }
+        function safeSetHtml(id, html) { const el = document.getElementById(id); if (el) el.innerHTML = html; }
+
+        function init() {
+            try {
+                const now = new Date();
+                const fechaEl = document.getElementById('presp_fecha');
+                if (fechaEl) fechaEl.value = now.toLocaleDateString('es-AR');
+
+                const hvacSelect = document.getElementById('hvac_tipo');
+                if (hvacSelect) {
+                    hvacSelect.innerHTML = "";
+                    PRECIOS_CONFIG.hvac.instalacion.forEach(function(item) {
+                        const opt = document.createElement('option');
+                        opt.value = item.p;
+                        opt.textContent = item.p > 0 ? (item.label + " - " + fmt(item.p)) : item.label;
+                        hvacSelect.appendChild(opt);
+                    });
+                }
+
+                safeSetText('lbl_hvac_mt', fmt(PRECIOS_CONFIG.hvac.mt_extra));
+                safeSetText('lbl_hvac_alt', "+" + fmt(PRECIOS_CONFIG.hvac.altura));
+                safeSetText('val_hvac_fuga', fmt(PRECIOS_CONFIG.hvac.fuga_carga));
+                safeSetText('val_hvac_desinst', fmt(PRECIOS_CONFIG.hvac.desinstalacion));
+                safeSetText('val_hvac_visita', fmt(PRECIOS_CONFIG.hvac.visita));
+                safeSetText('val_hvac_manten', fmt(PRECIOS_CONFIG.hvac.mantenimiento));
+                safeSetText('val_hvac_limpieza', fmt(PRECIOS_CONFIG.hvac.limpieza));
+
+                const kitSelect = document.getElementById('hvac_kit');
+                if (kitSelect) {
+                    kitSelect.innerHTML = "";
+                    PRECIOS_CONFIG.hvac.kits.forEach(function(item, idx) {
+                        const opt = document.createElement('option');
+                        opt.value = idx;
+                        opt.textContent = item.p > 0 ? (item.label + " - " + fmt(item.p)) : item.label;
+                        kitSelect.appendChild(opt);
+                    });
+                }
+
+                safeSetText('lbl_hvac_tira', fmt(PRECIOS_CONFIG.hvac.canal_tira));
+                safeSetText('lbl_hvac_codo', fmt(PRECIOS_CONFIG.hvac.canal_codo));
+                safeSetText('lbl_hvac_union', fmt(PRECIOS_CONFIG.hvac.canal_union));
+                safeSetText('lbl_hvac_tapa', fmt(PRECIOS_CONFIG.hvac.canal_tapa));
+
+                safeSetText('lbl_mo_centro', fmt(PRECIOS_CONFIG.elec.boca_nueva));
+                safeSetText('lbl_mo_tug', fmt(PRECIOS_CONFIG.elec.boca_nueva));
+                safeSetText('lbl_mo_tue25', fmt(PRECIOS_CONFIG.elec.boca_nueva));
+                safeSetText('lbl_mo_tue40', fmt(PRECIOS_CONFIG.elec.boca_nueva));
+                safeSetText('lbl_mo_agrup_tug', fmt(PRECIOS_CONFIG.elec.boca_exterior));
+                safeSetText('lbl_mo_agrup_iug', fmt(PRECIOS_CONFIG.elec.boca_exterior));
+                safeSetText('lbl_mat_centro', fmt(PRECIOS_CONFIG.elec.mat_centro));
+                safeSetText('lbl_mat_llave', fmt(PRECIOS_CONFIG.elec.mat_llave));
+                safeSetText('lbl_mat_tug', fmt(PRECIOS_CONFIG.elec.mat_tug));
+                safeSetText('lbl_mat_tue25', fmt(PRECIOS_CONFIG.elec.mat_tue25));
+                safeSetText('lbl_mat_tue40', fmt(PRECIOS_CONFIG.elec.mat_tue40));
+                safeSetText('lbl_elec_term_tp', fmt(PRECIOS_CONFIG.elec.termica_mono));
+                safeSetText('lbl_elec_disy_tp', fmt(PRECIOS_CONFIG.elec.disyuntor_mono));
+                safeSetText('lbl_elec_term_ts', fmt(PRECIOS_CONFIG.elec.termica_mono));
+                safeSetText('lbl_elec_disy_ts', fmt(PRECIOS_CONFIG.elec.disyuntor_mono));
+
+                const acoSelect = document.getElementById('elec_aco');
+                if (acoSelect) {
+                    acoSelect.innerHTML = '<option value="0">Ninguna / Existente</option>';
+                    PRECIOS_CONFIG.elec.acometida.forEach(function(item) {
+                        const opt = document.createElement('option');
+                        opt.value = item.p;
+                        opt.textContent = item.label + " (" + fmt(item.p) + ")";
+                        acoSelect.appendChild(opt);
+                    });
+                }
+
+                const mods = PRECIOS_CONFIG.elec.tablero_mat_precios.high;
+                let optsGabinete = "";
+                for (let sz in mods) {
+                    if (mods.hasOwnProperty(sz)) {
+                        optsGabinete += '<option value="' + sz + '">' + sz + ' M\u00F3dulos DIN (' + fmt(mods[sz]) + ')</option>';
+                    }
+                }
+                
+                safeSetHtml('elec_tablero_tp', '<option value="0">Ninguno / Existente</option>' + optsGabinete);
+                safeSetHtml('elec_tablero_ts', '<option value="0">Ninguno / Existente</option>' + optsGabinete);
+
+                safeSetText('lbl_elec_bocas_r', fmt(PRECIOS_CONFIG.elec.recableado));
+                safeSetText('lbl_elec_aplique', fmt(PRECIOS_CONFIG.elec.aplique));
+                safeSetText('lbl_elec_colgante', fmt(PRECIOS_CONFIG.elec.colgante));
+                safeSetText('lbl_elec_emerg', fmt(PRECIOS_CONFIG.elec.emergencia));
+                safeSetText('lbl_elec_jaba', "+" + fmt(PRECIOS_CONFIG.elec.jabalina));
+
+                updateBrandOptions();
+                safeSetText('lbl_sec_utp', fmt(PRECIOS_CONFIG.sec.utp_mt));
+
+                const ME = PRECIOS_CONFIG.mat_electrico;
+                safeSetText('lbl_m_c15', fmt(ME.cable_15_m));
+                safeSetText('lbl_m_c25', fmt(ME.cable_25_m));
+                safeSetText('lbl_m_c40', fmt(ME.cable_40_m));
+                safeSetText('lbl_m_c60', fmt(ME.cable_60_m));
+
+                calc();
+            } catch (e) {
+                console.error("Error critico en init():", e);
+            }
+        }
+
+        function updateBrandOptions() {
+            try {
+                const brandEl = document.getElementById('sec_brand');
+                if (!brandEl) return;
+                const brand = brandEl.value;
+                const data = PRECIOS_CONFIG.sec.brands[brand];
+                if (!data) return;
+
+                // XVR
+                const xvrSel = document.getElementById('sec_xvr');
+                if (xvrSel) {
+                    xvrSel.innerHTML = "";
+                    data.xvr.forEach(item => {
+                        const opt = document.createElement('option');
+                        opt.value = item.p;
+                        opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                        xvrSel.appendChild(opt);
+                    });
+                }
+
+                // Disco
+                const discoSel = document.getElementById('sec_disco');
+                if (discoSel) {
+                    discoSel.innerHTML = "";
+                    PRECIOS_CONFIG.sec.disco.forEach(item => {
+                        const opt = document.createElement('option');
+                        opt.value = item.p;
+                        opt.textContent = item.p > 0 ? `${item.label} (${fmt(item.p)})` : item.label;
+                        discoSel.appendChild(opt);
+                    });
+                }
+
+                // Cameras Slots
+                const camSelectors = document.querySelectorAll('.sec-cam-select');
+                camSelectors.forEach(sel => {
+                    sel.innerHTML = "";
+                    data.cameras.forEach((cam, idx) => {
+                        const opt = document.createElement('option');
+                        opt.value = idx;
+                        const techStr = cam.tech ? ` [${cam.tech.toUpperCase()}]` : "";
+                        opt.textContent = cam.p > 0 ? `${cam.label}${techStr} (${fmt(cam.p)})` : cam.label;
+                        sel.appendChild(opt);
+                    });
+                });
+
+                safeSetText('lbl_sec_caja', fmt(PRECIOS_CONFIG.sec.caja));
+                safeSetText('lbl_sec_fuente', fmt(PRECIOS_CONFIG.sec.fuente));
+                safeSetText('lbl_sec_balun', fmt(PRECIOS_CONFIG.sec.balun));
+                safeSetText('lbl_sec_reja', fmt(PRECIOS_CONFIG.sec.reja_proteccion));
+                safeSetText('lbl_sec_soporte', fmt(PRECIOS_CONFIG.sec.soporte_cam));
+
+                const utpModeEl = document.getElementById('sec_utp_mode');
+                if (utpModeEl) {
+                    const utpMode = utpModeEl.value;
+                    if (utpMode === 'rollo') {
+                        safeSetText('lbl_sec_utp_mode_val', "Valor por Rollo 100m");
+                    } else {
+                        safeSetText('lbl_sec_utp_mode_val', fmt(PRECIOS_CONFIG.sec.utp_mt) + "/m");
+                    }
+                }
+            } catch (e) {
+                console.error("Error en updateBrandOptions():", e);
+            }
+        }
 
         function calc() {
-            // HVAC
+            try {
+                const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
+            const modalidad = document.getElementById('presp_modalidad').value || 'llave';
+
+            // -- HVAC --
             let hvac_mo = parseInt(document.getElementById('hvac_tipo').value) || 0;
-            hvac_mo += (parseInt(document.getElementById('hvac_mt').value) || 0) * 12500;
-            if(document.getElementById('hvac_altura').checked) hvac_mo += 30000;
-            document.querySelectorAll('.hvac_opt:checked').forEach(i => hvac_mo += parseInt(i.dataset.p));
+            const hvac_mt = parseInt(document.getElementById('hvac_mt').value) || 0;
 
-            // ELEC
+            let hvacBaseKey = 'high';
+            if (calidad === 0.85) hvacBaseKey = 'medium';
+            else if (calidad < 0.8) hvacBaseKey = 'low';
+
+            const kitIdx = parseInt(document.getElementById('hvac_kit').value) || 0;
+            const kitObj = PRECIOS_CONFIG.hvac.kits[kitIdx];
+            const factorMat = PRECIOS_CONFIG.hvac.kits_factores[hvacBaseKey].f;
+            const kit_mat_base = kitObj.p * factorMat;
+
+            let cc_mat_base = 0;
+            if (document.getElementById('hvac_estetico').checked) {
+                const ccObj = PRECIOS_CONFIG.hvac.kits_cc;
+                if (hvacBaseKey === 'medium') cc_mat_base = ccObj.high.p * ccObj.medium.f;
+                else cc_mat_base = ccObj[hvacBaseKey].p;
+            }
+
+            const mt_extra_price_hvac = PRECIOS_CONFIG.hvac.mt_extra_val[hvacBaseKey];
+            hvac_mo += hvac_mt * (mt_extra_price_hvac * 0.4);
+            let hvac_mat = kit_mat_base + cc_mat_base + (hvac_mt * (mt_extra_price_hvac * 0.6));
+
+            if (document.getElementById('hvac_fuga').checked) hvac_mo += PRECIOS_CONFIG.hvac.fuga_carga;
+            if (document.getElementById('hvac_desinst').checked) hvac_mo += PRECIOS_CONFIG.hvac.desinstalacion;
+            if (document.getElementById('hvac_visita').checked) hvac_mo += PRECIOS_CONFIG.hvac.visita;
+            if (document.getElementById('hvac_manten').checked) hvac_mo += PRECIOS_CONFIG.hvac.mantenimiento;
+            if (document.getElementById('hvac_limpieza').checked) hvac_mo += PRECIOS_CONFIG.hvac.limpieza;
+            if (document.getElementById('hvac_altura').checked) hvac_mo += PRECIOS_CONFIG.hvac.altura;
+
+            hvac_mat += (parseInt(document.getElementById('hvac_tira').value) || 0) * PRECIOS_CONFIG.hvac.canal_tira;
+            hvac_mat += (parseInt(document.getElementById('hvac_codo').value) || 0) * PRECIOS_CONFIG.hvac.canal_codo;
+            hvac_mat += (parseInt(document.getElementById('hvac_union').value) || 0) * PRECIOS_CONFIG.hvac.canal_union;
+            hvac_mat += (parseInt(document.getElementById('hvac_tapa').value) || 0) * PRECIOS_CONFIG.hvac.canal_tapa;
+
+            window.lastHvacBaseDesc = PRECIOS_CONFIG.hvac.kits_factores[hvacBaseKey].desc;
+            window.lastHvacPipes = kitObj.pipes;
+            window.lastHvacKitLabel = kitObj.label;
+            window.lastHvacCCDesc = PRECIOS_CONFIG.hvac.kits_cc[hvacBaseKey].desc;
+            window.lastHvacMtExtra = hvac_mt;
+            window.lastHvacCcAct = document.getElementById('hvac_estetico').checked;
+            window.lastHvacKitAct = kitIdx > 0;
+
+            // -- ELEC (High-Volt Logic) --
+            document.getElementById('lbl_mat_centro').innerText = fmt(PRECIOS_CONFIG.elec.mat_centro * calidad);
+            document.getElementById('lbl_mat_llave').innerText = fmt(PRECIOS_CONFIG.elec.mat_llave * calidad);
+            document.getElementById('lbl_mat_tug').innerText = fmt(PRECIOS_CONFIG.elec.mat_tug * calidad);
+            document.getElementById('lbl_mat_tue25').innerText = fmt(PRECIOS_CONFIG.elec.mat_tue25 * calidad);
+            document.getElementById('lbl_mat_tue40').innerText = fmt(PRECIOS_CONFIG.elec.mat_tue40 * calidad);
+
             let elec_mo = parseInt(document.getElementById('elec_aco').value) || 0;
-            elec_mo += parseInt(document.getElementById('elec_tablero').value) || 0;
-            elec_mo += (parseInt(document.getElementById('elec_term_m').value) || 0) * 81900;
-            elec_mo += (parseInt(document.getElementById('elec_bocas_n').value) || 0) * 32000;
-            elec_mo += (parseInt(document.getElementById('elec_bocas_r').value) || 0) * 39500;
-            document.querySelectorAll('.elec_lum').forEach(i => elec_mo += (parseInt(i.value)||0) * parseInt(i.dataset.p));
-            if(document.getElementById('elec_jabalina').checked) elec_mo += 94600;
-
-            // SEC
-            let sec_mat = parseInt(document.getElementById('sec_xvr').value) || 0;
-            sec_mat += parseInt(document.getElementById('sec_disco').value) || 0;
-            let c_i = parseInt(document.getElementById('sec_cam_int').value) || 0;
-            let c_e = parseInt(document.getElementById('sec_cam_ext').value) || 0;
-            let c_f = parseInt(document.getElementById('sec_cam_fc').value) || 0;
-            let utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
             
-            sec_mat += (c_i * 25830) + (c_e * 27265) + (c_f * 40180) + (utp * 861);
-            let sec_mo = ((c_i + c_e + c_f) * 25000) + (utp * 500);
+            const n_term_tp = parseInt(document.getElementById('elec_term_tp').value) || 0;
+            const n_disy_tp = parseInt(document.getElementById('elec_disy_tp').value) || 0;
+            const required_mods_tp = (n_term_tp + n_disy_tp) * 2;
 
-            // TOTALS
+            const n_term_ts = parseInt(document.getElementById('elec_term_ts').value) || 0;
+            const n_disy_ts = parseInt(document.getElementById('elec_disy_ts').value) || 0;
+            const required_mods_ts = (n_term_ts + n_disy_ts) * 2;
+
+            const tp_tipo = document.getElementById('elec_tablero_tp').value;
+            const ts_tipo = document.getElementById('elec_tablero_ts').value;
+
+            function getSuggestedSize(req, tipo) {
+                if (tipo === 'none') return 0;
+                if (req === 0) return 4;
+                if (req <= 4) return 4;
+                if (req <= 8) return 8;
+                if (req <= 12) return 12;
+                if (req <= 18) return 18;
+                if (req <= 24) return 24;
+                return 36;
+            }
+
+            const suggested_size_tp = getSuggestedSize(required_mods_tp, tp_tipo);
+            const suggested_size_ts = getSuggestedSize(required_mods_ts, ts_tipo);
+
+            let brandKey = 'high';
+            if (calidad === 0.85) brandKey = 'medium';
+            else if (calidad < 0.8) brandKey = 'low';
+
+            function getTableroPrice(tipo, sizeKey) {
+                if (tipo === 'none' || sizeKey === 0) return { mo: 0, mat: 0 };
+                let mo = 0;
+                let mat = 0;
+                if (tipo === 'sup') {
+                    mo = PRECIOS_CONFIG.elec.tablero_mo.sup;
+                    mat = PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0;
+                } else if (tipo === 'emp') {
+                    mo = PRECIOS_CONFIG.elec.tablero_mo.emp;
+                    mat = (PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey] || 0) * 1.3;
+                }
+                return { mo, mat };
+            }
+
+            const tp_prices = getTableroPrice(tp_tipo, suggested_size_tp);
+            const ts_prices = getTableroPrice(ts_tipo, suggested_size_ts);
+
+            elec_mo += tp_prices.mo + ts_prices.mo;
+            const total_tab_mat = tp_prices.mat + ts_prices.mat;
+            
+            const n_term = n_term_tp + n_term_ts;
+            const n_disy = n_disy_tp + n_disy_ts;
+
+            elec_mo += n_term * PRECIOS_CONFIG.elec.termica_mono;
+            elec_mo += n_disy * PRECIOS_CONFIG.elec.disyuntor_mono;
+
+            const c_centro = parseInt(document.getElementById('elec_centro_iug').value) || 0;
+            const c_llave = parseInt(document.getElementById('elec_llave_iug').value) || 0;
+            const c_tug = parseInt(document.getElementById('elec_boca_tug').value) || 0;
+            const c_tue25 = parseInt(document.getElementById('elec_boca_tue25').value) || 0;
+            const c_tue40 = parseInt(document.getElementById('elec_boca_tue40').value) || 0;
+            const bocas_r = parseInt(document.getElementById('elec_bocas_r').value) || 0;
+
+            const agrup_tug = parseInt(document.getElementById('elec_agrup_tug').value) || 0;
+            const agrup_iug = parseInt(document.getElementById('elec_agrup_iug').value) || 0;
+
+            const tipoInst = document.getElementById('elec_tipo_inst').value;
+            const precio_boca_mo = tipoInst === 'exterior' ? PRECIOS_CONFIG.elec.boca_exterior : PRECIOS_CONFIG.elec.boca_nueva;
+
+            document.getElementById('lbl_mo_centro').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_llave').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tug').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tue25').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_tue40').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_agrup_tug').innerText = fmt(precio_boca_mo);
+            document.getElementById('lbl_mo_agrup_iug').innerText = fmt(precio_boca_mo);
+
+            const bocas_n = c_centro + c_llave + c_tug + c_tue25 + c_tue40;
+            const bocas_agrupadas = agrup_tug + agrup_iug;
+            
+            elec_mo += (bocas_n + bocas_agrupadas) * precio_boca_mo;
+            elec_mo += bocas_r * PRECIOS_CONFIG.elec.recableado;
+
+            const mt_extra_boca = parseInt(document.getElementById('elec_mt_extra').value) || 0;
+
+            const p_term_total = PRECIOS_CONFIG.elec.termica_mono + (PRECIOS_CONFIG.elec.mat_termica * calidad);
+            const p_disy_total = PRECIOS_CONFIG.elec.disyuntor_mono + (PRECIOS_CONFIG.elec.mat_disyuntor * calidad);
+            document.getElementById('lbl_elec_term_tp').innerText = fmt(p_term_total);
+            document.getElementById('lbl_elec_disy_tp').innerText = fmt(p_disy_total);
+            document.getElementById('lbl_elec_term_ts').innerText = fmt(p_term_total);
+            document.getElementById('lbl_elec_disy_ts').innerText = fmt(p_disy_total);
+
+            const precio_mo_canaliz = 2500;
+            const precio_mat_canaliz = 3000 * calidad;
+            elec_mo += mt_extra_boca * precio_mo_canaliz;
+
+            elec_mo += (parseInt(document.getElementById('elec_aplique').value) || 0) * PRECIOS_CONFIG.elec.aplique;
+            elec_mo += (parseInt(document.getElementById('elec_colgante').value) || 0) * PRECIOS_CONFIG.elec.colgante;
+            elec_mo += (parseInt(document.getElementById('elec_tubo').value) || 0) * PRECIOS_CONFIG.elec.tubo_led;
+            elec_mo += (parseInt(document.getElementById('elec_emerg').value) || 0) * PRECIOS_CONFIG.elec.emergencia;
+
+            const b_tipo = document.getElementById('elec_bandeja_tipo').value;
+            const b_mt = parseInt(document.getElementById('elec_bandeja_mt').value) || 0;
+            const b_alt = document.getElementById('elec_bandeja_alt').checked;
+            const tarifas_b = PRECIOS_CONFIG.elec.bandejas_tarifas[b_tipo];
+            const b_mo_unit = b_alt ? tarifas_b.mo_alt : tarifas_b.mo_norm;
+            const b_mat_unit = tarifas_b.mat;
+            document.getElementById('lbl_band_mo_dinamico').innerText = fmt(b_mo_unit);
+            elec_mo += b_mt * b_mo_unit;
+
+            if (document.getElementById('elec_jabalina').checked) elec_mo += PRECIOS_CONFIG.elec.jabalina;
+
+            const totalBocasElec = bocas_n + bocas_r + bocas_agrupadas;
+            let elec_mat = mt_extra_boca * precio_mat_canaliz;
+            elec_mat += c_centro * PRECIOS_CONFIG.elec.mat_centro * calidad;
+            elec_mat += c_llave * PRECIOS_CONFIG.elec.mat_llave * calidad;
+            elec_mat += c_tug * PRECIOS_CONFIG.elec.mat_tug * calidad;
+            elec_mat += c_tue25 * PRECIOS_CONFIG.elec.mat_tue25 * calidad;
+            elec_mat += c_tue40 * PRECIOS_CONFIG.elec.mat_tue40 * calidad;
+            elec_mat += bocas_r * PRECIOS_CONFIG.elec.mat_tug * calidad;
+
+            const ME = PRECIOS_CONFIG.mat_electrico;
+            const mat_tug_agrup = ME.caja_rect + ME.toma_10a + (ME.cano_20_m * 1) + (ME.cable_25_m * 3);
+            const mat_iug_agrup = ME.caja_rect + ME.ficha_bp + (ME.cano_20_m * 1) + (ME.cable_15_m * 3);
+            elec_mat += agrup_tug * mat_tug_agrup * calidad;
+            elec_mat += agrup_iug * mat_iug_agrup * calidad;
+
+            if (tipoInst === 'exterior' && (bocas_n + bocas_agrupadas) > 0) {
+                const total_metros_cano = (bocas_n * 5) + (bocas_agrupadas * 1) + mt_extra_boca;
+                const cant_tiras = Math.ceil(total_metros_cano / 3);
+                const cant_fijaciones = cant_tiras * 6;
+                elec_mat += cant_fijaciones * (ME.grampa_20 + ME.tarugo_6 + ME.tornillo_6) * calidad;
+                const total_cajas = c_centro + c_llave + c_tug + c_tue25 + c_tue40 + bocas_r + bocas_agrupadas;
+                elec_mat += total_cajas * 2 * (ME.tarugo_8 + ME.tornillo_8) * calidad;
+            }
+
+            elec_mat += n_term * PRECIOS_CONFIG.elec.mat_termica * calidad;
+            elec_mat += n_disy * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
+            elec_mat += total_tab_mat;
+            elec_mat += b_mt * b_mat_unit * calidad;
+
+            const ME2 = PRECIOS_CONFIG.mat_electrico;
+            let mat_ind = 0;
+            mat_ind += (parseInt(document.getElementById('m_c15').value) || 0) * ME2.cable_15_m;
+            mat_ind += (parseInt(document.getElementById('m_c25').value) || 0) * ME2.cable_25_m;
+            mat_ind += (parseInt(document.getElementById('m_c40').value) || 0) * ME2.cable_40_m;
+            mat_ind += (parseInt(document.getElementById('m_c60').value) || 0) * ME2.cable_60_m;
+            document.getElementById('tot_mat_ind_inline').innerText = fmt(mat_ind);
+            window.snapMatInd = {
+                c15: parseInt(document.getElementById('m_c15').value) || 0,
+                c25: parseInt(document.getElementById('m_c25').value) || 0,
+                c40: parseInt(document.getElementById('m_c40').value) || 0,
+                c60: parseInt(document.getElementById('m_c60').value) || 0
+            };
+
+            // -- SEC (Refined Logic) --
+            const brand = document.getElementById('sec_brand').value;
+            const brandData = PRECIOS_CONFIG.sec.brands[brand];
+            
+            let sec_mat = (parseInt(document.getElementById('sec_xvr').value) || 0) + (parseInt(document.getElementById('sec_disco').value) || 0);
+            let sec_mo = 0;
+            let n_cams = 0;
+            let n_analog_cams = 0;
+            let n_ip_cams = 0;
+            let sec_cam_list_txt = [];
+            let auto_insumos_mat = 0;
+
+            for(let i=1; i<=3; i++) {
+                const sel = document.getElementById(`sec_cam_type_${i}`);
+                const qty = parseInt(document.getElementById(`sec_cam_qty_${i}`).value) || 0;
+                if(qty > 0 && sel.selectedIndex >= 0) {
+                    const camData = brandData.cameras[sel.selectedIndex];
+                    if(camData.p > 0) {
+                        sec_mat += camData.p * qty;
+                        n_cams += qty;
+                        sec_cam_list_txt.push(`${qty}x ${camData.label}`);
+                        
+                        let mo_unit = PRECIOS_CONFIG.sec.mo_instalacion_cam;
+                        if(camData.tech === 'ip') {
+                            mo_unit *= 1.20;
+                            n_ip_cams += qty;
+                            auto_insumos_mat += (PRECIOS_CONFIG.sec.rj45 * 2) * qty; // 2x RJ45
+                        } else {
+                            n_analog_cams += qty;
+                            auto_insumos_mat += (PRECIOS_CONFIG.sec.balun + PRECIOS_CONFIG.sec.jack + PRECIOS_CONFIG.sec.fuente) * qty;
+                        }
+                        sec_mo += mo_unit * qty;
+                    }
+                }
+            }
+
+            window.lastSecAnalogCount = n_analog_cams || 0;
+            window.lastSecIpCount = n_ip_cams || 0;
+            window.lastSecTotalCams = n_cams || 0;
+            window.lastSecCamList = sec_cam_list_txt;
+            window.lastSecNIp = n_ip_cams;
+
+            // Manual inputs (Cajas, Rejas, Extras)
+            const n_rejas = parseInt(document.getElementById('sec_rejas').value) || 0;
+            const n_soportes = parseInt(document.getElementById('sec_soportes').value) || 0;
+            const n_cajas = parseInt(document.getElementById('sec_caja').value) || 0;
+            const n_fuentes_ext = parseInt(document.getElementById('sec_fuente').value) || 0;
+            const n_balun_ext = parseInt(document.getElementById('sec_balun').value) || 0;
+
+            sec_mat += auto_insumos_mat;
+            sec_mat += (n_rejas * PRECIOS_CONFIG.sec.reja_proteccion);
+            sec_mat += (n_soportes * PRECIOS_CONFIG.sec.soporte_cam);
+            sec_mat += (n_cajas * PRECIOS_CONFIG.sec.caja);
+            sec_mat += (n_fuentes_ext * PRECIOS_CONFIG.sec.fuente);
+            sec_mat += (n_balun_ext * PRECIOS_CONFIG.sec.balun);
+
+            // Cable Logic (Metro vs Rollo)
+            const utp_mode = document.getElementById('sec_utp_mode').value;
+            const utp_qty = parseInt(document.getElementById('sec_utp_mt').value) || 0;
+            let utp_cost = 0;
+            if (utp_mode === 'rollo') {
+                const n_rollos = utp_qty > 0 ? Math.ceil(utp_qty / 100) : 1;
+                utp_cost = n_rollos * PRECIOS_CONFIG.sec.utp_rollo;
+                document.getElementById('lbl_sec_utp_mode_val').innerText = `${n_rollos} Rollo${n_rollos>1?'s':''} 100m (${fmt(utp_cost)})`;
+            } else {
+                utp_cost = utp_qty * PRECIOS_CONFIG.sec.utp_mt;
+                document.getElementById('lbl_sec_utp_mode_val').innerText = fmt(PRECIOS_CONFIG.sec.utp_mt) + "/m";
+            }
+            sec_mat += utp_cost;
+
+            let c_mo_only = parseInt(document.getElementById('sec_cam_mo_only').value) || 0;
+            const n_total_mo_cams = n_cams + c_mo_only;
+            
+            if (parseInt(document.getElementById('sec_xvr').value) > 0) {
+                const zapatillas_qty = n_cams > 4 ? 2 : 1;
+                sec_mat += PRECIOS_CONFIG.sec.gabinete + (PRECIOS_CONFIG.sec.zapatilla * zapatillas_qty);
+            }
+
+            sec_mo += (utp_qty * PRECIOS_CONFIG.sec.mo_cableado_mt) + (c_mo_only * PRECIOS_CONFIG.sec.mo_instalacion_cam);
+            
+            window.lastSecCamList = sec_cam_list_txt;
+            window.lastSecNIp = n_ip_cams;
+
+            // -- TOTALS & MARGINS --
             let mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
-            let base = hvac_mo + elec_mo + sec_mo + sec_mat + mat_extra;
+            let total_mo = hvac_mo + elec_mo + sec_mo;
+            let total_mat = hvac_mat + elec_mat + mat_ind + sec_mat + mat_extra;
             
-            // Margenes
-            let viaticos = base * 0.15;
-            let operativo = base + viaticos;
-            let margen = operativo * 0.35;
-            let total = operativo + margen;
+            const final_viaticos_pct = (parseFloat(document.getElementById('global_viaticos').value) || 15) / 100;
+            const final_margen_pct = (parseFloat(document.getElementById('global_margen').value) || 35) / 100;
 
-            document.getElementById('tot_hvac').innerText = fmt(hvac_mo);
+            const base = modalidad === 'solo_mo' ? total_mo : (total_mo + total_mat);
+            const viaticos = base * final_viaticos_pct;
+            const operativo = base + viaticos;
+            const margen = operativo * final_margen_pct;
+            const total = operativo + margen;
+            const ganancia_neta = total_mo + viaticos + margen;
+
+            const elec_days = totalBocasElec / 6;
+            const hvac_tareas = (parseInt(document.getElementById('hvac_tipo').value) > 0 ? 1 : 0);
+            const hvac_days = hvac_tareas > 0 ? 0.7 : 0;
+            const sec_days = (n_total_mo_cams / 4);
+            let total_days = Math.ceil(elec_days + hvac_days + sec_days);
+            if (total_days === 0 && base > 0) total_days = 1;
+
+            document.getElementById('tot_hvac').innerText = fmt(hvac_mo + hvac_mat);
             document.getElementById('tot_elec').innerText = fmt(elec_mo);
+            document.getElementById('tot_elec_mat').innerText = elec_mat > 0 ? fmt(elec_mat) : '—';
+            document.getElementById('tot_mat_ind').innerText = mat_ind > 0 ? fmt(mat_ind) : '—';
             document.getElementById('tot_sec_mo').innerText = fmt(sec_mo);
             document.getElementById('tot_sec_mat').innerText = fmt(sec_mat);
             document.getElementById('res_final').innerText = fmt(total);
 
+            // Actualizar etiqueta según modalidad
+            const labelFinal = document.querySelector('.final-price-box span');
+            if (labelFinal) {
+                labelFinal.innerText = modalidad === 'llave' ? 'PRECIO FINAL ESTIMADO (LLAVE EN MANO)' : 'TOTAL HONORARIOS (SOLO MANO DE OBRA)';
+            }
+
+            document.getElementById('dash_mat_cost').innerText = fmt(total_mat);
+            document.getElementById('dash_profit').innerText = fmt(ganancia_neta);
+            document.getElementById('dash_days').innerText = total_days > 0 ? `${total_days} Día${total_days > 1 ? 's' : ''}` : '-';
+
             window.lastTotal = total;
+            window.lastModalidad = modalidad;
+            const ratioMO = base > 0 ? (total_mo / base) : 0;
+            const ratioMat = (base > 0 && modalidad === 'llave') ? (total_mat / base) : 0;
+            window.lastTotalMOFinal = total_mo + (viaticos + margen) * ratioMO;
+            window.lastTotalMatFinal = modalidad === 'solo_mo' ? 0 : (total_mat + (viaticos + margen) * ratioMat);
+
+            // -- BREAKDOWN LISTS --
+            const moList = [];
+            const matList = [];
+
+            if (parseInt(document.getElementById('hvac_tipo').value) > 0) {
+                moList.push("Instalación/Service de Climatización según potencia");
+                if (window.lastHvacCcAct) moList.push("Canalización estética y prolijidad en terminaciones");
+                if (window.lastHvacKitAct) matList.push(`Kit de materiales AA (${window.lastHvacPipes})`);
+                if (window.lastHvacCcAct) matList.push(`Kit Cablecanal estético 60x40 con accesorios`);
+                if (hvac_mt > 0) matList.push(`${hvac_mt}m de cañería de cobre y aislación extra`);
+            }
+
+            const tipoInstDesc = tipoInst === 'exterior' ? 'a la vista (exterior)' : 'embutida de cañería';
+            if (totalBocasElec > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || tp_tipo !== 'none' || ts_tipo !== 'none') {
+                moList.push("Dimensionamiento de circuitos, cálculo de demanda e ingeniería de detalle.");
+                if (totalBocasElec > 0) moList.push(`Canalización ${tipoInstDesc} para ${totalBocasElec} bocas/cajas de electricidad.`);
+                if (parseInt(document.getElementById('elec_aco').value) > 0) moList.push("Instalación técnica de Acometida Eléctrica.");
+                if (tp_tipo !== 'none') moList.push(`Embutir y armar Tablero Principal (TP) ${tp_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (ts_tipo !== 'none') moList.push(`Embutir y armar Tablero Seccional (TS) ${ts_tipo==='emp'?'en mampostería':'de superficie'}.`);
+                if (document.getElementById('elec_jabalina').checked) moList.push("Colocación de jabalina para Puesta a Tierra (PAT) como corresponde bajo norma.");
+                moList.push("Medición y pruebas de puesta a tierra, disyuntor y llaves mediante el Comprobador de instalaciones multifunción.");
+                
+                if (n_term > 0 || n_disy > 0) matList.push(`Protecciones: ${n_term} Térmicas, ${n_disy} Disyuntores`);
+            }
+
+            if (n_total_mo_cams > 0 || sec_mat > 0) {
+                if (n_cams > 0) {
+                    moList.push(`Instalación y configuración de ${n_cams} cámaras de seguridad (Provisión y Colocación)`);
+                    if(window.lastSecNIp > 0) moList.push(`Recargo por tecnología IP aplicada en ${window.lastSecNIp} unidades (+20% M.O.)`);
+                    
+                    window.lastSecCamList.forEach(txt => {
+                        matList.push(txt);
+                    });
+                }
+                if (c_mo_only > 0) moList.push(`Instalación de ${c_mo_only} cámaras provistas por el cliente (Solo Mano de Obra)`);
+                moList.push("Configuración de monitoreo remoto en dispositivos");
+                
+                if (n_total_mo_cams > 0) matList.push(`Insumos de conexión (Baluns/RJ45, Jacks, Fuentes) según tecnología`);
+                if (n_rejas > 0) matList.push(`${n_rejas}x Rejas de protección para cámaras`);
+                if (n_soportes > 0) matList.push(`${n_soportes}x Soportes de pared/techo para cámaras`);
+                if (n_cajas > 0) matList.push(`${n_cajas}x Cajas estancas 10x10`);
+                if (parseInt(document.getElementById('sec_xvr').value) > 0 || parseInt(document.getElementById('sec_disco').value) > 0) matList.push(`Grabador XVR/NVR + Almacenamiento específico para vigilancia`);
+                
+                if (utp_qty > 0) {
+                    const descCable = utp_mode === 'rollo' ? "Rollo Cerrado 305m" : `${utp_qty}m fraccionado`;
+                    matList.push(`Cable UTP exterior 100% cobre (${descCable})`);
+                }
+            }
+
+            window.lastMoBreakdown = moList;
+            window.lastMatBreakdown = matList;
+
+                window.snapMatInd = {
+                    c15: parseInt(document.getElementById('m_c15').value) || 0,
+                    c25: parseInt(document.getElementById('m_c25').value) || 0,
+                    c40: parseInt(document.getElementById('m_c40').value) || 0,
+                    c60: parseInt(document.getElementById('m_c60').value) || 0
+                };
+                
+                const pdfBtn = document.getElementById('btn_pdf_gen');
+                if (pdfBtn) pdfBtn.disabled = (total <= 0);
+            } catch (e) {
+                console.error("Error en calc():", e);
+            }
+        }
+
+        function adjMtHVAC(val) {
+            const el = document.getElementById('hvac_mt');
+            let v = parseInt(el.value) || 0;
+            v += val;
+            if (v < 0) v = 0;
+            el.value = v;
+            calc();
         }
 
         function copy() {
-            let t = `*PRESUPUESTO EL CÓNDOR SERVICIOS*\n`;
-            t += `------------------------------------\n`;
-            t += `Detalle de soluciones técnicas:\n\n`;
+            const fecha = document.getElementById('presp_fecha').value || new Date().toLocaleDateString();
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
+            const referencia = document.getElementById('presp_ref').value || "Servicios Técnicos Integrales";
+            const telefono = document.getElementById('presp_tel').value || "";
+            const turno = document.getElementById('presp_turno').value || "A coordinar";
+            const tipoCliente = document.getElementById('presp_tipo_cliente').value;
+
+            let t = `*PRESUPUESTO TÉCNICO - EL CÓNDOR*\n`;
+            t += `_Fecha: ${fecha}_\n`;
+            t += `_Ref: ${referencia}_\n\n`;
             
-            // HVAC Details
-            if (parseInt(document.getElementById('hvac_tipo').value) > 0) {
-                const mtExtra = parseInt(document.getElementById('hvac_mt').value) || 0;
-                t += `✅ *Climatización / HVAC*\n`;
-                t += `   - Instalación/Service según potencia.\n`;
-                if (mtExtra > 0) t += `   - ${mtExtra}m. de cañería extra.\n`;
-                t += `   - Incluye: Fundas, Cinta de PVC, Ménsulas reforzadas y Cable de interconexión.\n\n`;
+            t += `*ATN:* ${cliente}\n`;
+            if (telefono) t += `*TEL:* ${telefono}\n`;
+            t += `*DOMICILIO:* ${ubicacion}\n`;
+            t += `*TIPO:* ${tipoCliente}\n`;
+            t += `*ESTADO:* Turno coordinado para ${turno}\n\n`;
+
+            t += `*1. DETALLE TÉCNICO DE OBRA:*\n`;
+            if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
+                window.lastMoBreakdown.forEach(item => {
+                    t += ` \u2022 ${item}\n`;
+                });
+            } else {
+                t += ` \u2022 Relevamiento y ejecución de servicios técnicos especializados.\n`;
             }
+            t += `\n`;
 
-            // ELEC Details
-            if (parseInt(document.getElementById('elec_bocas_n').value) > 0 || parseInt(document.getElementById('elec_aco').value) > 0 || parseInt(document.getElementById('elec_term_m').value) > 0) {
-                t += `✅ *Instalaciones Eléctricas*\n`;
-                const term = parseInt(document.getElementById('elec_term_m').value) || 0;
-                const bocas = parseInt(document.getElementById('elec_bocas_n').value) || 0;
-                if (elec_aco.value !== "0") t += `   - Tablero/Acometida certificada.\n`;
-                if (term > 0) t += `   - ${term} Protecciones (Térmica/Disyuntor).\n`;
-                if (bocas > 0) t += `   - ${bocas} Bocas nuevas/re-cableadas.\n`;
-                if (document.getElementById('elec_jabalina').checked) t += `   - Instalación de Jabalina y Puesta a Tierra (PAT).\n`;
-                t += `   - Incluye: Cajas, conectores y cableado normalizado.\n\n`;
+            t += `*2. PROVISIÓN DE MATERIALES:*\n`;
+            if (window.lastModalidad === 'llave') {
+                if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                    window.lastMatBreakdown.forEach(item => {
+                        t += ` \u2022 ${item}\n`;
+                    });
+                } else {
+                    t += ` \u2022 Insumos normalizados bajo norma AEA/CACA.\n`;
+                }
+            } else {
+                t += ` \u2022 *MANO DE OBRA SOLAMENTE.* Insumos a cargo del cliente.\n`;
             }
+            t += `\n`;
 
-            // CCTV Details
-            if (parseInt(document.getElementById('sec_cam_int').value) > 0 || parseInt(document.getElementById('sec_xvr').value) > 0) {
-                t += `✅ *Seguridad Electrónica CCTV*\n`;
-                const xvr = document.getElementById('sec_xvr').options[document.getElementById('sec_xvr').selectedIndex].text.split(' ($')[0];
-                const disco = document.getElementById('sec_disco').options[document.getElementById('sec_disco').selectedIndex].text.split(' ($')[0];
-                const cams = (parseInt(document.getElementById('sec_cam_int').value) || 0) + (parseInt(document.getElementById('sec_cam_ext').value) || 0) + (parseInt(document.getElementById('sec_cam_fc').value) || 0);
-                const utp = parseInt(document.getElementById('sec_utp_mt').value) || 0;
-
-                t += `   - ${xvr} + ${disco}.\n`;
-                t += `   - ${cams} Cámaras HD (Domos/Bullet/FC).\n`;
-                t += `   - ${utp}m. de cable UTP (100% Cobre).\n`;
-                t += `   - Incluye: Baluns HD, Plugs de alimentación y Jacks.\n\n`;
+            t += `*3. RESUMEN DE INVERSIÓN:*\n`;
+            if (window.lastModalidad === 'llave') {
+                t += `Provisión total de materiales: ${fmt(window.lastTotalMatFinal)}\n`;
             }
-            
-            t += `*VALOR LLAVE EN MANO: ${fmt(window.lastTotal)}*\n`;
-            t += `------------------------------------\n`;
-            t += `VALOR ESTIMADO: Incluye Materiales, Mano de Obra, Seguros, Herramientas y Garantía El Cóndor.\n\n`;
-            t += `Validez: 5 días. Precios sujetos a cambios de mercado.`;
+            t += `Honorarios profesionales: ${fmt(window.lastTotalMOFinal)}\n`;
+            t += `*TOTAL FINAL A ABONAR: ${fmt(window.lastTotal)}*\n\n`;
 
-            navigator.clipboard.writeText(t).then(() => alert("Presupuesto detallado copiado para WhatsApp"));
+            t += `*CLÁUSULAS DE EXCELENCIA:*\n`;
+            t += `\u2705 *Garantía:* 6 meses de cobertura técnica escrita.\n`;
+            t += `\u2705 *Seguridad:* Personal con Seguro de Vida y ART (Apto para ingresos B2B).\n`;
+            t += `\u2705 *Trazabilidad:* Incluye etiqueta QR de historial de mantenimiento.\n`;
+            t += `\u23F3 *Validez:* Presupuesto válido por 48hs debido a fluctuación de insumos.\n\n`;
+
+            t += `*PAGO:* 60% anticipo al confirmar, 40% al finalizar los trabajos.\n`;
+            t += `_Profesionalismo. Seguridad. Confianza._`;
+
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(t);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = t;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+            window.open(waUrl, '_blank');
         }
 
-        calc();
+        function copyProveedor() {
+            try {
+                let t = "*LISTADO DE MATERIALES (EL C\u00D3NDOR)*\n";
+                t += "------------------------------------\n";
+                
+                const brand = document.getElementById('sec_brand').value;
+                const brandData = PRECIOS_CONFIG.sec.brands[brand];
+                
+                let n_total_analog = 0;
+                let n_total_ip = 0;
+                let sec_cam_summary = [];
+
+                for(let i=1; i<=3; i++) {
+                    const qty = parseInt(document.getElementById(`sec_cam_qty_${i}`).value) || 0;
+                    const sel = document.getElementById(`sec_cam_type_${i}`);
+                    if(qty > 0 && sel && sel.selectedIndex >= 0) {
+                        const camData = brandData.cameras[sel.selectedIndex];
+                        if(camData && camData.p > 0) {
+                            sec_cam_summary.push(qty + "u " + camData.label);
+                            if(camData.tech === 'ip') n_total_ip += qty;
+                            else n_total_analog += qty;
+                        }
+                    }
+                }
+
+                const manual_fuentes = parseInt(document.getElementById('sec_fuente').value) || 0;
+                const manual_baluns = parseInt(document.getElementById('sec_balun').value) || 0;
+                const total_fuentes = n_total_analog + n_total_ip + manual_fuentes;
+                const total_baluns = n_total_analog + manual_baluns;
+                
+                let list = [];
+                sec_cam_summary.forEach(function(txt) { list.push(txt); });
+                if (total_fuentes > 0) list.push(total_fuentes + "u Fuentes 12V");
+                if (total_baluns > 0) list.push(total_baluns + "u Pares Baluns");
+                
+                const terms = (parseInt(document.getElementById('elec_term_tp').value) || 0) + (parseInt(document.getElementById('elec_term_ts').value) || 0);
+                const disys = (parseInt(document.getElementById('elec_disy_tp').value) || 0) + (parseInt(document.getElementById('elec_disy_ts').value) || 0);
+                if (terms > 0) list.push(terms + "u T\u00E9rmicas");
+                if (disys > 0) list.push(disys + "u Disyuntores");
+
+                const mat_sueltos = window.snapMatInd || {};
+                if (mat_sueltos.c15 > 0) list.push(mat_sueltos.c15 + "m Cable 1.5mm");
+                if (mat_sueltos.c25 > 0) list.push(mat_sueltos.c25 + "m Cable 2.5mm");
+                if (mat_sueltos.c40 > 0) list.push(mat_sueltos.c40 + "m Cable 4.0mm");
+                if (mat_sueltos.c60 > 0) list.push(mat_sueltos.c60 + "m Cable 6.0mm");
+
+                t += list.map(function(item) { return " \u2022 " + item; }).join('\n');
+                const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
+                window.open(waUrl, '_blank');
+            } catch (e) {
+                alert("Error en copyProveedor: " + e.message);
+                console.error("Error al copiar:", e);
+            }
+        }
+        function applyCombo(n) {
+            document.getElementById('sec_brand').value = 'dahua';
+            updateBrandOptions();
+            
+            const selXvr = document.getElementById('sec_xvr');
+            selXvr.selectedIndex = (n <= 4) ? 1 : 2;
+
+            document.getElementById('sec_disco').selectedIndex = 1; // 1TB
+
+            document.getElementById('sec_cam_type_1').selectedIndex = 1; // Bullet Std
+            document.getElementById('sec_cam_qty_1').value = n;
+            
+            document.getElementById('sec_cam_type_2').selectedIndex = 0;
+            document.getElementById('sec_cam_qty_2').value = 0;
+            document.getElementById('sec_cam_type_3').selectedIndex = 0;
+            document.getElementById('sec_cam_qty_3').value = 0;
+
+            document.getElementById('sec_utp_mt').value = 100;
+
+            document.getElementById('global_margen').value = (n == 4) ? 21 : 33;
+            calc();
+
+            const totalSec = document.querySelector('.total-section');
+            if (totalSec) totalSec.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function setModalidad(m) {
+            document.getElementById('presp_modalidad').value = m;
+            calc();
+        }
+
+        function prepararDocumento() {
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
+            const referencia = document.getElementById('presp_ref').value || "Presupuesto de Servicios";
+            const telefono = document.getElementById('presp_tel').value || "";
+            const turno = document.getElementById('presp_turno').value || "A coordinar";
+            const fecha = document.getElementById('presp_fecha').value;
+
+            document.getElementById('doc_cliente').innerText = cliente;
+            document.getElementById('doc_tel').innerText = telefono;
+            document.getElementById('doc_domicilio').innerText = ubicacion;
+            document.getElementById('doc_turno').innerText = turno;
+            document.getElementById('doc_fecha').innerText = fecha;
+            document.getElementById('doc_ref').innerText = referencia;
+
+            const ulTrabajos = document.getElementById('doc_trabajos');
+            ulTrabajos.innerHTML = "";
+            if (window.lastMoBreakdown && window.lastMoBreakdown.length > 0) {
+                window.lastMoBreakdown.forEach(item => {
+                    const li = document.createElement('li');
+                    li.innerText = item;
+                    li.style.marginBottom = "5px";
+                    ulTrabajos.appendChild(li);
+                });
+            } else {
+                const li = document.createElement('li');
+                li.innerText = "Relevamiento y ejecución de servicios técnicos especializados.";
+                ulTrabajos.appendChild(li);
+            }
+
+            const ulMateriales = document.getElementById('doc_materiales');
+            ulMateriales.innerHTML = "";
+
+            if (window.lastModalidad === 'solo_mo') {
+                const li = document.createElement('li');
+                li.innerText = "Materiales y accesorios a ser provistos por el cliente en obra.";
+                li.style.fontStyle = "italic";
+                li.style.color = "#666";
+                ulMateriales.appendChild(li);
+                document.getElementById('doc_tot_mat').innerText = "PROVISTOS P/CLIENTE";
+            } else {
+                if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                    window.lastMatBreakdown.forEach(item => {
+                        const li = document.createElement('li');
+                        li.innerText = item;
+                        li.style.marginBottom = "5px";
+                        ulMateriales.appendChild(li);
+                    });
+                } else {
+                    const li = document.createElement('li');
+                    li.innerText = "Materiales normalizados según normativas vigentes.";
+                    ulMateriales.appendChild(li);
+                }
+                document.getElementById('doc_tot_mat').innerText = fmt(window.lastTotalMatFinal);
+            }
+
+            document.getElementById('doc_tot_mo').innerText = fmt(window.lastTotalMOFinal);
+            document.getElementById('doc_tot_final').innerText = fmt(window.lastTotal);
+
+            const totMatRow = document.getElementById('doc_tot_mat').parentElement;
+            if (window.lastModalidad === 'solo_mo') {
+                totMatRow.style.opacity = "0.6";
+            } else {
+                totMatRow.style.opacity = "1";
+            }
+        }
+
+        function generarPDF() {
+            prepararDocumento();
+            window.print();
+        }
+
+        window.onload = init;
+        
+        // Inicialización inmediata forzada
+        init();
     </script>
+
+    <!-- PLANTILLA PARA PDF/WORD (OCULTA) -->
+    <div id="doc_template_container" style="display: none; position: absolute; left: -9999px;">
+        <div id="doc_template_wrapper" style="font-family: Arial, sans-serif; color: #000; background: #fff; padding: 40px; width: 800px; box-sizing: border-box; font-size: 14px; line-height: 1.6;">
+            <!-- Header with Logo Right -->
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 20px;">
+                <div style="flex: 1;">
+                    <h2 style="color: #000; margin: 0; font-size: 24px; text-transform: uppercase;">Presupuesto de Servicios</h2>
+                    <h3 style="color: #666; margin: 5px 0 0 0; font-size: 16px;">El Cóndor Mantenimiento Integral</h3>
+                </div>
+                <div style="text-align: right;">
+                    <img id="doc_logo" src="data:image/jpeg;base64,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T3w8wwz/AN//AL1zzjPznPPyDl0EP8giQw+888888888SG0W8+CCUF8FOUqV7DOKP888NYf8uDDDt8888888888tNPWtgnLM79muSYXXOhxOau7PUIt+z2vNFqt188888888/UWDdb8pW6m4uq971+Xp6Hb0wkzZ/JZ/qM4V088888888r0/k4yMXx9LH5Kvpm+fpr3m9b37Kj+1rt4H9888888888qP4XTWj3W8YR3i+Ned7poPK98yc3Ffv/3xyg+88888888823m+xgWV/Lx6H+VtVwKv79+MAWUC1B2DY8g+888888888+gbnc0wJSu1y64YnXaGKHGg0+nRExU3r5iQ088888888mBTyyyyyyzz7z7iSzyzzzyzyzyzyzziDSzyBoe8888888+PPPOPPPPOIayy86tLwL8z25665tOPPOPPOOWu8888888W988888885mObFVPd41fIDSAqaa888888888Vo8888888W98888888xXStRQWHdZHcryZwEm988888888Vo8888888Tu9999999vPfv8A/nj/AL761z6839733333333173zzzzzzwYIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINZzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD//EADcRAAEDAwMCBQEHAwMFAAAAAAIAAwQBBRITIlIRMhUhMDFCEBQgIyQzNEBBQ3IGUFFTYWKAkP/aAAgBAgEBPwD/AOAINmZdBUS0jjm8amWnoObKqJCXQvuRoT0j2BSbQ42OYKtCEulf9jiW56QXT4r8nbh8t5qVcHnixHaCiXJ5gsS3CjZhz28h71KgPRyTYOGWNKKLaREdV9Srm2yOEdMXN6hb05Hizm8mu9SYb0cuh/yh8y6L7JCZjAbvRZ2j+mmgC2OlgGmriwLD+IqqbacdLEKKLbG2hzkKZdGw/CjppmRLc6qJaWWx6nuJTLS24PUNpIwlRHFGubLw6UjuTUaO23m2CnTpDhYHs+rL7jJZAaYuEeSOEjuUy0bdVntR5AW5bff+OH6lFdP2LC6K00/NgrvulKJbXni6l5CjOHbh6D3qTNkSi6KDaSd3OpmO3HHoAKlBVFIjtujiam2lxrc1uUadIjlj8VjCnt/+alW96OXXD6bl/wB1DuTjRYnuBOsw5zfVrvUmE9GLcH8cO+iun7FhVVpEilBin40XU1nlMu1exjtTMaRJcUK1NM7j70O37pCSmWpl4ch2mnGZERxQ7sJDhIUq1g8OrHRtmBYlT6tPvMlmBqNdGZA4SFMtJY6rHaqiQ+/8UO+iuf7FiiiWt13ee0E5KhwG8We9PypEovNQrMRb3UzHZaHEfRejtujiSmWlwCyaUabIjFiqVi3EeJqZbXoxLr9YdzeZ2l2I2Yc9vqPepMJ6OXn2/wASMw4850AEei1HCj3wUy7EY4NbRUeG/LPaodtZYHqXeh9SZbGXxyHvT0WVFLqod1+EncpNubfHUZTrLjRYmC9/o064yXUaqNcWXhwkAplp26rKMCAuhfwB3eVFCtDjm8+xPTYsNvBkN6eelSi6ZqFZyLe6gabAejYY+tWnX2TrIvDiamWYhLNlMSpEVzom34s8cD2kplsdYrkO4PrRQ7k8xtLcKqzFuLeQ7DUqC9GLz9ZiK9ILoAJmLFgt5vdymXUnNjOwVFhSJJKJbWY/+S2/H+D0yUy3MyO0N6kw5ERzzUO6YbHtwp+BHljmx3J5hxksSD6tuutHkBqLc2XRwkAplrEx1I6MCDyL04dqIh1XuxPz48RvBnuRvSJbig2byzeQAID0EF1XX+F1RttueTinWfHeympEiI4mZMWcODveplrcZ3h2L2+sW4PM/wCKr9jnt8TUqMUdzCqpX0PknLjINvS+Kr3daqPNJjtBUvkrFeOSeK8ck8F45J4LxyTxXjknivHJXFeOSl45K4rxyUvHJS8clLxyTwXjsngvHJS8ck8FS+yeC8clLxyTxXjkngvHJPFeOSeCrfJSpfJSkyye8yBbsshVLjI0tIjVfuA4YVyAk48475n6e5Aw5X2BEw8H9uv3MSqgjyD7W6oo0gO5uv1ECP2BaD1PhVbv6rotNyvwqqtuB7qgGfatF7hVaDnCqqJj70+5ShEXRfZZRdraNl4O4PrQHK+wLQc4VWi5wqiEh+HqABGWIqFaQBvUPuQNDj5AibAvKoKZamXh2bE6y405UCTTZG5QRUO1CyObgZIQEfYFUBPywU21MuDkHenWyZcqJqyCNdbJVbAvgrtC0nMxQV6lRMMt6IVwV8AREMVYgEhPJaTSwbp8E5Djuj0qCuFqJkc210UOKclzEVGt0dkezcscfYEbLZ9wK4WjoOq0sdytTTZRgqQLSb91pNJ6Ey6ONQU+EUZz07GxkWoSIhAc1MvL1XK0aUS8vULF1DLik31zV3oyZZgaskUSzdJOO4NmVfgpV4kGX4ajXiQDlNRMui6OSvMYajrCrF7PfSTHF5vCqdZJmRgX/KY/RBX3tZVg9jUgsWzIV4nLEu9W256xYGiDMTFTY+lIxorbFFlkOSnSxjt5Jy7TCLyNQLq4blAdXTIelVcmBZf29pK0/tAV0ccai5CguUqhd6jPOHHAyV+Hq0BelVWLHQNTtsU60Va/TqSr5q07YoK65UhHX6VVnL8r5q60H7Easf8AeThYjkoswZAnSiuMHVDMe9MjiyCvvayrB7GpH6Ro+41EIgkM1FDXarsI/bG01XYFKK/1KmFPo1Xo4CaLYHVX6g9W6q0/tAUlkZLeBoLJGEvM0GLTeCvE0XiwH0qqxvDiYJ1rVZMFJiOMOHTBMRnHnApgvAQx3GrjAaiYYmrM9mxhT4qUzrM4VUiM8yXQgTMZx4gGgKIyMeOAq8ui3Gw5Kx/3k9+kahzPs8ytEJCTeVENPw1fe1lWD2NSf25oh3K1QHDeoZdqD381dHxKV/iobrbscKirtFJ5nIVVlwfdQITjsgCLtQiI1AVeXhKRhT4q0ftFMfJlnUUd0X2QMVeNfR6gq+fuqelFkFHcA1Fltvt9aGjbE/dCAh7ApL7bO4zU2SUh7L4qHJKO9lRR5TMgeoKrLLveCCOyHaCkyGWR81NlFIeyr2qw411k7jVk6o/1jVmmjX8I10V+rtBf6f6YmiES8iX2SP3UBbG29qn3FsG8R70VSMsqq2T9EsC7EBtuj1oqsxy+CEWQHyU+4tst4juJOOZlU6q0V/Jq8fs1ZpeJaRIxzpip8Qo7/mqelVNPuNFsNN3qUAo73JIfJPSXHu4/q3IeZLJuqavcmncKcvUgxTz7zxbjXVRJrsbPBFepBDjgjruyQHUCyFDepVBxUua9J7lDnOxh2Lx2VwXjkrinrlId+a6kRdardktqYmPM9pob4/T4J68SXPZGThl1Kq3f0Ua6vx28BBSLo/IbwJNOOg5Q6LxqSKkzTk9/pUEi9lpucFpucKrTc4VWm5wqtNzhVabnCq03OFVpucKrTc4VWk5wqtNzhVabnCq03OFVpucKrTc4VWm5wqtNzhVabnCq03OFVpucKrTc4VWk5wqtNzhVabnCq0nOFVpucKrTc4VWm5wqtNzhVabnCq03OFVpucKrTc4VWm5wqtNzhVVEh9/RsYCTh1JaDNPgtFngtFngtFngtFngtFngtFngtFngtFngjGKA9SQhHLzEFUYo/wDTQhHLt00QxR7tNCEcu3TWEftw3qrccfMgWMcRyw2qjLNd1AXSL2/hqrLAN5VQNMH50BEEUC36aFqP7jvRtRw7kNI5bR01os8Fos8Fos8Fos8Fos8Fos8Fos8Fos8FoM8FfAEHAxVfQsfu8q+/of1Oil5VmdH+ograyxQjqD2Se06zjo6e1W9mLVzJs0+025ccHD2KtKRpgCyan6jLzD9FcnyMWWg+auYE1BbGilSXGoYYpi2C6zqm5uJVYKPDPI8lb3SGCZqNGrNzdePaq6kCUAgew1djMtOvngobDFXANt5U8x6+jfu9n0bH7vKvv6Lz5A8dHo2Yq1svUfM8MATtMJhkbFTFQX2ScxGLUE9EJ24dKhXFNsORJnmFTU1nWhnyVtZcckZvfBXihHHCggn4ZPwwxTc+Qw1pVYqgcdehHmCt7JHCNqtO5MuSIBGFW8wTbb06SDphgAqY7Ja26OYJps35QEy3UF0xwGno37vZ9GxkIkeS1W8e9arfNarfNarfNarfNarfNarfNarfNUcb5ojYLuNUNkfmsmeazY5rNjms2ea1GvbNUNgfY1U2SHca1GuaqbFfc1mz25rVa5oiYLuNarOPTNVNku41kxzWq3zWq3zWq3zWq3zWq3zWq3zWq3zWq3zWq3zV8MSIMV8vQoRD7LWe51Wq5zWq5zqtVznVarnOq1XOdVquc6rVc51Wq5zqtVznVarnOq1XOdVquc6rVc51Wq5zqtVznVarnOq1XOdVquc6rVc51Wq5zqtVznVarnOq1XOdVquc6rVc51Wq5zqtVznVarnOq1XOdVquc6rVc51Wq5zqtVznVarnOqIyL3VPf/3z/8QANBEAAgECAwYGAgEDBAMAAAAAAgMAAQQREhMFFCEiMTIQFTBCUVIjM0AgNGIkQVBhcYCQ/9oACAEDAQE/AP8A4Am0Q41j9oFUsFS2v/a2UMS4/wBDrta4naAmWBQSEu3/AIL/ALj71aphcXZf4RFmlQ8Y+yW7iMoy5tiwLtiLpbhhmIDH3xFyBLayIyztjrAa9kBr7YsC7Ym5W7p/KPgFZV9wbMoSu/Q2XgcxSyaTV4l4G0V8Sjr0mllCJsiMszYbU2y8KR98R9sResAueCabgcI6zYrnCG5xFlOWtqmg56Sng1QtHKUZaMSWYJbX2XlbBMTHlnNj/HP9csv7o/DaH6Js39MfeLAco90ALi5LEu2JtkpHGXN6I8oQ3MPr4YxTiWWIy2vxMcpxlqlo5qT/AFFsX+EReKd4/wDmXNmJ8wwGOtiwLtiLkHD/AB2/rrLL+6Pw2gX44p7smQYix97Yx6UjlGXN4TOk5v6KTp0lvekHdAam5HLH2OTmTEXpLLKcAxMcw+LUraOBxlmxJZlRF9zZGwSEh5f4rf11lj/cnWPvxDlGCt1yXGJQm3HEpc7QGnKMNlT419FbWK4jLbaAlynGWyXDjCC4ti4dsReiY4FOvhWPshPmGUZcWxc3bEXS3Tm/h3DRWPNAqw3YhEWQ9xxlym3HCkfdMbMfTxiLwllFvTcDlKPscOYIm6YkspxbRMcaeLEiweaOtSVzBLa+w5DgmJdv8CpCPWPvcvKMXbuuSzH2wEpth4y52h7QhmRFiUx9XGA0gLGkttoD0OMQm4HGkNbrYsR7ZbXonwLxrH2QHzUlDdal/jEXS3D6zrlaRjHuuCyhLaxw5jjrpaRwGPumN/hUiLxiuFYu5TcDlrH2GPMqJunJLI2KcDBxHxNIn3R9mSuZUtr0h5GwDE+30332HKETbOeWY5RabccZc7Qx5VwjqRY1/igZAWIy2v8A2nDUm4GGl6CxCW1+J8h939D7QWdsGrrQuMQ8XDj6JUxGBZJEs8GOtdXqc8sXPLFzyxc8sVPLFzyxc8sXPLFzyxc8sXPLFzyxU8sXPLFTyxc8sXPLFTyxc8sVPLFzyxU8sXPLFTyxX3ikZJhwwlbNWbP/AEUhqE+6AoQ7fTxmun7yjl198x8c0q9NPfKPTX3zHHwIxDrNdMxzDjKTVUPvgGJ9IRgHWa6/vNdcoQl0/oqQj1lblP3gOWfiTFj1Oay/vNZf3gkJdPTrGGIDmrLm9ZUsBOVaRTOVJa3hLLmimC0cRjDEBxlzekZYBKkRShFLa9YvlKAYsHGk2mRUHhM5TZ9zmHIUPtONMtQ5swiqXGbRIhPhM5/eahUgvYJcDlrf5yylKR9yKhjrphlMxV98AyH3y1vvacEswy9ItaahzVZAuXAXfLW4Foyno1m0nFTkg0zFEbPGo4nHbPHLyQrZlCwyTZ+oPAgm0Hc2WkAM7MKROzxoPNHWC8vLDEgLLNmuwLJWbV7Qn1im6TMaRbBajGN/Yc2X3TaffFUEmYVg2SSGXVlpcwQTyy1fnTjLxud0tkk4sIGz0iPGXVkIjnGdpSydnXL79+EswE2ZShWadPsjgysyzZhflw9PaX7Ja8XBjB4D4ZRlOWXv7jljlq7w6y9p+Y5Y1wdNqdoQaZiCkenTlrc6fLWO4smy+6bU74n9gQP1hLkRqmFTmlhX8JxtcWHNmZc0wjqDpxvdNl1LnpL3+4imEoswwtpPnM1mM2fbZOevp7UWWbNSCWQgKIuVsGOuVrGFtI6FwlrdE/rL9RUZmij0mZoly2DjGvWA4xzM7M02esiZmm1O0IH7Aj7bVSEMSAsJjjNl902n3xP7AizDLLy8Gg5RnulgnBJx4kDjli7IzjKNXWXdysF5aTuKbPDBeaX37oheqWWODIzLWWGnqc0Gg/7encp1V4RyGLPCsEyHpCMi6xSmNLhLZApXhLlGsvCNSSiwrBYQ9DhsIh74pRN4S1QKRm1O0IFOYIv9YS/tsOekpNl4ZptTvglNZn3lakRS2tCOuYoA5RwpL61z8wwgIJrM+8qZGXGW1uTCiwEF5Zf0/PLCn+pl/bD3wDyFjLN2dfqGlbOBQtmKqUDZiKRaBV2+LErZ3BK7NXKbMXFIWrp4PtVu6wdnKHjMMBwhgJ0wrC2aupYxFotUfai4uM8rXPLE/eLsEhBAR6eHLGWqWTyxcDZ6RgAsO3wdZC0s1YmyFRZqRgCxeFZXZq6xFto+lUhpNVfzNUPmaq/maofM1V/M1V/M1V/M1V/M1V/M1V/M1V/M1V/M1Q+ZqL+81V/M1V/M1V/M1V/M1V/M1V/M1V/M1V/M1F/eaq/mai/vNVfzNVfzNVfzNRfzNVfzNVc1VzVX8zVX8zVX8wSEvR2iZAONJqM+81WfearPvNVn3mqz7zVZ95qs+81T+8zn95QnFCJw9YOsUInD1g6xdIROHrPzVHGkobJmZmwlTZT3ymtUcZnZKkwesHWLpCJo90HWLtldYes1WfearPvNVn3mqz7zVZ95qs+81WfearPvNVn3mzDI8+Po7U7ZX0PbE5d3/H3S5Y2o4EECh7uGSXJn0MIiohbZqBKZWJOpBLXnSYy0X3mUtTEn9kSsTujjrsQLIIQWCbA5JdAOvhSMYu3yUpPxvWZSyoPPSsuKsy9krWno7J989vobU7ZX0B/7il4jiBy9qvTCmfmiiHd8tDj1FlzVOLeIWuHuhuFyOHJLd2mzGXTVgvAPfLIxFmNYt2R2aGhLCz55gsHBhLo8H5hhiu6EOeVqu2WYU5ilusT454ZjROWp+lsn3+jtMSIeEyMmQpkKZCmQpkKZCmQpkKCLB6SosKZWT8kysmVkyl0lRYXWUEqTKc/JMjJlZPyTKz/eCLBn5JlKZCmQpkKZCmQpkKZCmQpssCHPjKehUBLumiv6Td1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1zd1/E3dc3dc3dc3dc3dc3dc3dc0FwQEen/vp//8QAQhAAAAQDAgsECgICAQQDAQAAAAECAwQFERUhEBITFCIxUVNUotEyQVJxIDAzNEBDYXKBkUJQI2JgJIKgoSVjcLH/2gAIAQEAAT8CsSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuosSWcPzK6ixJZw/MrqLElnD8yuv/nEmZEIibNNnio0hDTJl67UfqzMgUQypWKSyr/wuIi2mE1Uf4EXMHX7tSQSTUdCKovI/qIOaLa0XL0hp5t1NUqr6h+JaYTVRiLmTr1xaKQSjI6kd4hJsotF3VtCHEuJxknX/AIOpREVTMRc2ItFn9hbi1qqo6iFgHXz1UTtENBMsFolftEVLWn79StoiIV5g9JP5DMQ6yqqFCEmjbty9FXomZEV4jJqlFUtXntDrq3TxlKqIaEdfOiSu2hcmTktFWmHmHGVUWkQ0W7DnondsELMGny10PZ/wWJjWmCvO/YImPeiO+idgQ2txVElUQcpJNFPXnsBJJJULCtCVpxVFcIuUmnSZ1bAZGk7yoYhJm4zcu9IZiGnk1QrBERjLCdI/wIuYOv8A0TsCUqUdCIQcprRb36CEJQVElQsDzDbycVSRGStxrSbvTsBGZGIObGmiXv2G3ELKqTr/AGhnQg9OHccybSVBbMTsSLZidiRbMTsIWzE7Ei2YnYkS+YnEGaFFRXpKWlCaqOgi5t/Fn9hSlLVUzqYhJe6+dTuSIeFaYTol+cETGNQ5aR37A/M4hxWirFIQ80faPSPGIQ8W0+nRP8YIqAZfLVRW0RME9DneV20NPONKqg6BU5cNqhJ0toWtS1YyjqYhYF187ionaIWBZYK4qnt9KMljT16dFQeh3GVUWQh4p5g9FX4EJMWn7juVs/s19hXkD1hiXRD6MdNKCxov/UWNF/6Cxov/AEETDOQ68VdKiUe9/wDb6MVHtMFrqewRMY9EHpHdsDbS3VYqSEJKkI0nL1AiIgpSUlUzEZNtaWf2FLUs6qOuFDi21VSdDEJNiVovXHtBGRlcFJSsqGVwi5TrUz+gpKknQyDKkIcI1pqQhX2HEFk6eXqHmG3k4qyqIuVLb0m707Bek/qISarRRLt5bQ06hxOMk6/2LnYV5A9ZiVe6J9Cde8p+wSj3v8YXHENlVRiLmylaLN31BmajvOpiEljr1DVopDEM0ymiE4ImOaYK86nsEVHPRB3nROz04WPeYPXVOwQ0YzEJ0Tv2YImCZfK8r9oioB5g9qdobcW2dUnQxBzZKtF249oIyMrvURctaevTcoPQ7rCqLIQ8S6wqqD/AhJi0/cdytn9g52FeQPWYlPuifQnXvKfsEo97/wC3BFzJpi4r1CIinXzqs/wGWHXlUQkQkrba0l6SsC1pQVVHQhGTb+LP7ClKUdTO/wBShakHVJ0MQc2rRD37CVJUVSMGRKKhkIyVEdVs/oKQpB0UVDELMHmLq1SIaMafLRO/Z6h1lt1OKoqiLlS29Ju9OwXpMQk1W3ou3ltDbqHU1Sr+uc7CvIHrMSn3RPoTr3lP2CWuJafxlHdQRk1W5ot3FtF5mIOVuO6TlyQ0w2ymiE0wRUeywWuqtgiYx589I7tnrYaOeYO46p2CFjWYgrjv2YIiDZfLSK/aIuXvMX9pIStSDqk6GIObakvfsJUSiqR+oi5a09em5QfhnWVUUX5DMQ6yqqDEHM23rlXK/rXOwryB6zEp90ThMTdaVRJUOujgZhnX1UQkQksaZvVerAtxDZVUdBGTY1aLP7BmajqZ+vSo0nVJ0EHNv4vfsJWlZVSdQZEZCLlSF1U1cewONLaVRRUENHOsHcdS2CFjmXyuOh7PUONIdTiqKpCMlSkaTV5bBeR/UQk0ca0V3pDT7bqaoV/VudhXkD1mJV7onA8+2ymqzEXNHHdFu5IvM/qISVKXRTtxbA20htOKkqYIuYtMXa1bBERTr51Uf4+Dhox6HO47tghY9p8tdFbMERCtPpoohFS11m9N6QlSknUhCTb+D37CVpUVUnX1EXLmn7yuVtD8M6wdFF+Qw+6yqqFCEmjbty9FX9U52FeQPX+RKzpBpEXNUN6Ld5h55x5VVqqIeEdfOiSu2iFlzTF+tW3A46htOMo6CLmq16LVxbQZmfwpGaTqQhJsZUS9q2hDiVpqk7sEXK23dJGioOsuNKxVkIaMeYPRO7YIWYNPlsVs9Q40hxNFFUhGSpSKqavLYLyMQkzcZ0V6SQzENvJqg/6hfYV5A9Yzp3Ik0R0SCSariEHKTOintWwNtpQVElQsEXMm2LivUH4l19VVn+PiYeLdh1aJ3bBCTBp+6tFbMD0O28mi0iLlbjVVN3pF6T2GIOaqTou3ltCHEOFVJ19RFy5p+/UraIiEdYPSK7aGX3GVYyDEHNG3bl3K/pjMivqIyaITjIb0jwQ0E6+eiV20QsA0wWqqtuB15tpNVHQRc1cc0W7i+MK7UIOaqRou3ltDbqHE1SdcEXLG3r06Kg8w4yqiyEPFOsHVCvwIWYtP3Hcr1C20rTRRCMlRpqpnVsBkaTEHM3GdFekkMvtvJqk/6OIi2mE6R37BFTB586VokJSpZ0SVRCSj+T36CUpQVElgi5m2zcjSUHn3XlVWr49iJdYVVB/gQkyafuO5WB1lt1NFpqIuVLb0m7y2C8j2GISarb0Xby2ht5DiapOvqIuXNP36lbREQjrB0UX5DLzjKsZCqCEmrbmi5coEdfj1LSkqmdBFzYiqln9ha1rPGUdRCwDz57E7RDQTMOWiV+3A9ENspqtQi5m47oo0U/0cHNVt6Ll5Bp5DqapOuCLlzT5V1K2iIhXWFUUX5DES6wqqD/AhJm09cq5Qr6a20rKiiqIuU0qpr9A0mk6HcISZOsXK0khiJafTVJ/GxMa0wV51PYImOdiDvOidgQ2taqJKog5SRaTuvYEpIioQM6CMmiGtFu9QdeceVVZ1/pWYh1hVUK/AhJm29cq5WBxpDiaKKpCLlKkVU1eWwGRpPYIOaONaK9JIZfbeTVKvURMC0+V5UPaImDdhzvK7aGnVtKqg6CDmiHKJcuMEdfiVLSgqqMRk2/iz+wpSlHVR1MQkuefvO5Ih4RphNEpwPxLTCarMRcydeuTop/qYSaONaLl6Qy+28nGQeCKl7T5aqK2iJg3Yc9IrtoafcZVVCqCDmjbuiu5Qr6a0JWVFFUhFynWpn9BRKSdDuMQkydZuVpJDEU0+mqFfDxcwaYLaewREY8+ekd2wNtOOqokqiDlSUaTl5giIgZkQjJqlFUt3mHHVuqqs6/1bL7jKqoMQk0bd0XLlDWFISsqGVRGSnWpn9BSVJOiioYhZk6zcrSSGIlp5NUqFfTioFl8ryv2iKgnYc9qdobdW0qqFUEHNEuaLtx7QRl8GZkVTEbNVKqhq4toqZmISWuvaSrkhiGaZTRKcERFtMJqoxFzF1+4rk/18JM3Wbl6SQxENPJqhWCJgmYgryv2iKgXYc7yqW0NuLbVjIVQxBTQnTJDna9QpJKKhkIyU/wA2f0DSaToZUEtjHSeQ0Z1SfwbicZCk7SCpZFY5kSLq6xCSttrSc0lAsEWb5N/4U1UFwce4rGUgzMWfGboxZ0ZujFnRm6FnRm6FnRm6FnRm6FnRm6MWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboWdGboxZ0ZujFnRm6FnRm6FnRm6MWdGboWdGboxZ0ZuhZ0ZuhZ0ZuhZ0ZujFnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6FnRm6MWdGboxZ0ZujFnRm6MNQkwaVjIQZCHN02k5QqKwKSSioZVEZKa6TP6EJLonLoNSKER1BepiIJh/tJv2iGljTC8atT/8A0xT7SO0sgcxhC+aQKYwh/MIIiGF9lwj9SuKYR2nCIHNIQv5AprCH/IIiodfZcI/RMZ5Db1IzyG3qRnkNvUgjrf6BxcMR3upGeQ29SM8ht6kEZKKpAzJJVMZ5Db1IzyG3qRnkNvUjPIbepGdw+9SCcQepReoMKcSnWqgVMYVPzCFrQm0ImEKr5hBK0q1GXorebb7SqDPIbepGeQ29SM8ht6kZ5Db1IKLht6kE4hWpRfFREU2wmqjERNXnOxokDWpWtR4SMy7xDzGIZ/ljFsELGtRBXa9noxUY1DlpHfsERMn3dR4pAzM9Z4amQh5jEM/yqQhY5qIK649mF32a/IK7R4ZTF4xZJR3lqwnqD/t3fuPDCe7t+QjPdnfL0iWotRmGZnEtn2sYvqIWZNP3aj9FSySVTEXN6aLP7Dj7rh1Usz9Bt91vsrMQk3rovfsEolFUsM7+X6SXFp1KMQ01ebOi9IgxEIeRjJP4eKiUsNmow++t9ZqUfptuKbUSknQxAxhRDf8At34Y2LTDt/7dxBx1bqzUo7/TQtTasZJ3iAjSiEX9rA77NfkFdo8La1IWSi7hCRBPskrAeoP+3d+48MJ7u35CM92d8vUEZleQlsxx6Nua+48JmRXmJhHqeUaEno+ol8wU0rEWej//AAEdb8E7+X6iCilMOl4T1hJ1Ij+GmcTlnzT3JwoQtZ4qSDcnfUWkZEHJM+nsqIw42ts6KKmGDfNh9Ku7vCTqRGFKJKTM+4RcQp941d2FmHdeOiEhElXTScILki/4uEH4Z5g6LThhn1Muksg2snEJUWow77NfkF9o/P0JdF5B2h9kwR1IHqER7d37jwwnu7fkIz3Z3ywtox3Ep2nQWJ/9oOSL7nCD8G+x2k/nCRmR1IQETl2SPv78E3isROSTrPXh1hiVRDhVPRFiHvQ/KohoqlpENWGUxWURk1a04J38vDAQaInGxj1CxWfEYek1Cq2u8KSaTxT1lhljmPCo+l3wsW5k4dxewgZ4KVMQEGlhortI8MbCJfbO6/uGYRe6MZjF7kxmMXujEFlM3TlCoYmzuJDU8WFlo3XEoLvDEOhlskpLC8yh1BpUQiWTZdUg8MndxmMXwh32a/IL7R+foymLx05JR3lqB6hEe3d+48MJ7u35CM92d8sMN7w19xAtWBSErKhkJjCZu5o9k8MndxXjR4geoRjuViHD+uGUwZUyyi8vQmsGRf5UF54YF3JRCDwTv5eGSa3MMyIs7XTDJvdv+74WbqpC+Z4YBGPFN+dQXqJ2rSbLDJkVfUrYXozpvTQrDJVf5Vp2kHfZr8gvtH54VJNJ0PA04ppwlp7hDvpeZJRCI9u79x4YT3dvyEZ7s75YYb3hr7iBasM1bx4VR7MMErFiWvuDx0aWf0wlrDCMRpBfT0IhGOy4X0BlQzwJuUk/qGTxmkH9BO/l4ZbFtQ5rxxbEHtV+g7OWaaBGZha1OLNStZnhgWslDIT8LOvdk/dhlR/9Wny9TOvaowyQ9N3y9Gdnc2WGTe8H9od9mvyC+0eBPaT5iZQdWidTrLXhl0XkXMU+yoP+2c+48MJ7u35CM92d8sMN7w19xAtWGYe6PeWGG94Z+8hE+7r8sKe0QR2U+XoOXIV5BfbV54O8Q/sGvtITv5fqJbAGpROLK7uL4aaIxoRf0wwzmSfbXsO8JUSiI8JnQZ9C71Iz+E3qRn8LvUhtxLicZJ1ITtGi2rDK3snEl/t6M2ex36F/HDJEXuKDvs1+QV2jwJ7SfMJIjbIvoI+FyD3+p6vShPd2/IRnuzvlhhveGvuIFqwzh/FaJvvPDL0Y8U39Lw4VUKL6BaTSoy2HhgXidh0H39/oTB4modf1KmFpOM4gvqEFRKSE7+XhbZccJWKWr0IKXQ5ElztAiIvhnUY7akn3kHEGhakn3Hhl0xJBE25+DCXEK1KIwbiE6zITCZJNJttH5nhIqnQQjWSh0J+gjmctDqSDKh4CEDM0KIkOnQ9oJaT1GDWktZiOmaEJNLZ1UDOp1PDLmMlDp2mHfZr8grtHgT2i8w32E+Qi4cn2jT39wWhSFGk9ZejCe7t+QjPdnfLDDe8NfcQIGZF3iJmDLJa6nsD7633MZWGTMdp0/wAYJoxk4g1dysMDGHDL/wBT1hqKZdKqVkMYg9FMtFVSyEbFqiV/692GVMY7+N3JwTv5eGS/MExhsi+dNStWGURXyVfj4ibwnzkl5+gl1xOpZkFOuq1rM/QlUJlXcoork4ZpB5NzKJK4/QS66nUsyBvOq1uKP8+hLYTKuY6i0SwO+zX5BXaPAntJ8w32E4JtB1LLJLz9GE93b8hGe7O+WEjodRnURvVfsG+8rW4r9+hDsKecJKQy0lptKC7sEdDZwzTv7gpJoUaTLVhJRlqMZw/vVfsGZnrPChClqJKS1iChih2iT39+Cd/LwyTtOCYQ2XYPaWod9MCFmhZKLuEK+T7SV/v4daSUVD1COlymlYyL0+nBwLkQrVRIaaS0gkpK7C4hK0mlWoRsuWyeMkqp9ODgHH1VO5IaaS0gkpK4sDvs1+QV2j88Ce0nzDfYTgUklFQxHwpw73+p6vQhPd2/IRnuzvl6iHhXX1USX5EJCIh0ULXt9CPl5P6aLlhba0HiqL0m21uKxUlUxAS8mCxlXrwzv5eGSa3ME0hsk9jl2VYZXFZJ3EPsq+IpUREqZdvTomHJTEo1FUHBxRfKUChIk/lGG5XFr/jTzEPJ20XuHjBKSSVCL0aEYiJSy5enRMOyqKRqLG8gcLEF8owUNEH8sw3LIpf8aeYh5Q0i9ekYJJEV2FwqoV5BUDGYx/4VDMIzcqBQMZUv8KgjsFhjIYn2jT39wOAjK+xMZhGblQzCM3KhDJNLKCMr6CKSamHCIr6DMIzcqGYRm5UMwjNyoZhGbhQs+M3JhEpilbCDEmaTe4eMENoQVElQU9F+FZfKi0h+TOF7NVfMKgYpPyjGbv7swiBilfKMMSZfzFU8gxCssFoJ9CbQ7zuJk0GYzCM3KhmEZuVCUw7zRrx0GWCMhyfZUnv7hmEZuVDMIzcqGYxm5UINTpsllEGSi/pqChf0dC/58bqC1qIZZrxkMs14yGWa8ZDLNeMhl2vGQy7XjIZdrxkMu14yGXa8ZDLteMhl2vGQy7XjIZZrxkMs14yGXa8ZDLteMhlmvGQy7XjIZZrxkMs14yGWb8ZDLNeMhlmvGQyzXjIZZvxkMs14yGWa8ZDLNeMhlmvGQyzXjIZZrxkMu14yGWa8ZDLteMhl2vGQy7XjIZZrxkMs14yGWa8ZDLteMhlmvGQyzXjIZZrxkMs14yGXa8ZDLNeMhl2vGQyzXjIZZrxkMs14yGXa8ZDLNeMhlmvGQy7XjIZdrxkMu14yGXa8ZDLteMhl2vGQyzXjIZZrxkMs14yGWa8ZDLteMhl2vGQy7XjIZdrxkMu14yGWa8ZDLNeMgTqD1KL4JWow44tTijNR6xU9pip7RjHtGMe0Yx7RjHtFT2ip7RjHtGMe0Yx7RjHtGMe0Yx7RjHtGMe0Yytpip7RjK2mMZW0xjK2mMZW0xjK2mMZW0YytoxlbTGMraMZW0YytpjGVtGMraMZW0YytpjGVtMYytpjGVtMYytoxlbRjK2mKq2mMZW0xjK2mMZW0YytpjGPaYxlbTGMraYxlbRjK2mKq2mMZW0xjK2jGVtMYx7RU9oqe0Yx7RjHtGMe0Yx7RU9oqe0Yx7RjHtGMe0Yx7RU9oxlbTGMraYqe0NuLStJko9YT2S+BX2TCu0fn8ITa1akmDSZayPARGeohiq2DFVsMUBEZ6iGKrYKHswUMUMsFDMGR7ARGfdhoZ6gbay1pPCaTLuwkhZ6kmDIy1lhIjPUDbcL+J/CJ7ReYT2S8vgVdkwrtH5/ByuES8s1K1EHo2FhlYmLf9AmJgYgqXeRh/Eyy8Ts1ElSk0OVLvDsfCtLNJp1fQWpB+ERjqHX1KTqEmIjeXXYIiMhmF4qk/+giNgnjxaF+hM4FLX+RGrYIB0m4lNdR3CbsEbSXElqwSiHIm1OqLWI50nIhdNRXCTpI4Y6l/IRPt3PMQcKqJcxe7vFIKCRfQJmUGs6GX/oTJiFSglo1mIP3pn7hOUkTKLu/BBS1tKMo6FzGDbPFKh+QSqCjEmVCEdBHDL/1MITjLSnaYbZhoNjGMvyCmkGq4yoJnmuIlTZFU9nwae0XmE9kvgVdkwrtH5/ByiJQ0pTau8RUubiTx0qoYflsQzfrL6YJJ2HPMRMqW88peNrByZwi7ZBRYqlJ2GJL7ZzyE3L/qS8gy04txOKR6xMzJMHQ8DCiioK/ZQZNWVyffWgiFFCwOKWymCTe7H9wifeHPuEoQRQ2NtEW6p19ZntwGZn3iC96Z+4Tr2KPMQKMeKbI9om7ym2EpLvwMuqacSsu4xHkTsEZ/SobViLSrYYJTEYxSusPSZRezXX6B1pxo8VaafBp7ReYT2S8vgVdkwrtH5/BohXltm4kriDcVEs6ln5CAiVRLR46RMG0oilkQknYc8xGR0S3ELSldxC0YveGDOp1MSX2y/IREXDNLo5r8hDPMPEZtiYvuuPGld1O7BJ36LNs+8Zl/8hlKaNK/kTh/GdJvuLBJfdlfcIr27nmJO6RsmjvIR8Ktl1R00TGsOMOtkRqTSogvemfuE69ijzEI5kohtX1Eyh84hyNOsrwZGQhIdb7qSIru8TNwmoTE7zuDaFOLJJazC0REMrvIQcyfyiUKPGIxNm0nDY1Ly+DT2i8wnsl5fAq7JhXaPz+DgZkllOItNwNyWu3maAuPhGEUaofkHXFOuKWfeJTEMtIXjrIrwpyWLOpqRUY0q2oEfkcv/ipT6CVvNNOrNaiK4TN1Dr9UKqVBAROQe/1PWJmqFeTjocLHLAy4bbiVF3GDmMLiVyhVoHFmtxSj7zwSuJYaYMluER4wiDJTyzLaGH1sLJSQ1MYV5NHKF5jKS5vS0BHx6XixEJuEKokxDSjO4lCaxLLrSCQsjvwQUzyRYjmraDXLXdIzQFx0Gwn/AB0PyETEriF4yv0Id42HSXSoRMIJ5OnT8gnJc3pEaBMI/L6COz8GntF5hPZLy+BX2TCu0fn/AMHT2i8wjsp8vgV9kwu5aq/8HQRmtPmE9kvgTCoWHUdVNJqMyhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUjMYXcpGYwu5SMxhdykZjC7lIzGF3KRmMLuUhMJDpOpNJr/5tltzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0FtzPiOVPQW3M+I5U9Bbcz4jlT0H//EACsQAQACAAUDAwMFAQEAAAAAAAEAERAhMUHxUWFxIJGhQIGxMFBgwfDRoP/aAAgBAQABPyH/ANmTjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjl/pX/C3+NMMtQreV8vv0mentu8G9P0gGcYUTa4P8FuXLly5rJ9EXQvTJdEuxEzQg95Xef3IKMGXLly8LlysPxE12I9gM7uUo3E4EMuX/BUwAN2XecyyenrD/lKCwXdBSDtIrGrbZLljqSrq+Fgiei3IDrMne/siVSg/u2yVmm32YkYd9oNzd22Fzy38Fbt+yGEVsQQenAkCAAG2K4CusuyvdFNQHSUzfmIZudt8GTn9GsToWYApXY1iwI0gbYIBJLX80lnFE+JqSNpBlH7pYLtMtjdX1MisgMqLKhL9DgoN2a8t4ybsph3mHg++7C29sNY27CGFZuh3vuwRL2Cawts3KrfvMoz2pZD1HA4Af5V6UsqWP/cjdp32g9at9spPNpf7l8xNTfOCVu6s7nvnc907nugJki8p+RCXNpcbX0Il5U2nSHFrK3x20AAqjaKRB3lG6lixO7iQeG8q/wARZfkJ1jkyto5FRqE2ZTZtSWsB8PUypTSJd/kkHegniU7iUZh/cfkJ8j0//V3n5OKE4HWXmU3myIm8R/6yZHnfeaT7XlPAQHrFCpLB3G7BXl7TrEynYS38JQ/j0NKE6+hxTKEpHXjzS7wcmt9kIEkv9v8AkJ8zFuH+rvPyItQJbtE/48oAY/iVv9IQAKItL1IzctgytV/RDvDeDoDIgSO8eWDozTAy1QGtxkS6bB7T1NZfrcjEu/ywhpbE9yV35tDhkYPf9t+QnzPS/wDF3j2sHnLPv+5ndKygu6e7ChBhWnsEV+H+qJRAjKwnYPyRdB0GXMhvLd1NcSdSGLhUrKWpHW6y7evZCbe5KN/xsu/2z5CfM9D0XKd6UfOBT7jaABfilVEJQSyyjdxxaer+vfwupNGUiEO8QCWT+sWY0eif1YcBdxUywfS4GktT6u+JTbBKz+2hIiftfyHonWlPzGVvzMDLCqf37sqzHaXLMsz9dbbPoxq7v2QvXULBB4bvL8pA1RI+UJMI6kPUkNQk029tkFsO20qa/gg9H9p+QmpBIXI3l15PaLGW2hdXVshQjCNhgl73vcxBVVdfpTq0m5NZWySxVbkQcn2lx/WMdJEgtV6ukPF95LwPRUq3wBSTNCJGhPySiV/Mv9n+Zmp5ldbPmNAq7GCpo9DpPMKX7ccJ/p9SUX6tsHPJMKtHp1majpdINgsOmspZgyUfoW4O2jc7YaS5klDKESxmUy/Yt4BYB1htHddo5twPkb1C1dRgrXEufL7sVW3N6uv1aXapNJTfnMBFDMqqXB/2xc077MHordaQgTtQenrbERmr7dNEbElFZ8kOHe2/7Fcv3bboy8GQyxO0sqGuwDYl0Zs0y+Ajpj22+v8Av47WVXhsK9BL6/30rfB8Ro/N4WOHC/UGg7SaHe0DEKVP9FAFjL+sylxAIG7KRZze2nrA1HWUA5u/A0IS/t+Ri226/sIoiNT3D9yFDhmsXA7SWZ1tsli512MpJwHOXL9Nfo7xrOyauqJQXRzB+0HL6lxf+JRp4DCTlKfP2bIGAA2gC1lt5LYjBqf2Ugwg4/rmDZcTHTCmaKiiIl/yEGGb2h63/gUW520S21G0++H6wBY/UMckA3ityo0JuxEDvzUy3d3DJB6G8db+xvLzv9nFGyVXkt5TSk1iZpIlzdsXWdkpP6ZgEsZfqSlTZjEWlKHWLjdiECPaXD6O5c1P0RGa8DD0+0p/H7EAoAqAWtT7u/aNGr9rstO20rP6Jg0sbjQQ6YC2MB1jY3ZgIT23wXjUqVEeVsEW2OxBRild+LMQWN39EwFNCMP6ktkqr1lbb3oCEd8NTPpvErO1+3d4wN+Ugoje2+GmPbgKI8gJlTJyesPTeDwSOzBz+5LVyOs6Og9IfRZsahfmHuK3JWf0BABQYK4F8c3Z/qMC7mdzO5nczkidz7zuZ3M7n3nc+87mdzO5nczuZ3M7mdz7k7mdz8TkjAu5+J3PuYF3PuT/ABE7n4nc/E7nAu5nczuZ3PvO5953PvO5nczuZ3PuTucC5In+IwK0mj910hHog7MGx5yLV3IP0RfYNZVq2r+jqVK9FSvRUqVKlfoVKleqv0alEo9FSpUqV6alY1KlfpV/MVmkD7zeHxgn+VKDe/rup+bKdc+J0jHa+/QR0fQgLdIhl805ichCAGx0xdLiIAmSX0nPTnoZSx0jhKDVlP8A2nMTmJzUF/6TXR98D1g7Id2b0eJ3PtNnPMPtx5mXoq676XOenNTmpzUVp7k15ff6lmRt0I2n9uZ0zy4rZIiwPcpmHR19C5Zewh9PAxe0fLiIsUYkHhs+8jF4fOz5+PlcOuOv4xoamJyrbjct6sTsT5ha5FFbtsvK8biBADeWkLlGo9DYklkCpIJY7465vHOW9WIWL7wcv5YGNW/0/wBjs6x4z0OnrQoDqTO2jRjetVC6OvWdUBlH0DMw+dnz8VXpUCbnudMNfxP9DrgamJ7u+isUBKTeIlwXgYpkRCwfn9Ak5ekGANjhr9faM1ugIZm59KsQJzq84m1q9CWz5WAf0sXvXjG8GfIQTNEuOlkLYwnVQY5jHeLCB6VAn4UySuiaYo7o5k04yyfK+lkJOv2hAm81p/hdcDUxPd3DOuqreZdNHtDme+06F9GJpqTRl36csCAn4RiCgBV2grJzL0+0UUl0iOR1NcWRul3MNeNy4YPt8g2YvGkpMVuOeZ9Mwoqrat4FAM1jS9QypUPvKiF1iz+WqJTLYuarHWqXtNLAZvWVgSBEmzw5Yuzc1PlfU2zj+4mvP8LrgamJ7u4+0MKjkdmZr2PbHPXIfiKkxlW9B4MXnVaZWCQsqY16s0/eE1+ry+4xDe43+kdg6LiZOnwQYXGVKJWCe7xF7tekjqynFzuD2nyuLBeUShSYKJSpuNGZP8LrgamJ66uPtDEdwz4os3B7zz5mra4CwQhTT0SV3cqXRrBeAS19y+81Y78uelGAQvzAqb4wcKVA3lta1nD6QYkDzvn9E+ziVXZD0B5mJb4+Vny8PgJRfIy42S/0MVuOEamJ66uPtLFhif8AZ6wqJO+Drzx34noYt2Uzp3YGY7sP+Laav0NXY5pvAo+lunljeGkREbExAXdVE/8AtOanLQJbJZ0LWIXXLIy/QBtkKx+Mk+Vnz8PiI7ixqxmozbWP94Gpie7uPtLEAHN+Ma9/kndxRX60OBqS9GQrs9FpObCOeDAbz2YKmrG6X63Eqy9N5q0pYukAo+mAplRNZrESvIgDfiGEWbzLglw1zwQAWuRKj1zP3mSWdWfaIg6mWCpEaTeVHH3QmxfDCbAng3e0ZktcAtreUZMi2fKz5+HwWGP47kFOkp9BqYnu7jZ5EGtBHtdujB9dumLFTXLBThuY5tz0kIwMi7i/wEtOYNGLXz/vhqxi09pdRnXg2mep3m8D6VL9C5GV2YBXnn0IHQXdxVOu+3oyDxzCq8x6D/8AcbNJ8rPn4fAT401m4I9E1MTndwQBqZ3COyJBDm264h9vmwgchWAps5uVynEnaE2Il7R842AHZKKdzDX6NANb0IlmpkmDbUrKHRzTJ0cD6VaYrUj41dukfUIWi5rK6gxFC1tGynz8StvUaF33rKImB8jj3wE+NghCxiSjdxGpi+ur6wy6uK8Xu9AzQPmM1j6hS00mts36Y6/R6ZTLH/pjnLmezBsh9KxOR06RpzvpGmo9pqMtCmxmZJFh02g0QG0qGKREyZc/1sTyRGrRUom/nFRv+CVIUdMWGFqo5TWwq9aTCguoYv7yQVDDIslTeGcl3ZZT0kVAJGus88oErpKXR29KpWR53iKmOkazHiZocF01ukVkDv6Gcq61iRZn7peFSdGKiDbJH+Uje8PpX0VKOh+lUp0nYJX6tSvRXor9OrnYlV+rUqVD+WMboX3nNzmZzc5ucjOTnJzk5yM5GcjORnNzm5yM5GczORnMzmZzs5mczOZnOzmZzM5mczObnMzkZzM5GcjORnMzmZzM5GczOZnMzmZyc5mcjOZnMzmZyM5mczORnIzkZyM5OcjObnNzm5zc5GcjORnIzkZzc5uN0p8y8D9d14o+Isc9O/8Aed37zu/ed37zu/ed/wC87/3nd+87v3nd+87v3nd+87v3nd+87v3nJTv/AHnJTkpyU5KclO9953PvOSnczufeclO5953PvO595yU5KclOSne+87n3nJTmpyU5Kdz7zkpy05SclO995yU5qclO595yU7v3nf8AvO/953fvO7953fvO7953/vO/953fvO7953fvO7953/vOSnJTv/eH0V1Sym9fQ/BnyH0mdI8E0NeTDVB8E7+cVFDSVENSd/7RLVGAmgviOQRMDIAsBqiZsJ8Sm6SsBGRmZgPGAK0Fs1JnnE+0faIZh5MciC+IZaR4jk55fspd8VnyX0Y73tzaQ2EWrP0KmgaGWUEsZpeH+pCbpVlKdDFC9wTrLkXAQdLWGEFlvvBCdeAWOi+0RRmU+0qkc8AEbOUk0dUSqB91mTadWGPDSDeAQrbKMJIXkQkNqabETjRrSGh3poyyGekxSNaPeAB5GepjHuBNXG1+kF8f6H4rPkvo1lDXc81CS2J8yZmTgpSObBl4wPbAWciCe1Fh80A8kGqdzeUvU3eSbRESyHK+8u7ufNz5iKqZrOK/pUPGAwKQ0vafD4eITLVEFq9M2jE/2RzmdRKV6ntL7KDM3JZvmMopRT5/ZS74rPkvo7+afdjlHDdH3MGuzNBVbwVjIkUyZIyWrfvhVUtPdApMu1MGqunBd7LTP9xpKKer5w+Vny8vdmX7y8iyxhaoLYh8aGfD4OKuhmiZnWh5iKJT0ilM+btEpcmkEfMqK7vN9viZn0q94jfQv7KXfFZ8l9F2hHzJNUCPkTYnVBVwVvd0evLB01fJg0a7oFJBTq7EBPz5gj0PsqJrrWYXnkaYplikjFabdZnsNzRLVG3ifdUMLkAV8RIabcHC929ERzaU6x0m+2mkGIU2laqehiefGjDymTW9/wBlLvgz5L6TT1fb17+vXXH4w2l1p6N/pfgsUP1/gwoBTe/8HJAvsnxcD6AvYW9Tj5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPOHnDzh5w84ecPA5g3CV9FUqV/Balf+2tZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZb/8QALBABAAIBAwMDBAMBAAMBAAAAAQARITFBURBh8XGBoSBAkfAwULFgoMHR4f/aAAgBAQABPxDsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7GPsY+xj7H/y1Xfb/nBZdb/yXDP/ABSi85qTRGdF1Giela0/QwAOh0/hfWKlgGVcEQBxIgkwwc/8QDVp1iwIDCWsYutGpZf2C6sYn9wQekto7TkUKNnJO4+sDg52LllpIUA0sbxFArnG9EaQKkb6DlL/AODs5mriZKI6YPWN9PaiYcFSjoMpawl0zKEcJaICyOh0YC+AEIlOjNelxwUapoigANJoiUu75CU8W5TCBNKbXqReWYNS94vLujlEkactUEhr/cWcn8VlXB46YuZtMWtE1g1UZi1IdJKU2AUSyruWG+OYMtcguMIa8dyQwpjanfbgCwpnYgwltTD2ov26Eys0qtTYilhmg9AFdEpLkyekQKnrqEJu+x0YH4nBGB0Rv+zNIWBAVe0HdCCJAOpWBDH2EkLozC4uJr4KSjpYsW3IwUzfKn2Jambhai77kWga8pLkBYyIz6jAb1MrhF1xfYhY9oqYrAJwGKh8+0GkEreUyRKm5bB4u8yUJbrIDOkx0qXtBvZgginUwQkV2Bl7ypstI2oakkFt4Lm5cuH9a6T9vxCZ9C7TZ++8Z5fPNZ5rKVU91Kmgcx0HQtQQFbHqriMQadQjp3ohg94EUDTahkgMAxASvVVENjvQzrcya3pcZdGhqMMHaNEATxoGyCCylFjGc7lTHGZDMOa4yyhtHawOLIZ3+gKUTLPaIEj8npMtZHsJWxJeR0tSQngkyzoFf136fifNdLXT2nw8aczQIs3SKKo2XZhc9mptYMzb7wKMTXcl6sp6ROimjZiC/cVR9A3a+krXYyTfaN6kFBKZWgzXNelQFLaFRxI4rhvVxTiBnLKN6NVGgcfWJQl40m06U1htATD7wybctqD2PCmAd/6/9PxPlPpD4eNKNZVoNZh5+GsI1TS0BwjgBausD1hBwYVpANAgIJqmLiQ3hWpMi1+vtL0iFCwFJSk240GLBshMn1DDDUc/KNligILlNMrOgZahBOTSDL56VKiREa5Mxw6eslMrVqK9SMFdiXHCRye02Mv6xn6fifKT5r1cR36eBMn1RB+3Bq8u6OVihVU7ZgOnBmaGYiBtZGNyGxaCBinJxL/huNXf4GXobjgENWWxDDt2hMm0lCKj2UtIVcV0ckLT00QHT9Esit+luiFCakN4xtIVCWwDKHhVquGUS/igGlI3pBm39Sz9PxPlJ816bxAk0GqxsKNhsLMcmS/8lwQXLKEJ1zuiCwMUazfJ0sXNMJQZylvS/wCQxkagcp0xMYfbyVSrA2Q0yGR0gtdtYOU8BqQ8PuJwlTdOyZf0lRJtU0TJLbNaB9a+LKjNu2r1EaojQ1PaDi9v6ln6fifLY6i+sPKn5R5L/glDYdDLBCOqaFDw/sMxprl3IIHtCCxbBoTXWj0+xxLkyztqH3JKma6XmA3V0TCOIHwWkeq+t0wxzKJbJdEsi7/UXLAq7Il/eWEtSgG6ty9ZdpP5QEEEd7l/07P0/EP5UK8WWo7X/HTljRp7QcK2UwIXsdUQAK1OZy4idfQ3lRVNSDtwycr7xfs7xTGCuwlJHhuhHQzIkDSETVDAm4EHVJjGH0ZYydKQwTuyrX0nWMKWjZJltrMrBG0TMe9+UQuVTIaJqqv6azmMf1cTl7pbZbENcox3OAtuL3ClggXTACotZpiD+LbEzjYOPROcFX9sTHGL0ihW4bUQo35WVriJQO5MI4RepLYGsjrYEbTC1Y6Iy5fVGbaRG3cdmCC7Ul75YeiCFpqDhgDyrdoYMAjokHlL/oi6I9ENU0QfdBspkPN28TmxB0ERh3Eu2CU8cjGoxoLl9pmU+sjrKapa+7OsVkNVELx6ao081IxElpvxCzuQMQ9VMCMHZnNQFnBhV5ej6MsC1fU5JtJ2S6jRkS4Ul2eqYsoOq6IZNdbYQSrvH9DaMiugHKBnKoalj2y0G8I+3g+HtCJsA3zDl4R2a6Ww9I6VtMfd3KEB0l44CWNlAVGmuXeRsitaNzJ6MuaLWSOIjjUVLnPeQTUNmC1ghy+ipQuSET2YJ1VcJhIKKOR0ZY4b84MEjojZ0GT7u4QbzWY0lELYS0wryqh0zmFUIB3EtYfg15gGM0N32jr/AIPFslW8dfv7LqjO8dEjIjVRst2ZuHqDk9pgN6c3CVbcFR20LUOhN5uF3jiYABEdJSNuub0iLErrsLi61NqiXm0UkeSBpIZPYy9RglFIP3RajcNFjWw9fYSMluQD/WJV9cdE0EaAqosEBqsGr/n0/GWCa5LvS/6M9agwje2GKmHASCI7k2ggMIS66ogfWiUwdbNDrACUMhye00fUmNI+DtyK3swrGDtqBw+st2aI8EBBI5EyS/t3pNfjyalha5nMwhTLFKNqylhQHJICBdxoXDkTFy4OqLNmXVej/SXASImRNo/eP2IQStQcntKBrePaceBMPuAcj+ISRGo0hrx3XSAwCO5pLXV5q/orphJAhZGtNKtIaCm46rdlKAmW0jNE9X2SpKaRJrExXfEES2lonEnAwhVUdNcD5jQGAjM4NVaIVR0Haj9W7uD0npj0/qLyJiEHPd75Qlw8DEQdE0i1qZZZK6LKlB6Co5pNVFzDu0QELfQcZkU5OYRHsqki9thJak+U0fWOVx00wrXGhGyWY+yOQAWrsSjgNQb75Fasprd1FKTnzFcsWtb9I1KUwdUXu2zqzKumcqzt9FfyV1rrX11/DX008S6oUI8xECQPgatAjnFLtFNGwlJEw12DpUYBmo0QDsMeim9+o52xA6NkLI4KDqk1sBApuNhZQm2FRX2LpCuh6epEsuUwFXCRGGhgLABoG0rtH8WwW6EYaqkGec+sS7qoeNdd3xqeNfxbu7urpvlerDPK/QkDTzEeXjy/1Fxd3xqeNTxr+BVXTc089CKMAwA7JUPPVV3/AMnomtmILI2AbpX8WkiwAM/WkSxiBIpgKhtq4gSvsUuGGczsndK6VMEy9FEolEpKdFJSUSiUSiUSjiUcSkp0UcSiUSiUSkolSiUSjiUSiUSnUKOJRxKJSUlJSUlSpUolJ6PWBiJKTlcw/gqV0VX3GnSvrXpfS4evTfq/XfS+uP4DX6l6XL/kE6b/AHNwBlz73CNe6XFq/NPhYgAIEdzSX9LEi1A52itPcMYAQ5FxjV6gl6FwQZYJyfQragWsbsCNV0MZw+YLRv1QJaEYYKjIejFjUB1w2jeHfHabR+gBjEaLKWN5wII0jh+taio1FOx8Rmn1K43VNo0sA1cWg0v6HjzU1+gGMsUrTvSDL9IEG0+2uXEWESjwwasf63RJQULqoze3PQQ13DX+RyXqrL/uz1JeCDLly8Yii3Wx1YvfbJYqebIVnaYvJcMcsDT8Rysu+yisHV1Om2fu+Jcpd+ZbywUptY43sraiW9Nryjqhbov3lvLE6zrBd2bLBXr5qB1lvLLeWW5YHpI4FcKeglQemXUs6NILxL6AtPanBCDnyjY5rbiYtazN7m40fiK3zvDDGtAhAsgDhlvv0TK3LLeWW8svkwOkD0agRnyKVTrVYf2RhuMGH2m8bYUO+otEXPoJsYzzKldKhfLLPYrKuAVgNTGYI5KBkyBurtPSVETXppBeZaPUIzFINO5+j4nzXTXf0mVGhX+QdQgOZCfNdfPlE+PnzMfmfot1RjkA1lm/TysA6dBYgWrtHVPOUxjeiajWnEqbX1KN2uIhlaUByBYm5OPoG09mcd5vUy0cwnskStiXCQ+0IFeLjBMRwoDTfTQIcWQEvhKpwZP806nmiGyrmZ/xCEOGoxX1FGY26X+19v50m/lxlSqQ0ZvZtyl1waQ40i0WOH7fifJfQ1JWjtCxiCxNyfHerHyifHz5mPzPTBZDLNQHM7d4QZdbnblJr0swsQ2gUmmqLiU/htGsOb3tuVFrBQC7lMS6L0joyi1lpFEoJk6aI61mWn6VusOPoBNt2ulKqoSQwgjZlQpM4KJc05xhr9pVWGwjNLAsuMDUUBuwgyVzpKRFipFEKLw406C9zElVMMOseioI68s9YDijLNnMJIVVYtABExFvoq9mIoo1uSM2iOmP9/xPkvotEpycTuuF1gnVxT1a+UT4+fMx+Tpj+tmfFImI9G2cxMLN99/pyR11YQ4YN3AFr2jRBdfwdCjWAyXVQoVKICUhTrDi2aBHoDVAe+aIrB+gi5VHI4ddoTEBL6DSt4HviQ1faaWAdZS0hruOCAGxXVqxvKbhO1K5azAcWF8kdsQeo8ByxTUNMxIkBIDGeo0v3fE+S6IgFrgjttQJN5nkJ69o/wDeHieJo+m+UT4+fMz5HT9FzPiEeiCCyrM9N9u3sqg8V/jG3tKq9OalhPgIo67Qrrr+9TuXQTnQV7Zj6k/HOlejaepD55Lu2NWAY7iq/wDhFgTrVVHMUPQvI5+0Rp49GWNwwYI9N+vv0YV3XSoTf/Tubs46vRm0tP2fE+S6XsM4695m9KchEu8UzKNlsbV2EdIETIoJxfT5xPj58zPkdP0XM+AR6WlzCbHQ3R+4mu5abu2vQkulISz9z6NMJb+Iq7Rf56Yg1AjBOob0V6e0JcJTYbuhH/rNQcIAKAqvtVCLcZE6AoQHsvMI9ZCbzPR6gBauxFEfxZ4PPD4eC1SN3HOMMnu9CC1RXQsWQ0jLxL3vWVVmlSz/AE8T5rp+r5hsxgdyoatAGxqGo8ZirdqqtXnp84nx8+Zj8nT9FzPgEXEvvN/mo2s6Y3sVmAq7pH4mouS79FkNSmEG9O3X0NfySkSlXW16AdaZR65gG7f4H0VAhFJG7RKehQKk5cRjNXkIEGAaBD7W+IqkH2mDKl7lckrPoCQSIdwZUy8oIpNGhjhgWusxwfiWIjQVlhEAB9SDOsfdxgHWx3mmsVmQINoJkdD0gsPeBlAdytQWKCXoi2wVVnrEAFpoO8evos1+nifNdP3vM+Hh3qC7wxDVEPMrF7dflE+PnzMfmeg9/wD2mC4CVJHK1DEq8RsOtg4J20zK079JsOSkw4jPWjjUriW4KJrYXstJ+ZsCoZIhgNr7ExvgunpAdv8ABBofRTf3hawmqQvaJleQ0NmVQ/SvtmowZ1BQIZKmk01vuwiutpIgXfYFaAXvA0OHEpmQJXwgAYMESyk1wx1Wd4uOegGdh1rWC0g2SMQXCQ1taeTqdWpIKAUBP2fE+a6fu+Z8PFolTag0SZGrzrUenzifHz52PzPRGUSgaRgMfOgbw8uLMX3NyujeXDiCU8pmpD2B3QMWE+kTXoS5O5GphVV6pe0cpWctvp0V4qimYBhenmYaHUnQAywsmQIljZhpjJUrlMo/yYDTOwZm32wEK0hrHXxaNYCGcdt/xEz0qVOHZ0ibLiYtwagdA84KorqHkwobFJzKlSme8cpW+kFrG0KgsZKA1en7viP8rp+75nw8qBODSO53hqy1kc9PnE+L6D8qV9AQMjMDjWygJRkpm1YV02jWj8GSY/ZMzUuyV0qONWLCjQWHvDtBcxAqj6CdNYioj0lfQhcp00K0jiAAm/2w3CnKtVoxz3UM8bWsx6jexFKb7EHVM1DWRZmoBggK6qL0hEnUHJGmrQwdtQiha7XDyy+0NlfdllLj0gsUNAYIkI0YEBu1FABSdGM4QXQ0uGvQROiWweKGd8YgTpS6KTpYytVkbwUJsxKVUBqxdX6P2nbWKojezEdxkmxXYVAFZh190UJLoShNkJJNZxyAzJUimL3QjIsMC831rAqaRvNfQCd/2UuQYht2t7iCgh0suSkJZ5i+6LP25lRLSgwPIDEOLgN/SHRh+EV1D7SoxZOyrhQfQ55lOduiQvFyuiKIS3RUp2xEhFSuqulP11rEjJDXr+CBGAJT7wK+ivWVKlaUypTWmeYHUcv/AKXAi3f3HtPbr7T2ntPae09p7dfbpf8AAy57T2nt19p7T2ntLl/X7T26+09p7T26+09p7dLmJie09p7T2ntLJf2eEsi+ETwiH/5yeMzxieGzwmeAzwieGzw2eGzw2eMzxmeGzw2eOzw2eKzxWeOzxWeKzxWeOzxWeOzx2eOzxmeOzw2eKzwWeGzw2eKzx2eKzwWeKzxWeKzxWeEzx2eGzxWeOzx2eGzxWeOzw2eCzwWeGzwmeGzxmeITxieMzw2eGzw2eGzw2eMzxmdiqAhYxD7AyjUbHGQNdJ55PPp5dPLp5dPLp59PPp5dPLp5dPLp5dPLp5dPLp5hPPp5hPMJ5h0h5hPIp5FPMJc92tekvMJ5VPOp5FPMJgv5E8wnkE8imavlTzCeYTyCeYTzaeYTyyeSTyCeRTzCeYTzCebTzCeXTz6efTy6eXTy6eXTz6efTy6eXTy6eXTz6eYTzCefR7ABjVGi1BXofz/K/wCT97z9mQjR9war1wIAuMwZQjDYzx888iZSKsSmKBNyBdSov5E+Tgl3bempG6c1oXGxZVllX0KVgWgLEy5dBKg1OFLF5iFguGf7MgXoLCO4io4acesBIRoAu4EJTgRWevqoQplwcISuiAk4Fs7p8VBhD2VT9n8Z/s+C/wA+x/dcT9zz9kaXCRNqbAKBZCCj6wS8bgqbkREiooMM9dTQlpr/ABg0h1BRpCKuKWQi+y8CPdDQRLi7Dii61YSwN0FXsNALGVGF7VRZUH3KiFHdH9aZOAUw2zAWqvGcEA3piySmZmgSTMAxdgjmCIoxbaUWARXRatAQx94PRlsU0hohgmWsIBFcniZizEL50TGE9xYyq8dlJc4Xvsz4X/Z8H/nTb+f91xP3PP2LDGfiCBXRzNrGlYw4kby2hNQqrCcdOGNIOFiuqXWIx9JGQaSxdWWGmZT6TYVC0l05mDywYJPtXvHoKXramWsVq2rvnp933f8AWVMXxS8AI7Q0RB2K1qoELKCv2dF5epl2QmnJFb20OCUotFW8EV2IKGPRMNZ2dZXa6/zQiT5fSQ4Q+qjcjRf+OlfY/C/7Pgv86bfz/uuJ+55+xroj0wQPcJaMtNjDLF6mjATDAnRkj8Ag6oNkbBbL7pR9PD1yAtaumC2Q01xJucG00vSzEAACOyR2sctul8O1/vHyL9O0A93FMZguDgNfxNUxcVMLuOfJxhUnBLiluQhe6lGSU4wLmC0PXRPsS49ScDzBI7IsX+IelAkMl+GH7O+F/wBnwX+dNv5/3XE/e8/YEZVjsazEPUcSSLtlsplZw0IojBriOO0SNXhGcnCt9OTVV1TFw0zQYxe9siVdTxBE/dULwnpH6Ca+m8uTqpLZWpL0fzBI3TAmrw3LlFdoOyA606HamGMaVZJfxxMi4gVsQ3GSkd7zrBEOUWWLWDyqUxvimCC2IVhhtEy3yC/2AzUZAkpZZgLbggkfL7M+M/2fBf502/n+X/yfveelfYDMNX86QbWVfaWXpfd1iuauOW0u9bmOInYhRgAVP87Q2/8ATBrhzozHFOlk2ITCmi6rr3QW8qTBkmktu4ragnebUSjbHMwaHLEdZrR0IIZU9oYzb/7l1oy6qO7V5ZfYrhhjjP2f7HmfAf59iKgarCKkBKYOsU5IpySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWckvuSzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSWcks5JZySzklnJLOSOOSGsnWBC3CfH2ITXwYv+Hb2ta1rWta1rWta1rWta1rWta1rWta1rWta1rWta1rWta1rWta1rWta1rWtb60shKFD3v7FzKy0tKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKlSpUqVKZT0Pf/AOYj20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ20nbSdtJ/9k=" width="150" height="80" alt="Logo El Cóndor" style="max-height: 80px; max-width: 150px; display: inline-block;">
+                </div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <div style="margin-bottom: 5px;"><b>Cliente:</b> <span id="doc_cliente"></span></div>
+                <div style="margin-bottom: 5px;"><b>Teléfono:</b> <span id="doc_tel"></span></div>
+                <div style="margin-bottom: 5px;"><b>Domicilio:</b> <span id="doc_domicilio"></span></div>
+                <div style="margin-bottom: 5px;"><b>Turno coordinado:</b> <span id="doc_turno"></span></div>
+                <div style="margin-bottom: 5px;"><b>Fecha de Emisión:</b> <span id="doc_fecha"></span></div>
+                <div style="margin-top: 5px;"><b>Referencia:</b> <span id="doc_ref"></span></div>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 16px;">Trabajo a realizar:</h4>
+                <ul id="doc_trabajos" style="margin: 0; padding-left: 20px;"></ul>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; border-bottom: 1px solid #ccc; padding-bottom: 5px; font-size: 16px;">Materiales para la instalación:</h4>
+                <ul id="doc_materiales" style="margin: 0; padding-left: 20px;"></ul>
+            </div>
+
+            <div class="total-box-pdf" style="margin-top: 20px; border: 2px solid #333; padding: 15px; background: #f9f9f9; text-align: right;">
+                <h3 style="margin: 0; font-size: 18px; color: #333; font-weight: normal;">Total inversión en materiales: <span id="doc_tot_mat" style="font-weight: bold;"></span></h3>
+                <h3 style="margin: 5px 0 0 0; font-size: 18px; color: #333; font-weight: normal;">Total honorarios mano de obra: <span id="doc_tot_mo" style="font-weight: bold;"></span></h3>
+                <h2 style="margin: 15px 0 0 0; font-size: 24px; color: #000; border-top: 1px dashed #ccc; padding-top: 15px;">TOTAL A ABONAR: <span id="doc_tot_final"></span></h2>
+            </div>
+            
+            <div class="footer-pdf" style="margin-top: 20px; font-size: 12px; color: #555; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                <p style="margin: 0;"><b>Garantía:</b> La mano de obra cuenta con una garantía técnica de 6 meses. Los equipos electrónicos poseen garantía oficial de su fabricante.<br>
+                <b>Forma de pago:</b> 60% de anticipo al aprobar. 40% restante al finalizar la instalación.</p>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>
+

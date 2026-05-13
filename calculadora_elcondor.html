@@ -1562,10 +1562,10 @@
 
             window.lastTotal = total;
             window.lastModalidad = modalidad;
-            const ratioMO = base > 0 ? (total_mo / base) : 0;
-            const ratioMat = (base > 0 && modalidad === 'llave') ? (total_mat / base) : 0;
-            window.lastTotalMOFinal = total_mo + (viaticos + margen) * ratioMO;
-            window.lastTotalMatFinal = modalidad === 'solo_mo' ? 0 : (total_mat + (viaticos + margen) * ratioMat);
+            // Para evitar inflar los precios unitarios de materiales ante el cliente (lo cual genera reclamos al comparar con tiendas),
+            // se muestran los materiales exactamente al costo base real, y todo el margen operativo / viáticos se asigna a Honorarios Profesionales (Mano de Obra).
+            window.lastTotalMatFinal = modalidad === 'solo_mo' ? 0 : total_mat;
+            window.lastTotalMOFinal = modalidad === 'solo_mo' ? total : (total - window.lastTotalMatFinal);
 
             // -- BREAKDOWN LISTS --
             const moList = [];

@@ -784,6 +784,14 @@
                 </div>
             </div>
 
+            <div class="checkbox-item" style="margin-top: 10px; border: 1px dashed var(--sec-color); padding: 8px; border-radius: 6px; background: rgba(56, 189, 248, 0.05);">
+                <input type="checkbox" id="sec_mantenimiento_recambio" onchange="calc()">
+                <div>
+                    <b>Mantenimiento y Recambio Técnico en Cámaras Preexistentes</b><br>
+                    <small style="color: #888;">Detalla en el PDF el diagnóstico, reacondicionamiento y cambio de baluns/fuentes/jacks en cámaras ya instaladas.</small>
+                </div>
+            </div>
+
             <div class="notice" style="margin-top:10px; font-size: 0.75rem; color: var(--sys-color);">
                 M.O Instalación: <span id="lbl_sec_mo_cam"></span> por cámara + <span id="lbl_sec_mo_mt"></span>/m
                 cableado.
@@ -1594,7 +1602,9 @@
                 if (n_term > 0 || n_disy > 0) matList.push(`Protecciones: ${n_term} Térmicas, ${n_disy} Disyuntores`);
             }
 
-            if (n_total_mo_cams > 0 || sec_mat > 0) {
+            const secRecambioEl = document.getElementById('sec_mantenimiento_recambio');
+            const isSecRecambio = secRecambioEl && secRecambioEl.checked;
+            if (n_total_mo_cams > 0 || sec_mat > 0 || isSecRecambio) {
                 if (n_cams > 0) {
                     moList.push(`Instalación y configuración de ${n_cams} cámaras de seguridad (Provisión y Colocación)`);
                     if(window.lastSecNIp > 0) moList.push(`Recargo por tecnología IP aplicada en ${window.lastSecNIp} unidades (+20% M.O.)`);
@@ -1604,9 +1614,16 @@
                     });
                 }
                 if (c_mo_only > 0) moList.push(`Instalación de ${c_mo_only} cámaras provistas por el cliente (Solo Mano de Obra)`);
+                if (isSecRecambio) moList.push("Mantenimiento técnico integral, recambio de baluns/fuentes/jacks y reacondicionamiento en cámaras preexistentes.");
                 moList.push("Configuración de monitoreo remoto en dispositivos");
                 
-                if (n_total_mo_cams > 0) matList.push(`Insumos de conexión (Baluns/RJ45, Jacks, Fuentes) según tecnología`);
+                const n_fuentes_ext = parseInt(document.getElementById('sec_fuente').value) || 0;
+                const n_balun_ext = parseInt(document.getElementById('sec_balun').value) || 0;
+                if (n_total_mo_cams > 0 || isSecRecambio) {
+                    matList.push(`Insumos de conexión (Baluns/RJ45, Jacks, Fuentes) según tecnología y recambios solicitados`);
+                } else if (n_fuentes_ext > 0 || n_balun_ext > 0) {
+                    matList.push(`Insumos de recambio/conectividad específicos (Fuentes/Baluns)`);
+                }
                 if (n_rejas > 0) matList.push(`${n_rejas}x Rejas de protección para cámaras`);
                 if (n_soportes > 0) matList.push(`${n_soportes}x Soportes de pared/techo para cámaras`);
                 if (n_cajas > 0) matList.push(`${n_cajas}x Cajas estancas 10x10`);

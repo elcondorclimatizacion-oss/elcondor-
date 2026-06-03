@@ -854,43 +854,9 @@
 
     <script>
         // --- BASE DE DATOS DE FOTOS (Fácilmente ampliable con rutas relativas a la subcarpeta) ---
-        const photos = [
-            // CATEGORÍA: CLIMATIZACIÓN (AA)
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM.jpeg", category: "aa", caption: "Instalación Estética y Nivelada de Unidad Interior (Split)" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (2).jpeg", category: "aa", caption: "Aislación de Tuberías y Sellado de Pasamuros" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (3).jpeg", category: "aa", caption: "Preparación de Cañerías de Cobre Premium" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM.jpeg", category: "aa", caption: "Montaje Seguro de Unidad Condensadora en Ménsulas Reforzadas" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM (1).jpeg", category: "aa", caption: "Control de Vacío y Prueba de Hermeticidad en Tuberías" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.50 PM.jpeg", category: "aa", caption: "Mantenimiento Preventivo Químico de Serpentina" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-03 at 3.24.03 PM.jpeg", category: "aa", caption: "Instalación Residencial Premium de Multi-split" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-04 at 5.54.24 PM.jpeg", category: "aa", caption: "Tendido de Líneas Frigoríficas en Obra Nueva" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-04 at 5.54.28 PM.jpeg", category: "aa", caption: "Control de Carga Exacta de Gas Refrigerante Ecológico" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-04 at 5.54.30 PM.jpeg", category: "aa", caption: "Conexión de Interconexión Eléctrica y Drenaje Estandarizado" },
-
-            // CATEGORÍA: ELECTRICIDAD
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg", category: "electricidad", caption: "Tablero Eléctrico Seccional con Peines y Terminales Tubulares" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.20 PM.jpeg", category: "electricidad", caption: "Distribución de Fases y Balanceo de Cargas en Tablero" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM.jpeg", category: "electricidad", caption: "Tablero Principal de Potencia Normalizado (Normas AEA)" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (1).jpeg", category: "electricidad", caption: "Cableado de Termomagnéticas y Disyuntor Diferencial" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (3).jpeg", category: "electricidad", caption: "Conexión y Rotulado de Circuitos para Fácil Operación" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM.jpeg", category: "electricidad", caption: "Medición y Certificación de Resistencia de Puesta a Tierra" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (2).jpeg", category: "electricidad", caption: "Montaje Ordenado de Dispositivos de Maniobra Eléctrica" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (3).jpeg", category: "electricidad", caption: "Protección Integral de Tensión Trifásica y Monofásica" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (5).jpeg", category: "electricidad", caption: "Tablero de Obra con Enchufes Estancos de Seguridad" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.02 AM.jpeg", category: "electricidad", caption: "Renovación y Normalización de Acometida Principal" },
-
-            // CATEGORÍA: CCTV & SEGURIDAD & REDES
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.07 PM.jpeg", category: "cctv", caption: "Instalación de Domo IP Metálico Exterior (Definición 4MP)" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM.jpeg", category: "cctv", caption: "Organización de Rack Centralizado con Switch y NVR Grabador" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.08 PM (2).jpeg", category: "cctv", caption: "Ordenamiento de Cableado UTP Cat6 y Fuentes Centralizadas" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM.jpeg", category: "cctv", caption: "Instalación de Cámara Bullet Varifocal para Cobertura de Acceso" },
-            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM (2).jpeg", category: "cctv", caption: "Tendido de Red de Datos Estructurada e Interfaces de Red" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.09 AM (3).jpeg", category: "cctv", caption: "Instalación de Nodos Wi-Fi Mesh para Cobertura en toda la Vivienda" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.10 AM (2).jpeg", category: "cctv", caption: "Empalme y Fusión de Fibra Óptica Interna con Fusionadora de Precisión" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.11 AM.jpeg", category: "cctv", caption: "Certificación y Prueba de Velocidad en Tomas de Datos de Red" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.11 AM (3).jpeg", category: "cctv", caption: "Instalación de Central de Alarma y Sensores Infrarrojos Exteriores" },
-            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.12 AM (2).jpeg", category: "cctv", caption: "Verificación de Trazado de Cables de Datos en Pasillo Técnico" }
-        ];
+        // Deja este array vacío o añade aquí tus nuevas fotos siguiendo el formato:
+        // { src: "../FOTOS/nombre_de_archivo.jpeg", category: "aa" | "electricidad" | "cctv", caption: "Descripción de la foto" }
+        const photos = [];
 
         let activeCategory = 'todos';
         let filteredImages = [...photos];
@@ -904,6 +870,16 @@
             filteredImages = activeCategory === 'todos' 
                 ? photos 
                 : photos.filter(img => img.category === activeCategory);
+
+            if (filteredImages.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 4rem 2rem; color: var(--text-muted);">
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">📷</div>
+                        <p style="font-weight: 300; font-size: 1.1rem;">Próximamente se cargarán imágenes de nuestros trabajos en esta categoría.</p>
+                    </div>
+                `;
+                return;
+            }
 
             filteredImages.forEach((img, index) => {
                 const item = document.createElement('div');
@@ -919,6 +895,7 @@
                 grid.appendChild(item);
             });
         }
+
 
         // --- FILTRADO DE LA GALERÍA ---
         function filterGallery(category) {

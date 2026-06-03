@@ -959,7 +959,46 @@
         // --- BASE DE DATOS DE FOTOS (Fácilmente ampliable con rutas relativas a la subcarpeta) ---
         // Deja este array vacío o añade aquí tus nuevas fotos siguiendo el formato:
         // { src: "../FOTOS/nombre_de_archivo.jpeg", category: "aa" | "electricidad" | "cctv", caption: "Descripción de la foto" }
-        const photos = [];
+        const photos = [
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.07.10 PM.jpeg", category: "electricidad", caption: "Instalacion de Tableros Electricos y Protecciones Especiales" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (2).jpeg", category: "electricidad", caption: "Instalacion Electrica e Interconexion de Unidades de Climatizacion" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (3).jpeg", category: "electricidad", caption: "Instalacion Electrica e Interconexion de Unidades de Climatizacion" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.02 PM (4).jpeg", category: "electricidad", caption: "Instalacion Electrica e Interconexion de Unidades de Climatizacion" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.15.03 PM.jpeg", category: "electricidad", caption: "Canalizacion y Conexion de Fuerza Motriz para Condensadoras" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM (1).jpeg", category: "electricidad", caption: "Instalacion Electrica de CCTV y Fuentes Centralizadas de Seguridad" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-14 at 11.19.09 PM (2).jpeg", category: "electricidad", caption: "Instalacion Electrica de CCTV y Fuentes Centralizadas de Seguridad" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-15 at 1.04.01 AM.jpeg", category: "electricidad", caption: "Cableado de Potencia y Senal de Control Estandarizado" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 20.13.22.jpeg", category: "electricidad", caption: "Instalacion de Sistemas de Iluminacion y Tomas de Fuerza Motriz" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 20.13.23.jpeg", category: "electricidad", caption: "Tendido y Canalizaciones Electricas Profesionales" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg", category: "electricidad", caption: "Montaje y Conexion de Tablero Electrico Principal Seccional" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (1).jpeg", category: "electricidad", caption: "Distribucion Peinada de Termicas y Disyuntores" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (2).jpeg", category: "electricidad", caption: "Distribucion Peinada de Termicas y Disyuntores" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.21 PM (3).jpeg", category: "electricidad", caption: "Distribucion Peinada de Termicas y Disyuntores" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.22 PM (1).jpeg", category: "electricidad", caption: "Instalacion y Medicion de Jabalina de Puesta a Tierra" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM (2).jpeg", category: "electricidad", caption: "Conexion de Protectores de Tension e Indicadores LED" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM (3).jpeg", category: "electricidad", caption: "Conexion de Protectores de Tension e Indicadores LED" },
+            { src: "../FOTOS/WhatsApp Image 2026-03-16 at 8.13.23 PM.jpeg", category: "electricidad", caption: "Conexion de Protectores de Tension e Indicadores LED" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.43.52 AM (1).jpeg", category: "electricidad", caption: "Detalle de Peinado de Conductores en Canalizaciones" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.02 AM (2).jpeg", category: "electricidad", caption: "Tablero Principal de Obra de Seguridad con Tomas Industriales" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.03 AM (2).jpeg", category: "electricidad", caption: "Tendido de Alimentadores de Potencia e Interruptores de Cabecera" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.04 AM (4).jpeg", category: "electricidad", caption: "Puesta en Marcha y Verificacion de Sentido de Giro Trifasico" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.04 AM.jpeg", category: "electricidad", caption: "Puesta en Marcha y Verificacion de Sentido de Giro Trifasico" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.05 AM (1).jpeg", category: "electricidad", caption: "Tablero Seccional de Iluminacion y Automatismos Domoticos" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.06 AM (2).jpeg", category: "electricidad", caption: "Protecciones Termomagneticas para Circuitos Seccionales" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.06 AM.jpeg", category: "electricidad", caption: "Protecciones Termomagneticas para Circuitos Seccionales" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.07 AM (2).jpeg", category: "electricidad", caption: "Aislacion y Encintado Termico de Tuberias y Drenajes" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.09 AM (3).jpeg", category: "electricidad", caption: "Conexion de Red y Servidor de Camaras de Seguridad" },
+            { src: "../FOTOS/WhatsApp Image 2026-04-26 at 11.44.11 AM (1).jpeg", category: "electricidad", caption: "Instalacion de Rack de Telecomunicaciones y Patchera de Red" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.48.jpeg", category: "electricidad", caption: "Normalizacion de Acometida Principal Electrica" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.49.jpeg", category: "electricidad", caption: "Tablero de Distribucion Seccional en Obra de Gran Envergadura" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.50.jpeg", category: "electricidad", caption: "Cableado Estructurado y Canalizacion de Tableros de Comando" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.53.jpeg", category: "electricidad", caption: "Montaje de Bandejas Portacables y Canalizaciones de Fuerza Motriz" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.54.jpeg", category: "electricidad", caption: "Normalizacion Electrica Completa y Rotulado de Tablero Principal" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.13.55.jpeg", category: "electricidad", caption: "Terminacion y Peinado de Tablero con Terminales Tubulares" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.23.26.jpeg", category: "electricidad", caption: "Mantenimiento Preventivo de Tablero General Residencial" },
+            { src: "../FOTOS/WhatsApp Image 2026-06-02 at 23.23.27.jpeg", category: "electricidad", caption: "Certificacion de Medicion de Puesta a Tierra y Continuidad" }
+        ];
+
 
         let activeCategory = 'todos';
         let filteredImages = [...photos];

@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Diseño de Publicidad para Revista Lo Cotidiano - El Cóndor Servicios">
+    <title>Publicidad Revista Lo Cotidiano - El Cóndor</title>
+    <!-- Fuentes Outfit y Caveat para mantener la coherencia de marca -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- html2pdf.js para exportar PDF en alta calidad -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-blue: #0b4c8c;
+            --dark-blue: #05264c;
+            --text-dark: #0f172a;
+            --text-muted: #475569;
+            --border-light: rgba(11, 76, 140, 0.1);
+            --whatsapp-green: #25d366;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* --- ESTILOS DE LA INTERFAZ WEB (VISTA PREVIA DE CONTROL) --- */
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #0b0f19;
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            overflow-y: auto;
+        }
+
+        .web-header {
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: #131a2b;
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .web-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 50%, var(--primary-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .web-header p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            font-weight: 300;
+            margin-bottom: 1.2rem;
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #0b0f19;
+            border: none;
+            padding: 0.9rem 2rem;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(245, 158, 11, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        /* Contenedor de la maqueta de la página A4 */
+        .preview-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        /* Estilo de la hoja A4 en la interfaz Web */
+        .a4-page-mockup {
+            width: 210mm;
+            height: 297mm;
+            background-color: white;
+            color: var(--text-dark);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transform-origin: top center;
+        }
+
+        /* Scale para pantallas medianas/pequeñas */
+        @media (max-width: 850px) {
+            .preview-container {
+                height: 620px;
+                overflow: hidden;
+            }
+            .a4-page-mockup {
+                transform: scale(0.65);
+            }
+        }
+
+        @media (max-width: 580px) {
+            .preview-container {
+                height: 480px;
+            }
+            .a4-page-mockup {
+                transform: scale(0.48);
+            }
+        }
+
+        /* --- ESTILOS DE MAQUETACIÓN DEL ANUNCIO A4 (IMPRESO) --- */
+        #printableAd {
+            width: 210mm;
+            height: 297mm;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        /* Cabecera del Anuncio */
+        .ad-header {
+            display: flex;
+            height: 70mm;
+            width: 100%;
+            position: relative;
+            background-color: white;
+            flex-shrink: 0;
+        }
+
+        .ad-header-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 58%;
+            height: 94%;
+            background-color: var(--primary-blue);
+            border-bottom-right-radius: 120px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-right: 15px;
+        }
+
+        .logo-roof {
+            width: 48mm;
+            height: 18mm;
+            margin-bottom: 2mm;
+        }
+
+        .logo-badge-condor {
+            background-color: #ffffff;
+            color: var(--primary-blue);
+            font-size: 1.9rem;
+            font-weight: 900;
+            padding: 1.5px 22px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+            line-height: 1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+        }
+
+        .logo-badge-servicios {
+            background-color: var(--primary-blue);
+            color: #ffffff;
+            font-size: 0.9rem;
+            font-weight: 800;
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1.5px solid white;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            line-height: 1;
+        }
+
+        .logo-text-soluciones {
+            position: absolute;
+            bottom: 6px;
+            left: 10mm;
+            color: var(--primary-blue);
+            font-size: 0.82rem;
+            font-weight: 800;
+            letter-spacing: 1.8px;
+            z-index: 3;
+            text-transform: uppercase;
+        }
+
+        .ad-header-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 48%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .ad-header-right img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Cuerpo Principal */
+        .ad-body {
+            display: flex;
+            height: 207mm;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 4mm 6mm;
+            background-color: white;
+            flex-grow: 1;
+        }
+
+        .ad-body-left {
+            width: 59%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding-right: 4mm;
+        }
+
+        .ad-body-right {
+            width: 41%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Slogan e Introducción */
+        .slogan-block {
+            margin-bottom: 2.5mm;
+        }
+
+        .slogan-title {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+            line-height: 1.1;
+            margin-bottom: 0.5mm;
+            letter-spacing: -0.5px;
+        }
+
+        .slogan-subtitle {
+            font-family: 'Caveat', cursive;
+            font-size: 2.3rem;
+            color: var(--primary-blue);
+            line-height: 0.9;
+            margin-bottom: 2mm;
+            font-weight: 700;
+        }
+
+        .slogan-text {
+            font-size: 0.74rem;
+            color: #334155;
+            line-height: 1.35;
+            margin-bottom: 1.5mm;
+            font-weight: 500;
+        }
+
+        .slogan-text.highlight {
+            font-weight: 700;
+            color: var(--primary-blue);
+            font-size: 0.76rem;
+        }
+
+        /* Servicios */
+        .services-block {
+            margin-bottom: 2.5mm;
+        }
+
+        .services-banner {
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 2mm 3.5mm;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.76rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 2mm;
+        }
+
+        .banner-icon {
+            width: 4.2mm;
+            height: 4.2mm;
+            color: white;
+        }
+
+        .services-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5mm;
+        }
+
+        .services-list > li {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            font-size: 0.72rem;
+            color: #1e293b;
+            line-height: 1.25;
+        }
+
+        .check-icon {
+            width: 3.8mm;
+            height: 3.8mm;
+            color: var(--primary-blue);
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .services-list > li.has-sublist {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1mm;
+        }
+
+        .services-sublist {
+            list-style: none;
+            padding-left: 5mm;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 0.8mm 2mm;
+            width: 100%;
+        }
+
+        .services-sublist li {
+            font-size: 0.66rem;
+            color: #334155;
+            position: relative;
+            padding-left: 8px;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+
+        .services-sublist li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--primary-blue);
+            font-weight: bold;
+        }
+
+        /* Badge de Garantía */
+        .guarantee-badge {
+            background-color: var(--primary-blue);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 2mm 3.5mm;
+            border-radius: 6px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            margin-bottom: 3mm;
+            box-shadow: 0 4px 6px rgba(11, 76, 140, 0.12);
+        }
+
+        .badge-icon {
+            width: 4mm;
+            height: 4mm;
+            stroke: white;
+        }
+
+        /* Contacto */
+        .contacts-block {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2mm;
+            align-items: center;
+        }
+
+        .contacts-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+            margin-bottom: 0.5mm;
+        }
+
+        .contacts-title .line {
+            height: 2px;
+            background-color: var(--primary-blue);
+            flex: 1;
+        }
+
+        .contacts-title .text {
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 0.82rem;
+            letter-spacing: 1.5px;
+        }
+
+        .contacts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1mm;
+            width: 100%;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 1.5mm 4mm;
+            border-radius: 60px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            border: 1px solid rgba(11, 76, 140, 0.05);
+        }
+
+        .whatsapp-icon {
+            width: 4.8mm;
+            height: 4.8mm;
+            color: var(--whatsapp-green);
+            flex-shrink: 0;
+        }
+
+        .contact-item .number {
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+            letter-spacing: 0.2px;
+        }
+
+        .contact-item .name {
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #475569;
+            margin-left: auto;
+            text-transform: uppercase;
+        }
+
+        /* Grilla de Fotos del lado derecho */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 1.2mm;
+            height: 100%;
+            width: 100%;
+        }
+
+        .grid-item {
+            border-radius: 5px;
+            overflow: hidden;
+            border: 1px solid rgba(11, 76, 140, 0.12);
+            height: 100%;
+            position: relative;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Pie de Página */
+        .ad-footer {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .footer-banner-sectors {
+            background-color: var(--dark-blue);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 3mm 0;
+            color: white;
+        }
+
+        .sector-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .sector-icon {
+            width: 4.8mm;
+            height: 4.8mm;
+            fill: white;
+        }
+
+        .footer-badges {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+            padding: 2.2mm 0;
+            border-top: 1px solid rgba(11, 76, 140, 0.08);
+        }
+
+        .footer-badge {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.66rem;
+            font-weight: 800;
+            color: #475569;
+            letter-spacing: 0.2px;
+        }
+
+        .badge-check {
+            width: 3.5mm;
+            height: 3.5mm;
+            color: var(--primary-blue);
+        }
+
+        /* --- MEDIA QUERY DE IMPRESIÓN (OCULTA LA WEB Y RENDERIZA SOLO EL A4) --- */
+        @media print {
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .web-header {
+                display: none !important;
+            }
+            .preview-container {
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+            .a4-page-mockup {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                transform: none !important;
+                width: 210mm !important;
+                height: 297mm !important;
+                position: absolute !important;
+                top: 0 !important;
+                left: 0 !important;
+                page-break-after: avoid;
+                page-break-before: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Panel de control Web (Oculto al imprimir/generar PDF) -->
+    <div class="web-header">
+        <h1>Generador de Publicidad - Revista Lo Cotidiano</h1>
+        <p>Vista previa interactiva del volante de El Cóndor Servicios. Haz clic en el botón de abajo para exportar en alta definición y con la relación de aspecto A4 de imprenta.</p>
+        <button class="btn-download" id="downloadAdBtn" onclick="exportToPDF()">
+            <!-- SVG de descarga -->
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            <span id="btnText">Descargar PDF A4</span>
+        </button>
+    </div>
+
+    <!-- Contenedor del Anuncio A4 -->
+    <div class="preview-container">
+        <div class="a4-page-mockup" id="printableAd">
+            
+            <!-- Cabecera -->
+            <div class="ad-header">
+                <div class="ad-header-left">
+                    <div class="logo-wrapper">
+                        <!-- Roof shape SVG -->
+                        <svg class="logo-roof" viewBox="0 0 120 50">
+                            <path d="M15 42 L60 15 L105 42 M35 42 L60 27 L85 42" stroke="white" stroke-width="5.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M85 28 L85 18 L93 18 L93 34" stroke="white" stroke-width="4.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <div class="logo-badge-condor">CONDOR</div>
+                        <div class="logo-badge-servicios">SERVICIOS</div>
+                    </div>
+                </div>
+                <div class="logo-text-soluciones">SOLUCIONES INTEGRALES</div>
+                <div class="ad-header-right">
+                    <!-- Foto principal de cámara en el exterior -->
+                    <img src="WhatsApp Image 2026-04-26 at 11.44.03 AM.jpeg" alt="Cámara de Seguridad">
+                </div>
+            </div>
+
+            <!-- Cuerpo Principal (Servicios y Galería) -->
+            <div class="ad-body">
+                
+                <!-- Columna Izquierda -->
+                <div class="ad-body-left">
+                    
+                    <!-- Lema -->
+                    <div class="slogan-block">
+                        <h1 class="slogan-title">SOMOS EL CÓNDOR</h1>
+                        <h2 class="slogan-subtitle">Soluciones Integrales</h2>
+                        <p class="slogan-text">
+                            Nuestros servicios son dedicados para hogares, empresas y comercios. Nuestra amplia experiencia y compromiso les da a nuestros clientes la satisfacción garantizada de nuestros trabajos.
+                        </p>
+                        <p class="slogan-text highlight">
+                            Nos destacamos por el compromiso, la responsabilidad y la prolijidad en todos los trabajos que realizamos.
+                        </p>
+                    </div>
+
+                    <!-- Lista de Servicios -->
+                    <div class="services-block">
+                        <div class="services-banner">
+                            <!-- Wrench/Screwdriver icon -->
+                            <svg class="banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                            <span>LOS SERVICIOS QUE REALIZAMOS SON:</span>
+                        </div>
+                        
+                        <ul class="services-list">
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <strong>Instalación y Servicio técnico de Cámaras de Seguridad.</strong>
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <strong>Colocación de Alarmas de seguridad.</strong>
+                            </li>
+                            <li>
+                                <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <strong>Instalación y mantenimiento de Aires Acondicionados.</strong>
+                            </li>
+                            <li class="has-sublist">
+                                <div style="display:flex; align-items:flex-start; gap:6px;">
+                                    <svg class="check-icon" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <strong>Servicios Eléctricos en general:</strong>
+                                </div>
+                                <ul class="services-sublist">
+                                    <li>Instalaciones eléctricas en gral.</li>
+                                    <li>Cableados y Recableados</li>
+                                    <li>Colocación de Ventiladores de Techo</li>
+                                    <li>Automatización de Bombas Cisternas</li>
+                                    <li>Armado de tablero eléctrico</li>
+                                    <li>Colocación de artefactos eléctricos</li>
+                                    <li>Colocación de Térmicas y Disyuntores</li>
+                                    <li>Colocación de Jabalinas. Entre otras.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Garantía Badge -->
+                    <div class="guarantee-badge">
+                        <!-- Checklist icon -->
+                        <svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                        </svg>
+                        <span>PRESUPUESTOS SIN CARGO Y TRABAJOS GARANTIZADOS</span>
+                    </div>
+
+                    <!-- Contactos -->
+                    <div class="contacts-block">
+                        <div class="contacts-title">
+                            <span class="line"></span>
+                            <span class="text">CONTACTANOS</span>
+                            <span class="line"></span>
+                        </div>
+                        <div class="contacts-list">
+                            <div class="contact-item">
+                                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.022-.08-.117-.162-.285-.249-.17-.087-1.007-.497-1.162-.553-.157-.056-.27-.083-.384.088-.115.172-.44.553-.539.664-.099.11-.198.125-.367.039-.168-.087-.712-.263-1.357-.84-.501-.447-.838-.999-.937-1.17-.099-.172-.01-.265.075-.351.077-.078.172-.2.258-.3.086-.101.115-.172.172-.343.057-.171.029-.32-.014-.407-.044-.087-.384-.928-.526-1.27-.14-.336-.28-.291-.384-.296-.099-.005-.213-.006-.328-.006-.115 0-.303.043-.46.213-.158.172-.6.586-.6 1.428s.618 1.65.705 1.767c.087.118 1.218 1.861 2.95 2.608.412.177.734.282.985.362.414.133.79.114 1.087.07.331-.05 1.007-.412 1.148-.811.142-.399.142-.741.099-.811zM12 2C6.48 2 2 6.48 2 12c0 2.18.7 4.2 1.89 5.86L2.3 22l4.3-1.55C8.12 21.32 9.99 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.84 0-3.55-.53-5-1.46l-.36-.22-2.52.9.92-2.46-.24-.38C3.89 15.38 3.33 13.73 3.33 12c0-4.78 3.89-8.67 8.67-8.67s8.67 3.89 8.67 8.67-3.89 8.67-8.67 8.67z"/>
+                                </svg>
+                                <span class="number">1126139527</span>
+                                <span class="name">Pablo Blanco</span>
+                            </div>
+                            <div class="contact-item">
+                                <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M17.472 14.382c-.022-.08-.117-.162-.285-.249-.17-.087-1.007-.497-1.162-.553-.157-.056-.27-.083-.384.088-.115.172-.44.553-.539.664-.099.11-.198.125-.367.039-.168-.087-.712-.263-1.357-.84-.501-.447-.838-.999-.937-1.17-.099-.172-.01-.265.075-.351.077-.078.172-.2.258-.3.086-.101.115-.172.172-.343.057-.171.029-.32-.014-.407-.044-.087-.384-.928-.526-1.27-.14-.336-.28-.291-.384-.296-.099-.005-.213-.006-.328-.006-.115 0-.303.043-.46.213-.158.172-.6.586-.6 1.428s.618 1.65.705 1.767c.087.118 1.218 1.861 2.95 2.608.412.177.734.282.985.362.414.133.79.114 1.087.07.331-.05 1.007-.412 1.148-.811.142-.399.142-.741.099-.811zM12 2C6.48 2 2 6.48 2 12c0 2.18.7 4.2 1.89 5.86L2.3 22l4.3-1.55C8.12 21.32 9.99 22 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.84 0-3.55-.53-5-1.46l-.36-.22-2.52.9.92-2.46-.24-.38C3.89 15.38 3.33 13.73 3.33 12c0-4.78 3.89-8.67 8.67-8.67s8.67 3.89 8.67 8.67-3.89 8.67-8.67 8.67z"/>
+                                </svg>
+                                <span class="number">1169272348</span>
+                                <span class="name">Cristian Maureira</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha (Grilla de fotos) -->
+                <div class="ad-body-right">
+                    <div class="photo-grid">
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-04-26 at 11.44.02 AM (1).jpeg" alt="Cámaras">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-03-14 at 11.15.02 PM (2).jpeg" alt="Aire Acondicionado">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-04-26 at 11.43.52 AM (1).jpeg" alt="Electricidad">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-04-26 at 11.44.03 AM (1).jpeg" alt="CCTV">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-03-16 at 8.13.19 PM.jpeg" alt="Tablero Eléctrico">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-03-16 at 8.13.21 PM (2).jpeg" alt="Conexiones">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-03-14 at 11.15.02 PM (3).jpeg" alt="Service">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-04-26 at 11.44.05 AM (1).jpeg" alt="Instalaciones">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-03-16 at 8.13.23 PM (3).jpeg" alt="Ventilador de Techo">
+                        </div>
+                        <div class="grid-item">
+                            <img src="WhatsApp Image 2026-06-02 at 23.13.55.jpeg" alt="Normalización">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Pie de Página -->
+            <div class="ad-footer">
+                <div class="footer-banner-sectors">
+                    <div class="sector-item">
+                        <!-- House SVG -->
+                        <svg class="sector-icon" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        <span>PARA HOGARES</span>
+                    </div>
+                    <div class="sector-item">
+                        <!-- Building SVG -->
+                        <svg class="sector-icon" viewBox="0 0 24 24">
+                            <path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>
+                        </svg>
+                        <span>EMPRESAS</span>
+                    </div>
+                    <div class="sector-item">
+                        <!-- Store SVG -->
+                        <svg class="sector-icon" viewBox="0 0 24 24">
+                            <path d="M20 4H4v2h16V4zm1 10v-2l-1-5H4L3 12v2c0 .55.45 1 1 1h1v4h12v-4h1c.55 0 1-.45 1-1zM6 18H8v-3H6v3zm8 0h2v-3h-2v3z"/>
+                        </svg>
+                        <span>COMERCIOS</span>
+                    </div>
+                </div>
+                
+                <div class="footer-badges">
+                    <div class="footer-badge">
+                        <!-- Check icon -->
+                        <svg class="badge-check" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        <span>COMPROMISO</span>
+                    </div>
+                    <div class="footer-badge">
+                        <!-- Check icon -->
+                        <svg class="badge-check" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        <span>RESPONSABILIDAD</span>
+                    </div>
+                    <div class="footer-badge">
+                        <!-- Check icon -->
+                        <svg class="badge-check" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        <span>PROLIJIDAD</span>
+                    </div>
+                    <div class="footer-badge">
+                        <!-- Check icon -->
+                        <svg class="badge-check" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                        </svg>
+                        <span>TRABAJOS GARANTIZADOS</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Script de Exportación -->
+    <script>
+        function exportToPDF() {
+            const element = document.getElementById('printableAd');
+            const downloadBtn = document.getElementById('downloadAdBtn');
+            const btnText = document.getElementById('btnText');
+            
+            // Efecto visual de carga
+            downloadBtn.style.opacity = '0.7';
+            btnText.innerText = 'GENERANDO PDF...';
+            downloadBtn.disabled = true;
+
+            const opt = {
+                margin:       0,
+                filename:     'publicidad_el_condor_revista_lo_cotidiano.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { 
+                    scale: 3, // Mayor escala para óptima resolución de imprenta (300 DPI aprox)
+                    useCORS: true, 
+                    letterRendering: true,
+                    logging: false
+                },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Ejecuta la conversión de HTML a PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Restaura el botón
+                downloadBtn.style.opacity = '1';
+                btnText.innerText = 'Descargar PDF A4';
+                downloadBtn.disabled = false;
+            }).catch(err => {
+                console.error("Error al generar PDF:", err);
+                alert("Hubo un error al generar el PDF. Por favor, intente nuevamente.");
+                downloadBtn.style.opacity = '1';
+                btnText.innerText = 'Descargar PDF A4';
+                downloadBtn.disabled = false;
+            });
+        }
+    </script>
+</body>
+</html>

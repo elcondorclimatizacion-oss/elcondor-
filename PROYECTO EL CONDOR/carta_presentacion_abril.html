@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de Presentacion El Condor - Club de Campo Abril</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #0F172A;
+            --secondary: #D97706;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --bg-light: #F8FAFC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: #E2E8F0;
+            padding: 2rem 1rem;
+        }
+
+        /* Control Panel */
+        .controls {
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-pdf {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-pdf:hover {
+            background: #B45309;
+            transform: translateY(-1px);
+        }
+
+        .controls-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Document Container */
+        .document-page {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            position: relative;
+        }
+
+        /* Header */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-area h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-area p {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .header-meta strong {
+            color: var(--primary);
+        }
+
+        /* Intro */
+        .intro-section {
+            margin-bottom: 2rem;
+        }
+
+        .salutation {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .lead-text {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Services Grid */
+        .services-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            padding-left: 0.75rem;
+        }
+
+        .service-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-card ul {
+            list-style-type: none;
+            padding-left: 0.5rem;
+        }
+
+        .service-card li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .service-card li::before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* Pillars Section */
+        .pillars-section {
+            margin: 2.5rem 0;
+        }
+
+        .pillars-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            padding-left: 0.75rem;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .pillar-item {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .pillar-item strong {
+            display: block;
+            font-size: 1.05rem;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .pillar-item p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Footer / Contact */
+        .doc-footer {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signature {
+            text-align: right;
+        }
+
+        .signature-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .signature-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Print styling overrides */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .controls {
+                display: none;
+            }
+            .document-page {
+                box-shadow: none;
+                padding: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <span class="controls-info">Generación de Carta en PDF (Optimizada)</span>
+        <button class="btn-pdf" id="downloadBtn" onclick="generatePDF()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar PDF
+        </button>
+    </div>
+
+    <div class="document-page" id="printableDocument">
+        <div class="doc-header">
+            <div class="logo-area">
+                <h1>🦅 EL CÓNDOR</h1>
+                <p>Servicios Integrales de Ingeniería</p>
+            </div>
+            <div class="header-meta">
+                <p><strong>Destinatario:</strong> Propietarios y Administración</p>
+                <p>Club de Campo Abril</p>
+            </div>
+        </div>
+
+        <div class="intro-section">
+            <p class="salutation">Estimado vecino / administración del Club de Campo Abril:</p>
+            <p class="lead-text">
+                Nos dirigimos a ustedes con el propósito de presentar a <strong>El Cóndor - Servicios Integrales</strong>, una empresa de ingeniería de servicios de infraestructura especializada en <strong>confort, seguridad y continuidad de su hogar</strong>.
+            </p>
+            <p class="lead-text">
+                Sabemos que una propiedad en un entorno exclusivo como el Club de Campo Abril requiere de un mantenimiento a la altura de sus estándares. Por ello, dejamos de lado la informalidad del sector técnico para ofrecer un servicio profesional con <strong>garantía escrita, personal asegurado, presupuestos transparentes e instrumental de alta precisión</strong>.
+            </p>
+        </div>
+
+        <div class="services-section">
+            <h2>🛠️ Nuestras Especialidades Residenciales VIP</h2>
+            
+            <div class="service-card">
+                <h3>❄️ 1. Climatización y Calefacción de Precisión</h3>
+                <ul>
+                    <li><strong>Instalación y Service:</strong> Equipos Split, Multi-split y sistemas centrales VRF/VRV.</li>
+                    <li><strong>Mantenimiento Preventivo:</strong> Limpieza química profunda de serpentinas y turbinas (evita bacterias y malos olores), control de presiones y optimización de consumo eléctrico.</li>
+                    <li><strong>Preinstalaciones Estéticas:</strong> Canalizaciones ocultas durante reformas u obras para no afectar el diseño arquitectónico de su vivienda.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>⚡ 2. Ingeniería Eléctrica y Seguridad Familiar</h3>
+                <ul>
+                    <li><strong>Tableros de Diseño:</strong> Normalización y armado de Tableros Eléctricos Principales y Seccionales. Peines de conexión aislados y cableados ordenados (evita riesgos de cortocircuito).</li>
+                    <li><strong>Protección Integral:</strong> Instalación de protectores de tensión generales monofásicos/trifásicos en tablero para resguardar toda la electrónica de su casa ante picos de tensión de la red.</li>
+                    <li><strong>Medición de Puesta a Tierra:</strong> Instalación y certificación de jabalinas para la correcta actuación de los disyuntores diferenciales.</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="page-break-before: always;">
+                <h3>🏠 3. Smart Home & Automatización (Domótica)</h3>
+                <ul>
+                    <li><strong>Confort Inteligente:</strong> Control por voz o celular de la iluminación, riego, climatización y accesos.</li>
+                    <li><strong>Eficiencia:</strong> Programación horaria para optimizar el gasto energético de la propiedad.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>🌐 4. Conectividad y Redes Mesh de Alta Velocidad</h3>
+                <ul>
+                    <li><strong>Wi-Fi sin Zonas Muertas:</strong> Diseño e instalación de redes inalámbricas Mesh de alta performance para garantizar señal al 100% en plantas altas, subsuelos y áreas exteriores (piscina/jardín).</li>
+                    <li><strong>Cableado Estructurado:</strong> Conexiones directas por cable Cat6 para Smart TVs, consolas de videojuegos y oficinas en casa (Home Office).</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>📹 5. Seguridad Electrónica y CCTV Premium</h3>
+                <ul>
+                    <li><strong>Vigilancia HD/IP:</strong> Cámaras inteligentes con detección de movimiento perimetral y visualización en tiempo real desde el celular.</li>
+                    <li><strong>Mantenimiento Técnico:</strong> Recambio preventivo de fuentes de alimentación centralizadas y cables dañados.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pillars-section">
+            <h2>🛡️ Los 4 Pilares de Confianza de El Cóndor</h2>
+            <div class="pillars-grid">
+                <div class="pillar-item">
+                    <strong>1. Ingreso Seguro (ART al Día)</strong>
+                    <p>Todo nuestro personal ingresa con seguros de Accidentes Personales y ART al día, cumpliendo los requisitos del barrio.</p>
+                </div>
+                <div class="pillar-item">
+                    <strong>2. Prolijidad y Limpieza Absoluta</strong>
+                    <p>Respetamos su propiedad. Trabajamos con uniforme de la empresa, calzado cubierto y limpieza profunda al finalizar.</p>
+                </div>
+                <div class="pillar-item">
+                    <strong>3. Trazabilidad QR</strong>
+                    <p>Historial exacto de mantenimientos mediante códigos QR pegados en cada equipo intervenido.</p>
+                </div>
+                <div class="pillar-item">
+                    <strong>4. Presupuestos Formales</strong>
+                    <p>Desgloses transparentes de materiales y mano de obra para su total tranquilidad y rendición contable.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-footer">
+            <div class="contact-info">
+                <p><strong>WhatsApp Directo:</strong> <a href="https://wa.me/5491126139527">+54 9 11 2613-9527</a></p>
+                <p><strong>Instagram:</strong> <a href="https://www.instagram.com/elcondorservicios/">@elcondorservicios</a></p>
+                <p><strong>Página Web:</strong> <a href="https://elcondorclimatizacion-oss.github.io/elcondor-/">elcondorservicios.com.ar</a></p>
+            </div>
+            <div class="signature">
+                <p class="signature-title">El Cóndor - Servicios Integrales</p>
+                <p class="signature-subtitle">La tranquilidad de contar con expertos.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('printableDocument');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Temporary styles for printing
+            downloadBtn.style.opacity = '0.5';
+            downloadBtn.innerText = 'Generando...';
+            
+            const opt = {
+                margin:       10,
+                filename:     'carta_presentacion_el_condor_abril.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                downloadBtn.style.opacity = '1';
+                downloadBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Descargar PDF
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

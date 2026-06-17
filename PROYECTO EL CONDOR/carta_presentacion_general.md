@@ -1,36 +1,17 @@
-# 🦅 EL CÓNDOR - SERVICIOS INTEGRALES
-### Carta de Presentación y Propuesta de Servicios Premium
-**Destinatario:** Propietarios, Administraciones, Comercios y Empresas  
-**Propósito:** Respaldo Técnico, Seguridad, Confort y Continuidad Operativa  
+# EL CÓNDOR
+### Mantenimiento y Soluciones Técnicas Integrales
+**Propuesta de Servicios Premium**  
+**Mantenimiento y Soporte Técnico**  
 
 ---
 
 ## 🦅 Quiénes Somos
 
-En **El Cóndor - Servicios Integrales** somos una empresa de ingeniería de servicios de infraestructura especializada en **confort, seguridad y continuidad de su propiedad**. Nos posicionamos como el socio técnico estratégico para clientes particulares, consorcios y oficinas corporativas que demandan una gestión impecable de sus instalaciones.
-
-Nacimos con la firme decisión de erradicar la informalidad tradicional en el sector técnico. Por ello, brindamos una experiencia premium caracterizada por **garantía escrita, personal altamente calificado con cobertura de seguros completa (ART/AP), presupuestos transparentes e instrumental de alta precisión**.
+**Quienes somos:** Brindamos soluciones integrales en climatización, electricidad, seguridad electrónica y domótica para hogares, countries, comercios y empresas. Nuestro objetivo es garantizar seguridad, confort y continuidad operativa mediante un servicio profesional, confiable y personalizado.
 
 ---
 
-## 🛡️ Nuestros Valores
-
-1. **Seguridad y Respaldo:** Todo nuestro equipo trabaja con seguros de Accidentes Personales y ART al día, asegurando un ingreso y labor conforme a las normas.
-2. **Prolijidad y Respeto:** Trabajamos con uniformes, calzado cubierto y realizamos una limpieza profunda al concluir, dejando su espacio impecable.
-3. **Trazabilidad Digital:** Cada equipo intervenido recibe una etiqueta QR con su historial digital de mantenimientos, brindando transparencia total y control en la palma de su mano.
-4. **Transparencia e Integridad:** Presentamos cotizaciones detalladas separando materiales y mano de obra para una rendición clara y sin sorpresas.
-
----
-
-## 🎯 Nuestras Metas
-
-* **Garantizar la Continuidad Operativa:** Minimizar a cero las interrupciones técnicas que puedan alterar su vida diaria o el funcionamiento de sus actividades comerciales.
-* **Maximizar la Eficiencia y el Ahorro:** Realizar diagnósticos preventivos con termografía e instrumental avanzado para optimizar el consumo de energía y prolongar la vida útil de sus equipos.
-* **Consolidar Relaciones de Confianza:** Ser la primera y única opción técnica de nuestros clientes, basándonos en la excelencia, puntualidad y honestidad profesional.
-
----
-
-## 🛠️ Nuestras Especialidades Técnicas
+## 🛠️ Servicios que Brindamos
 
 ### 1. ❄️ Climatización y Calefacción de Precisión
 * **Instalación y Service:** Sistemas Split, Multi-split y centrales VRF/VRV.
@@ -46,6 +27,26 @@ Nacimos con la firme decisión de erradicar la informalidad tradicional en el se
 * **Smart Home & Automatización:** Control inteligente por voz o celular de iluminación, climatización y accesos.
 * **Wi-Fi Mesh de Alta Velocidad:** Redes inalámbricas de gran performance sin zonas muertas en plantas altas y exteriores.
 * **Seguridad Electrónica:** Cámaras inteligentes CCTV con detección perimetral y visualización en tiempo real desde el celular.
+
+---
+
+## ¿Por qué elegir El Cóndor?
+
+✓ **Atención rápida y personalizada**  
+✓ **Presupuestos claros**  
+✓ **Garantía de trabajo**  
+✓ **Un único proveedor para múltiples necesidades**  
+✓ **Compromiso con la seguridad y el confort**  
+
+---
+
+## Trabajamos para:
+
+* 🏠 **Hogares**
+* 🏘️ **Countries**
+* 🏬 **Comercios**
+* 🏢 **Pymes**
+* 🏢 **Consorcios**
 
 ---
 

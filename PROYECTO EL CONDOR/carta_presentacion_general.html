@@ -73,7 +73,7 @@
             max-width: 800px;
             margin: 0 auto;
             background: white;
-            padding: 2.5rem 3rem;
+            padding: 2rem 2.5rem;
             border-radius: 16px;
             box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             position: relative;
@@ -83,34 +83,46 @@
         .doc-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             border-bottom: 2px solid var(--secondary);
-            padding-bottom: 1.25rem;
-            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
-        .logo-area h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.05em;
+        .logo-area {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 1rem;
         }
 
-        .logo-area p {
-            font-size: 0.9rem;
+        .logo-img {
+            height: 55px;
+            width: 55px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--secondary);
+        }
+
+        .logo-text h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .logo-text p {
+            font-size: 0.8rem;
             color: var(--secondary);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.05em;
             font-weight: 600;
-            margin-top: 0.2rem;
+            margin-top: 0.1rem;
         }
 
         .header-meta {
             text-align: right;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
@@ -120,76 +132,84 @@
 
         /* Sections */
         .doc-section {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
 
         .doc-section h2 {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--primary);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             border-left: 4px solid var(--secondary);
-            padding-left: 0.75rem;
+            padding-left: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
 
         .lead-text {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-dark);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.5rem;
             text-align: justify;
+            line-height: 1.45;
         }
 
-        /* Values Grid */
-        .values-grid {
+        /* Check list */
+        .check-list {
+            list-style-type: none;
+            padding-left: 0.25rem;
+            margin-top: 0.5rem;
+        }
+
+        .check-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.92rem;
+            color: var(--text-dark);
+        }
+
+        .check-list li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            top: 0px;
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.05rem;
+        }
+
+        /* Targets Grid */
+        .targets-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 0.75rem;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-top: 0.5rem;
         }
 
-        .value-card {
+        .target-card {
             background: var(--bg-light);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 0.85rem 1rem;
+            padding: 0.5rem;
+            text-align: center;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
-        .value-card strong {
+        .target-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--secondary);
+        }
+
+        .target-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.15rem;
             display: block;
-            font-size: 1rem;
+        }
+
+        .target-name {
+            font-size: 0.8rem;
+            font-weight: 600;
             color: var(--primary);
-            margin-bottom: 0.25rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .value-card p {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            line-height: 1.4;
-        }
-
-        /* Goals list */
-        .goals-list {
-            list-style-type: none;
-            padding-left: 0.25rem;
-        }
-
-        .goals-list li {
-            position: relative;
-            padding-left: 1.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.95rem;
-        }
-
-        .goals-list li::before {
-            content: "🎯";
-            position: absolute;
-            left: 0;
-            top: 1px;
-            font-size: 1rem;
         }
 
         /* Services */
@@ -197,14 +217,14 @@
             background: var(--bg-light);
             border: 1px solid var(--border);
             border-radius: 8px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .service-card h3 {
-            font-size: 1.05rem;
+            font-size: 1rem;
             color: var(--primary);
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.3rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
@@ -218,8 +238,8 @@
         .service-card li {
             position: relative;
             padding-left: 1.1rem;
-            margin-bottom: 0.25rem;
-            font-size: 0.9rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.85rem;
             color: var(--text-dark);
         }
 
@@ -227,7 +247,7 @@
             content: "•";
             color: var(--secondary);
             font-weight: bold;
-            font-size: 1.1rem;
+            font-size: 1rem;
             position: absolute;
             left: 0;
             top: -2px;
@@ -235,18 +255,18 @@
 
         /* Footer / Contact */
         .doc-footer {
-            margin-top: 1.5rem;
+            margin-top: 1.25rem;
             border-top: 1px solid var(--border);
-            padding-top: 1rem;
+            padding-top: 0.75rem;
             display: flex;
             justify-content: space-between;
-            align-items: flex-end;
+            align-items: center;
         }
 
         .contact-info p {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-dark);
-            margin-bottom: 0.2rem;
+            margin-bottom: 0.15rem;
         }
 
         .contact-info a {
@@ -255,18 +275,41 @@
             font-weight: 500;
         }
 
+        .qr-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .qr-code {
+            width: 65px;
+            height: 65px;
+            border: 1px solid var(--border);
+            padding: 2px;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .qr-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-align: center;
+        }
+
         .signature {
             text-align: right;
         }
 
         .signature-title {
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 700;
             color: var(--primary);
         }
 
         .signature-subtitle {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
         }
 
@@ -295,14 +338,15 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             Descargar PDF
         </button>
-    </div>
-
-    <div class="document-page" id="printableDocument">
+        <div class="document-page" id="printableDocument">
         <!-- Header -->
         <div class="doc-header">
             <div class="logo-area">
-                <h1>🦅 EL CÓNDOR</h1>
-                <p>Servicios Integrales de Ingeniería</p>
+                <img src="logocondor.jpeg" alt="Logo El Cóndor" class="logo-img">
+                <div class="logo-text">
+                    <h1>EL CÓNDOR</h1>
+                    <p>Mantenimiento y Soluciones Técnicas Integrales</p>
+                </div>
             </div>
             <div class="header-meta">
                 <p><strong>Propuesta de Servicios Premium</strong></p>
@@ -314,49 +358,13 @@
         <div class="doc-section">
             <h2>Quiénes Somos</h2>
             <p class="lead-text">
-                En <strong>El Cóndor - Servicios Integrales</strong> somos una empresa de ingeniería de servicios de infraestructura especializada en **confort, seguridad y continuidad de su propiedad**. Nos posicionamos como el socio técnico estratégico para clientes particulares, consorcios y oficinas corporativas que demandan una gestión impecable de sus instalaciones.
-            </p>
-            <p class="lead-text">
-                Nacimos con la firme decisión de erradicar la informalidad tradicional en el sector técnico. Por ello, brindamos una experiencia premium caracterizada por **garantía escrita, personal altamente calificado con cobertura de seguros completa (ART/AP), presupuestos transparentes e instrumental de alta precisión**.
+                <strong>Quienes somos:</strong> Brindamos soluciones integrales en climatización, electricidad, seguridad electrónica y domótica para hogares, countries, comercios y empresas. Nuestro objetivo es garantizar seguridad, confort y continuidad operativa mediante un servicio profesional, confiable y personalizado.
             </p>
         </div>
 
-        <!-- Nuestros Valores -->
+        <!-- Servicios que Brindamos -->
         <div class="doc-section">
-            <h2>Nuestros Valores</h2>
-            <div class="values-grid">
-                <div class="value-card">
-                    <strong>🛡️ Seguridad y Respaldo</strong>
-                    <p>Todo nuestro equipo trabaja con seguros de Accidentes Personales y ART al día, asegurando un ingreso y labor conforme a las normas.</p>
-                </div>
-                <div class="value-card">
-                    <strong>✨ Prolijidad y Respeto</strong>
-                    <p>Trabajamos con uniformes, calzado cubierto y realizamos una limpieza profunda al concluir, dejando su espacio impecable.</p>
-                </div>
-                <div class="value-card">
-                    <strong>📱 Trazabilidad Digital</strong>
-                    <p>Cada equipo intervenido recibe una etiqueta QR con su historial digital de mantenimientos, brindando transparencia total.</p>
-                </div>
-                <div class="value-card">
-                    <strong>🔍 Transparencia e Integridad</strong>
-                    <p>Presentamos cotizaciones detalladas separando materiales y mano de obra para una rendición clara y sin sorpresas.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Nuestras Metas -->
-        <div class="doc-section" style="page-break-before: always;">
-            <h2>Nuestras Metas</h2>
-            <ul class="goals-list">
-                <li><strong>Garantizar la Continuidad Operativa:</strong> Minimizar a cero las interrupciones técnicas que puedan alterar su vida diaria o el funcionamiento de sus actividades comerciales.</li>
-                <li><strong>Maximizar la Eficiencia y el Ahorro:</strong> Realizar diagnósticos preventivos con termografía e instrumental avanzado para optimizar el consumo de energía y prolongar la vida útil de sus equipos.</li>
-                <li><strong>Consolidar Relaciones de Confianza:</strong> Ser la primera y única opción técnica de nuestros clientes, basándonos en la excelencia, puntualidad y honestidad profesional.</li>
-            </ul>
-        </div>
-
-        <!-- Especialidades Técnicas -->
-        <div class="doc-section">
-            <h2>🛠️ Nuestras Especialidades</h2>
+            <h2>🛠️ Servicios que Brindamos</h2>
             
             <div class="service-card">
                 <h3>❄️ 1. Climatización y Calefacción de Precisión</h3>
@@ -386,12 +394,55 @@
             </div>
         </div>
 
+        <!-- ¿Por qué elegir El Cóndor? -->
+        <div class="doc-section">
+            <h2>¿Por qué elegir El Cóndor?</h2>
+            <ul class="check-list">
+                <li><strong>Atención rápida y personalizada</strong></li>
+                <li><strong>Presupuestos claros</strong></li>
+                <li><strong>Garantía de trabajo</strong></li>
+                <li><strong>Un único proveedor para múltiples necesidades</strong></li>
+                <li><strong>Compromiso con la seguridad y el confort</strong></li>
+            </ul>
+        </div>
+
+        <!-- Trabajamos para -->
+        <div class="doc-section">
+            <h2>Trabajamos para</h2>
+            <div class="targets-grid">
+                <div class="target-card">
+                    <span class="target-icon">🏠</span>
+                    <span class="target-name">Hogares</span>
+                </div>
+                <div class="target-card">
+                    <span class="target-icon">🏘️</span>
+                    <span class="target-name">Countries</span>
+                </div>
+                <div class="target-card">
+                    <span class="target-icon">🏬</span>
+                    <span class="target-name">Comercios</span>
+                </div>
+                <div class="target-card">
+                    <span class="target-icon">🏢</span>
+                    <span class="target-name">Pymes</span>
+                </div>
+                <div class="target-card">
+                    <span class="target-icon">🏢</span>
+                    <span class="target-name">Consorcios</span>
+                </div>
+            </div>
+        </div>
+
         <!-- Footer -->
         <div class="doc-footer">
             <div class="contact-info">
                 <p><strong>WhatsApp Directo:</strong> <a href="https://wa.me/5491126139527">+54 9 11 2613-9527</a></p>
                 <p><strong>Instagram:</strong> <a href="https://www.instagram.com/elcondorservicios/">@elcondorservicios</a></p>
                 <p><strong>Página Web:</strong> <a href="https://elcondorclimatizacion-oss.github.io/elcondor-/">elcondorclimatizacion-oss.github.io/elcondor-/</a></p>
+            </div>
+            <div class="qr-area">
+                <img src="download.png" alt="QR Web" class="qr-code">
+                <span class="qr-label">Sitio Web Oficial</span>
             </div>
             <div class="signature">
                 <p class="signature-title">El Cóndor - Servicios Integrales</p>

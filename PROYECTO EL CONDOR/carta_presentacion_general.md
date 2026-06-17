@@ -55,7 +55,7 @@ Estamos listos para coordinar una visita técnica de diagnóstico o cotizar sus 
 
 * **WhatsApp Directo:** [+54 9 11 2613-9527](https://wa.me/5491126139527)
 * **Instagram:** [@elcondorservicios](https://www.instagram.com/elcondorservicios/)
-* **Página Web:** [elcondorservicios.com.ar](https://elcondorclimatizacion-oss.github.io/elcondor-/)
+* **Página Web:** [elcondorclimatizacion-oss.github.io/elcondor-/](https://elcondorclimatizacion-oss.github.io/elcondor-/)
 * **Email:** contacto@elcondor.com
 
 *La tranquilidad de contar con expertos a un mensaje de distancia.*

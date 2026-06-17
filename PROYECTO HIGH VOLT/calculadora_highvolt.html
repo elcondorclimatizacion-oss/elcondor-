@@ -433,6 +433,10 @@
                             <label>Bastidor Punto y Toma M.O. (<span id="lbl_mo_puntotoma"></span>)</label>
                             <input type="number" id="elec_puntotoma_mo" value="0" min="0" oninput="calc()">
                         </div>
+                        <div class="form-group">
+                            <label>Bastidor Combinada M.O. (<span id="lbl_mo_combinada"></span>)</label>
+                            <input type="number" id="elec_combinada_mo" value="0" min="0" oninput="calc()">
+                        </div>
                     </div>
                     
                     <div class="section-title">Canalización y Estructura M.O.</div>
@@ -580,6 +584,10 @@
                         <div class="form-group">
                             <label>Bastidor Punto y Toma Mat. (<span id="lbl_mat_puntotoma"></span>)</label>
                             <input type="number" id="elec_puntotoma_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Bastidor Combinada Mat. (<span id="lbl_mat_combinada"></span>)</label>
+                            <input type="number" id="elec_combinada_mat" value="0" min="0" oninput="calc()">
                         </div>
                     </div>
                     
@@ -744,6 +752,8 @@
                 dimmer_mat: 18000,
                 puntotoma_mo: 4500,
                 puntotoma_mat: 5000,
+                combinada_mo: 5000,
+                combinada_mat: 6500,
 
                 aplique: 27200,
                 colgante: 44500,
@@ -828,6 +838,7 @@
             document.getElementById('lbl_mo_punto').innerText = fmt(PRECIOS_CONFIG.elec.punto_mo);
             document.getElementById('lbl_mo_dimmer').innerText = fmt(PRECIOS_CONFIG.elec.dimmer_mo);
             document.getElementById('lbl_mo_puntotoma').innerText = fmt(PRECIOS_CONFIG.elec.puntotoma_mo);
+            document.getElementById('lbl_mo_combinada').innerText = fmt(PRECIOS_CONFIG.elec.combinada_mo);
 
             document.getElementById('lbl_elec_aplique_mo').innerText = fmt(PRECIOS_CONFIG.elec.aplique);
             document.getElementById('lbl_elec_colgante_mo').innerText = fmt(PRECIOS_CONFIG.elec.colgante);
@@ -860,6 +871,7 @@
             document.getElementById('lbl_mat_punto').innerText = fmt(PRECIOS_CONFIG.elec.punto_mat * calidad);
             document.getElementById('lbl_mat_dimmer').innerText = fmt(PRECIOS_CONFIG.elec.dimmer_mat * calidad);
             document.getElementById('lbl_mat_puntotoma').innerText = fmt(PRECIOS_CONFIG.elec.puntotoma_mat * calidad);
+            document.getElementById('lbl_mat_combinada').innerText = fmt(PRECIOS_CONFIG.elec.combinada_mat * calidad);
 
             document.getElementById('lbl_elec_aplique_mat').innerText = fmt(PRECIOS_CONFIG.elec.aplique_mat * calidad);
             document.getElementById('lbl_elec_colgante_mat').innerText = fmt(PRECIOS_CONFIG.elec.colgante_mat * calidad);
@@ -911,12 +923,14 @@
             const bp_mo = parseInt(document.getElementById('elec_punto_mo').value) || 0;
             const bd_mo = parseInt(document.getElementById('elec_dimmer_mo').value) || 0;
             const bpt_mo = parseInt(document.getElementById('elec_puntotoma_mo').value) || 0;
+            const bcomb_mo = parseInt(document.getElementById('elec_combinada_mo').value) || 0;
 
             elec_mo += bt10_mo * PRECIOS_CONFIG.elec.toma10_mo;
             elec_mo += bt20_mo * PRECIOS_CONFIG.elec.toma20_mo;
             elec_mo += bp_mo * PRECIOS_CONFIG.elec.punto_mo;
             elec_mo += bd_mo * PRECIOS_CONFIG.elec.dimmer_mo;
             elec_mo += bpt_mo * PRECIOS_CONFIG.elec.puntotoma_mo;
+            elec_mo += bcomb_mo * PRECIOS_CONFIG.elec.combinada_mo;
 
             // Canalización Extra M.O.
             const mt_extra_boca_mo = parseInt(document.getElementById('elec_mt_extra').value) || 0;
@@ -1013,12 +1027,16 @@
             const bp_mat = parseInt(document.getElementById('elec_punto_mat').value) || 0;
             const bd_mat = parseInt(document.getElementById('elec_dimmer_mat').value) || 0;
             const bpt_mat = parseInt(document.getElementById('elec_puntotoma_mat').value) || 0;
+            const bcomb_mat = parseInt(document.getElementById('elec_combinada_mat').value) || 0;
 
             elec_mat += bt10_mat * PRECIOS_CONFIG.elec.toma10_mat * calidad;
             elec_mat += bt20_mat * PRECIOS_CONFIG.elec.toma20_mat * calidad;
             elec_mat += bp_mat * PRECIOS_CONFIG.elec.punto_mat * calidad;
             elec_mat += bd_mat * PRECIOS_CONFIG.elec.dimmer_mat * calidad;
             elec_mat += bpt_mat * PRECIOS_CONFIG.elec.puntotoma_mat * calidad;
+            elec_mat += bcomb_mat * PRECIOS_CONFIG.elec.combinada_mat * calidad;
+
+            const totalBastidoresMat = bt10_mat + bt20_mat + bp_mat + bd_mat + bpt_mat + bcomb_mat;
 
             // Canalización Extra Materiales
             const mt_extra_boca_mat = parseInt(document.getElementById('elec_mt_extra_mat').value) || 0;
@@ -1070,7 +1088,7 @@
 
             // Time estimate based on M.O. Bocas and Bastidores
             const totalBocasMO = c_centro_mo + c_llave_mo + c_tug_mo + c_tue25_mo + c_tue40_mo + bocas_r_mo;
-            const totalBastidoresMO = bt10_mo + bt20_mo + bp_mo + bd_mo + bpt_mo;
+            const totalBastidoresMO = bt10_mo + bt20_mo + bp_mo + bd_mo + bpt_mo + bcomb_mo;
             const elec_days = (totalBocasMO / 6) + (totalBastidoresMO / 12);
             let total_days = Math.ceil(elec_days);
             if (total_days === 0 && base > 0) total_days = 1;
@@ -1309,14 +1327,16 @@
             const bp_mat = parseInt(document.getElementById('elec_punto_mat').value) || 0;
             const bd_mat = parseInt(document.getElementById('elec_dimmer_mat').value) || 0;
             const bpt_mat = parseInt(document.getElementById('elec_puntotoma_mat').value) || 0;
+            const bcomb_mat = parseInt(document.getElementById('elec_combinada_mat').value) || 0;
 
-            if (bt10_mat > 0 || bt20_mat > 0 || bp_mat > 0 || bd_mat > 0 || bpt_mat > 0) {
+            if (bt10_mat > 0 || bt20_mat > 0 || bp_mat > 0 || bd_mat > 0 || bpt_mat > 0 || bcomb_mat > 0) {
                 list.push(`\n-- LLAVES, TOMAS Y MÓDULOS EN BASTIDOR --`);
                 if (bt10_mat > 0) list.push(`${bt10_mat}u Tapas Bastidor armados con Toma 10A`);
                 if (bt20_mat > 0) list.push(`${bt20_mat}u Tapas Bastidor armados con Toma 20A Especial`);
                 if (bp_mat > 0) list.push(`${bp_mat}u Tapas Bastidor armados con Módulo Interruptor de Luz (Punto)`);
                 if (bd_mat > 0) list.push(`${bd_mat}u Tapas Bastidor armados con Módulo Dimmer`);
                 if (bpt_mat > 0) list.push(`${bpt_mat}u Tapas Bastidor armados mixtos con Punto y Toma`);
+                if (bcomb_mat > 0) list.push(`${bcomb_mat}u Tapas Bastidor armados con Llave Combinada (Luz 2 puntos)`);
             }
 
             const acoMatVal = document.getElementById('elec_aco_mat').value;

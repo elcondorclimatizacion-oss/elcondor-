@@ -621,23 +621,91 @@
                 ⚡ Especifique si necesita agregar metros de cable o materiales sueltos para las LÍNEAS PRINCIPALES.
             </div>
 
-            <div class="section-title">Cables (metros · precio desde rollo 100m)</div>
+            <div class="section-title">Cables (Unipolares y Sintenax)</div>
+            <div class="form-grid">
+                <div class="form-group" style="grid-column: span 2;">
+                    <label>Modo de Medida de Cables Unipolares</label>
+                    <select id="elec_unipolar_mode" onchange="calc()" style="background: #111; color: var(--accent-color); font-weight: bold; border-color: var(--accent-color);">
+                        <option value="mt">Por Metro (Fraccionado)</option>
+                        <option value="rollo">Por Rollo Cerrado (100m)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-top: 10px; overflow-x: auto; grid-column: 1 / -1;">
+                <table style="width: 100%; border-collapse: collapse; background: #0c0c0c; border: 1px solid var(--border-color); font-size: 0.75rem; text-align: center;">
+                    <thead>
+                        <tr style="border-bottom: 2px solid var(--border-color); background: #151515;">
+                            <th style="padding: 6px; text-align: left; border-right: 1px solid var(--border-color); color: #aaa;">Medida</th>
+                            <th style="padding: 6px; color: #fff;">⚫ Negro</th>
+                            <th style="padding: 6px; color: #ff5555;">🔴 Rojo</th>
+                            <th style="padding: 6px; color: #ffaa55;">🟤 Marrón</th>
+                            <th style="padding: 6px; color: #55aaff;">🔵 Celeste</th>
+                            <th style="padding: 6px; color: #55ff55;">🟢/🟡 V/A</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">1.5mm (<span id="lbl_m_c15_unit"></span>)</td>
+                            <td><input type="number" id="c15_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c15_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c15_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c15_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c15_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">2.5mm (<span id="lbl_m_c25_unit"></span>)</td>
+                            <td><input type="number" id="c25_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c25_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c25_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c25_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c25_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">4.0mm (<span id="lbl_m_c40_unit"></span>)</td>
+                            <td><input type="number" id="c40_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c40_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c40_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c40_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c40_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">6.0mm (<span id="lbl_m_c60_unit"></span>)</td>
+                            <td><input type="number" id="c60_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c60_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c60_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c60_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c60_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid var(--border-color);">
+                            <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">10mm (<span id="lbl_m_c100_unit"></span>)</td>
+                            <td><input type="number" id="c100_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c100_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c100_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c100_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                            <td><input type="number" id="c100_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section-title">Cables Subterráneos Sintenax (Por Metro)</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Cable 1.5mm (<span id="lbl_m_c15"></span>/m)</label>
-                    <input type="number" id="m_c15" value="0" min="0" oninput="calc()">
+                    <label>Sintenax 2x4 (<span id="lbl_m_sint2x4"></span>/m)</label>
+                    <input type="number" id="m_sint2x4" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cable 2.5mm (<span id="lbl_m_c25"></span>/m)</label>
-                    <input type="number" id="m_c25" value="0" min="0" oninput="calc()">
+                    <label>Sintenax 4x4 (<span id="lbl_m_sint4x4"></span>/m)</label>
+                    <input type="number" id="m_sint4x4" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cable 4mm (<span id="lbl_m_c40"></span>/m)</label>
-                    <input type="number" id="m_c40" value="0" min="0" oninput="calc()">
+                    <label>Sintenax 4x6 (<span id="lbl_m_sint4x6"></span>/m)</label>
+                    <input type="number" id="m_sint4x6" value="0" min="0" oninput="calc()">
                 </div>
                 <div class="form-group">
-                    <label>Cable 6mm (<span id="lbl_m_c60"></span>/m)</label>
-                    <input type="number" id="m_c60" value="0" min="0" oninput="calc()">
+                    <label>Sintenax 4x10 (<span id="lbl_m_sint4x10"></span>/m)</label>
+                    <input type="number" id="m_sint4x10" value="0" min="0" oninput="calc()">
                 </div>
             </div>
 
@@ -1035,7 +1103,12 @@
                 cable_15_m: 1000,
                 cable_25_m: 1450,
                 cable_40_m: 2150,
-                cable_60_m: 3100,
+                cable_60_m: 2880,
+                cable_100_m: 5200,
+                sintenax_2x4_m: 3800,
+                sintenax_4x4_m: 6900,
+                sintenax_4x6_m: 9800,
+                sintenax_4x10_m: 16500,
                 cano_20_m: 2325,
                 cano_22_m: 2600,
                 cano_25_m: 3000,
@@ -1157,10 +1230,10 @@
                 safeSetText('lbl_sec_utp', fmt(PRECIOS_CONFIG.sec.utp_mt));
 
                 const ME = PRECIOS_CONFIG.mat_electrico;
-                safeSetText('lbl_m_c15', fmt(ME.cable_15_m));
-                safeSetText('lbl_m_c25', fmt(ME.cable_25_m));
-                safeSetText('lbl_m_c40', fmt(ME.cable_40_m));
-                safeSetText('lbl_m_c60', fmt(ME.cable_60_m));
+                safeSetText('lbl_m_sint2x4', fmt(ME.sintenax_2x4_m));
+                safeSetText('lbl_m_sint4x4', fmt(ME.sintenax_4x4_m));
+                safeSetText('lbl_m_sint4x6', fmt(ME.sintenax_4x6_m));
+                safeSetText('lbl_m_sint4x10', fmt(ME.sintenax_4x10_m));
 
                 calc();
             } catch (e) {
@@ -1432,17 +1505,74 @@
             elec_mat += b_mt * b_mat_unit * calidad;
 
             const ME2 = PRECIOS_CONFIG.mat_electrico;
-            let mat_ind = 0;
-            mat_ind += (parseInt(document.getElementById('m_c15').value) || 0) * ME2.cable_15_m;
-            mat_ind += (parseInt(document.getElementById('m_c25').value) || 0) * ME2.cable_25_m;
-            mat_ind += (parseInt(document.getElementById('m_c40').value) || 0) * ME2.cable_40_m;
-            mat_ind += (parseInt(document.getElementById('m_c60').value) || 0) * ME2.cable_60_m;
+            
+            const unipolarMode = document.getElementById('elec_unipolar_mode').value;
+            const factorUnipolar = unipolarMode === 'rollo' ? 100 : 1;
+            const labelUnit = unipolarMode === 'rollo' ? 'rollo' : 'm';
+
+            const setLabel = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+            setLabel('lbl_m_c15_unit', fmt(ME2.cable_15_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c25_unit', fmt(ME2.cable_25_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c40_unit', fmt(ME2.cable_40_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c60_unit', fmt(ME2.cable_60_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c100_unit', fmt(ME2.cable_100_m * factorUnipolar) + '/' + labelUnit);
+
+            const colors = ['negro', 'rojo', 'marron', 'celeste', 'va'];
+            
+            function getUnipolarSum(gauge) {
+                let sum = 0;
+                colors.forEach(col => {
+                    const el = document.getElementById(gauge + "_" + col);
+                    if (el) sum += parseFloat(el.value) || 0;
+                });
+                return sum;
+            }
+
+            const c15_qty = getUnipolarSum('c15');
+            const c25_qty = getUnipolarSum('c25');
+            const c40_qty = getUnipolarSum('c40');
+            const c60_qty = getUnipolarSum('c60');
+            const c100_qty = getUnipolarSum('c100');
+
+            const c15_sub = c15_qty * factorUnipolar * ME2.cable_15_m;
+            const c25_sub = c25_qty * factorUnipolar * ME2.cable_25_m;
+            const c40_sub = c40_qty * factorUnipolar * ME2.cable_40_m;
+            const c60_sub = c60_qty * factorUnipolar * ME2.cable_60_m;
+            const c100_sub = c100_qty * factorUnipolar * ME2.cable_100_m;
+
+            const c15_m = c15_qty * factorUnipolar;
+            const c25_m = c25_qty * factorUnipolar;
+            const c40_m = c40_qty * factorUnipolar;
+            const c60_m = c60_qty * factorUnipolar;
+            const c100_m = c100_qty * factorUnipolar;
+
+            const sint2x4_m = parseFloat(document.getElementById('m_sint2x4').value) || 0;
+            const sint4x4_m = parseFloat(document.getElementById('m_sint4x4').value) || 0;
+            const sint4x6_m = parseFloat(document.getElementById('m_sint4x6').value) || 0;
+            const sint4x10_m = parseFloat(document.getElementById('m_sint4x10').value) || 0;
+
+            const sint2x4_sub = sint2x4_m * ME2.sintenax_2x4_m;
+            const sint4x4_sub = sint4x4_m * ME2.sintenax_4x4_m;
+            const sint4x6_sub = sint4x6_m * ME2.sintenax_4x6_m;
+            const sint4x10_sub = sint4x10_m * ME2.sintenax_4x10_m;
+
+            let mat_ind = c15_sub + c25_sub + c40_sub + c60_sub + c100_sub + sint2x4_sub + sint4x4_sub + sint4x6_sub + sint4x10_sub;
+            
             document.getElementById('tot_mat_ind_inline').innerText = fmt(mat_ind);
+            
             window.snapMatInd = {
-                c15: parseInt(document.getElementById('m_c15').value) || 0,
-                c25: parseInt(document.getElementById('m_c25').value) || 0,
-                c40: parseInt(document.getElementById('m_c40').value) || 0,
-                c60: parseInt(document.getElementById('m_c60').value) || 0
+                c15: c15_m,
+                c25: c25_m,
+                c40: c40_m,
+                c60: c60_m,
+                c100: c100_m,
+                sint2x4: sint2x4_m,
+                sint4x4: sint4x4_m,
+                sint4x6: sint4x6_m,
+                sint4x10: sint4x10_m
             };
 
             // -- SEC (Refined Logic) --
@@ -1600,6 +1730,41 @@
                 moList.push("Medición y pruebas de puesta a tierra, disyuntor y llaves mediante el Comprobador de instalaciones multifunción.");
                 
                 if (n_term > 0 || n_disy > 0) matList.push(`Protecciones: ${n_term} Térmicas, ${n_disy} Disyuntores`);
+                
+                // Agregar desglose de cables en el presupuesto (matList)
+                const unipolarGauges = [
+                    { id: 'c15', label: '1.5mm' },
+                    { id: 'c25', label: '2.5mm' },
+                    { id: 'c40', label: '4.0mm' },
+                    { id: 'c60', label: '6.0mm' },
+                    { id: 'c100', label: '10.0mm' }
+                ];
+                const colorLabels = {
+                    negro: 'Negro',
+                    rojo: 'Rojo',
+                    marron: 'Marrón',
+                    celeste: 'Celeste',
+                    va: 'Verde/Amarillo'
+                };
+                
+                unipolarGauges.forEach(function(gauge) {
+                    colors.forEach(function(col) {
+                        const el = document.getElementById(gauge.id + "_" + col);
+                        const qty = el ? (parseFloat(el.value) || 0) : 0;
+                        if (qty > 0) {
+                            if (unipolarMode === 'rollo') {
+                                matList.push(`${qty}u Rollo de cable unipolar ${gauge.label} ${colorLabels[col]} (100m)`);
+                            } else {
+                                matList.push(`${qty}m de cable unipolar ${gauge.label} ${colorLabels[col]}`);
+                            }
+                        }
+                    });
+                });
+
+                if (sint2x4_m > 0) matList.push(`${sint2x4_m}m de cable Sintenax 2x4mm`);
+                if (sint4x4_m > 0) matList.push(`${sint4x4_m}m de cable Sintenax 4x4mm`);
+                if (sint4x6_m > 0) matList.push(`${sint4x6_m}m de cable Sintenax 4x6mm`);
+                if (sint4x10_m > 0) matList.push(`${sint4x10_m}m de cable Sintenax 4x10mm`);
             }
 
             const secRecambioEl = document.getElementById('sec_mantenimiento_recambio');
@@ -1781,11 +1946,42 @@
                 if (terms > 0) list.push(terms + "u T\u00E9rmicas");
                 if (disys > 0) list.push(disys + "u Disyuntores");
 
+                const unipolarMode = document.getElementById('elec_unipolar_mode').value;
+                const unipolarGauges = [
+                    { id: 'c15', label: '1.5mm' },
+                    { id: 'c25', label: '2.5mm' },
+                    { id: 'c40', label: '4.0mm' },
+                    { id: 'c60', label: '6.0mm' },
+                    { id: 'c100', label: '10.0mm' }
+                ];
+                const colors = ['negro', 'rojo', 'marron', 'celeste', 'va'];
+                const colorLabels = {
+                    negro: 'Negro',
+                    rojo: 'Rojo',
+                    marron: 'Marrón',
+                    celeste: 'Celeste',
+                    va: 'Verde/Amarillo'
+                };
+
+                unipolarGauges.forEach(function(gauge) {
+                    colors.forEach(function(col) {
+                        const el = document.getElementById(gauge.id + "_" + col);
+                        const qty = el ? (parseFloat(el.value) || 0) : 0;
+                        if (qty > 0) {
+                            if (unipolarMode === 'rollo') {
+                                list.push(qty + "u Rollo de Cable Unipolar " + gauge.label + " " + colorLabels[col] + " (100m)");
+                            } else {
+                                list.push(qty + "m de Cable Unipolar " + gauge.label + " " + colorLabels[col]);
+                            }
+                        }
+                    });
+                });
+
                 const mat_sueltos = window.snapMatInd || {};
-                if (mat_sueltos.c15 > 0) list.push(mat_sueltos.c15 + "m Cable 1.5mm");
-                if (mat_sueltos.c25 > 0) list.push(mat_sueltos.c25 + "m Cable 2.5mm");
-                if (mat_sueltos.c40 > 0) list.push(mat_sueltos.c40 + "m Cable 4.0mm");
-                if (mat_sueltos.c60 > 0) list.push(mat_sueltos.c60 + "m Cable 6.0mm");
+                if (mat_sueltos.sint2x4 > 0) list.push(mat_sueltos.sint2x4 + "m Cable Sintenax 2x4mm");
+                if (mat_sueltos.sint4x4 > 0) list.push(mat_sueltos.sint4x4 + "m Cable Sintenax 4x4mm");
+                if (mat_sueltos.sint4x6 > 0) list.push(mat_sueltos.sint4x6 + "m Cable Sintenax 4x6mm");
+                if (mat_sueltos.sint4x10 > 0) list.push(mat_sueltos.sint4x10 + "m Cable Sintenax 4x10mm");
 
                 t += list.map(function(item) { return " \u2022 " + item; }).join('\n');
                 const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);

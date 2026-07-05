@@ -304,6 +304,24 @@
                 padding-bottom: 1.5rem;
             }
         }
+        
+        /* Estilos para Modo Solo Mano de Obra */
+        .modo-mo #col_materiales,
+        .modo-mo #sec_cables_adicionales,
+        .modo-mo #sec_materiales_detallados,
+        .modo-mo #group_mat_extra,
+        .modo-mo #tot_elec_mat_summary,
+        .modo-mo #tot_mat_ind_summary,
+        .modo-mo #tot_mat_extra_summary {
+            display: none !important;
+        }
+        .modo-mo #elec_grid {
+            grid-template-columns: 1fr !important;
+        }
+        .modo-mo #col_mano_obra {
+            border-right: none !important;
+            padding-right: 0 !important;
+        }
     </style>
 </head>
 
@@ -314,6 +332,16 @@
             <h1>CALCULADORA HIGH-VOLT v1.0</h1>
             <div class="tagline">TECNOLOGÍA EN ENERGÍA Y SERVICIOS ELÉCTRICOS</div>
         </header>
+
+        <!-- SELECTOR DE MODO DE CALCULADORA -->
+        <div style="display: flex; gap: 10px; margin-bottom: 1.5rem; justify-content: center;">
+            <button type="button" id="btn_modo_mo" onclick="setModoCalculo('mo')" style="flex: 1; padding: 12px; font-weight: 800; border: 2px solid var(--accent-color); background: var(--accent-color); color: #000; cursor: pointer; text-transform: uppercase; font-size: 0.9rem; transition: all 0.2s;">
+                🔧 SOLO MANO DE OBRA
+            </button>
+            <button type="button" id="btn_modo_completo" onclick="setModoCalculo('completo')" style="flex: 1; padding: 12px; font-weight: 800; border: 2px solid var(--border-color); background: #111; color: var(--text-color); cursor: pointer; text-transform: uppercase; font-size: 0.9rem; transition: all 0.2s;">
+                📦 MANO DE OBRA + MATERIALES
+            </button>
+        </div>
 
         <!-- DATOS DEL PRESUPUESTO -->
         <div class="module" style="border-color: var(--sys-color); background: rgba(251, 191, 36, 0.05);">
@@ -351,9 +379,9 @@
             <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[01]
                 ELECTRICIDAD (Electro Instalador)</div>
 
-            <div class="h-grid">
+            <div class="h-grid" id="elec_grid">
                 <!-- COLUMNA 1: MANO DE OBRA -->
-                <div class="h-col border-r">
+                <div class="h-col border-r" id="col_mano_obra">
                     <div class="col-title">🔧 Mano de Obra (M.O.)</div>
                     
                     <div class="form-group">
@@ -370,6 +398,11 @@
                             <option value="sup">Caja de Superficie</option>
                             <option value="emp">Empotrado Mampostería</option>
                         </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Tablero Trifásico M.O. (Armado comercial - <span id="lbl_elec_tablero_trif_mo_cost"></span> c/u)</label>
+                        <input type="number" id="elec_tablero_trif_mo" value="0" min="0" oninput="calc()">
                     </div>
                     
                     <div class="form-grid">
@@ -479,8 +512,8 @@
                 </div>
 
                 <!-- COLUMNA 2: MATERIALES -->
-                <div class="h-col">
-                    <div class="col-title">📦 Materiales (Insumos)</div>
+                <div class="h-col" id="col_materiales">
+                    <div class="col-title">📦 Materiales (Insumos Reales)</div>
                     
                     <div class="form-grid">
                         <div class="form-group">
@@ -523,127 +556,235 @@
                             <option value="none">Sin Gabinete</option>
                         </select>
                     </div>
-                    
+
+                    <div class="section-title">Cañerías por Metro (Tiras de 3m)</div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Cant. Térmicas Mat. (<span id="lbl_elec_term_mat_cost"></span> c/u)</label>
-                            <input type="number" id="elec_term_mat" value="0" min="0" oninput="calc()">
+                            <label>Caño 19mm - Metros (<span id="lbl_det_cano19_cost"></span>/tira)</label>
+                            <input type="number" id="det_cano19_m" value="0" min="0" oninput="calc()">
+                            <span style="font-size: 0.7rem; color: #888; margin-top: 2px;" id="lbl_det_cano19_calc">0 tiras = $0</span>
                         </div>
                         <div class="form-group">
-                            <label>Cant. Disyuntores Mat. (<span id="lbl_elec_disy_mat_cost"></span> c/u)</label>
-                            <input type="number" id="elec_disy_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                    </div>
-                    
-                    <div class="section-title">Kits de Bocas (Materiales)</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Centros de Techo (<span id="lbl_mat_centro"></span>)</label>
-                            <input type="number" id="elec_centro_iug_mat" value="0" min="0" oninput="calc()">
+                            <label>Caño 20mm - Metros (<span id="lbl_det_cano20_cost"></span>/tira)</label>
+                            <input type="number" id="det_cano20_m" value="0" min="0" oninput="calc()">
+                            <span style="font-size: 0.7rem; color: #888; margin-top: 2px;" id="lbl_det_cano20_calc">0 tiras = $0</span>
                         </div>
                         <div class="form-group">
-                            <label>Cajas de Llave (<span id="lbl_mat_llave"></span>)</label>
-                            <input type="number" id="elec_llave_iug_mat" value="0" min="0" oninput="calc()">
+                            <label>Caño 22mm - Metros (<span id="lbl_det_cano22_cost"></span>/tira)</label>
+                            <input type="number" id="det_cano22_m" value="0" min="0" oninput="calc()">
+                            <span style="font-size: 0.7rem; color: #888; margin-top: 2px;" id="lbl_det_cano22_calc">0 tiras = $0</span>
                         </div>
                         <div class="form-group">
-                            <label>Bocas TUG (Tomas 10A) (<span id="lbl_mat_tug"></span>)</label>
-                            <input type="number" id="elec_boca_tug_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                        <div class="form-group">
-                            <label>Bocas TUE (Aires 2.5mm) (<span id="lbl_mat_tue25"></span>)</label>
-                            <input type="number" id="elec_boca_tue25_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                        <div class="form-group">
-                            <label>Bocas TUE (Aires 4.0mm) (<span id="lbl_mat_tue40"></span>)</label>
-                            <input type="number" id="elec_boca_tue40_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                        <div class="form-group">
-                            <label>Re-cableado Insumos (<span id="lbl_mat_recab"></span>)</label>
-                            <input type="number" id="elec_bocas_r_mat" value="0" min="0" oninput="calc()">
+                            <label>Caño 25mm - Metros (<span id="lbl_det_cano25_cost"></span>/tira)</label>
+                            <input type="number" id="det_cano25_m" value="0" min="0" oninput="calc()">
+                            <span style="font-size: 0.7rem; color: #888; margin-top: 2px;" id="lbl_det_cano25_calc">0 tiras = $0</span>
                         </div>
                     </div>
 
-                    <div class="section-title">Módulos/Tapas en Bastidor (Insumos)</div>
+                    <div class="section-title">Cajas Rectangulares y Octogonales</div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Bastidor Toma 10A Mat. (<span id="lbl_mat_toma10"></span>)</label>
-                            <input type="number" id="elec_toma10_mat" value="0" min="0" oninput="calc()">
+                            <label>Cajas Rectangulares - Cant.</label>
+                            <input type="number" id="det_caja_rect_q" value="0" min="0" oninput="calc()">
                         </div>
                         <div class="form-group">
-                            <label>Bastidor Toma 20A Mat. (<span id="lbl_mat_toma20"></span>)</label>
-                            <input type="number" id="elec_toma20_mat" value="0" min="0" oninput="calc()">
+                            <label>Material Rectangulares</label>
+                            <select id="det_caja_rect_mat" onchange="calc()">
+                                <option value="plas">Plástico</option>
+                                <option value="chapa">Chapa / Metal</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label>Bastidor Punto Mat. (<span id="lbl_mat_punto"></span>)</label>
-                            <input type="number" id="elec_punto_mat" value="0" min="0" oninput="calc()">
+                            <label>Cajas Octogonales - Cant.</label>
+                            <input type="number" id="det_caja_oct_q" value="0" min="0" oninput="calc()">
                         </div>
                         <div class="form-group">
-                            <label>Bastidor Dimmer Mat. (<span id="lbl_mat_dimmer"></span>)</label>
-                            <input type="number" id="elec_dimmer_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                        <div class="form-group">
-                            <label>Bastidor Punto y Toma Mat. (<span id="lbl_mat_puntotoma"></span>)</label>
-                            <input type="number" id="elec_puntotoma_mat" value="0" min="0" oninput="calc()">
-                        </div>
-                        <div class="form-group">
-                            <label>Bastidor Combinada Mat. (<span id="lbl_mat_combinada"></span>)</label>
-                            <input type="number" id="elec_combinada_mat" value="0" min="0" oninput="calc()">
+                            <label>Material Octogonales</label>
+                            <select id="det_caja_oct_mat" onchange="calc()">
+                                <option value="plas">Plástico</option>
+                                <option value="chapa">Chapa / Metal</option>
+                            </select>
                         </div>
                     </div>
-                    
-                    <div class="section-title">Canalización y Estructura Mat.</div>
-                    <div class="form-group">
-                        <label>Canalización Extra (>5m) - Mat (+$3.000/m)</label>
-                        <input type="number" id="elec_mt_extra_mat" value="0" min="0" oninput="calc()">
-                    </div>
-                    <div class="form-group">
-                        <label>Bandejas Metálicas Mat. (Metros - Mat. <span id="lbl_band_mat_dinamico"></span>/m)</label>
-                        <input type="number" id="elec_bandeja_mt_mat" value="0" min="0" oninput="calc()">
-                    </div>
-                    
-                    <div class="section-title">Iluminación Mat.</div>
-                    <div class="form-grid">
-                        <div class="form-group"><label>Apliques Mat. (<span id="lbl_elec_aplique_mat"></span>)</label><input type="number" id="elec_aplique_mat" value="0" oninput="calc()"></div>
-                        <div class="form-group"><label>Colgantes Mat. (<span id="lbl_elec_colgante_mat"></span>)</label><input type="number" id="elec_colgante_mat" value="0" oninput="calc()"></div>
-                        <div class="form-group"><label>Tubo LED Mat. (<span id="lbl_elec_tubo_mat"></span>)</label><input type="number" id="elec_tubo_mat" value="0" oninput="calc()"></div>
-                        <div class="form-group"><label>Emergencia Mat. (<span id="lbl_elec_emerg_mat"></span>)</label><input type="number" id="elec_emerg_mat" value="0" oninput="calc()"></div>
-                    </div>
-                    <div class="checkbox-item" style="margin-top: 15px;">
-                        <input type="checkbox" id="elec_jabalina_mat" onchange="calc()"> Jabalina / PAT Mat. (<span id="lbl_elec_jaba_mat"></span>)
-                    </div>
-                </div>
-            </div>
 
-            <!-- Cables Adicionales (Líneas principales) -->
-            <div class="section-title" style="border-bottom-color:var(--accent-color); color:var(--accent-color); margin-top:1.5rem;">Cables Adicionales por Metro y Accesorios (Fuera del Kit)</div>
-            <div class="form-grid">
-                <div class="form-group">
-                    <label>Cable 1.5mm (<span id="lbl_m_c15"></span>/m)</label>
-                    <input type="number" id="m_c15" value="0" min="0" oninput="calc()">
+                    <div class="section-title">Accesorios de Canalización</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Diámetro Accesorios</label>
+                            <select id="det_acc_diam" onchange="calc()">
+                                <option value="19">Diámetro 19mm</option>
+                                <option value="20">Diámetro 20mm</option>
+                                <option value="22">Diámetro 22mm</option>
+                                <option value="25">Diámetro 25mm</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Curvas (<span id="lbl_det_curva_cost"></span> c/u)</label>
+                            <input type="number" id="det_curva_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Uniones (<span id="lbl_det_union_cost"></span> c/u)</label>
+                            <input type="number" id="det_union_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Conectores (<span id="lbl_det_conect_cost"></span> c/u)</label>
+                            <input type="number" id="det_conect_q" value="0" min="0" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Cables (Unipolares y Sintenax)</div>
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Modo de Medida de Cables Unipolares</label>
+                            <select id="elec_unipolar_mode" onchange="calc()" style="background: #111; color: var(--accent-color); font-weight: bold; border-color: var(--accent-color);">
+                                <option value="mt">Por Metro (Fraccionado)</option>
+                                <option value="rollo">Por Rollo Cerrado (100m)</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group" style="margin-top: 10px; overflow-x: auto; grid-column: 1 / -1;">
+                        <table style="width: 100%; border-collapse: collapse; background: #0c0c0c; border: 1px solid var(--border-color); font-size: 0.75rem; text-align: center;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border-color); background: #151515;">
+                                    <th style="padding: 6px; text-align: left; border-right: 1px solid var(--border-color); color: #aaa;">Medida</th>
+                                    <th style="padding: 6px; color: #fff;">⚫ Negro</th>
+                                    <th style="padding: 6px; color: #ff5555;">🔴 Rojo</th>
+                                    <th style="padding: 6px; color: #ffaa55;">🟤 Marrón</th>
+                                    <th style="padding: 6px; color: #55aaff;">🔵 Celeste</th>
+                                    <th style="padding: 6px; color: #55ff55;">🟢/🟡 V/A</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">1.5mm (<span id="lbl_m_c15_unit"></span>)</td>
+                                    <td><input type="number" id="c15_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c15_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c15_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c15_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c15_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">2.5mm (<span id="lbl_m_c25_unit"></span>)</td>
+                                    <td><input type="number" id="c25_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c25_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c25_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c25_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c25_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">4.0mm (<span id="lbl_m_c40_unit"></span>)</td>
+                                    <td><input type="number" id="c40_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c40_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c40_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c40_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c40_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">6.0mm (<span id="lbl_m_c60_unit"></span>)</td>
+                                    <td><input type="number" id="c60_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c60_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c60_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c60_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c60_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 6px; text-align: left; font-weight: bold; border-right: 1px solid var(--border-color); color: #ccc;">10mm (<span id="lbl_m_c100_unit"></span>)</td>
+                                    <td><input type="number" id="c100_negro" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c100_rojo" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c100_marron" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c100_celeste" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                    <td><input type="number" id="c100_va" value="0" min="0" oninput="calc()" style="width: 45px; text-align: center; background: #111; border: 1px solid #333; color: #fff; padding: 2px; font-size: 0.75rem;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="section-title">Cables Subterráneos Sintenax (Por Metro)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Sintenax 2x4 (<span id="lbl_m_sint2x4"></span>/m)</label>
+                            <input type="number" id="m_sint2x4" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Sintenax 4x4 (<span id="lbl_m_sint4x4"></span>/m)</label>
+                            <input type="number" id="m_sint4x4" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Sintenax 4x6 (<span id="lbl_m_sint4x6"></span>/m)</label>
+                            <input type="number" id="m_sint4x6" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Sintenax 4x10 (<span id="lbl_m_sint4x10"></span>/m)</label>
+                            <input type="number" id="m_sint4x10" value="0" min="0" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Protección, Control y Maniobra (Tableros)</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Térmica Bipolar (<span id="lbl_det_term_bi"></span>)</label>
+                            <input type="number" id="det_term_bi_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Térmica Tetrapolar (<span id="lbl_det_term_tetra"></span>)</label>
+                            <input type="number" id="det_term_tetra_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Disyuntor Bipolar (<span id="lbl_det_disy_bi"></span>)</label>
+                            <input type="number" id="det_disy_bi_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Disyuntor Tetrapolar (<span id="lbl_det_disy_tetra"></span>)</label>
+                            <input type="number" id="det_disy_tetra_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Guardamotor (<span id="lbl_det_guardamotor"></span>)</label>
+                            <input type="number" id="det_guardamotor_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Contactor (<span id="lbl_det_contactor"></span>)</label>
+                            <input type="number" id="det_contactor_q" value="0" min="0" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Artefactos de Iluminación</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Plafones LED (<span id="lbl_det_plafon"></span> c/u)</label>
+                            <input type="number" id="det_plafon_q" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Apliques Mat. (<span id="lbl_elec_aplique_mat"></span>)</label>
+                            <input type="number" id="elec_aplique_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Colgantes Mat. (<span id="lbl_elec_colgante_mat"></span>)</label>
+                            <input type="number" id="elec_colgante_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Tubo LED Mat. (<span id="lbl_elec_tubo_mat"></span>)</label>
+                            <input type="number" id="elec_tubo_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                        <div class="form-group">
+                            <label>Emergencias Mat. (<span id="lbl_elec_emerg_mat"></span>)</label>
+                            <input type="number" id="elec_emerg_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                    </div>
+
+                    <div class="section-title">Jabalina e Instrumental de PAT</div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="elec_jabalina_mat" onchange="calc()"> Kit Jabalina PAT (<span id="lbl_elec_jaba_mat"></span>)
+                    </div>
+
+                    <div class="section-title">Estructura y Bandejas</div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Bandejas Metálicas (Metros - Mat. <span id="lbl_band_mat_dinamico"></span>/m)</label>
+                            <input type="number" id="elec_bandeja_mt_mat" value="0" min="0" oninput="calc()">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label>Cable 2.5mm (<span id="lbl_m_c25"></span>/m)</label>
-                    <input type="number" id="m_c25" value="0" min="0" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Cable 4mm (<span id="lbl_m_c40"></span>/m)</label>
-                    <input type="number" id="m_c40" value="0" min="0" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Cable 6mm (<span id="lbl_m_c60"></span>/m)</label>
-                    <input type="number" id="m_c60" value="0" min="0" oninput="calc()">
-                </div>
-            </div>
-            
-            <div style="margin-top: 15px; margin-bottom: 1.5rem; font-size: 0.75rem; color: var(--sys-color); text-align: right;">
-                Subtotal Líneas/Cables Principales: <b id="tot_mat_ind_inline">$0</b>
-            </div>
-            
-            <div style="font-size:0.75rem; color:#666; margin-top:5px; line-height:1.6; background:#111; padding:8px; border-radius:6px; border:1px solid #333;">
-                ⚡ <b>La nueva lógica de bocas separa materiales por circuito:</b><br>
-                - <b>IUG:</b> Cada centro incluye caja octogonal y plafón. Cada llave incluye caja rectangular y módulo interruptor.<br>
-                - <b>TUG/TUE:</b> Incluyen cajas rectangulares y módulos tomas (10A o 20A según circuito).<br>
-                - <b>Cables:</b> Cada boca asume 5m de caño y 15m del cable respectivo (1.5mm, 2.5mm o 4.0mm).
             </div>
         </div>
 
@@ -651,7 +792,7 @@
         <div class="module" style="border-color: #555;">
             <div class="module-title" style="color: #ccc; border-color: #555;">[02] OTROS MATERIALES Y AJUSTES</div>
             <div class="form-grid">
-                <div class="form-group">
+                <div class="form-group" id="group_mat_extra">
                     <label>Materiales Extra / Varios ($)</label>
                     <input type="number" id="mat_extra" value="0" oninput="calc()" style="background: #222;">
                 </div>
@@ -670,9 +811,9 @@
         <div class="total-section">
             <div class="summary-details">
                 <span>M.O ELEC: <b id="tot_elec">0</b></span>
-                <span>MAT ELEC: <b id="tot_elec_mat">—</b></span>
-                <span>MAT SUELTOS: <b id="tot_mat_ind">—</b></span>
-                <span>OTROS MAT: <b id="tot_mat_extra">0</b></span>
+                <span id="tot_elec_mat_summary">MAT ELEC: <b id="tot_elec_mat">—</b></span>
+                <span id="tot_mat_ind_summary">MAT SUELTOS: <b id="tot_mat_ind">—</b></span>
+                <span id="tot_mat_extra_summary">OTROS MAT: <b id="tot_mat_extra">0</b></span>
             </div>
             <div class="final-price-box">
                 <span style="font-size: 0.9rem; display: block; opacity: 0.7;">PRECIO FINAL ESTIMADO (LLAVE EN
@@ -721,6 +862,7 @@
                     sup: 35000,
                     emp: 95000
                 },
+                tablero_trifasico_mo: 180000,
                 tablero_mat_precios: {
                     high: { 4: 12500, 8: 19500, 12: 32500, 18: 45500, 24: 58500, 36: 82500 },
                     medium: { 4: 18500, 8: 28500, 12: 46500, 18: 68000, 24: 89500, 36: 128000 },
@@ -783,7 +925,7 @@
                 cable_15_m: 1000,
                 cable_25_m: 1450,
                 cable_40_m: 2150,
-                cable_60_m: 3100,
+                cable_60_m: 2880,
                 cano_20_m: 2325,
                 cano_22_m: 2600,
                 cano_25_m: 3000,
@@ -804,9 +946,69 @@
                 tapa_ciega: 150,
                 toma_10a: 3145,
                 plafon: 2274,
-                ficha_bp: 800
+                ficha_bp: 800,
+                // Nuevos precios para materiales detallados (por tira/unidad)
+                cano_19_tira: 5800,
+                cano_20_tira: 6975,
+                cano_22_tira: 7800,
+                cano_25_tira: 9000,
+                caja_rect_plas: 500,
+                caja_rect_chapa: 1200,
+                caja_oct_plas: 450,
+                caja_oct_chapa: 1100,
+                union_19: 120,
+                union_20: 150,
+                union_22: 180,
+                union_25: 220,
+                curva_19: 250,
+                curva_20: 276,
+                curva_22: 300,
+                curva_25: 350,
+                conect_19: 150,
+                conect_20: 173,
+                conect_22: 200,
+                conect_25: 250,
+                termica_bi: 15000,
+                termica_tetra: 35000,
+                disyuntor_bi: 32000,
+                disyuntor_tetra: 68000,
+                guardamotor: 48000,
+                contactor: 38000,
+                plafon_led: 6500,
+                cable_100_m: 5200,
+                sintenax_2x4_m: 3800,
+                sintenax_4x4_m: 6900,
+                sintenax_4x6_m: 9800,
+                sintenax_4x10_m: 16500
             }
         };
+
+        let modoCalculo = "completo";
+
+        function setModoCalculo(modo) {
+            modoCalculo = modo;
+            document.body.classList.toggle('modo-mo', modo === 'mo');
+            
+            const btnMo = document.getElementById('btn_modo_mo');
+            const btnCompleto = document.getElementById('btn_modo_completo');
+            
+            if (modo === 'mo') {
+                btnMo.style.background = 'var(--accent-color)';
+                btnMo.style.color = '#000';
+                btnMo.style.borderColor = 'var(--accent-color)';
+                btnCompleto.style.background = '#111';
+                btnCompleto.style.color = 'var(--text-color)';
+                btnCompleto.style.borderColor = 'var(--border-color)';
+            } else {
+                btnCompleto.style.background = 'var(--accent-color)';
+                btnCompleto.style.color = '#000';
+                btnCompleto.style.borderColor = 'var(--accent-color)';
+                btnMo.style.background = '#111';
+                btnMo.style.color = 'var(--text-color)';
+                btnMo.style.borderColor = 'var(--border-color)';
+            }
+            calc();
+        }
 
         function fmt(n) { return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n); }
 
@@ -825,6 +1027,7 @@
 
             document.getElementById('lbl_elec_term_mo_cost').innerText = fmt(PRECIOS_CONFIG.elec.termica_mono);
             document.getElementById('lbl_elec_disy_mo_cost').innerText = fmt(PRECIOS_CONFIG.elec.disyuntor_mono);
+            document.getElementById('lbl_elec_tablero_trif_mo_cost').innerText = fmt(PRECIOS_CONFIG.elec.tablero_trifasico_mo);
 
             document.getElementById('lbl_mo_centro').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
             document.getElementById('lbl_mo_llave').innerText = fmt(PRECIOS_CONFIG.elec.boca_nueva);
@@ -847,49 +1050,130 @@
             document.getElementById('lbl_elec_jaba_mo').innerText = `+${fmt(PRECIOS_CONFIG.elec.jabalina)}`;
 
             const ME = PRECIOS_CONFIG.mat_electrico;
-            document.getElementById('lbl_m_c15').innerText = fmt(ME.cable_15_m);
-            document.getElementById('lbl_m_c25').innerText = fmt(ME.cable_25_m);
-            document.getElementById('lbl_m_c40').innerText = fmt(ME.cable_40_m);
-            document.getElementById('lbl_m_c60').innerText = fmt(ME.cable_60_m);
+            document.getElementById('lbl_m_sint2x4').innerText = fmt(ME.sintenax_2x4_m);
+            document.getElementById('lbl_m_sint4x4').innerText = fmt(ME.sintenax_4x4_m);
+            document.getElementById('lbl_m_sint4x6').innerText = fmt(ME.sintenax_4x6_m);
+            document.getElementById('lbl_m_sint4x10').innerText = fmt(ME.sintenax_4x10_m);
 
-            calc();
+            setModoCalculo('completo');
         }
 
         function calc() {
             const calidad = parseFloat(document.getElementById('elec_calidad').value) || 1;
 
-            // Update materials unit labels
-            document.getElementById('lbl_mat_centro').innerText = fmt(PRECIOS_CONFIG.elec.mat_centro * calidad);
-            document.getElementById('lbl_mat_llave').innerText = fmt(PRECIOS_CONFIG.elec.mat_llave * calidad);
-            document.getElementById('lbl_mat_tug').innerText = fmt(PRECIOS_CONFIG.elec.mat_tug * calidad);
-            document.getElementById('lbl_mat_tue25').innerText = fmt(PRECIOS_CONFIG.elec.mat_tue25 * calidad);
-            document.getElementById('lbl_mat_tue40').innerText = fmt(PRECIOS_CONFIG.elec.mat_tue40 * calidad);
-            document.getElementById('lbl_mat_recab').innerText = fmt(PRECIOS_CONFIG.elec.mat_tug * calidad);
+            const setLabel = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
 
-            document.getElementById('lbl_mat_toma10').innerText = fmt(PRECIOS_CONFIG.elec.toma10_mat * calidad);
-            document.getElementById('lbl_mat_toma20').innerText = fmt(PRECIOS_CONFIG.elec.toma20_mat * calidad);
-            document.getElementById('lbl_mat_punto').innerText = fmt(PRECIOS_CONFIG.elec.punto_mat * calidad);
-            document.getElementById('lbl_mat_dimmer').innerText = fmt(PRECIOS_CONFIG.elec.dimmer_mat * calidad);
-            document.getElementById('lbl_mat_puntotoma').innerText = fmt(PRECIOS_CONFIG.elec.puntotoma_mat * calidad);
-            document.getElementById('lbl_mat_combinada').innerText = fmt(PRECIOS_CONFIG.elec.combinada_mat * calidad);
+            setLabel('lbl_mat_centro', fmt(PRECIOS_CONFIG.elec.mat_centro * calidad));
+            setLabel('lbl_mat_llave', fmt(PRECIOS_CONFIG.elec.mat_llave * calidad));
+            setLabel('lbl_mat_tug', fmt(PRECIOS_CONFIG.elec.mat_tug * calidad));
+            setLabel('lbl_mat_tue25', fmt(PRECIOS_CONFIG.elec.mat_tue25 * calidad));
+            setLabel('lbl_mat_tue40', fmt(PRECIOS_CONFIG.elec.mat_tue40 * calidad));
+            setLabel('lbl_mat_recab', fmt(PRECIOS_CONFIG.elec.mat_tug * calidad));
 
-            document.getElementById('lbl_elec_aplique_mat').innerText = fmt(PRECIOS_CONFIG.elec.aplique_mat * calidad);
-            document.getElementById('lbl_elec_colgante_mat').innerText = fmt(PRECIOS_CONFIG.elec.colgante_mat * calidad);
-            document.getElementById('lbl_elec_tubo_mat').innerText = fmt(PRECIOS_CONFIG.elec.tubo_led_mat * calidad);
-            document.getElementById('lbl_elec_emerg_mat').innerText = fmt(PRECIOS_CONFIG.elec.emergencia_mat * calidad);
-            document.getElementById('lbl_elec_jaba_mat').innerText = `+${fmt(PRECIOS_CONFIG.elec.jabalina_mat * calidad)}`;
+            setLabel('lbl_mat_toma10', fmt(PRECIOS_CONFIG.elec.toma10_mat * calidad));
+            setLabel('lbl_mat_toma20', fmt(PRECIOS_CONFIG.elec.toma20_mat * calidad));
+            setLabel('lbl_mat_punto', fmt(PRECIOS_CONFIG.elec.punto_mat * calidad));
+            setLabel('lbl_mat_dimmer', fmt(PRECIOS_CONFIG.elec.dimmer_mat * calidad));
+            setLabel('lbl_mat_puntotoma', fmt(PRECIOS_CONFIG.elec.puntotoma_mat * calidad));
+            setLabel('lbl_mat_combinada', fmt(PRECIOS_CONFIG.elec.combinada_mat * calidad));
 
-            document.getElementById('lbl_elec_term_mat_cost').innerText = fmt(PRECIOS_CONFIG.elec.mat_termica * calidad);
-            document.getElementById('lbl_elec_disy_mat_cost').innerText = fmt(PRECIOS_CONFIG.elec.mat_disyuntor * calidad);
+            setLabel('lbl_elec_aplique_mat', fmt(PRECIOS_CONFIG.elec.aplique_mat * calidad));
+            setLabel('lbl_elec_colgante_mat', fmt(PRECIOS_CONFIG.elec.colgante_mat * calidad));
+            setLabel('lbl_elec_tubo_mat', fmt(PRECIOS_CONFIG.elec.tubo_led_mat * calidad));
+            setLabel('lbl_elec_emerg_mat', fmt(PRECIOS_CONFIG.elec.emergencia_mat * calidad));
+            setLabel('lbl_elec_jaba_mat', `+${fmt(PRECIOS_CONFIG.elec.jabalina_mat * calidad)}`);
+
+            const ME_DET = PRECIOS_CONFIG.mat_electrico;
+            setLabel('lbl_det_cano19_cost', fmt(ME_DET.cano_19_tira * calidad));
+            setLabel('lbl_det_cano20_cost', fmt(ME_DET.cano_20_tira * calidad));
+            setLabel('lbl_det_cano22_cost', fmt(ME_DET.cano_22_tira * calidad));
+            setLabel('lbl_det_cano25_cost', fmt(ME_DET.cano_25_tira * calidad));
+
+            const accDiam = document.getElementById('det_acc_diam').value;
+            const pUnion = ME_DET[`union_${accDiam}`] || 0;
+            const pCurva = ME_DET[`curva_${accDiam}`] || 0;
+            const pConect = ME_DET[`conect_${accDiam}`] || 0;
+            setLabel('lbl_det_union_cost', fmt(pUnion * calidad));
+            setLabel('lbl_det_curva_cost', fmt(pCurva * calidad));
+            setLabel('lbl_det_conect_cost', fmt(pConect * calidad));
+
+            setLabel('lbl_det_term_bi', fmt(ME_DET.termica_bi * calidad));
+            setLabel('lbl_det_term_tetra', fmt(ME_DET.termica_tetra * calidad));
+            setLabel('lbl_det_disy_bi', fmt(ME_DET.disyuntor_bi * calidad));
+            setLabel('lbl_det_disy_tetra', fmt(ME_DET.disyuntor_tetra * calidad));
+            setLabel('lbl_det_guardamotor', fmt(ME_DET.guardamotor * calidad));
+            setLabel('lbl_det_contactor', fmt(ME_DET.contactor * calidad));
+            setLabel('lbl_det_plafon', fmt(ME_DET.plafon_led * calidad));
+
+            const cano19_m = parseFloat(document.getElementById('det_cano19_m').value) || 0;
+            const cano20_m = parseFloat(document.getElementById('det_cano20_m').value) || 0;
+            const cano22_m = parseFloat(document.getElementById('det_cano22_m').value) || 0;
+            const cano25_m = parseFloat(document.getElementById('det_cano25_m').value) || 0;
+
+            const cano19_t = Math.ceil(cano19_m / 3);
+            const cano20_t = Math.ceil(cano20_m / 3);
+            const cano22_t = Math.ceil(cano22_m / 3);
+            const cano25_t = Math.ceil(cano25_m / 3);
+
+            const cano19_sub = cano19_t * ME_DET.cano_19_tira * calidad;
+            const cano20_sub = cano20_t * ME_DET.cano_20_tira * calidad;
+            const cano22_sub = cano22_t * ME_DET.cano_22_tira * calidad;
+            const cano25_sub = cano25_t * ME_DET.cano_25_tira * calidad;
+
+            setLabel('lbl_det_cano19_calc', `${cano19_t} tira${cano19_t !== 1 ? 's' : ''} = ${fmt(cano19_sub)}`);
+            setLabel('lbl_det_cano20_calc', `${cano20_t} tira${cano20_t !== 1 ? 's' : ''} = ${fmt(cano20_sub)}`);
+            setLabel('lbl_det_cano22_calc', `${cano22_t} tira${cano22_t !== 1 ? 's' : ''} = ${fmt(cano22_sub)}`);
+            setLabel('lbl_det_cano25_calc', `${cano25_t} tira${cano25_t !== 1 ? 's' : ''} = ${fmt(cano25_sub)}`);
+
+            const caja_rect_q = parseInt(document.getElementById('det_caja_rect_q').value) || 0;
+            const caja_rect_mat = document.getElementById('det_caja_rect_mat').value;
+            const caja_rect_sub = caja_rect_q * ME_DET[`caja_rect_${caja_rect_mat}`] * calidad;
+
+            const caja_oct_q = parseInt(document.getElementById('det_caja_oct_q').value) || 0;
+            const caja_oct_mat = document.getElementById('det_caja_oct_mat').value;
+            const caja_oct_sub = caja_oct_q * ME_DET[`caja_oct_${caja_oct_mat}`] * calidad;
+
+            const curva_q = parseInt(document.getElementById('det_curva_q').value) || 0;
+            const curva_sub = curva_q * pCurva * calidad;
+
+            const union_q = parseInt(document.getElementById('det_union_q').value) || 0;
+            const union_sub = union_q * pUnion * calidad;
+
+            const conect_q = parseInt(document.getElementById('det_conect_q').value) || 0;
+            const conect_sub = conect_q * pConect * calidad;
+
+            const term_bi_q = parseInt(document.getElementById('det_term_bi_q').value) || 0;
+            const term_bi_sub = term_bi_q * ME_DET.termica_bi * calidad;
+
+            const term_tetra_q = parseInt(document.getElementById('det_term_tetra_q').value) || 0;
+            const term_tetra_sub = term_tetra_q * ME_DET.termica_tetra * calidad;
+
+            const disy_bi_q = parseInt(document.getElementById('det_disy_bi_q').value) || 0;
+            const disy_bi_sub = disy_bi_q * ME_DET.disyuntor_bi * calidad;
+
+            const disy_tetra_q = parseInt(document.getElementById('det_disy_tetra_q').value) || 0;
+            const disy_tetra_sub = disy_tetra_q * ME_DET.disyuntor_tetra * calidad;
+
+            const guardamotor_q = parseInt(document.getElementById('det_guardamotor_q').value) || 0;
+            const guardamotor_sub = guardamotor_q * ME_DET.guardamotor * calidad;
+
+            const contactor_q = parseInt(document.getElementById('det_contactor_q').value) || 0;
+            const contactor_sub = contactor_q * ME_DET.contactor * calidad;
+
+            const plafon_q = parseInt(document.getElementById('det_plafon_q').value) || 0;
+            const plafon_sub = plafon_q * ME_DET.plafon_led * calidad;
+
+            const total_det_mat = cano19_sub + cano20_sub + cano22_sub + cano25_sub + caja_rect_sub + caja_oct_sub + curva_sub + union_sub + conect_sub + term_bi_sub + term_tetra_sub + disy_bi_sub + disy_tetra_sub + guardamotor_sub + contactor_sub + plafon_sub;
 
             // MANO DE OBRA (M.O.) CALCULATIONS
             let elec_mo = 0;
 
-            // Acometida M.O.
             const acoIdx = parseInt(document.getElementById('elec_aco').value) || 0;
             elec_mo += PRECIOS_CONFIG.elec.acometida[acoIdx].p;
 
-            // Tablero M.O.
             const tabTipo = document.getElementById('elec_tablero').value;
             let tab_mo_val = 0;
             if (tabTipo === 'sup') {
@@ -899,13 +1183,14 @@
             }
             elec_mo += tab_mo_val;
 
-            // Protecciones M.O.
+            const n_tablero_trif_mo = parseInt(document.getElementById('elec_tablero_trif_mo').value) || 0;
+            elec_mo += n_tablero_trif_mo * PRECIOS_CONFIG.elec.tablero_trifasico_mo;
+
             const n_term_mo = parseInt(document.getElementById('elec_term').value) || 0;
             const n_disy_mo = parseInt(document.getElementById('elec_disy').value) || 0;
             elec_mo += n_term_mo * PRECIOS_CONFIG.elec.termica_mono;
             elec_mo += n_disy_mo * PRECIOS_CONFIG.elec.disyuntor_mono;
 
-            // Bocas M.O.
             const c_centro_mo = parseInt(document.getElementById('elec_centro_iug').value) || 0;
             const c_llave_mo = parseInt(document.getElementById('elec_llave_iug').value) || 0;
             const c_tug_mo = parseInt(document.getElementById('elec_boca_tug').value) || 0;
@@ -917,7 +1202,6 @@
             elec_mo += bocas_n_mo * PRECIOS_CONFIG.elec.boca_nueva;
             elec_mo += bocas_r_mo * PRECIOS_CONFIG.elec.recableado;
 
-            // Bastidores M.O.
             const bt10_mo = parseInt(document.getElementById('elec_toma10_mo').value) || 0;
             const bt20_mo = parseInt(document.getElementById('elec_toma20_mo').value) || 0;
             const bp_mo = parseInt(document.getElementById('elec_punto_mo').value) || 0;
@@ -932,27 +1216,23 @@
             elec_mo += bpt_mo * PRECIOS_CONFIG.elec.puntotoma_mo;
             elec_mo += bcomb_mo * PRECIOS_CONFIG.elec.combinada_mo;
 
-            // Canalización Extra M.O.
             const mt_extra_boca_mo = parseInt(document.getElementById('elec_mt_extra').value) || 0;
             const precio_mo_canaliz = 2500;
             elec_mo += mt_extra_boca_mo * precio_mo_canaliz;
 
-            // Bandejas M.O.
             const b_mt_mo = parseInt(document.getElementById('elec_bandeja_mt').value) || 0;
             const b_alt = document.getElementById('elec_bandeja_alt').checked;
             const b_tipo = document.getElementById('elec_bandeja_tipo').value;
             const tarifas_b = PRECIOS_CONFIG.elec.bandejas_tarifas[b_tipo];
             const b_mo_unit = b_alt ? tarifas_b.mo_alt : tarifas_b.mo_norm;
-            document.getElementById('lbl_band_mo_dinamico').innerText = fmt(b_mo_unit);
+            setLabel('lbl_band_mo_dinamico', fmt(b_mo_unit));
             elec_mo += b_mt_mo * b_mo_unit;
 
-            // Iluminación M.O.
             elec_mo += (parseInt(document.getElementById('elec_aplique').value) || 0) * PRECIOS_CONFIG.elec.aplique;
             elec_mo += (parseInt(document.getElementById('elec_colgante').value) || 0) * PRECIOS_CONFIG.elec.colgante;
             elec_mo += (parseInt(document.getElementById('elec_tubo').value) || 0) * PRECIOS_CONFIG.elec.tubo_led;
             elec_mo += (parseInt(document.getElementById('elec_emerg').value) || 0) * PRECIOS_CONFIG.elec.emergencia;
 
-            // Jabalina M.O.
             if (document.getElementById('elec_jabalina').checked) {
                 elec_mo += PRECIOS_CONFIG.elec.jabalina;
             }
@@ -960,7 +1240,6 @@
             // MATERIALES CALCULATIONS
             let elec_mat = 0;
 
-            // Acometida Materiales
             const acoMatVal = document.getElementById('elec_aco_mat').value;
             let aco_mat_cost = 0;
             if (acoMatVal === 'monofasica') aco_mat_cost = 45000;
@@ -968,11 +1247,8 @@
             else if (acoMatVal === 'trifasica_high') aco_mat_cost = 110000;
             elec_mat += aco_mat_cost * calidad;
 
-            // Gabinete/Tablero Materiales
             const tabMatVal = document.getElementById('elec_tablero_mat').value;
-            const n_term_mat = parseInt(document.getElementById('elec_term_mat').value) || 0;
-            const n_disy_mat = parseInt(document.getElementById('elec_disy_mat').value) || 0;
-            const required_mods_mat = (n_term_mat + n_disy_mat) * 2;
+            const required_mods_mat = (term_bi_q * 2) + (term_tetra_q * 4) + (disy_bi_q * 2) + (disy_tetra_q * 4) + (guardamotor_q * 3) + (contactor_q * 2);
 
             let suggested_size_mat = 0;
             if (tabMatVal === 'auto') {
@@ -981,7 +1257,8 @@
                     else if (required_mods_mat <= 8) suggested_size_mat = 8;
                     else if (required_mods_mat <= 12) suggested_size_mat = 12;
                     else if (required_mods_mat <= 18) suggested_size_mat = 18;
-                    else suggested_size_mat = 24;
+                    else if (required_mods_mat <= 24) suggested_size_mat = 24;
+                    else suggested_size_mat = 36;
                 }
             } else if (tabMatVal !== 'none') {
                 suggested_size_mat = parseInt(tabMatVal) || 0;
@@ -995,85 +1272,95 @@
 
             if (tabMatVal !== 'none' && sizeKey_mat > 0) {
                 tab_mat_val = PRECIOS_CONFIG.elec.tablero_mat_precios[brandKey][sizeKey_mat] || 0;
-                if (tabTipo === 'emp') tab_mat_val *= 1.3; // extra for empotrar if that's the physical setup
+                if (tabTipo === 'emp') tab_mat_val *= 1.3;
             }
             elec_mat += tab_mat_val;
             window.lastTabMatFinal = tab_mat_val;
             window.lastTabSize = suggested_size_mat;
             window.lastTabTipo = tabTipo;
 
-            // Protecciones Materiales
-            elec_mat += n_term_mat * PRECIOS_CONFIG.elec.mat_termica * calidad;
-            elec_mat += n_disy_mat * PRECIOS_CONFIG.elec.mat_disyuntor * calidad;
+            const apl_mat = parseInt(document.getElementById('elec_aplique_mat').value) || 0;
+            const col_mat = parseInt(document.getElementById('elec_colgante_mat').value) || 0;
+            const tub_mat = parseInt(document.getElementById('elec_tubo_mat').value) || 0;
+            const eme_mat = parseInt(document.getElementById('elec_emerg_mat').value) || 0;
 
-            // Bocas Materiales
-            const c_centro_mat = parseInt(document.getElementById('elec_centro_iug_mat').value) || 0;
-            const c_llave_mat = parseInt(document.getElementById('elec_llave_iug_mat').value) || 0;
-            const c_tug_mat = parseInt(document.getElementById('elec_boca_tug_mat').value) || 0;
-            const c_tue25_mat = parseInt(document.getElementById('elec_boca_tue25_mat').value) || 0;
-            const c_tue40_mat = parseInt(document.getElementById('elec_boca_tue40_mat').value) || 0;
-            const bocas_r_mat = parseInt(document.getElementById('elec_bocas_r_mat').value) || 0;
+            const aplique_mat_sub = apl_mat * PRECIOS_CONFIG.elec.aplique_mat * calidad;
+            const colgante_mat_sub = col_mat * PRECIOS_CONFIG.elec.colgante_mat * calidad;
+            const tubo_mat_sub = tub_mat * PRECIOS_CONFIG.elec.tubo_led_mat * calidad;
+            const emerg_mat_sub = eme_mat * PRECIOS_CONFIG.elec.emergencia_mat * calidad;
 
-            elec_mat += c_centro_mat * PRECIOS_CONFIG.elec.mat_centro * calidad;
-            elec_mat += c_llave_mat * PRECIOS_CONFIG.elec.mat_llave * calidad;
-            elec_mat += c_tug_mat * PRECIOS_CONFIG.elec.mat_tug * calidad;
-            elec_mat += c_tue25_mat * PRECIOS_CONFIG.elec.mat_tue25 * calidad;
-            elec_mat += c_tue40_mat * PRECIOS_CONFIG.elec.mat_tue40 * calidad;
-            elec_mat += bocas_r_mat * PRECIOS_CONFIG.elec.mat_tug * calidad;
+            elec_mat += aplique_mat_sub + colgante_mat_sub + tubo_mat_sub + emerg_mat_sub;
 
-            // Bastidores Materiales
-            const bt10_mat = parseInt(document.getElementById('elec_toma10_mat').value) || 0;
-            const bt20_mat = parseInt(document.getElementById('elec_toma20_mat').value) || 0;
-            const bp_mat = parseInt(document.getElementById('elec_punto_mat').value) || 0;
-            const bd_mat = parseInt(document.getElementById('elec_dimmer_mat').value) || 0;
-            const bpt_mat = parseInt(document.getElementById('elec_puntotoma_mat').value) || 0;
-            const bcomb_mat = parseInt(document.getElementById('elec_combinada_mat').value) || 0;
-
-            elec_mat += bt10_mat * PRECIOS_CONFIG.elec.toma10_mat * calidad;
-            elec_mat += bt20_mat * PRECIOS_CONFIG.elec.toma20_mat * calidad;
-            elec_mat += bp_mat * PRECIOS_CONFIG.elec.punto_mat * calidad;
-            elec_mat += bd_mat * PRECIOS_CONFIG.elec.dimmer_mat * calidad;
-            elec_mat += bpt_mat * PRECIOS_CONFIG.elec.puntotoma_mat * calidad;
-            elec_mat += bcomb_mat * PRECIOS_CONFIG.elec.combinada_mat * calidad;
-
-            const totalBastidoresMat = bt10_mat + bt20_mat + bp_mat + bd_mat + bpt_mat + bcomb_mat;
-
-            // Canalización Extra Materiales
-            const mt_extra_boca_mat = parseInt(document.getElementById('elec_mt_extra_mat').value) || 0;
-            const precio_mat_canaliz = 3000 * calidad;
-            elec_mat += mt_extra_boca_mat * precio_mat_canaliz;
-
-            // Bandejas Materiales
-            const b_mt_mat = parseInt(document.getElementById('elec_bandeja_mt_mat').value) || 0;
-            const b_mat_unit = tarifas_b.mat;
-            document.getElementById('lbl_band_mat_dinamico').innerText = fmt(b_mat_unit * calidad);
-            elec_mat += b_mt_mat * b_mat_unit * calidad;
-
-            // Iluminación Materiales
-            elec_mat += (parseInt(document.getElementById('elec_aplique_mat').value) || 0) * PRECIOS_CONFIG.elec.aplique_mat * calidad;
-            elec_mat += (parseInt(document.getElementById('elec_colgante_mat').value) || 0) * PRECIOS_CONFIG.elec.colgante_mat * calidad;
-            elec_mat += (parseInt(document.getElementById('elec_tubo_mat').value) || 0) * PRECIOS_CONFIG.elec.tubo_led_mat * calidad;
-            elec_mat += (parseInt(document.getElementById('elec_emerg_mat').value) || 0) * PRECIOS_CONFIG.elec.emergencia_mat * calidad;
-
-            // Jabalina Materiales
             if (document.getElementById('elec_jabalina_mat').checked) {
                 elec_mat += PRECIOS_CONFIG.elec.jabalina_mat * calidad;
             }
 
-            // Cables Adicionales (Materiales Sueltos)
-            const ME2 = PRECIOS_CONFIG.mat_electrico;
-            let mat_ind = 0;
-            mat_ind += (parseInt(document.getElementById('m_c15').value) || 0) * ME2.cable_15_m;
-            mat_ind += (parseInt(document.getElementById('m_c25').value) || 0) * ME2.cable_25_m;
-            mat_ind += (parseInt(document.getElementById('m_c40').value) || 0) * ME2.cable_40_m;
-            mat_ind += (parseInt(document.getElementById('m_c60').value) || 0) * ME2.cable_60_m;
-            document.getElementById('tot_mat_ind_inline').innerText = fmt(mat_ind);
+            const b_mt_mat = parseInt(document.getElementById('elec_bandeja_mt_mat').value) || 0;
+            const b_mat_unit = tarifas_b.mat;
+            setLabel('lbl_band_mat_dinamico', fmt(b_mat_unit * calidad));
+            const bandeja_mat_sub = b_mt_mat * b_mat_unit * calidad;
+            elec_mat += bandeja_mat_sub;
+
+            // Modo de cables unipolares: mt vs rollo
+            const unipolarMode = document.getElementById('elec_unipolar_mode').value;
+            const factorUnipolar = unipolarMode === 'rollo' ? 100 : 1;
+            const labelUnit = unipolarMode === 'rollo' ? 'rollo' : 'm';
+
+            // Actualizar etiquetas dinámicamente en la tabla
+            setLabel('lbl_m_c15_unit', fmt(ME_DET.cable_15_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c25_unit', fmt(ME_DET.cable_25_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c40_unit', fmt(ME_DET.cable_40_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c60_unit', fmt(ME_DET.cable_60_m * factorUnipolar) + '/' + labelUnit);
+            setLabel('lbl_m_c100_unit', fmt(ME_DET.cable_100_m * factorUnipolar) + '/' + labelUnit);
+
+            const colors = ['negro', 'rojo', 'marron', 'celeste', 'va'];
+            
+            function getUnipolarSum(gauge) {
+                let sum = 0;
+                colors.forEach(col => {
+                    sum += parseFloat(document.getElementById(`${gauge}_${col}`).value) || 0;
+                });
+                return sum;
+            }
+
+            const c15_qty = getUnipolarSum('c15');
+            const c25_qty = getUnipolarSum('c25');
+            const c40_qty = getUnipolarSum('c40');
+            const c60_qty = getUnipolarSum('c60');
+            const c100_qty = getUnipolarSum('c100');
+
+            const c15_sub = c15_qty * factorUnipolar * ME_DET.cable_15_m;
+            const c25_sub = c25_qty * factorUnipolar * ME_DET.cable_25_m;
+            const c40_sub = c40_qty * factorUnipolar * ME_DET.cable_40_m;
+            const c60_sub = c60_qty * factorUnipolar * ME_DET.cable_60_m;
+            const c100_sub = c100_qty * factorUnipolar * ME_DET.cable_100_m;
+
+            const c15_m = c15_qty * factorUnipolar;
+            const c25_m = c25_qty * factorUnipolar;
+            const c40_m = c40_qty * factorUnipolar;
+            const c60_m = c60_qty * factorUnipolar;
+            const c100_m = c100_qty * factorUnipolar;
+
+            const sint2x4_m = parseFloat(document.getElementById('m_sint2x4').value) || 0;
+            const sint4x4_m = parseFloat(document.getElementById('m_sint4x4').value) || 0;
+            const sint4x6_m = parseFloat(document.getElementById('m_sint4x6').value) || 0;
+            const sint4x10_m = parseFloat(document.getElementById('m_sint4x10').value) || 0;
+
+            const sint2x4_sub = sint2x4_m * ME_DET.sintenax_2x4_m;
+            const sint4x4_sub = sint4x4_m * ME_DET.sintenax_4x4_m;
+            const sint4x6_sub = sint4x6_m * ME_DET.sintenax_4x6_m;
+            const sint4x10_sub = sint4x10_m * ME_DET.sintenax_4x10_m;
+
+            const total_cables_sub = c15_sub + c25_sub + c40_sub + c60_sub + c100_sub + sint2x4_sub + sint4x4_sub + sint4x6_sub + sint4x10_sub;
+            let mat_ind = total_cables_sub;
 
             let mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
             let total_mo = elec_mo;
-            let total_mat = elec_mat + mat_ind + mat_extra;
+            let total_mat = 0;
+            if (modoCalculo !== 'mo') {
+                total_mat = elec_mat + mat_ind + mat_extra + total_det_mat;
+            }
 
-            // VIATICOS AND MARGENS
             const final_viaticos_pct = (parseFloat(document.getElementById('global_viaticos').value) || 15) / 100;
             const final_margen_pct = (parseFloat(document.getElementById('global_margen').value) || 35) / 100;
 
@@ -1084,24 +1371,21 @@
             const total = operativo + margen;
             const ganancia_neta = total_mo + viaticos + margen;
 
-
-
-            // Time estimate based on M.O. Bocas and Bastidores
             const totalBocasMO = c_centro_mo + c_llave_mo + c_tug_mo + c_tue25_mo + c_tue40_mo + bocas_r_mo;
             const totalBastidoresMO = bt10_mo + bt20_mo + bp_mo + bd_mo + bpt_mo + bcomb_mo;
-            const elec_days = (totalBocasMO / 6) + (totalBastidoresMO / 12);
+            const elec_days = (totalBocasMO / 6) + (totalBastidoresMO / 12) + n_tablero_trif_mo * 1;
             let total_days = Math.ceil(elec_days);
             if (total_days === 0 && base > 0) total_days = 1;
 
-            document.getElementById('tot_elec').innerText = fmt(elec_mo);
-            document.getElementById('tot_elec_mat').innerText = elec_mat > 0 ? fmt(elec_mat) : '—';
-            document.getElementById('tot_mat_ind').innerText = mat_ind > 0 ? fmt(mat_ind) : '—';
-            document.getElementById('tot_mat_extra').innerText = mat_extra > 0 ? fmt(mat_extra) : '0';
-            document.getElementById('res_final').innerText = fmt(total);
+            setLabel('tot_elec', fmt(elec_mo));
+            setLabel('tot_elec_mat', elec_mat > 0 ? fmt(elec_mat) : '—');
+            setLabel('tot_mat_ind', mat_ind > 0 ? fmt(mat_ind) : '—');
+            setLabel('tot_mat_extra', mat_extra > 0 ? fmt(mat_extra) : '0');
+            setLabel('res_final', fmt(total));
 
-            document.getElementById('dash_mat_cost').innerText = fmt(total_mat);
-            document.getElementById('dash_profit').innerText = fmt(ganancia_neta);
-            document.getElementById('dash_days').innerText = total_days > 0 ? `${total_days} Día${total_days > 1 ? 's' : ''}` : '-';
+            setLabel('dash_mat_cost', fmt(total_mat));
+            setLabel('dash_profit', fmt(ganancia_neta));
+            setLabel('dash_days', total_days > 0 ? `${total_days} Día${total_days > 1 ? 's' : ''}` : '-');
 
             window.lastTotal = total;
             const ratioMO = base > 0 ? (total_mo / base) : 0;
@@ -1115,6 +1399,7 @@
                 if (totalBocasMO > 0) moList.push(`${totalBocasMO} bocas/cajas de electricidad (Mano de obra certificada)`);
                 if (acoIdx > 0) moList.push(`Instalación de Acometida: ${PRECIOS_CONFIG.elec.acometida[acoIdx].label.split(' - ')[0]}`);
                 if (tabTipo !== 'none') moList.push(`Instalación de Tablero Seccional (${tabTipo === 'sup' ? 'Superficie' : 'Empotrado'})`);
+                if (n_tablero_trif_mo > 0) moList.push(`Armado y montaje de ${n_tablero_trif_mo} Tablero(s) Trifásico(s) (M.O. Comercial)`);
                 if (totalBastidoresMO > 0) moList.push(`Colocación y armado de ${totalBastidoresMO} llaves/tomas completos`);
                 if (n_term_mo > 0 || n_disy_mo > 0) moList.push(`Montaje y conexionado de ${n_term_mo + n_disy_mo} protecciones en tablero`);
                 if (mt_extra_boca_mo > 0) moList.push(`${mt_extra_boca_mo}m de canalización extra`);
@@ -1133,53 +1418,75 @@
             }
 
             if (total_mat > 0) {
-                const totalBocasMat = c_centro_mat + c_llave_mat + c_tug_mat + c_tue25_mat + c_tue40_mat + bocas_r_mat;
-                if (totalBocasMat > 0) {
-                    let cablesSum = "";
-                    if (c_centro_mat + c_llave_mat > 0) cablesSum += `1.5mm `;
-                    if (c_tug_mat + c_tue25_mat + bocas_r_mat > 0) cablesSum += `2.5mm `;
-                    if (c_tue40_mat > 0) cablesSum += `4.0mm `;
-                    matList.push(`${totalBocasMat * 15}m de cable normalizado (${cablesSum.trim()})`);
-                    matList.push(`${totalBocasMat} cajas y caños para bocas`);
-                }
-                if (totalBastidoresMat > 0) {
-                    matList.push(`${totalBastidoresMat} tapas bastidores y módulos completos cotizados`);
+                if (acoMatVal !== 'none') {
+                    matList.push(`1u Kit de materiales para acometida (${acoMatVal === 'monofasica' ? 'Monofásica' : 'Trifásica'})`);
                 }
                 if (tabMatVal !== 'none' && suggested_size_mat > 0) {
                     matList.push(`1u Gabinete/Tablero de ${suggested_size_mat} Módulos DIN`);
                 }
-                if (acoMatVal !== 'none') {
-                    matList.push(`1u Kit de materiales para acometida`);
-                }
-                if (n_term_mat > 0 || n_disy_mat > 0) {
-                    matList.push(`${n_term_mat}u Llaves térmicas y ${n_disy_mat}u Disyuntores diferenciales`);
-                }
+                if (cano19_t > 0) matList.push(`${cano19_t} tiras de Caño 19mm (aprox. ${cano19_m}m)`);
+                if (cano20_t > 0) matList.push(`${cano20_t} tiras de Caño 20mm (aprox. ${cano20_m}m)`);
+                if (cano22_t > 0) matList.push(`${cano22_t} tiras de Caño 22mm (aprox. ${cano22_m}m)`);
+                if (cano25_t > 0) matList.push(`${cano25_t} tiras de Caño 25mm (aprox. ${cano25_m}m)`);
                 
-                const apl_mat = parseInt(document.getElementById('elec_aplique_mat').value) || 0;
-                const col_mat = parseInt(document.getElementById('elec_colgante_mat').value) || 0;
-                const tub_mat = parseInt(document.getElementById('elec_tubo_mat').value) || 0;
-                const eme_mat = parseInt(document.getElementById('elec_emerg_mat').value) || 0;
-                if (apl_mat > 0 || col_mat > 0 || tub_mat > 0 || eme_mat > 0) {
-                    matList.push(`Provisión de artefactos de iluminación (${apl_mat + col_mat + tub_mat + eme_mat} unidades)`);
-                }
+                if (caja_rect_q > 0) matList.push(`${caja_rect_q} cajas rectangulares 10x5 (${caja_rect_mat === 'plas' ? 'Plástico' : 'Chapa'})`);
+                if (caja_oct_q > 0) matList.push(`${caja_oct_q} cajas octogonales (${caja_oct_mat === 'plas' ? 'Plástico' : 'Chapa'})`);
+                
+                if (curva_q > 0) matList.push(`${curva_q} curvas de diámetro ${accDiam}mm`);
+                if (union_q > 0) matList.push(`${union_q} uniones de diámetro ${accDiam}mm`);
+                if (conect_q > 0) matList.push(`${conect_q} conectores de diámetro ${accDiam}mm`);
+
+                const unipolarGauges = [
+                    { id: 'c15', label: '1.5mm' },
+                    { id: 'c25', label: '2.5mm' },
+                    { id: 'c40', label: '4.0mm' },
+                    { id: 'c60', label: '6.0mm' },
+                    { id: 'c100', label: '10.0mm' }
+                ];
+                const colorLabels = {
+                    negro: 'Negro',
+                    rojo: 'Rojo',
+                    marron: 'Marrón',
+                    celeste: 'Celeste',
+                    va: 'Verde/Amarillo'
+                };
+                
+                unipolarGauges.forEach(gauge => {
+                    colors.forEach(col => {
+                        const qty = parseFloat(document.getElementById(`${gauge.id}_${col}`).value) || 0;
+                        if (qty > 0) {
+                            if (unipolarMode === 'rollo') {
+                                matList.push(`${qty}u Rollo de cable unipolar ${gauge.label} ${colorLabels[col]} (100m)`);
+                            } else {
+                                matList.push(`${qty}m de cable unipolar ${gauge.label} ${colorLabels[col]}`);
+                            }
+                        }
+                    });
+                });
+
+                if (sint2x4_m > 0) matList.push(`${sint2x4_m}m de cable Sintenax 2x4mm`);
+                if (sint4x4_m > 0) matList.push(`${sint4x4_m}m de cable Sintenax 4x4mm`);
+                if (sint4x6_m > 0) matList.push(`${sint4x6_m}m de cable Sintenax 4x6mm`);
+                if (sint4x10_m > 0) matList.push(`${sint4x10_m}m de cable Sintenax 4x10mm`);
+                
+                if (term_bi_q > 0) matList.push(`${term_bi_q} llaves térmicas bipolares`);
+                if (term_tetra_q > 0) matList.push(`${term_tetra_q} llaves térmicas tetrapolares`);
+                if (disy_bi_q > 0) matList.push(`${disy_bi_q} disyuntores bipolares`);
+                if (disy_tetra_q > 0) matList.push(`${disy_tetra_q} disyuntores tetrapolares`);
+                if (guardamotor_q > 0) matList.push(`${guardamotor_q} guardamotores`);
+                if (contactor_q > 0) matList.push(`${contactor_q} contactores`);
+
+                if (plafon_q > 0) matList.push(`${plafon_q} plafones LED`);
+                if (apl_mat > 0) matList.push(`${apl_mat}u Apliques de iluminación`);
+                if (col_mat > 0) matList.push(`${col_mat}u Colgantes de iluminación`);
+                if (tub_mat > 0) matList.push(`${tub_mat}u Tubos LED de iluminación`);
+                if (eme_mat > 0) matList.push(`${eme_mat}u Luces de emergencia`);
+
                 if (document.getElementById('elec_jabalina_mat').checked) {
                     matList.push(`1u Kit Jabalina / Puesta a Tierra (PAT)`);
                 }
                 if (b_mt_mat > 0) {
-                    matList.push(`${b_mt_mat}m de bandeja portacable metálica con accesorios`);
-                }
-                
-                const c15_val = parseInt(document.getElementById('m_c15').value) || 0;
-                const c25_val = parseInt(document.getElementById('m_c25').value) || 0;
-                const c40_val = parseInt(document.getElementById('m_c40').value) || 0;
-                const c60_val = parseInt(document.getElementById('m_c60').value) || 0;
-                let extCables = [];
-                if (c15_val) extCables.push(`${c15_val}m de 1.5mm`);
-                if (c25_val) extCables.push(`${c25_val}m de 2.5mm`);
-                if (c40_val) extCables.push(`${c40_val}m de 4mm`);
-                if (c60_val) extCables.push(`${c60_val}m de 6mm`);
-                if (extCables.length > 0) {
-                    matList.push(`Cables adicionales: ${extCables.join(', ')}`);
+                    matList.push(`${b_mt_mat}m de bandeja portacable metálica (${b_tipo}mm)`);
                 }
                 if (mat_extra > 0) {
                     matList.push(`Materiales y accesorios adicionales varios`);
@@ -1190,10 +1497,15 @@
             window.lastMatBreakdown = matList;
 
             window.snapMatInd = {
-                c15: parseInt(document.getElementById('m_c15').value) || 0,
-                c25: parseInt(document.getElementById('m_c25').value) || 0,
-                c40: parseInt(document.getElementById('m_c40').value) || 0,
-                c60: parseInt(document.getElementById('m_c60').value) || 0
+                c15: c15_m,
+                c25: c25_m,
+                c40: c40_m,
+                c60: c60_m,
+                c100: c100_m,
+                sint2x4: parseInt(document.getElementById('m_sint2x4').value) || 0,
+                sint4x4: parseInt(document.getElementById('m_sint4x4').value) || 0,
+                sint4x6: parseInt(document.getElementById('m_sint4x6').value) || 0,
+                sint4x10: parseInt(document.getElementById('m_sint4x10').value) || 0
             };
         }
 
@@ -1220,18 +1532,22 @@
             }
             t += `\n`;
 
-            t += `Materiales para la instalación:\n`;
-            if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
-                window.lastMatBreakdown.forEach(item => {
-                    t += `• ${item}\n`;
-                });
-            } else {
-                t += `• Materiales normalizados según normativas vigentes.\n`;
+            if (modoCalculo !== 'mo') {
+                t += `Materiales para la instalación:\n`;
+                if (window.lastMatBreakdown && window.lastMatBreakdown.length > 0) {
+                    window.lastMatBreakdown.forEach(item => {
+                        t += `• ${item}\n`;
+                    });
+                } else {
+                    t += `• Materiales normalizados según normativas vigentes.\n`;
+                }
+                t += `\n`;
             }
-            t += `\n`;
 
             t += `Resumen:\n`;
-            t += `Total inversión en materiales: ${fmt(window.lastTotalMatFinal)}\n`;
+            if (modoCalculo !== 'mo') {
+                t += `Total inversión en materiales: ${fmt(window.lastTotalMatFinal)}\n`;
+            }
             t += `Total honorarios mano de obra: ${fmt(window.lastTotalMOFinal)}\n`;
             t += `TOTAL A ABONAR: ${fmt(window.lastTotal)}\n\n`;
 
@@ -1278,14 +1594,6 @@
             t += `👉 *${req_marcas}*\n\n`;
 
             const list = [];
-
-            const c_centro_mat = parseInt(document.getElementById('elec_centro_iug_mat').value) || 0;
-            const c_llave_mat = parseInt(document.getElementById('elec_llave_iug_mat').value) || 0;
-            const c_tug_mat = parseInt(document.getElementById('elec_boca_tug_mat').value) || 0;
-            const c_tue25_mat = parseInt(document.getElementById('elec_boca_tue25_mat').value) || 0;
-            const c_tue40_mat = parseInt(document.getElementById('elec_boca_tue40_mat').value) || 0;
-            const bocas_r_mat = parseInt(document.getElementById('elec_bocas_r_mat').value) || 0;
-            const total_bocas_mat = c_centro_mat + c_llave_mat + c_tug_mat + c_tue25_mat + c_tue40_mat + bocas_r_mat;
             const usaHierro = document.getElementById('elec_hierro').checked;
 
             let canoname = "Caño PVC Semipesado";
@@ -1294,50 +1602,6 @@
             else if (calidad === 1) { canoname = "Caño PVC Genrod"; cablename = "Cable Prysmian"; }
             else if (calidad === 0.85) { canoname = "Caño PVC Roker"; cablename = "Cable Trefilcon"; }
             else if (calidad < 0.8) { canoname = "Caño PVC Conextube"; cablename = "Cable IMSA"; }
-
-            const boxname = (usaHierro && calidad >= 0.85) ? " DE HIERRO semipesado" : "";
-
-            if (total_bocas_mat > 0) {
-                list.push(`-- MATERIAL BÁSICO DE BOCAS (SEGÚN AEA 771) --`);
-                if (c_centro_mat > 0) list.push(`${c_centro_mat}u Cajas octogonales chicas (Techo/Plafón)${boxname}`);
-                
-                const total_rect = c_llave_mat + c_tug_mat + c_tue25_mat + c_tue40_mat + bocas_r_mat;
-                if (total_rect > 0) list.push(`${total_rect}u Cajas rectangulares 10x5 (Llaves/Tomas)${boxname}`);
-
-                const mt_extra_boca_mat = parseInt(document.getElementById('elec_mt_extra_mat').value) || 0;
-                const total_metros_cano = (total_bocas_mat * 5) + mt_extra_boca_mat;
-                const cant_tiras = Math.ceil(total_metros_cano / 3);
-
-                list.push(`${total_metros_cano}m ${canoname} 20mm (Aprox. ${cant_tiras} tiras de 3m)`);
-                list.push(`${total_bocas_mat * 2}u Conectores para caño 20mm`);
-                list.push(`${total_bocas_mat}u Curvas para caño 20mm`);
-                list.push(`${cant_tiras}u Uniones para caño 20mm`);
-
-                const m_15 = c_centro_mat * 15;
-                const m_25 = (c_tug_mat + c_tue25_mat + bocas_r_mat) * 15;
-                const m_40 = c_tue40_mat * 15;
-
-                if (m_15 > 0) list.push(`${m_15}m ${cablename} 1.5mm (Repartido en colores)`);
-                if (m_25 > 0) list.push(`${m_25}m ${cablename} 2.5mm (Repartido en Fase/Neutro/Tierra)`);
-                if (m_40 > 0) list.push(`${m_40}m ${cablename} 4.0mm (Repartido en Fase/Neutro/Tierra)`);
-            }
-
-            const bt10_mat = parseInt(document.getElementById('elec_toma10_mat').value) || 0;
-            const bt20_mat = parseInt(document.getElementById('elec_toma20_mat').value) || 0;
-            const bp_mat = parseInt(document.getElementById('elec_punto_mat').value) || 0;
-            const bd_mat = parseInt(document.getElementById('elec_dimmer_mat').value) || 0;
-            const bpt_mat = parseInt(document.getElementById('elec_puntotoma_mat').value) || 0;
-            const bcomb_mat = parseInt(document.getElementById('elec_combinada_mat').value) || 0;
-
-            if (bt10_mat > 0 || bt20_mat > 0 || bp_mat > 0 || bd_mat > 0 || bpt_mat > 0 || bcomb_mat > 0) {
-                list.push(`\n-- LLAVES, TOMAS Y MÓDULOS EN BASTIDOR --`);
-                if (bt10_mat > 0) list.push(`${bt10_mat}u Tapas Bastidor armados con Toma 10A`);
-                if (bt20_mat > 0) list.push(`${bt20_mat}u Tapas Bastidor armados con Toma 20A Especial`);
-                if (bp_mat > 0) list.push(`${bp_mat}u Tapas Bastidor armados con Módulo Interruptor de Luz (Punto)`);
-                if (bd_mat > 0) list.push(`${bd_mat}u Tapas Bastidor armados con Módulo Dimmer`);
-                if (bpt_mat > 0) list.push(`${bpt_mat}u Tapas Bastidor armados mixtos con Punto y Toma`);
-                if (bcomb_mat > 0) list.push(`${bcomb_mat}u Tapas Bastidor armados con Llave Combinada (Luz 2 puntos)`);
-            }
 
             const acoMatVal = document.getElementById('elec_aco_mat').value;
             if (acoMatVal !== 'none') {
@@ -1353,24 +1617,137 @@
                 list.push(`1u Gabinete/Tablero ${tipoDesc} de ${window.lastTabSize} Módulos DIN (${tabBrand})`);
             }
 
-            const terms = parseInt(document.getElementById('elec_term_mat').value) || 0;
-            const disys = parseInt(document.getElementById('elec_disy_mat').value) || 0;
+            const det_cano19_m = parseFloat(document.getElementById('det_cano19_m').value) || 0;
+            const det_cano20_m = parseFloat(document.getElementById('det_cano20_m').value) || 0;
+            const det_cano22_m = parseFloat(document.getElementById('det_cano22_m').value) || 0;
+            const det_cano25_m = parseFloat(document.getElementById('det_cano25_m').value) || 0;
+            const det_cano19_t = Math.ceil(det_cano19_m / 3);
+            const det_cano20_t = Math.ceil(det_cano20_m / 3);
+            const det_cano22_t = Math.ceil(det_cano22_m / 3);
+            const det_cano25_t = Math.ceil(det_cano25_m / 3);
 
-            if (terms > 0) list.push(`${terms}u Térmicas Bipolares (${brandProt})`);
-            if (disys > 0) list.push(`${disys}u Disyuntores Diferenciales (${brandProt})`);
+            if (det_cano19_t > 0 || det_cano20_t > 0 || det_cano22_t > 0 || det_cano25_t > 0) {
+                list.push(`\n-- CAÑERÍAS (TIRAS DE 3M) --`);
+                if (det_cano19_t > 0) list.push(`${det_cano19_t} tiras de Caño 19mm (${canoname} - aprox. ${det_cano19_m}m)`);
+                if (det_cano20_t > 0) list.push(`${det_cano20_t} tiras de Caño 20mm (${canoname} - aprox. ${det_cano20_m}m)`);
+                if (det_cano22_t > 0) list.push(`${det_cano22_t} tiras de Caño 22mm (${canoname} - aprox. ${det_cano22_m}m)`);
+                if (det_cano25_t > 0) list.push(`${det_cano25_t} tiras de Caño 25mm (${canoname} - aprox. ${det_cano25_m}m)`);
+            }
 
-            if (parseInt(document.getElementById('elec_aplique_mat').value)) list.push(`${parseInt(document.getElementById('elec_aplique_mat').value)}u Aplique de Pared/Techo LED`);
-            if (parseInt(document.getElementById('elec_colgante_mat').value)) list.push(`${parseInt(document.getElementById('elec_colgante_mat').value)}u Lámpara Colgante`);
-            if (parseInt(document.getElementById('elec_tubo_mat').value)) list.push(`${parseInt(document.getElementById('elec_tubo_mat').value)}u Tubo LED`);
-            if (parseInt(document.getElementById('elec_emerg_mat').value)) list.push(`${parseInt(document.getElementById('elec_emerg_mat').value)}u Luz de Emergencia`);
-            if (document.getElementById('elec_jabalina_mat').checked) list.push(`1u Kit Jabalina de Cobre + Caja de inspección + Tomacable`);
+            const det_caja_rect_q = parseInt(document.getElementById('det_caja_rect_q').value) || 0;
+            const det_caja_rect_mat = document.getElementById('det_caja_rect_mat').value;
+            const det_caja_oct_q = parseInt(document.getElementById('det_caja_oct_q').value) || 0;
+            const det_caja_oct_mat = document.getElementById('det_caja_oct_mat').value;
 
-            const sm = window.snapMatInd || {};
-            if (sm.c15 || sm.c25 || sm.c40 || sm.c60) list.push(`\n-- LÍNEAS ADICIONALES --`);
-            if (sm.c15) list.push(`${sm.c15}m Cable unipolar 1.5mm extra`);
-            if (sm.c25) list.push(`${sm.c25}m Cable unipolar 2.5mm extra`);
-            if (sm.c40) list.push(`${sm.c40}m Cable unipolar 4mm extra`);
-            if (sm.c60) list.push(`${sm.c60}m Cable unipolar 6mm extra`);
+            if (det_caja_rect_q > 0 || det_caja_oct_q > 0) {
+                list.push(`\n-- CAJAS DE CONEXIÓN --`);
+                if (det_caja_rect_q > 0) list.push(`${det_caja_rect_q}u Cajas rectangulares 10x5 (${det_caja_rect_mat === 'plas' ? 'Plástico' : 'Chapa'})`);
+                if (det_caja_oct_q > 0) list.push(`${det_caja_oct_q}u Cajas octogonales (${det_caja_oct_mat === 'plas' ? 'Plástico' : 'Chapa'})`);
+            }
+
+            const det_acc_diam = document.getElementById('det_acc_diam').value;
+            const det_curva_q = parseInt(document.getElementById('det_curva_q').value) || 0;
+            const det_union_q = parseInt(document.getElementById('det_union_q').value) || 0;
+            const det_conect_q = parseInt(document.getElementById('det_conect_q').value) || 0;
+
+            if (det_curva_q > 0 || det_union_q > 0 || det_conect_q > 0) {
+                list.push(`\n-- ACCESORIOS DE CANALIZACIÓN (${det_acc_diam}mm) --`);
+                if (det_curva_q > 0) list.push(`${det_curva_q}u Curvas de ${det_acc_diam}mm`);
+                if (det_union_q > 0) list.push(`${det_union_q}u Uniones de ${det_acc_diam}mm`);
+                if (det_conect_q > 0) list.push(`${det_conect_q}u Conectores de ${det_acc_diam}mm`);
+            }
+
+            const unipolarGauges = [
+                { id: 'c15', label: '1.5mm' },
+                { id: 'c25', label: '2.5mm' },
+                { id: 'c40', label: '4.0mm' },
+                { id: 'c60', label: '6.0mm' },
+                { id: 'c100', label: '10.0mm' }
+            ];
+            const colors = ['negro', 'rojo', 'marron', 'celeste', 'va'];
+            const colorLabels = {
+                negro: 'Negro',
+                rojo: 'Rojo',
+                marron: 'Marrón',
+                celeste: 'Celeste',
+                va: 'Verde/Amarillo'
+            };
+            const unipolarMode = document.getElementById('elec_unipolar_mode').value;
+
+            let hasAnyUnipolar = false;
+            unipolarGauges.forEach(gauge => {
+                colors.forEach(col => {
+                    const qty = parseFloat(document.getElementById(`${gauge.id}_${col}`).value) || 0;
+                    if (qty > 0) hasAnyUnipolar = true;
+                });
+            });
+
+            const hasSintenax = sm.sint2x4 || sm.sint4x4 || sm.sint4x6 || sm.sint4x10;
+
+            if (hasAnyUnipolar || hasSintenax) {
+                if (unipolarMode === 'rollo') {
+                    list.push(`\n-- CABLES Y CONDUCTORES --`);
+                } else {
+                    list.push(`\n-- CABLES POR METRO --`);
+                }
+                
+                unipolarGauges.forEach(gauge => {
+                    colors.forEach(col => {
+                        const qty = parseFloat(document.getElementById(`${gauge.id}_${col}`).value) || 0;
+                        if (qty > 0) {
+                            if (unipolarMode === 'rollo') {
+                                list.push(`${qty}u Rollo de ${cablename} ${gauge.label} ${colorLabels[col]} (100m)`);
+                            } else {
+                                list.push(`${qty}m de ${cablename} ${gauge.label} ${colorLabels[col]}`);
+                            }
+                        }
+                    });
+                });
+
+                if (sm.sint2x4) list.push(`${sm.sint2x4}m Cable Sintenax 2x4mm`);
+                if (sm.sint4x4) list.push(`${sm.sint4x4}m Cable Sintenax 4x4mm`);
+                if (sm.sint4x6) list.push(`${sm.sint4x6}m Cable Sintenax 4x6mm`);
+                if (sm.sint4x10) list.push(`${sm.sint4x10}m Cable Sintenax 4x10mm`);
+            }
+
+            const det_term_bi_q = parseInt(document.getElementById('det_term_bi_q').value) || 0;
+            const det_term_tetra_q = parseInt(document.getElementById('det_term_tetra_q').value) || 0;
+            const det_disy_bi_q = parseInt(document.getElementById('det_disy_bi_q').value) || 0;
+            const det_disy_tetra_q = parseInt(document.getElementById('det_disy_tetra_q').value) || 0;
+            const det_guardamotor_q = parseInt(document.getElementById('det_guardamotor_q').value) || 0;
+            const det_contactor_q = parseInt(document.getElementById('det_contactor_q').value) || 0;
+
+            const hasProt = det_term_bi_q || det_term_tetra_q || det_disy_bi_q || det_disy_tetra_q || det_guardamotor_q || det_contactor_q;
+            if (hasProt) {
+                list.push(`\n-- PROTECCIÓN, CONTROL Y MANIOBRA --`);
+                if (det_term_bi_q > 0) list.push(`${det_term_bi_q}u Térmicas Bipolares (${brandProt})`);
+                if (det_term_tetra_q > 0) list.push(`${det_term_tetra_q}u Térmicas Tetrapolares (${brandProt})`);
+                if (det_disy_bi_q > 0) list.push(`${det_disy_bi_q}u Disyuntores Bipolares (${brandProt})`);
+                if (det_disy_tetra_q > 0) list.push(`${det_disy_tetra_q}u Disyuntores Tetrapolares (${brandProt})`);
+                if (det_guardamotor_q > 0) list.push(`${det_guardamotor_q}u Guardamotores`);
+                if (det_contactor_q > 0) list.push(`${det_contactor_q}u Contactores`);
+            }
+
+            const det_plafon_q = parseInt(document.getElementById('det_plafon_q').value) || 0;
+            const apl_mat = parseInt(document.getElementById('elec_aplique_mat').value) || 0;
+            const col_mat = parseInt(document.getElementById('elec_colgante_mat').value) || 0;
+            const tub_mat = parseInt(document.getElementById('elec_tubo_mat').value) || 0;
+            const eme_mat = parseInt(document.getElementById('elec_emerg_mat').value) || 0;
+
+            const hasLight = det_plafon_q || apl_mat || col_mat || tub_mat || eme_mat;
+            if (hasLight) {
+                list.push(`\n-- ARTEFACTOS DE ILUMINACIÓN --`);
+                if (det_plafon_q > 0) list.push(`${det_plafon_q}u Plafones LED`);
+                if (apl_mat > 0) list.push(`${apl_mat}u Apliques de iluminación`);
+                if (col_mat > 0) list.push(`${col_mat}u Colgantes de iluminación`);
+                if (tub_mat > 0) list.push(`${tub_mat}u Tubos LED de iluminación`);
+                if (eme_mat > 0) list.push(`${eme_mat}u Luces de emergencia`);
+            }
+
+            if (document.getElementById('elec_jabalina_mat').checked) {
+                list.push(`\n-- PUESTA A TIERRA --`);
+                list.push(`1u Kit Jabalina de Cobre + Caja de inspección + Tomacable`);
+            }
 
             const b_mt_prov = parseInt(document.getElementById('elec_bandeja_mt_mat').value) || 0;
             const b_tipo_prov = document.getElementById('elec_bandeja_tipo').value;
@@ -1379,12 +1756,18 @@
                 list.push(`${b_mt_prov}m Bandeja Portacables chapa galvanizada ${b_tipo_prov}mm + Accesorios (ménsulas, grapas, uniones y tornillería/bulonería completa)`);
             }
 
+            const mat_extra = parseInt(document.getElementById('mat_extra').value) || 0;
+            if (mat_extra > 0) {
+                list.push(`\n-- OTROS MATERIALES --`);
+                list.push(`Materiales y accesorios adicionales varios`);
+            }
+
             if (list.length === 0) {
                 alert("No hay materiales suficientes cargados para generar la lista.");
                 return;
             }
 
-            t += list.map(item => item.startsWith('-') ? item : ` • ${item}`).join('\n');
+            t += list.map(item => item.startsWith('\n') ? item : ` • ${item}`).join('\n');
             t += `\n\n------------------------------------\nAtte: Instalador HIGH-VOLT.`;
 
             const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(t);
@@ -1456,6 +1839,16 @@
             document.getElementById('doc_tot_mat').innerText = fmt(window.lastTotalMatFinal);
             document.getElementById('doc_tot_mo').innerText = fmt(window.lastTotalMOFinal);
             document.getElementById('doc_tot_final').innerText = fmt(window.lastTotal);
+
+            const containerMat = document.getElementById('doc_sec_materiales_container');
+            const rowTotMat = document.getElementById('doc_tr_tot_mat');
+            if (modoCalculo === 'mo') {
+                if (containerMat) containerMat.style.display = 'none';
+                if (rowTotMat) rowTotMat.style.display = 'none';
+            } else {
+                if (containerMat) containerMat.style.display = 'block';
+                if (rowTotMat) rowTotMat.style.display = 'table-row';
+            }
         }
 
         function generarPDF() {
@@ -1498,12 +1891,14 @@
             <h3 style="background: #eee; padding: 10px; margin-top: 20px;">1. Detalle de Trabajos y Mano de Obra</h3>
             <ul id="doc_trabajos" style="margin: 10px 0; padding-left: 20px;"></ul>
 
-            <h3 style="background: #eee; padding: 10px; margin-top: 20px;">2. Materiales e Insumos Considerados</h3>
-            <ul id="doc_materiales" style="margin: 10px 0; padding-left: 20px;"></ul>
+            <div id="doc_sec_materiales_container">
+                <h3 style="background: #eee; padding: 10px; margin-top: 20px;">2. Materiales e Insumos Considerados</h3>
+                <ul id="doc_materiales" style="margin: 10px 0; padding-left: 20px;"></ul>
+            </div>
 
             <h3 style="background: #eee; padding: 10px; margin-top: 20px;">3. Resumen Económico</h3>
             <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-                <tr>
+                <tr id="doc_tr_tot_mat">
                     <td style="padding: 8px; border-bottom: 1px solid #ddd;">Total Inversión en Materiales:</td>
                     <td style="padding: 8px; border-bottom: 1px solid #ddd; text-align: right; font-weight: bold;" id="doc_tot_mat"></td>
                 </tr>

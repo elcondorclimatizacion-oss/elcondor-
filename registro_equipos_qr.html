@@ -18,6 +18,52 @@
         .data-label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 1.5rem; }
         .data-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
         .btn-wpp { background: var(--whatsapp); color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 2rem; }
+
+        /* Timeline & Loading Styles */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .timeline {
+            position: relative;
+            margin-top: 1rem;
+            padding-left: 20px;
+            border-left: 2px solid var(--accent);
+            text-align: left;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -27px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--card);
+        }
+        .timeline-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        .timeline-title {
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-top: 2px;
+            color: #f8fafc;
+        }
+        .timeline-obs {
+            font-size: 0.8rem;
+            color: #fbbf24;
+            margin-top: 5px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
@@ -72,25 +118,39 @@
                 </div>
             </div>
 
-            <span class="data-label">Cliente</span>
-            <div class="data-value" id="out_cli">---</div>
+            <!-- Cargando -->
+            <div id="client_loading" style="text-align: center; padding: 2rem 0; color: #94a3b8;">
+                <div style="font-size: 2rem; animation: spin 1s infinite linear; display: inline-block;">⏳</div>
+                <p style="margin-top: 10px; font-size: 0.9rem;">Consultando historial técnico en la nube...</p>
+            </div>
 
-            <span class="data-label">Dirección</span>
-            <div class="data-value" id="out_dir">---</div>
+            <!-- Error -->
+            <div id="client_error" style="display: none; text-align: center; padding: 2rem 0; color: #f87171;">
+                <div style="font-size: 2rem;">⚠️</div>
+                <p id="error_msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
+            </div>
 
-            <span class="data-label">Equipo</span>
-            <div class="data-value" id="out_eq">---</div>
+            <!-- Contenido Principal -->
+            <div id="client_content" style="display: none;">
+                <span class="data-label">Cliente</span>
+                <div class="data-value" id="out_cli">---</div>
 
-            <span class="data-label">Trabajo Realizado</span>
-            <div id="out_dt" style="font-size: 0.9rem; margin-top: 0.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">---</div>
+                <span class="data-label">Dirección</span>
+                <div class="data-value" id="out_dir">---</div>
 
-            <span class="data-label">Observaciones</span>
-            <div id="out_obs" style="font-size: 0.9rem; margin-top: 0.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">---</div>
+                <span class="data-label">Equipo</span>
+                <div class="data-value" id="out_eq">---</div>
 
-            <span class="data-label">Próximo Mantenimiento</span>
-            <div class="data-value" id="out_nx" style="color: var(--accent); border: none;">---</div>
+                <span class="data-label" style="margin-bottom: 10px;">Historial de Visitas</span>
+                <div class="timeline" id="out_timeline">
+                    <!-- Se renderiza dinámicamente -->
+                </div>
 
-            <a href="#" id="link_wpp" class="btn btn-wpp">SOLICITAR SERVICE</a>
+                <span class="data-label">Próximo Mantenimiento Sugerido</span>
+                <div class="data-value" id="out_nx" style="color: var(--accent); border: none; margin-bottom: 1.5rem;">---</div>
+
+                <a href="#" id="link_wpp" class="btn btn-wpp">SOLICITAR SERVICE</a>
+            </div>
             
             <p style="text-align: center; font-size: 0.6rem; color: #64748b; margin-top: 2rem;">ID de Seguimiento: <span id="out_id">---</span></p>
         </div>
@@ -104,22 +164,71 @@
         window.onload = function() {
             const p = new URLSearchParams(window.location.search);
             if (p.has('id')) {
-                // MODO CLIENTE: Ocultar todo y mostrar ficha
+                const id = p.get('id');
+                // MODO CLIENTE: Ocultar todo y mostrar cargando
                 document.getElementById('view_login').style.display = 'none';
                 document.getElementById('view_admin').style.display = 'none';
                 document.getElementById('view_client').style.display = 'block';
+                document.getElementById('out_id').innerText = id;
 
-                document.getElementById('out_cli').innerText = p.get('cli') || '---';
-                document.getElementById('out_dir').innerText = p.get('dir') || '---';
-                document.getElementById('out_eq').innerText = p.get('eq') || '---';
-                document.getElementById('out_dt').innerText = p.get('dt') || '---';
-                document.getElementById('out_obs').innerText = p.get('obs') || '---';
-                document.getElementById('out_nx').innerText = p.get('nx') || '---';
-                document.getElementById('out_id').innerText = p.get('id') || '---';
+                // Consultar Google Sheets vía fetch
+                fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error("Error en la conexión con la nube.");
+                        return res.json();
+                    })
+                    .then(data => {
+                        document.getElementById('client_loading').style.display = 'none';
+                        if (!data || data.length === 0 || data.error) {
+                            showError(data.error || "No se encontró ningún historial para este ID. El técnico aún no ha cargado los datos o la planilla se está sincronizando.");
+                            return;
+                        }
+                        
+                        // Cargar datos generales del último registro
+                        const latest = data[data.length - 1];
+                        document.getElementById('out_cli').innerText = latest.cliente || '---';
+                        document.getElementById('out_dir').innerText = latest.direccion || '---';
+                        document.getElementById('out_eq').innerText = latest.equipo || '---';
+                        document.getElementById('out_nx').innerText = latest.proximo_service || '---';
 
-                const msg = `Hola El Cóndor, solicito service para ID: ${p.get('id')} (${p.get('eq')}) en la dirección ${p.get('dir') || ''}. Cliente: ${p.get('cli') || ''}.`;
-                document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
+                        // Renderizar línea de tiempo
+                        const timeline = document.getElementById('out_timeline');
+                        timeline.innerHTML = '';
+                        
+                        data.forEach(visit => {
+                            const item = document.createElement('div');
+                            item.className = 'timeline-item';
+                            
+                            let obsHtml = "";
+                            if (visit.observacion && visit.observacion.trim() !== "") {
+                                obsHtml = `<div class="timeline-obs">⚠️ Nota: ${visit.observacion}</div>`;
+                            }
+                            
+                            item.innerHTML = `
+                                <div class="timeline-date">${visit.fecha}</div>
+                                <div class="timeline-title">${visit.trabajo}</div>
+                                ${obsHtml}
+                            `;
+                            timeline.appendChild(item);
+                        });
+
+                        document.getElementById('client_content').style.display = 'block';
+
+                        // Configurar enlace de WhatsApp
+                        const msg = `Hola El Cóndor, solicito service para mi equipo ID: ${id} (${latest.equipo}) en la dirección ${latest.direccion}.`;
+                        document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
+                    })
+                    .catch(err => {
+                        document.getElementById('client_loading').style.display = 'none';
+                        showError("Error de conexión al cargar la ficha técnica. Intenta actualizar la página.");
+                        console.error(err);
+                    });
             }
+        }
+
+        function showError(msg) {
+            document.getElementById('client_error').style.display = 'block';
+            document.getElementById('error_msg').innerText = msg;
         }
 
         function validate() {
@@ -143,14 +252,15 @@
                 return;
             }
 
-            const final = `${GHP_URL}?id=${id}&cli=${encodeURIComponent(cli)}&dir=${encodeURIComponent(dir)}&eq=${encodeURIComponent(eq)}&dt=${encodeURIComponent(dt)}&obs=${encodeURIComponent(obs)}&nx=${encodeURIComponent(nx)}`;
+            // URL Limpia y corta para el QR (Solo pasa el ID)
+            const final = `${GHP_URL}?id=${id}`;
             
-            // Mostrar estado de conexión con Google Sheets
+            // Mostrar estado de carga
             const statusSheets = document.getElementById('status_sheets');
             statusSheets.innerText = "Guardando en Google Sheets...";
             statusSheets.style.color = "#d97706";
 
-            // Datos para registrar
+            // Datos para Sheets
             const datos = {
                 action: "registrar_equipo",
                 id: id,
@@ -163,7 +273,7 @@
                 fecha: new Date().toLocaleDateString()
             };
 
-            // Enviar a Google Sheets (usando no-cors para evitar bloqueos)
+            // Enviar datos vía POST al Apps Script
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 mode: 'no-cors',

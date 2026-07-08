@@ -34,16 +34,24 @@
 
         <!-- 2. ADMIN PANEL (CARGA) -->
         <div id="view_admin" class="panel">
-            <h2 style="color: var(--accent);">NUEVO SERVICE</h2>
-            <input type="text" id="in_eq" placeholder="Equipo / Modelo">
+            <h2 style="color: var(--accent);">NUEVO REGISTRO DE EQUIPO</h2>
+            
+            <input type="text" id="in_cli" placeholder="Nombre del Cliente">
+            <input type="text" id="in_dir" placeholder="Dirección del Cliente">
+            <input type="text" id="in_eq" placeholder="Equipo / Modelo (Ej: Split BGH 3000fg)">
             <textarea id="in_dt" placeholder="Detalle del trabajo realizado"></textarea>
+            <textarea id="in_obs" placeholder="Observaciones o Notas adicionales"></textarea>
+            
             <select id="in_nx">
-                <option value="6 Meses">Service en 6 meses</option>
-                <option value="1 Año">Service en 1 año</option>
+                <option value="6 Meses">Próximo Service en 6 meses</option>
+                <option value="1 Año">Próximo Service en 1 año</option>
+                <option value="Sin fecha">Sin fecha programada</option>
             </select>
+            
             <button class="btn" style="background: var(--accent); color: #000; margin-top: 2rem;" onclick="generate()">GENERAR QR INTERACTIVO</button>
             
             <div id="qr_result" style="display: none; text-align: center; margin-top: 2rem; background: white; padding: 1rem; border-radius: 15px;">
+                <div id="status_sheets" style="color: #65a30d; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px;"></div>
                 <img id="qr_img" src="">
                 <p id="qr_url_txt" style="color: #000; font-size: 10px; word-break: break-all; margin-top: 10px;"></p>
                 <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 15px;">
@@ -64,11 +72,20 @@
                 </div>
             </div>
 
+            <span class="data-label">Cliente</span>
+            <div class="data-value" id="out_cli">---</div>
+
+            <span class="data-label">Dirección</span>
+            <div class="data-value" id="out_dir">---</div>
+
             <span class="data-label">Equipo</span>
             <div class="data-value" id="out_eq">---</div>
 
-            <span class="data-label">Historial de Trabajo</span>
+            <span class="data-label">Trabajo Realizado</span>
             <div id="out_dt" style="font-size: 0.9rem; margin-top: 0.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">---</div>
+
+            <span class="data-label">Observaciones</span>
+            <div id="out_obs" style="font-size: 0.9rem; margin-top: 0.5rem; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">---</div>
 
             <span class="data-label">Próximo Mantenimiento</span>
             <div class="data-value" id="out_nx" style="color: var(--accent); border: none;">---</div>
@@ -82,6 +99,7 @@
     <script>
         const PIN = "1234";
         const GHP_URL = "https://elcondorclimatizacion-oss.github.io/elcondor-/registro_equipos_qr.html";
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxxwocEZ4NzwyAAvnCutx1P_8J0LMh2AfV2ChOXjLUJVyfp0hOr1-DhhjGVg2g1TvOrg/exec";
 
         window.onload = function() {
             const p = new URLSearchParams(window.location.search);
@@ -91,12 +109,15 @@
                 document.getElementById('view_admin').style.display = 'none';
                 document.getElementById('view_client').style.display = 'block';
 
-                document.getElementById('out_eq').innerText = p.get('eq');
-                document.getElementById('out_dt').innerText = p.get('dt');
-                document.getElementById('out_nx').innerText = p.get('nx');
-                document.getElementById('out_id').innerText = p.get('id');
+                document.getElementById('out_cli').innerText = p.get('cli') || '---';
+                document.getElementById('out_dir').innerText = p.get('dir') || '---';
+                document.getElementById('out_eq').innerText = p.get('eq') || '---';
+                document.getElementById('out_dt').innerText = p.get('dt') || '---';
+                document.getElementById('out_obs').innerText = p.get('obs') || '---';
+                document.getElementById('out_nx').innerText = p.get('nx') || '---';
+                document.getElementById('out_id').innerText = p.get('id') || '---';
 
-                const msg = `Hola El Cóndor, solicito service para ID: ${p.get('id')} (${p.get('eq')})`;
+                const msg = `Hola El Cóndor, solicito service para ID: ${p.get('id')} (${p.get('eq')}) en la dirección ${p.get('dir') || ''}. Cliente: ${p.get('cli') || ''}.`;
                 document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
             }
         }
@@ -110,12 +131,51 @@
 
         function generate() {
             const id = "EC-" + Math.floor(Math.random()*9000 + 1000);
-            const eq = document.getElementById('in_eq').value;
-            const dt = document.getElementById('in_dt').value;
+            const cli = document.getElementById('in_cli').value.trim();
+            const dir = document.getElementById('in_dir').value.trim();
+            const eq = document.getElementById('in_eq').value.trim();
+            const dt = document.getElementById('in_dt').value.trim();
+            const obs = document.getElementById('in_obs').value.trim();
             const nx = document.getElementById('in_nx').value;
 
-            const final = `${GHP_URL}?id=${id}&eq=${encodeURIComponent(eq)}&dt=${encodeURIComponent(dt)}&nx=${encodeURIComponent(nx)}`;
+            if (!eq || !dt) {
+                alert("Por favor ingresa al menos el Equipo/Modelo y el Detalle del Trabajo.");
+                return;
+            }
+
+            const final = `${GHP_URL}?id=${id}&cli=${encodeURIComponent(cli)}&dir=${encodeURIComponent(dir)}&eq=${encodeURIComponent(eq)}&dt=${encodeURIComponent(dt)}&obs=${encodeURIComponent(obs)}&nx=${encodeURIComponent(nx)}`;
             
+            // Mostrar estado de conexión con Google Sheets
+            const statusSheets = document.getElementById('status_sheets');
+            statusSheets.innerText = "Guardando en Google Sheets...";
+            statusSheets.style.color = "#d97706";
+
+            // Datos para registrar
+            const datos = {
+                action: "registrar_equipo",
+                id: id,
+                cliente: cli,
+                direccion: dir,
+                equipo: eq,
+                trabajo: dt,
+                observacion: obs,
+                proximo_service: nx,
+                fecha: new Date().toLocaleDateString()
+            };
+
+            // Enviar a Google Sheets (usando no-cors para evitar bloqueos)
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                body: JSON.stringify(datos)
+            }).then(() => {
+                statusSheets.innerText = "✅ Guardado en Google Sheets!";
+                statusSheets.style.color = "#65a30d";
+            }).catch(err => {
+                statusSheets.innerText = "⚠️ Error al guardar en Sheets. El QR fue generado igual.";
+                statusSheets.style.color = "#dc2626";
+            });
+
             document.getElementById('qr_result').style.display = 'block';
             document.getElementById('qr_img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(final)}`;
             document.getElementById('qr_url_txt').innerText = final;
@@ -134,7 +194,6 @@
             const img = document.getElementById('qr_img');
             const eqName = document.getElementById('in_eq').value || 'Equipo';
             
-            // Usamos un Canvas temporal para convertir la imagen del QR de la API a un archivo descargable
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
             const tempImg = new Image();

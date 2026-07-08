@@ -46,6 +46,10 @@
             <div id="qr_result" style="display: none; text-align: center; margin-top: 2rem; background: white; padding: 1rem; border-radius: 15px;">
                 <img id="qr_img" src="">
                 <p id="qr_url_txt" style="color: #000; font-size: 10px; word-break: break-all; margin-top: 10px;"></p>
+                <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 15px;">
+                    <button class="btn" style="background: #0284c7; color: #fff; padding: 0.6rem; font-size: 0.8rem;" onclick="copyLink()">COPIAR ENLACE</button>
+                    <button class="btn" style="background: #0f766e; color: #fff; padding: 0.6rem; font-size: 0.8rem;" onclick="downloadQR()">DESCARGAR QR</button>
+                </div>
                 <button class="btn" style="background: #000; color: #fff; margin-top: 1rem;" onclick="location.reload()">NUEVA CARGA</button>
             </div>
         </div>
@@ -115,6 +119,46 @@
             document.getElementById('qr_result').style.display = 'block';
             document.getElementById('qr_img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(final)}`;
             document.getElementById('qr_url_txt').innerText = final;
+        }
+
+        function copyLink() {
+            const url = document.getElementById('qr_url_txt').innerText;
+            navigator.clipboard.writeText(url).then(() => {
+                alert("¡Enlace copiado al portapapeles!");
+            }).catch(err => {
+                alert("Error al copiar enlace: " + err);
+            });
+        }
+
+        function downloadQR() {
+            const img = document.getElementById('qr_img');
+            const eqName = document.getElementById('in_eq').value || 'Equipo';
+            
+            // Usamos un Canvas temporal para convertir la imagen del QR de la API a un archivo descargable
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const tempImg = new Image();
+            tempImg.crossOrigin = "anonymous";
+            tempImg.src = img.src;
+            tempImg.onload = function() {
+                canvas.width = tempImg.width;
+                canvas.height = tempImg.height;
+                ctx.drawImage(tempImg, 0, 0);
+                
+                canvas.toBlob(function(blob) {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `QR_${eqName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+                }, 'image/png');
+            };
+            tempImg.onerror = function() {
+                alert("No se pudo descargar automáticamente. Mantén presionada la imagen del QR para guardarla en tu galería.");
+            };
         }
     </script>
 </body>

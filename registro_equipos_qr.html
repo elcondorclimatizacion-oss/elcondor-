@@ -82,11 +82,12 @@
         <div id="view_admin" class="panel">
             <h2 style="color: var(--accent);">NUEVO REGISTRO DE EQUIPO</h2>
             
+            <input type="text" id="in_id" placeholder="ID del Equipo (Vacío para generar nuevo)">
             <input type="text" id="in_cli" placeholder="Nombre del Cliente">
             <input type="text" id="in_dir" placeholder="Dirección del Cliente">
             <input type="text" id="in_eq" placeholder="Equipo / Modelo (Ej: Split BGH 3000fg)">
             <textarea id="in_dt" placeholder="Detalle del trabajo realizado"></textarea>
-            <textarea id="in_obs" placeholder="Observaciones o Notas adicionales"></textarea>
+            <textarea id="in_obs" placeholder="Observaciones o Notas adicionales (Nota Interna)"></textarea>
             
             <select id="in_nx">
                 <option value="6 Meses">Próximo Service en 6 meses</option>
@@ -105,6 +106,19 @@
                     <button class="btn" style="background: #0f766e; color: #fff; padding: 0.6rem; font-size: 0.8rem;" onclick="downloadQR()">DESCARGAR QR</button>
                 </div>
                 <button class="btn" style="background: #000; color: #fff; margin-top: 1rem;" onclick="location.reload()">NUEVA CARGA</button>
+            </div>
+
+            <!-- BUSCADOR INTERNO PARA EL TÉCNICO -->
+            <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0;">
+            <h3 style="color: var(--accent); font-size: 1rem; margin-bottom: 0.5rem;">CONSULTAR HISTORIAL TÉCNICO (INTERNO)</h3>
+            <div style="display: flex; gap: 8px;">
+                <input type="text" id="search_id" placeholder="Ej: EC-8888" style="margin-top: 0; flex: 1;">
+                <button class="btn" style="background: var(--accent); color: #000; width: auto; padding: 0.5rem 1rem;" onclick="searchTechnicalHistory()">BUSCAR</button>
+            </div>
+            
+            <div id="search_result" style="display: none; margin-top: 1.5rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 12px; border: 1px solid #333; text-align: left;">
+                <h4 style="margin: 0 0 10px 0; font-size: 0.95rem; color: var(--accent);">Resultados para <span id="search_title_id"></span>:</h4>
+                <div id="search_details" style="font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; line-height: 1.6;"></div>
             </div>
         </div>
 
@@ -152,7 +166,11 @@
                 <a href="#" id="link_wpp" class="btn btn-wpp">SOLICITAR SERVICE</a>
             </div>
             
-            <p style="text-align: center; font-size: 0.6rem; color: #64748b; margin-top: 2rem;">ID de Seguimiento: <span id="out_id">---</span></p>
+            <p style="text-align: center; font-size: 0.65rem; color: #64748b; margin-top: 2rem;">
+                ID de Seguimiento: <span id="out_id">---</span>
+                <span style="margin: 0 8px; color: #334155;">|</span>
+                <a href="#" onclick="showLoginFromClient()" style="color: var(--accent); text-decoration: none; font-weight: bold;">🔑 ACCESO TÉCNICO</a>
+            </p>
         </div>
     </div>
 
@@ -191,7 +209,7 @@
                         document.getElementById('out_eq').innerText = latest.equipo || '---';
                         document.getElementById('out_nx').innerText = latest.proximo_service || '---';
 
-                        // Renderizar línea de tiempo
+                        // Renderizar línea de tiempo (sin notas internas para el cliente)
                         const timeline = document.getElementById('out_timeline');
                         timeline.innerHTML = '';
                         
@@ -199,15 +217,9 @@
                             const item = document.createElement('div');
                             item.className = 'timeline-item';
                             
-                            let obsHtml = "";
-                            if (visit.observacion && visit.observacion.trim() !== "") {
-                                obsHtml = `<div class="timeline-obs">⚠️ Nota: ${visit.observacion}</div>`;
-                            }
-                            
                             item.innerHTML = `
                                 <div class="timeline-date">${visit.fecha}</div>
                                 <div class="timeline-title">${visit.trabajo}</div>
-                                ${obsHtml}
                             `;
                             timeline.appendChild(item);
                         });
@@ -235,11 +247,24 @@
             if (document.getElementById('pin_input').value === PIN) {
                 document.getElementById('view_login').style.display = 'none';
                 document.getElementById('view_admin').style.display = 'block';
+                
+                // Si veníamos de la vista de un cliente, pre-completar los datos
+                const p = new URLSearchParams(window.location.search);
+                if (p.has('id')) {
+                    document.getElementById('in_id').value = p.get('id');
+                    document.getElementById('in_cli').value = document.getElementById('out_cli').innerText;
+                    document.getElementById('in_dir').value = document.getElementById('out_dir').innerText;
+                    document.getElementById('in_eq').value = document.getElementById('out_eq').innerText;
+                }
             } else { alert("PIN Incorrecto"); }
         }
 
         function generate() {
-            const id = "EC-" + Math.floor(Math.random()*9000 + 1000);
+            let id = document.getElementById('in_id').value.trim().toUpperCase();
+            if (!id) {
+                id = "EC-" + Math.floor(Math.random()*9000 + 1000);
+            }
+            
             const cli = document.getElementById('in_cli').value.trim();
             const dir = document.getElementById('in_dir').value.trim();
             const eq = document.getElementById('in_eq').value.trim();
@@ -328,6 +353,56 @@
             tempImg.onerror = function() {
                 alert("No se pudo descargar automáticamente. Mantén presionada la imagen del QR para guardarla en tu galería.");
             };
+        }
+
+        function searchTechnicalHistory() {
+            const id = document.getElementById('search_id').value.trim().toUpperCase();
+            if (!id) return alert("Por favor ingresa un ID.");
+            
+            const detailsDiv = document.getElementById('search_details');
+            detailsDiv.innerHTML = "Buscando en la nube...";
+            document.getElementById('search_result').style.display = 'block';
+            document.getElementById('search_title_id').innerText = id;
+            
+            fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (!data || data.length === 0 || data.error) {
+                        detailsDiv.innerHTML = "<span style='color: #f87171;'>No se encontró historial para este ID.</span>";
+                        return;
+                    }
+                    
+                    let html = "";
+                    const latest = data[data.length - 1];
+                    html += `<strong>Cliente:</strong> ${latest.cliente || '---'}<br>`;
+                    html += `<strong>Dirección:</strong> ${latest.direccion || '---'}<br>`;
+                    html += `<strong>Equipo:</strong> ${latest.equipo || '---'}<br>`;
+                    html += `<strong>Próximo Mantenimiento:</strong> ${latest.proximo_service || '---'}<br>`;
+                    html += `<hr style='border-color:#444; margin:10px 0;'>`;
+                    html += `<strong>Historial de Visitas (Interno - Incluye Notas):</strong><br><br>`;
+                    
+                    data.forEach(v => {
+                        html += `<div style='margin-bottom: 12px; padding-left: 8px; border-left: 2px solid var(--accent);'>`;
+                        html += `<span style='color: var(--accent); font-weight:bold;'>[${v.fecha}]</span> <strong>${v.trabajo}</strong><br>`;
+                        if (v.observacion && v.observacion.trim() !== "") {
+                            html += `<span style='color: #fbbf24; font-style:italic;'>Nota interna: ${v.observacion}</span><br>`;
+                        }
+                        html += `</div>`;
+                    });
+                    
+                    detailsDiv.innerHTML = html;
+                })
+                .catch(err => {
+                    detailsDiv.innerHTML = "<span style='color: #f87171;'>Error de conexión.</span>";
+                    console.error(err);
+                });
+        }
+
+        function showLoginFromClient() {
+            document.getElementById('view_client').style.display = 'none';
+            document.getElementById('view_login').style.display = 'block';
+            document.getElementById('pin_input').value = '';
+            document.getElementById('pin_input').focus();
         }
     </script>
 </body>

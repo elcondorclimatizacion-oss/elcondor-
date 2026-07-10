@@ -774,16 +774,12 @@
             <strong>Detalle:</strong> Presupuesto formal de servicios técnicos y mano de obra especializada.
         </div>
 
-        <table class="print-table">
-            <thead>
-                <tr>
-                    <th style="text-align: left; padding: 12px; font-size: 13px; background-color: #f2f2f2; border: 1px solid #ddd;">Descripción Detallada del Servicio Técnico (Mano de Obra)</th>
-                </tr>
-            </thead>
-            <tbody id="pdf_items_body">
+        <div style="margin-top: 15px; margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
+            <h4 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; color: #ff8800; border-bottom: 1px solid #ff8800; padding-bottom: 4px; font-family: Arial, sans-serif;">Detalle Técnico de los Trabajos (Mano de Obra)</h4>
+            <div id="pdf_items_body" style="font-size: 12px; line-height: 1.6; color: #222; font-family: Arial, sans-serif;">
                 <!-- Se inyecta dinámicamente -->
-            </tbody>
-        </table>
+            </div>
+        </div>
 
         <div style="margin-top: 30px; text-align: right; border-top: 2px solid #000; padding-top: 15px;">
             <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
@@ -954,16 +950,15 @@
             const descripcionesTecnicas = generarDescripcionTecnica();
             
             if (descripcionesTecnicas.length === 0) {
-                pdfBody.innerHTML = `<tr><td style="text-align: center; color: #666; padding: 15px;">No se seleccionaron tareas aún.</td></tr>`;
+                pdfBody.innerHTML = `<p style="text-align: center; color: #666; padding: 15px; font-style: italic;">No se seleccionaron tareas aún.</p>`;
             } else {
                 descripcionesTecnicas.forEach(desc => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td style="padding: 10px; border: 1px solid #ddd; font-size: 11px; line-height: 1.5; text-align: left;">
-                            ${desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
-                        </td>
-                    `;
-                    pdfBody.appendChild(tr);
+                    const p = document.createElement('p');
+                    p.style.marginBottom = "12px";
+                    p.style.paddingLeft = "10px";
+                    p.style.borderLeft = "2px solid #ff8800";
+                    p.innerHTML = desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    pdfBody.appendChild(p);
                 });
             }
 

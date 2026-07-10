@@ -488,14 +488,24 @@
                                     <td><input type="number" id="el_aco_tri_max_prc" class="cell-input-price" value="622000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Fijación Gabinete de Tablero (Superficie)</td>
-                                    <td><input type="number" id="el_tab_sup_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="el_tab_sup_prc" class="cell-input-price" value="50200" oninput="calc()"></td>
+                                    <td>Fijación Gabinete Tablero Principal (Pilar - Superficie)</td>
+                                    <td><input type="number" id="el_tab_pri_sup_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_tab_pri_sup_prc" class="cell-input-price" value="50200" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Empotrado Gabinete Tablero (Mampostería)</td>
-                                    <td><input type="number" id="el_tab_emp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="el_tab_emp_prc" class="cell-input-price" value="211400" oninput="calc()"></td>
+                                    <td>Empotrado Gabinete Tablero Principal (Pilar - Mampostería)</td>
+                                    <td><input type="number" id="el_tab_pri_emp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_tab_pri_emp_prc" class="cell-input-price" value="211400" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Fijación Gabinete Tablero Seccional (Interior - Superficie)</td>
+                                    <td><input type="number" id="el_tab_sec_sup_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_tab_sec_sup_prc" class="cell-input-price" value="50200" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Empotrado Gabinete Tablero Seccional (Interior - Mampostería)</td>
+                                    <td><input type="number" id="el_tab_sec_emp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_tab_sec_emp_prc" class="cell-input-price" value="211400" oninput="calc()"></td>
                                 </tr>
                                 <tr>
                                     <td>Colocación Térmica / Disyuntor Monofásico</td>
@@ -794,8 +804,10 @@
             el_aco_tri_low: 328300,
             el_aco_tri_high: 426000,
             el_aco_tri_max: 622000,
-            el_tab_sup: 50200,
-            el_tab_emp: 211400,
+            el_tab_pri_sup: 50200,
+            el_tab_pri_emp: 211400,
+            el_tab_sec_sup: 50200,
+            el_tab_sec_emp: 211400,
             el_prot_mono: 93400,
             el_prot_tri: 123100,
             el_boca_nueva: 92100,
@@ -974,19 +986,27 @@
                 descriptions.push(`**Montaje, canalización y conexión de Acometida Eléctrica ${acoType} general**, realizando el cableado de alimentación principal desde la red pública al pilar de medición bajo normativas de la distribuidora de energía.`);
             }
 
-            const tab_sup = parseInt(document.getElementById('el_tab_sup_qty').value) || 0;
-            const tab_emp = parseInt(document.getElementById('el_tab_emp_qty').value) || 0;
+            const tab_pri_sup = parseInt(document.getElementById('el_tab_pri_sup_qty').value) || 0;
+            const tab_pri_emp = parseInt(document.getElementById('el_tab_pri_emp_qty').value) || 0;
+            const tab_sec_sup = parseInt(document.getElementById('el_tab_sec_sup_qty').value) || 0;
+            const tab_sec_emp = parseInt(document.getElementById('el_tab_sec_emp_qty').value) || 0;
             const prot_mono = parseInt(document.getElementById('el_prot_mono_qty').value) || 0;
             const prot_tri = parseInt(document.getElementById('el_prot_tri_qty').value) || 0;
 
-            const total_tabs = tab_sup + tab_emp;
-            if (total_tabs > 0 || prot_mono > 0 || prot_tri > 0) {
-                let installType = tab_sup > 0 ? "de superficie" : "empotrado en mampostería";
+            const total_pri = tab_pri_sup + tab_pri_emp;
+            if (total_pri > 0) {
+                let installType = tab_pri_sup > 0 ? "de superficie" : "empotrado en mampostería";
+                descriptions.push(`**Montaje de Tablero Principal (Pilar)**: Fijación y armado de gabinete de tablero principal ${installType} en pilar, conexionado de llave térmica general y vinculación a la puesta a tierra (PAT) al pie del pilar.`);
+            }
+
+            const total_sec = tab_sec_sup + tab_sec_emp;
+            if (total_sec > 0 || prot_mono > 0 || prot_tri > 0) {
+                let installType = tab_sec_sup > 0 ? "de superficie" : "empotrado en mampostería";
                 let protDetails = [];
                 if (prot_mono > 0) protDetails.push(`${prot_mono} llaves monofásicas (Térmica/Disyuntor)`);
                 if (prot_tri > 0) protDetails.push(`${prot_tri} llaves trifásicas`);
 
-                descriptions.push(`**Montaje y fijación de Gabinete de Tablero Eléctrico ${installType}**, incluyendo el armado interno, peinado técnico de conductores, rotulado e instalación de protecciones eléctricas bipolares/tetrapolares: ${protDetails.join(', ')}.`);
+                descriptions.push(`**Montaje de Tablero Seccional (Interior)**: Instalación de gabinete de tablero seccional ${installType} en interior de la propiedad, ordenamiento de conductores y conexionado de protecciones diferenciales (disyuntores) y térmicas de circuitos: ${protDetails.join(', ')}.`);
             }
 
             // 2. Bocas y Llaves

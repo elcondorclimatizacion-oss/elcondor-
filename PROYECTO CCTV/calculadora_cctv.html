@@ -777,9 +777,7 @@
         <table class="print-table">
             <thead>
                 <tr>
-                    <th>Detalle de Trabajos y Tareas de Mano de Obra</th>
-                    <th style="width: 15%; text-align: center;">Cantidad</th>
-                    <th style="width: 20%; text-align: right;">Total Tarea ($)</th>
+                    <th style="text-align: left; padding: 12px; font-size: 13px; background-color: #f2f2f2; border: 1px solid #ddd;">Descripción Detallada del Servicio Técnico (Mano de Obra)</th>
                 </tr>
             </thead>
             <tbody id="pdf_items_body">
@@ -953,15 +951,17 @@
             const pdfBody = document.getElementById('pdf_items_body');
             pdfBody.innerHTML = "";
             
-            if (selectedTasks.length === 0) {
-                pdfBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #666;">No se seleccionaron tareas aún.</td></tr>`;
+            const descripcionesTecnicas = generarDescripcionTecnica();
+            
+            if (descripcionesTecnicas.length === 0) {
+                pdfBody.innerHTML = `<tr><td style="text-align: center; color: #666; padding: 15px;">No se seleccionaron tareas aún.</td></tr>`;
             } else {
-                selectedTasks.forEach(task => {
+                descripcionesTecnicas.forEach(desc => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${task.label}</td>
-                        <td style="text-align: center;">${task.qty}</td>
-                        <td style="text-align: right;">${fmt(task.total)}</td>
+                        <td style="padding: 10px; border: 1px solid #ddd; font-size: 11px; line-height: 1.5; text-align: left;">
+                            ${desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}
+                        </td>
                     `;
                     pdfBody.appendChild(tr);
                 });
@@ -970,12 +970,155 @@
             document.getElementById('pdf_total').innerText = fmt(total);
         }
 
+        function generarDescripcionTecnica() {
+            let descriptions = [];
+
+            // 1. CCTV
+            const n_analog_sup = parseInt(document.getElementById('cctv_cam_analog_sup_qty').value) || 0;
+            const n_analog_can = parseInt(document.getElementById('cctv_cam_analog_can_qty').value) || 0;
+            const n_ip_sup = parseInt(document.getElementById('cctv_cam_ip_sup_qty').value) || 0;
+            const n_ip_can = parseInt(document.getElementById('cctv_cam_ip_can_qty').value) || 0;
+            
+            const total_analog = n_analog_sup + n_analog_can;
+            const total_ip = n_ip_sup + n_ip_can;
+            const total_cams = total_analog + total_ip;
+
+            if (total_cams > 0) {
+                let camTypeStr = [];
+                if (total_analog > 0) camTypeStr.push(`${total_analog} cámaras analógicas (Domo/Bullet FullColor)`);
+                if (total_ip > 0) camTypeStr.push(`${total_ip} cámaras IP (Red/PoE de alta resolución)`);
+
+                let canalizStr = "";
+                if (n_analog_can > 0 || n_ip_can > 0) {
+                    canalizStr = " realizando el tendido de cañerías de PVC rígido o cablecanal de alta resistencia";
+                } else {
+                    canalizStr = " utilizando cañerías preexistentes o fijación en superficie (grampeado)";
+                }
+
+                descriptions.push(`**Colocación, conexionado y calibración de ${camTypeStr.join(' y ')}${canalizStr}**, incluyendo la provisión e instalación de cajas estancas para la protección hermética y estanqueidad de las borneras, baluns de video y conectores eléctricos de alimentación contra la intemperie.`);
+            }
+
+            const r4 = parseInt(document.getElementById('cctv_rack_4_qty').value) || 0;
+            const r8 = parseInt(document.getElementById('cctv_rack_8_qty').value) || 0;
+            const r16 = parseInt(document.getElementById('cctv_rack_16_qty').value) || 0;
+            const r32 = parseInt(document.getElementById('cctv_rack_32_qty').value) || 0;
+            const total_racks = r4 + r8 + r16 + r32;
+
+            if (total_racks > 0) {
+                let channels = 4;
+                if (r8 > 0) channels = 8;
+                if (r16 > 0) channels = 16;
+                if (r32 > 0) channels = 32;
+
+                descriptions.push(`**Montaje, armado e instalación de Rack central / Gabinete técnico con grabador (DVR/NVR) de ${channels} canales**, incluyendo la instalación física del disco rígido de almacenamiento, ordenamiento y peinado de cables, y conexión a la fuente de alimentación pulpo centralizada.`);
+                descriptions.push(`**Configuración de red, direccionamiento IP y enlace remoto**, configurando los usuarios de seguridad y habilitando el acceso en vivo y grabaciones en teléfonos celulares (aplicaciones DMSS, gDMSS o Uniarch).`);
+            }
+
+            // 2. Red Vecinal
+            const vec_cams = parseInt(document.getElementById('vec_cam_poste_qty').value) || 0;
+            const vec_tendido = parseInt(document.getElementById('vec_tendido_m_qty').value) || 0;
+            const vec_users = parseInt(document.getElementById('vec_usuario_qty').value) || 0;
+
+            if (vec_cams > 0) {
+                descriptions.push(`**Montaje y sujeción en altura de ${vec_cams} cámaras IP perimetrales sobre postes / columnas de servicios público**, utilizando arnés de seguridad de cuerpo completo con cola de amarre, fijación con soportes metálicos y cajas estancas en altura.`);
+            }
+            if (vec_tendido > 0) {
+                descriptions.push(`**Tendido aéreo de ${vec_tendido} metros de cableado estructurado UTP exterior con tensor de acero (catenaria)**, tensado y fijado firmemente mediante soportes preformados de retención.`);
+            }
+            if (vec_users > 0) {
+                descriptions.push(`**Configuración multipunto, alta y capacitación para ${vec_users} vecinos**, instalando la aplicación en sus respectivos celulares y configurando los accesos y permisos individuales.`);
+            }
+
+            // 3. Cerco Eléctrico
+            const cer_cent = parseInt(document.getElementById('cer_central_qty').value) || 0;
+            const cer_tend = parseInt(document.getElementById('cer_tendido_m_qty').value) || 0;
+
+            if (cer_cent > 0) {
+                descriptions.push(`**Instalación y puesta en marcha de Central Energizadora perimetral (Boyero de alta tensión homologado)**, configurando la batería de respaldo de 12V autorecargable contra cortes de luz, sirena de pánico exterior y sistema de descarga a tierra (PAT) de seguridad mediante jabalina de cobre de 1.5 metros con caja de inspección.`);
+            }
+            if (cer_tend > 0) {
+                descriptions.push(`**Montaje y tendido de cerco perimetral conductor de ${cer_tend} metros lineales (4/6 hilos)**, fijando postes tensores y alternadores de hierro con aisladores de alto impacto, resortes de tensión constante autorregulables y cable de acero galvanizado.`);
+            }
+
+            // 4. Alarmas
+            const al_cent = parseInt(document.getElementById('al_central_qty').value) || 0;
+            const al_pir_cab = parseInt(document.getElementById('al_pir_cab_qty').value) || 0;
+            const al_pir_inal = parseInt(document.getElementById('al_pir_inal_qty').value) || 0;
+            const al_mag_cab = parseInt(document.getElementById('al_mag_cab_qty').value) || 0;
+            const al_mag_inal = parseInt(document.getElementById('al_mag_inal_qty').value) || 0;
+            const al_barr = parseInt(document.getElementById('al_barreras_qty').value) || 0;
+
+            if (al_cent > 0) {
+                descriptions.push(`**Instalación y programación general de Central de Alarma híbrida (Intelbras)**, incluyendo teclado de comando LCD en acceso principal, batería de respaldo y sirenas acústicas de interior y exterior.`);
+            }
+            
+            const total_pir = al_pir_cab + al_pir_inal;
+            const total_mag = al_mag_cab + al_mag_inal;
+            
+            if (total_pir > 0 || total_mag > 0) {
+                let sensorDetails = [];
+                if (al_pir_cab > 0) sensorDetails.push(`${al_pir_cab} PIR cableados`);
+                if (al_pir_inal > 0) sensorDetails.push(`${al_pir_inal} PIR inalámbricos`);
+                if (al_mag_cab > 0) sensorDetails.push(`${al_mag_cab} magnéticos de puerta/ventana cableados`);
+                if (al_mag_inal > 0) sensorDetails.push(`${al_mag_inal} magnéticos inalámbricos`);
+
+                descriptions.push(`**Montaje, configuración y direccionamiento de dispositivos de detección: ${sensorDetails.join(', ')}**, con calibración de sensibilidad de zonas.`);
+            }
+
+            if (al_barr > 0) {
+                descriptions.push(`**Montaje, cableado y alineación de precisión de ${al_barr} pares de barreras infrarrojas exteriores**, para la detección temprana perimetral en patios y accesos descubiertos.`);
+            }
+
+            // 5. Service
+            const srv_diag = parseInt(document.getElementById('srv_diagnos_qty').value) || 0;
+            const srv_prev = parseInt(document.getElementById('srv_prevent_qty').value) || 0;
+            const srv_repl = parseInt(document.getElementById('srv_replace_qty').value) || 0;
+            const srv_est = parseInt(document.getElementById('srv_estanca_qty').value) || 0;
+            const srv_fic = parseInt(document.getElementById('srv_fichas_qty').value) || 0;
+            const srv_f_ind = parseInt(document.getElementById('srv_fuente_ind_qty').value) || 0;
+            const srv_f_cnt = parseInt(document.getElementById('srv_fuente_cnt_qty').value) || 0;
+            const srv_ord = parseInt(document.getElementById('srv_orden_qty').value) || 0;
+            const srv_cab_m = parseInt(document.getElementById('srv_cable_m_qty').value) || 0;
+
+            if (srv_diag > 0) {
+                descriptions.push(`**Visita de diagnóstico técnico especializado** para detectar fallas generales e interferencias.`);
+            }
+            if (srv_prev > 0) {
+                descriptions.push(`**Mantenimiento correctivo y preventivo de ${srv_prev} cámaras**, incluyendo limpieza óptica fina de lentes, re-enfoque de domos y ajuste de soportes.`);
+            }
+            if (srv_repl > 0) {
+                descriptions.push(`**Mano de obra para el reemplazo y re-orientación de ${srv_repl} cámaras** defectuosas por unidades nuevas.`);
+            }
+            if (srv_est > 0) {
+                descriptions.push(`**Reemplazo de ${srv_est} cajas estancas** de conexiones para garantizar estanqueidad.`);
+            }
+            if (srv_fic > 0) {
+                descriptions.push(`**Cambio y re-conexionado de ${srv_fic} fichas de conexión** (baluns de video, borneras de alimentación DC o RJ45 de red).`);
+            }
+            if (srv_f_ind > 0 || srv_f_cnt > 0) {
+                let fuenteStr = [];
+                if (srv_f_ind > 0) fuenteStr.push(`${srv_f_ind} fuentes individuales`);
+                if (srv_f_cnt > 0) fuenteStr.push(`${srv_f_cnt} fuente de alimentación centralizada`);
+                descriptions.push(`**Reemplazo y conexionado de fuentes de energía quemadas: ${fuenteStr.join(' y ')}**.`);
+            }
+            if (srv_ord > 0) {
+                descriptions.push(`**Reordenamiento y peinado de cables** con precintos plásticos, acomodando borneras y rotulando el tablero/rack principal.`);
+            }
+            if (srv_cab_m > 0) {
+                descriptions.push(`**Re-cableado de ${srv_cab_m} metros de cableado** defectuoso (UTP/Coaxial) pasándolo a través de las canalizaciones preexistentes.`);
+            }
+
+            return descriptions;
+        }
+
         function copyWhatsApp() {
             const cliente = document.getElementById('presp_cliente').value || "Cliente";
             const ubicacion = document.getElementById('presp_ubicacion').value || "";
             const fecha = document.getElementById('presp_fecha').value;
 
-            if (selectedTasks.length === 0) {
+            const descripciones = generarDescripcionTecnica();
+
+            if (descripciones.length === 0) {
                 alert("Por favor cargue al menos una tarea para generar el presupuesto.");
                 return;
             }
@@ -987,10 +1130,10 @@
             text += `*Fecha:* ${fecha}\n\n`;
             
             text += `*Detalle de Trabajos (Mano de obra especializada):*\n`;
-            selectedTasks.forEach(task => {
-                text += ` • ${task.label} x ${task.qty}\n`;
+            descripciones.forEach(desc => {
+                // Quitar los asteriscos de negrita del inicio para WhatsApp o dejarlos
+                text += ` • ${desc}\n\n`;
             });
-            text += `\n`;
             
             text += `*TOTAL MANO DE OBRA (CERRADO):* ${fmt(lastTotal)}\n`;
             text += `------------------------------------------------\n`;

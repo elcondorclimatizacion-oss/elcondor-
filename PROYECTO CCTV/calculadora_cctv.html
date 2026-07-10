@@ -1,15 +1,1028 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Calculadora CCTV - El Cóndor</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Calculadora de Seguridad v1.0 - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background: #050505; color: #fff; font-family: sans-serif; text-align: center; padding-top: 50px; }
-        h1 { color: #00ffcc; }
+        :root {
+            --bg-color: #050505;
+            --panel-bg: #121212;
+            --border-color: #333;
+            --text-color: #e0e0e0;
+            --accent-color: #f97316; /* Naranja Seguridad / Industrial */
+            --accent-hover: #ea580c;
+            --sys-color: #10b981; /* Verde esmeralda para éxitos y confirmaciones */
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        header {
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .tagline {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Pestañas de Servicios */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: #18181b;
+            color: #a1a1aa;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            background: #27272a;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Módulos de Ajustes y Formularios */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .module {
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            background: #09090b;
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .module-title {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: #71717a;
+            text-transform: uppercase;
+            margin: 1.5rem 0 0.8rem;
+            border-bottom: 1px solid #27272a;
+            padding-bottom: 4px;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            background: #09090b;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            outline: none;
+            width: 100%;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Tabla de Ítems */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .items-table th {
+            padding: 8px;
+            color: #71717a;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .items-table td {
+            padding: 8px;
+            border-bottom: 1px solid #1c1c1f;
+            vertical-align: middle;
+        }
+
+        /* Inputs específicos para celdas */
+        .cell-input-qty {
+            width: 70px;
+            text-align: center;
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        .cell-input-price {
+            width: 110px;
+            text-align: right;
+            padding: 4px;
+            border-radius: 6px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Sticky Sidebar Totales */
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+
+        .total-section {
+            background: #18181b;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .final-price-box {
+            background: var(--accent-color);
+            color: #000;
+            padding: 1.2rem;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn-action {
+            background: #25D366;
+            color: #000;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .private-dashboard {
+            background: #09090b;
+            border: 1px solid #27272a;
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .private-dashboard-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #27272a;
+            padding-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dashboard-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .dashboard-row span {
+            color: #71717a;
+        }
+
+        .dashboard-row strong {
+            color: #fff;
+        }
+
+        /* Responsive Print Styles */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                background: white;
+            }
+
+            .tabs,
+            .tab-btn,
+            .sidebar,
+            #settings_panel,
+            .btn-action,
+            .private-dashboard {
+                display: none !important;
+            }
+
+            #doc_print_wrapper {
+                display: block !important;
+                color: #000 !important;
+            }
+
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+
+            .print-table th,
+            .print-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                font-size: 11px;
+            }
+
+            .print-table th {
+                background-color: #f2f2f2;
+            }
+        }
+
+        /* Document template wrapper for screen / print hidden */
+        #doc_print_wrapper {
+            display: none;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
     </style>
 </head>
+
 <body>
-    <h1>Calculadora CCTV - El Cóndor</h1>
-    <p>Esperando lista de precios del instalador para completar la lógica de cálculo...</p>
+
+    <div class="container">
+        <header>
+            <h1>CALCULADORA DE SEGURIDAD v1.0</h1>
+            <div class="tagline">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD ELECTRONICA</div>
+        </header>
+
+        <!-- CONFIGURACIONES GLOBALES -->
+        <div class="module" id="settings_panel" style="border-color: var(--accent-color); background: rgba(249, 115, 22, 0.02);">
+            <div class="module-title">[00] CONFIGURACIONES Y AJUSTES DE MERCADO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tipo de Cliente / Coeficiente</label>
+                    <select id="cfg_tipo_cliente" onchange="adjustMarketMultiplier()">
+                        <option value="0.4">Residencial / Familiar (Ajuste del mercado local - 40%)</option>
+                        <option value="0.7">Comercio / Consorcio (Intermedio - 70%)</option>
+                        <option value="1.0" selected>Industrial / Corporativo (Tarifa Oficial 100%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Método de Mano de Obra</label>
+                    <select id="cfg_metodo_mo" onchange="toggleCalculationMode()">
+                        <option value="items" selected>Cotizar por Tareas (Suma de Ítems)</option>
+                        <option value="jornadas">Cotizar por Jornada Diaria (Tarifa Fija)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="group_mo_jornadas" style="display: none; grid-column: span 2; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; border: 1px dashed #444; margin-top: 5px;">
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Técnicos en Obra</label>
+                            <select id="cfg_mo_tecnicos" onchange="calc()">
+                                <option value="1">1 Técnico ($250.000 / día)</option>
+                                <option value="2" selected>2 Técnicos ($500.000 / día)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Duración Estimada (Días)</label>
+                            <select id="cfg_mo_dias" onchange="calc()">
+                                <option value="0.5">0.5 Días (Media Jornada)</option>
+                                <option value="1" selected>1 Día Completo (8hs)</option>
+                                <option value="1.5">1.5 Días</option>
+                                <option value="2">2 Días</option>
+                                <option value="2.5">2.5 Días</option>
+                                <option value="3">3 Días</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid" style="margin-top: 15px; border-top: 1px dashed #27272a; padding-top: 15px;">
+                <div class="form-group">
+                    <label>Fecha de Presupuesto</label>
+                    <input type="text" id="presp_fecha" placeholder="Ej: 27/04/2026">
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="presp_cliente" placeholder="Nombre del cliente">
+                </div>
+                <div class="form-group">
+                    <label>Dirección / Ubicación</label>
+                    <input type="text" id="presp_ubicacion" placeholder="Ej: Quilmes Centro">
+                </div>
+                <div class="form-group">
+                    <label>Viáticos (%)</label>
+                    <input type="number" id="cfg_viaticos" value="15" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Margen de Ganancia (%)</label>
+                    <input type="number" id="cfg_margen" value="35" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <!-- PESTAÑAS Y LISTADO DE TRABAJOS (IZQ) -->
+            <div>
+                <!-- TABS HEADER -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('tab_cctv')">📹 CCTV</button>
+                    <button class="tab-btn" onclick="switchTab('tab_vecinal')">🌐 RED VECINAL</button>
+                    <button class="tab-btn" onclick="switchTab('tab_cerco')">⚡ CERCO ELÉCTRICO</button>
+                    <button class="tab-btn" onclick="switchTab('tab_alarma')">🚨 ALARMAS</button>
+                    <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE</button>
+                </div>
+
+                <!-- TAB 1: CCTV NUEVO -->
+                <div id="tab_cctv" class="tab-content active">
+                    <div class="module" style="border-color: #52525b;">
+                        <div class="module-title">[01] CCTV - INSTALACIÓN DE CÁMARAS Y GRABADOR</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Cargue las cantidades de mano de obra y edite el precio unitario si es necesario.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Cámara Analógica - Superficie / Cañería existente</td>
+                                    <td><input type="number" id="cctv_cam_analog_sup_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_cam_analog_sup_prc" class="cell-input-price" value="91500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cámara Analógica - Con canalización de caño PVC/cablecanal</td>
+                                    <td><input type="number" id="cctv_cam_analog_can_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_cam_analog_can_prc" class="cell-input-price" value="131300" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cámara IP (Red/PoE) - Superficie / Cañería existente</td>
+                                    <td><input type="number" id="cctv_cam_ip_sup_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_cam_ip_sup_prc" class="cell-input-price" value="130000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cámara IP (Red/PoE) - Con canalización de caño PVC/cablecanal</td>
+                                    <td><input type="number" id="cctv_cam_ip_can_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_cam_ip_can_prc" class="cell-input-price" value="170000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado de Rack / NVR / DVR (Hasta 4 canales)</td>
+                                    <td><input type="number" id="cctv_rack_4_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_rack_4_prc" class="cell-input-price" value="319300" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado de Rack / NVR / DVR (Hasta 8 canales)</td>
+                                    <td><input type="number" id="cctv_rack_8_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_rack_8_prc" class="cell-input-price" value="429700" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado de Rack / NVR / DVR (Hasta 16 canales)</td>
+                                    <td><input type="number" id="cctv_rack_16_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_rack_16_prc" class="cell-input-price" value="515600" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado de Rack / NVR / DVR (Hasta 32 canales)</td>
+                                    <td><input type="number" id="cctv_rack_32_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_rack_32_prc" class="cell-input-price" value="637000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: RED VECINAL -->
+                <div id="tab_vecinal" class="tab-content">
+                    <div class="module" style="border-color: #3b82f6;">
+                        <div class="module-title">[02] RED VECINAL / SEGURIDAD URBANA</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Mano de obra para tendido en postes y configuración multipunto de usuarios.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Instalación de Cámara IP en Poste / Altura (con arnés)</td>
+                                    <td><input type="number" id="vec_cam_poste_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_cam_poste_prc" class="cell-input-price" value="175000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido Aéreo de cable UTP c/tensor de acero (Metros)</td>
+                                    <td><input type="number" id="vec_tendido_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_tendido_m_prc" class="cell-input-price" value="2000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Configuración y capacitación por Celular de Vecino</td>
+                                    <td><input type="number" id="vec_usuario_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_usuario_prc" class="cell-input-price" value="5000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: CERCO ELÉCTRICO -->
+                <div id="tab_cerco" class="tab-content">
+                    <div class="module" style="border-color: #eab308;">
+                        <div class="module-title">[03] CERCO ELÉCTRICO PERIMETRAL</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Instalación de boyero, hilos conductores y jabalina de seguridad exclusiva.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Montaje y configuración de Central Energizadora (Boyero, batería, sirena, PAT)</td>
+                                    <td><input type="number" id="cer_central_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cer_central_prc" class="cell-input-price" value="180000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de hilos en postes/muros (Metros lineales)</td>
+                                    <td><input type="number" id="cer_tendido_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cer_tendido_m_prc" class="cell-input-price" value="9500" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: ALARMAS -->
+                <div id="tab_alarma" class="tab-content">
+                    <div class="module" style="border-color: #ec4899;">
+                        <div class="module-title">[04] SISTEMAS DE ALARMAS E INTRUSIÓN</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Montaje de centrales y direccionamiento de sensores cableados/inalámbricos.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Montaje y programación de Central de Alarma (Teclado, batería y sirenas)</td>
+                                    <td><input type="number" id="al_central_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_central_prc" class="cell-input-price" value="120000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor de Movimiento (PIR) Cableado</td>
+                                    <td><input type="number" id="al_pir_cab_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_pir_cab_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor de Movimiento (PIR) Inalámbrico</td>
+                                    <td><input type="number" id="al_pir_inal_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_pir_inal_prc" class="cell-input-price" value="18000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor Magnético de Apertura Cableado</td>
+                                    <td><input type="number" id="al_mag_cab_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_mag_cab_prc" class="cell-input-price" value="18000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Sensor Magnético de Apertura Inalámbrico</td>
+                                    <td><input type="number" id="al_mag_inal_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_mag_inal_prc" class="cell-input-price" value="12000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Par de Barreras Infrarrojas de Exterior</td>
+                                    <td><input type="number" id="al_barreras_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="al_barreras_prc" class="cell-input-price" value="85000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 5: SERVICE -->
+                <div id="tab_service" class="tab-content">
+                    <div class="module" style="border-color: #06b6d4;">
+                        <div class="module-title">[05] MANTENIMIENTO, SERVICE Y REPARACIÓN</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Reparación, cambio de fuentes, re-cableados y diagnóstico de fallas.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Visita Técnica y Diagnóstico de Fallas (Fijo)</td>
+                                    <td><input type="number" id="srv_diagnos_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_diagnos_prc" class="cell-input-price" value="50000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mantenimiento Preventivo de Cámara (limpieza/enfoque)</td>
+                                    <td><input type="number" id="srv_prevent_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_prevent_prc" class="cell-input-price" value="20000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo / Cambio de Cámara</td>
+                                    <td><input type="number" id="srv_replace_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_replace_prc" class="cell-input-price" value="35000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cambio de Caja Estanca de Conexiones</td>
+                                    <td><input type="number" id="srv_estanca_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_estanca_prc" class="cell-input-price" value="15000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cambio de Conectores / Fichas / Balun</td>
+                                    <td><input type="number" id="srv_fichas_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_fichas_prc" class="cell-input-price" value="10000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cambio de Fuente de Alimentación Individual</td>
+                                    <td><input type="number" id="srv_fuente_ind_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_fuente_ind_prc" class="cell-input-price" value="15000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Cambio de Fuente Centralizada (Multi-salida)</td>
+                                    <td><input type="number" id="srv_fuente_cnt_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_fuente_cnt_prc" class="cell-input-price" value="35000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Emprolijado y peinado de cables en Rack / Tablero</td>
+                                    <td><input type="number" id="srv_orden_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_orden_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mano de obra de Re-cableado (Metros)</td>
+                                    <td><input type="number" id="srv_cable_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_cable_m_prc" class="cell-input-price" value="1500" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
+            <div class="sidebar">
+                <div class="total-section">
+                    <div style="font-size: 0.8rem; color: #a1a1aa; margin-bottom: 5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Subtotal Mano de Obra</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
+                    
+                    <div class="final-price-box">
+                        <span style="font-size: 0.75rem; display: block; opacity: 0.7; font-weight: bold; text-transform: uppercase;">Mano de Obra Final</span>
+                        <span id="res_final">$ 0</span>
+                    </div>
+
+                    <!-- PANEL DE RENTABILIDAD PRIVADO -->
+                    <div class="private-dashboard">
+                        <div class="private-dashboard-title">🔒 Rentabilidad Interna (Privado)</div>
+                        <div class="dashboard-row">
+                            <span>Viáticos Calculados:</span>
+                            <strong id="dash_viaticos">$ 0</strong>
+                        </div>
+                        <div class="dashboard-row">
+                            <span>Margen / Utilidad:</span>
+                            <strong id="dash_margen">$ 0</strong>
+                        </div>
+                        <div class="dashboard-row" style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed #27272a;">
+                            <span>Ganancia Neta Total:</span>
+                            <strong id="dash_ganancia" style="color: var(--sys-color); font-weight: bold;">$ 0</strong>
+                        </div>
+                    </div>
+
+                    <button class="btn-action" onclick="copyWhatsApp()">📱 COPIAR PARA WHATSAPP</button>
+                    <button class="btn-action" onclick="window.print()" style="background: var(--accent-color); color: #000; font-weight: 800;">📝 GUARDAR PRESUPUESTO PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCUMENTO DE IMPRESIÓN (PDF) -->
+    <div id="doc_print_wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+            <div>
+                <h2 style="margin: 0; font-size: 22px;">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD</h2>
+                <p style="margin: 3px 0 0 0; font-size: 11px; color: #555;">Email: info@elcondor.com | Tel: 1126139527</p>
+            </div>
+            <div style="text-align: right;">
+                <h3 style="margin: 0; font-size: 16px; color: #ff8800;">PRESUPUESTO</h3>
+                <p style="margin: 3px 0 0 0; font-size: 11px;">Fecha: <span id="pdf_fecha"></span></p>
+            </div>
+        </div>
+
+        <div style="background-color: #f9f9f9; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 12px; line-height: 1.5;">
+            <strong>Cliente:</strong> <span id="pdf_cliente"></span><br>
+            <strong>Ubicación:</strong> <span id="pdf_ubicacion"></span><br>
+            <strong>Detalle:</strong> Presupuesto formal de servicios técnicos y mano de obra especializada.
+        </div>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th>Detalle de Trabajos y Tareas de Mano de Obra</th>
+                    <th style="width: 15%; text-align: center;">Cantidad</th>
+                    <th style="width: 20%; text-align: right;">Total Tarea ($)</th>
+                </tr>
+            </thead>
+            <tbody id="pdf_items_body">
+                <!-- Se inyecta dinámicamente -->
+            </tbody>
+        </table>
+
+        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #000; padding-top: 15px;">
+            <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
+            <p style="font-size: 10px; color: #555; margin-top: 5px;">* Validez del presupuesto: 15 días. Garantía en mano de obra: 6 meses.</p>
+        </div>
+    </div>
+
+    <script>
+        // Precios base oficiales (Electroinstalador 2026)
+        const PRECIOS_BASE = {
+            cctv_cam_analog_sup: 91500,
+            cctv_cam_analog_can: 131300,
+            cctv_cam_ip_sup: 130000,
+            cctv_cam_ip_can: 170000,
+            cctv_rack_4: 319300,
+            cctv_rack_8: 429700,
+            cctv_rack_16: 515600,
+            cctv_rack_32: 637000,
+            vec_cam_poste: 175000,
+            vec_tendido_m: 2000,
+            vec_usuario: 5000,
+            cer_central: 180000,
+            cer_tendido_m: 9500,
+            al_central: 120000,
+            al_pir_cab: 25000,
+            al_pir_inal: 18000,
+            al_mag_cab: 18000,
+            al_mag_inal: 12000,
+            al_barreras: 85000,
+            srv_diagnos: 50000,
+            srv_prevent: 20000,
+            srv_replace: 35000,
+            srv_estanca: 15000,
+            srv_fichas: 10000,
+            srv_fuente_ind: 15000,
+            srv_fuente_cnt: 35000,
+            srv_orden: 45000,
+            srv_cable_m: 1500
+        };
+
+        window.onload = function () {
+            const today = new Date();
+            document.getElementById('presp_fecha').value = today.toLocaleDateString('es-AR');
+            adjustMarketMultiplier();
+        };
+
+        function switchTab(tabId) {
+            // Desactivar todos los botones de pestañas
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            // Activar botón seleccionado
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
+                return btn.onclick.toString().includes(tabId);
+            });
+            if (activeBtn) activeBtn.classList.add('active');
+
+            // Ocultar todos los contenidos de pestañas
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            // Mostrar contenido seleccionado
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function adjustMarketMultiplier() {
+            const multiplier = parseFloat(document.getElementById('cfg_tipo_cliente').value);
+            
+            // Recorrer todos los inputs de precio base y aplicar multiplicador
+            for (const key in PRECIOS_BASE) {
+                const prcInput = document.getElementById(`${key}_prc`);
+                if (prcInput) {
+                    prcInput.value = Math.round(PRECIOS_BASE[key] * multiplier);
+                }
+            }
+            calc();
+        }
+
+        function toggleCalculationMode() {
+            const mode = document.getElementById('cfg_metodo_mo').value;
+            const groupJornadas = document.getElementById('group_mo_jornadas');
+            
+            if (mode === 'jornadas') {
+                groupJornadas.style.display = 'block';
+            } else {
+                groupJornadas.style.display = 'none';
+            }
+            calc();
+        }
+
+        function fmt(n) {
+            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n);
+        }
+
+        let lastTotal = 0;
+        let lastSubtotal = 0;
+        let selectedTasks = [];
+
+        function calc() {
+            let subtotal = 0;
+            selectedTasks = [];
+
+            // Sumar todos los ítems cargados
+            for (const key in PRECIOS_BASE) {
+                const qtyInput = document.getElementById(`${key}_qty`);
+                const prcInput = document.getElementById(`${key}_prc`);
+                
+                if (qtyInput && prcInput) {
+                    const qty = parseInt(qtyInput.value) || 0;
+                    const prc = parseFloat(prcInput.value) || 0;
+                    
+                    if (qty > 0) {
+                        const totalItem = qty * prc;
+                        subtotal += totalItem;
+
+                        // Conseguir nombre limpio de la tarea para el resumen
+                        const labelCell = qtyInput.closest('tr').firstElementChild.innerText;
+                        selectedTasks.push({
+                            label: labelCell,
+                            qty: qty,
+                            total: totalItem
+                        });
+                    }
+                }
+            }
+
+            lastSubtotal = subtotal;
+
+            // Determinar la mano de obra final según el método
+            const mode = document.getElementById('cfg_metodo_mo').value;
+            let moFinal = subtotal;
+
+            if (mode === 'jornadas') {
+                const tecnicos = parseInt(document.getElementById('cfg_mo_tecnicos').value) || 2;
+                const dias = parseFloat(document.getElementById('cfg_mo_dias').value) || 1;
+                moFinal = tecnicos * dias * 250000;
+            }
+
+            // Calcular viáticos y margen
+            const viaticosPct = (parseFloat(document.getElementById('cfg_viaticos').value) || 0) / 100;
+            const margenPct = (parseFloat(document.getElementById('cfg_margen').value) || 0) / 100;
+
+            const viaticos = moFinal * viaticosPct;
+            const margen = (moFinal + viaticos) * margenPct;
+            const total = moFinal + viaticos + margen;
+            
+            // Rentabilidad neta
+            const ganancia = moFinal - (mode === 'jornadas' ? 0 : 0) + margen; 
+
+            // Actualizar etiquetas en pantalla
+            document.getElementById('lbl_subtotal').innerText = fmt(subtotal);
+            document.getElementById('res_final').innerText = fmt(total);
+            
+            document.getElementById('dash_viaticos').innerText = fmt(viaticos);
+            document.getElementById('dash_margen').innerText = fmt(margen);
+            document.getElementById('dash_ganancia').innerText = fmt(ganancia);
+
+            lastTotal = total;
+
+            // Rellenar elementos de impresión (PDF)
+            document.getElementById('pdf_fecha').innerText = document.getElementById('presp_fecha').value;
+            document.getElementById('pdf_cliente').innerText = document.getElementById('presp_cliente').value || "A definir";
+            document.getElementById('pdf_ubicacion').innerText = document.getElementById('presp_ubicacion').value || "A definir";
+            
+            const pdfBody = document.getElementById('pdf_items_body');
+            pdfBody.innerHTML = "";
+            
+            if (selectedTasks.length === 0) {
+                pdfBody.innerHTML = `<tr><td colspan="3" style="text-align: center; color: #666;">No se seleccionaron tareas aún.</td></tr>`;
+            } else {
+                selectedTasks.forEach(task => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${task.label}</td>
+                        <td style="text-align: center;">${task.qty}</td>
+                        <td style="text-align: right;">${fmt(task.total)}</td>
+                    `;
+                    pdfBody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('pdf_total').innerText = fmt(total);
+        }
+
+        function copyWhatsApp() {
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "";
+            const fecha = document.getElementById('presp_fecha').value;
+
+            if (selectedTasks.length === 0) {
+                alert("Por favor cargue al menos una tarea para generar el presupuesto.");
+                return;
+            }
+
+            let text = `*PRESUPUESTO DE SEGURIDAD ELECTRÓNICA - EL CÓNDOR*\n`;
+            text += `------------------------------------------------\n`;
+            text += `*Cliente:* ${cliente}\n`;
+            if (ubicacion) text += `*Ubicación:* ${ubicacion}\n`;
+            text += `*Fecha:* ${fecha}\n\n`;
+            
+            text += `*Detalle de Trabajos (Mano de obra especializada):*\n`;
+            selectedTasks.forEach(task => {
+                text += ` • ${task.label} x ${task.qty}\n`;
+            });
+            text += `\n`;
+            
+            text += `*TOTAL MANO DE OBRA (CERRADO):* ${fmt(lastTotal)}\n`;
+            text += `------------------------------------------------\n`;
+            text += `👉 *Garantía técnica:* 6 meses en mano de obra.\n`;
+            text += `👉 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
+            text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
+            text += `_El Cóndor Climatización y Seguridad_`;
+
+            // Copiar al portapapeles
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+                alert("¡Presupuesto copiado al portapapeles! Listo para pegar en WhatsApp.");
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+
+            const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+            window.open(waUrl, '_blank');
+        }
+    </script>
 </body>
+
 </html>

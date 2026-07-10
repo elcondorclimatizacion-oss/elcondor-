@@ -556,6 +556,11 @@
                                     <td><input type="number" id="el_bas_t20_prc" class="cell-input-price" value="4500" oninput="calc()"></td>
                                 </tr>
                                 <tr>
+                                    <td>Colocación Bastidor Toma Corriente Doble</td>
+                                    <td><input type="number" id="el_bas_tdob_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_bas_tdob_prc" class="cell-input-price" value="4500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
                                     <td>Colocación Bastidor Punto (Llave de luz)</td>
                                     <td><input type="number" id="el_bas_pun_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="el_bas_pun_prc" class="cell-input-price" value="4000" oninput="calc()"></td>
@@ -814,6 +819,7 @@
             el_boca_recab: 45000,
             el_bas_t10: 4000,
             el_bas_t20: 4500,
+            el_bas_tdob: 4500,
             el_bas_pun: 4000,
             el_bas_dim: 5000,
             el_bas_comb: 4500,
@@ -1021,15 +1027,17 @@
 
             const bas_t10 = parseInt(document.getElementById('el_bas_t10_qty').value) || 0;
             const bas_t20 = parseInt(document.getElementById('el_bas_t20_qty').value) || 0;
+            const bas_tdob = parseInt(document.getElementById('el_bas_tdob_qty').value) || 0;
             const bas_pun = parseInt(document.getElementById('el_bas_pun_qty').value) || 0;
             const bas_dim = parseInt(document.getElementById('el_bas_dim_qty').value) || 0;
             const bas_comb = parseInt(document.getElementById('el_bas_comb_qty').value) || 0;
 
-            const total_bastidores = bas_t10 + bas_t20 + bas_pun + bas_dim + bas_comb;
+            const total_bastidores = bas_t10 + bas_t20 + bas_tdob + bas_pun + bas_dim + bas_comb;
             if (total_bastidores > 0) {
                 let basDetails = [];
                 if (bas_t10 > 0) basDetails.push(`${bas_t10} de tomas de 10A`);
                 if (bas_t20 > 0) basDetails.push(`${bas_t20} de tomas reforzados de 20A`);
+                if (bas_tdob > 0) basDetails.push(`${bas_tdob} de tomas dobles de 10A`);
                 if (bas_pun > 0) basDetails.push(`${bas_pun} de punto simple`);
                 if (bas_dim > 0) basDetails.push(`${bas_dim} con variador dimmer`);
                 if (bas_comb > 0) basDetails.push(`${bas_comb} combinados/punto-toma`);

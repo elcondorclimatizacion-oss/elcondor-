@@ -633,6 +633,26 @@
                                     <td><input type="number" id="el_can_extra_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="el_can_extra_prc" class="cell-input-price" value="17300" oninput="calc()"></td>
                                 </tr>
+                                <tr>
+                                    <td>Tendido de Cable Sintenax (3x1.5mm² a 3x2.5mm²) por Metro</td>
+                                    <td><input type="number" id="el_sint_low_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_sint_low_prc" class="cell-input-price" value="1800" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de Cable Sintenax (3x4mm² a 4x6mm²) por Metro</td>
+                                    <td><input type="number" id="el_sint_mid_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_sint_mid_prc" class="cell-input-price" value="2500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de Cable Sintenax (4x10mm² a 4x16mm²) por Metro</td>
+                                    <td><input type="number" id="el_sint_high_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_sint_high_prc" class="cell-input-price" value="3800" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Zanjeo y Excavación manual en tierra para tendido (Metro)</td>
+                                    <td><input type="number" id="el_zanjeo_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_zanjeo_prc" class="cell-input-price" value="8500" oninput="calc()"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -831,6 +851,10 @@
             el_band_600_norm: 64800,
             el_band_600_alt: 70500,
             el_can_extra: 17300,
+            el_sint_low: 1800,
+            el_sint_mid: 2500,
+            el_sint_high: 3800,
+            el_zanjeo: 8500,
             el_lum_aplique: 31500,
             el_lum_colgante: 50800,
             el_lum_tubo: 58300,
@@ -1061,6 +1085,24 @@
             }
             if (can_extra > 0) {
                 descriptions.push(`**Mano de obra para canalización adicional de ${can_extra} metros**, utilizando cañerías rígidas de PVC, metal o cablecanales engrampados en superficie.`);
+            }
+
+            const sint_low = parseInt(document.getElementById('el_sint_low_qty').value) || 0;
+            const sint_mid = parseInt(document.getElementById('el_sint_mid_qty').value) || 0;
+            const sint_high = parseInt(document.getElementById('el_sint_high_qty').value) || 0;
+            const zanjeo = parseInt(document.getElementById('el_zanjeo_qty').value) || 0;
+
+            const total_sintenax = sint_low + sint_mid + sint_high;
+            if (total_sintenax > 0) {
+                let sintDetails = [];
+                if (sint_low > 0) sintDetails.push(`${sint_low} metros de calibre chico (3x1.5 a 3x2.5 mm²)`);
+                if (sint_mid > 0) sintDetails.push(`${sint_mid} metros de calibre mediano (3x4 a 4x6 mm²)`);
+                if (sint_high > 0) sintDetails.push(`${sint_high} metros de calibre grande (4x10 a 4x16 mm²)`);
+                
+                descriptions.push(`**Tendido de conductores subterráneos tipo Sintenax**: Ejecución de ${total_sintenax} metros de tendido en canalización o zanja, distribuidos en: ${sintDetails.join(', ')}.`);
+            }
+            if (zanjeo > 0) {
+                descriptions.push(`**Zanjeo y Excavación manual**: Apertura de canal y zanja en tierra de ${zanjeo} metros lineales para colocación de cables subterráneos, incluyendo protección mecánica con ladrillos y cinta de advertencia, y posterior tapado y compactado.`);
             }
 
             // 4. Iluminación y PAT

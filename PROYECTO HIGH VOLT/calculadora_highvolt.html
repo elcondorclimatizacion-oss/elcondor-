@@ -649,6 +649,16 @@
                                     <td><input type="number" id="el_sint_high_prc" class="cell-input-price" value="3800" oninput="calc()"></td>
                                 </tr>
                                 <tr>
+                                    <td>Tendido de Cable Sintenax Aéreo sobre tensor de alambre galvanizado (Metro)</td>
+                                    <td><input type="number" id="el_sint_aer_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_sint_aer_prc" class="cell-input-price" value="3200" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de Cable Sintenax Engrampado sobre muro/pared (Metro)</td>
+                                    <td><input type="number" id="el_sint_eng_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_sint_eng_prc" class="cell-input-price" value="2100" oninput="calc()"></td>
+                                </tr>
+                                <tr>
                                     <td>Zanjeo y Excavación manual en tierra para tendido (Metro)</td>
                                     <td><input type="number" id="el_zanjeo_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="el_zanjeo_prc" class="cell-input-price" value="8500" oninput="calc()"></td>
@@ -690,6 +700,16 @@
                                     <td>Colocación Luz de Emergencia (M.O.)</td>
                                     <td><input type="number" id="el_lum_emerg_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="el_lum_emerg_prc" class="cell-input-price" value="45900" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Colocación Reflector LED (10W a 100W) M.O.</td>
+                                    <td><input type="number" id="el_lum_refl_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_lum_refl_prc" class="cell-input-price" value="38500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Colocación Reflector LED con Sensor/Fotocélula M.O.</td>
+                                    <td><input type="number" id="el_lum_refl_sen_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_lum_refl_sen_prc" class="cell-input-price" value="48000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
                                     <td>Puesta a Tierra (Hincado jabalina 1.5m + caja inspección) M.O.</td>
@@ -854,11 +874,15 @@
             el_sint_low: 1800,
             el_sint_mid: 2500,
             el_sint_high: 3800,
+            el_sint_aer: 3200,
+            el_sint_eng: 2100,
             el_zanjeo: 8500,
             el_lum_aplique: 31500,
             el_lum_colgante: 50800,
             el_lum_tubo: 58300,
             el_lum_emerg: 45900,
+            el_lum_refl: 38500,
+            el_lum_refl_sen: 48000,
             el_lum_jaba: 107900,
             srv_diagnos: 50000,
             srv_term_mono: 35000,
@@ -1099,8 +1123,18 @@
                 if (sint_mid > 0) sintDetails.push(`${sint_mid} metros de calibre mediano (3x4 a 4x6 mm²)`);
                 if (sint_high > 0) sintDetails.push(`${sint_high} metros de calibre grande (4x10 a 4x16 mm²)`);
                 
-                descriptions.push(`**Tendido de conductores subterráneos tipo Sintenax**: Ejecución de ${total_sintenax} metros de tendido en canalización o zanja, distribuidos en: ${sintDetails.join(', ')}.`);
+                descriptions.push(`**Tendido de conductores subterráneos/intemperie tipo Sintenax**: Ejecución de ${total_sintenax} metros de tendido (en cañería o bandeja portacable), distribuidos en: ${sintDetails.join(', ')}.`);
             }
+
+            const sint_aer = parseInt(document.getElementById('el_sint_aer_qty').value) || 0;
+            const sint_eng = parseInt(document.getElementById('el_sint_eng_qty').value) || 0;
+            if (sint_aer > 0) {
+                descriptions.push(`**Tendido de cable Sintenax aéreo auto-portante**: Instalación de ${sint_aer} metros de cable tendidos por aire, fijados mediante alambre galvanizado guía y tensores/precintos plásticos, ideal para reemplazos de líneas obsoletas de pilar a tablero interno.`);
+            }
+            if (sint_eng > 0) {
+                descriptions.push(`**Tendido de cable Sintenax engrampado**: Colocación de ${sint_eng} metros de cable fijados mediante grampas tipo omega o de fijación directa sobre muro/pared a la intemperie.`);
+            }
+
             if (zanjeo > 0) {
                 descriptions.push(`**Zanjeo y Excavación manual**: Apertura de canal y zanja en tierra de ${zanjeo} metros lineales para colocación de cables subterráneos, incluyendo protección mecánica con ladrillos y cinta de advertencia, y posterior tapado y compactado.`);
             }
@@ -1110,15 +1144,19 @@
             const lum_colgante = parseInt(document.getElementById('el_lum_colgante_qty').value) || 0;
             const lum_tubo = parseInt(document.getElementById('el_lum_tubo_qty').value) || 0;
             const lum_emerg = parseInt(document.getElementById('el_lum_emerg_qty').value) || 0;
+            const lum_refl = parseInt(document.getElementById('el_lum_refl_qty').value) || 0;
+            const lum_refl_sen = parseInt(document.getElementById('el_lum_refl_sen_qty').value) || 0;
             const lum_jaba = parseInt(document.getElementById('el_lum_jaba_qty').value) || 0;
 
-            const total_lum = lum_aplique + lum_colgante + lum_tubo + lum_emerg;
+            const total_lum = lum_aplique + lum_colgante + lum_tubo + lum_emerg + lum_refl + lum_refl_sen;
             if (total_lum > 0) {
                 let lumDetails = [];
                 if (lum_aplique > 0) lumDetails.push(`${lum_aplique} apliques`);
                 if (lum_colgante > 0) lumDetails.push(`${lum_colgante} colgantes`);
                 if (lum_tubo > 0) lumDetails.push(`${lum_tubo} tubos LED`);
                 if (lum_emerg > 0) lumDetails.push(`${lum_emerg} luces de emergencia`);
+                if (lum_refl > 0) lumDetails.push(`${lum_refl} reflectores LED (10W a 100W)`);
+                if (lum_refl_sen > 0) lumDetails.push(`${lum_refl_sen} reflectores LED con sensor/fotocélula`);
 
                 descriptions.push(`**Colocación, conexión y fijación de artefactos de iluminación: ${lumDetails.join(', ')}**, asegurando los anclajes mecánicos correspondientes.`);
             }

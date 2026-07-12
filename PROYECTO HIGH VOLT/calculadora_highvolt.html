@@ -439,6 +439,10 @@
                     <label>Margen de Ganancia (%)</label>
                     <input type="number" id="cfg_margen" value="35" oninput="calc()">
                 </div>
+                <div class="form-group">
+                    <label>Logística y Compra ($ Fijo)</label>
+                    <input type="number" id="cfg_logistica" value="0" step="1000" oninput="calc()" placeholder="Ej: 15000">
+                </div>
             </div>
         </div>
 
@@ -452,6 +456,7 @@
                     <button class="tab-btn" onclick="switchTab('tab_canaliz')">⚡ CANALIZACIÓN</button>
                     <button class="tab-btn" onclick="switchTab('tab_luminaria')">📯 ILUMINACIÓN & PAT</button>
                     <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE ELÉCTRICO</button>
+                    <button class="tab-btn" onclick="switchTab('tab_porteria')">🎛️ PORTERÍA & DÉBILES</button>
                 </div>
 
                 <!-- TAB 1: ACOMETIDA Y TABLERO -->
@@ -773,16 +778,62 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- TAB 6: PORTERÍA Y CORRIENTES DÉBILES -->
+                <div id="tab_porteria" class="tab-content">
+                    <div class="module" style="border-color: #8b5cf6;">
+                        <div class="module-title">[06] PORTEROS ELÉCTRICOS, INTERCOMUNICADORES Y DATOS (M.O.)</div>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Reemplazo de Frente de Portero Eléctrico (Exterior) M.O.</td>
+                                    <td><input type="number" id="el_port_frente_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_port_frente_prc" class="cell-input-price" value="38000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo de Teléfono Interno de Portero M.O.</td>
+                                    <td><input type="number" id="el_port_tel_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_port_tel_prc" class="cell-input-price" value="22000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Sistema de Portero Completo 1 Familia (Frente + Teléfono + Fuente + Cableado hasta 15m)</td>
+                                    <td><input type="number" id="el_port_comp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_port_comp_prc" class="cell-input-price" value="125000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de Cable de Portero/Telefonía/Red (UTP/Multipares) por Metro</td>
+                                    <td><input type="number" id="el_port_cable_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_port_cable_prc" class="cell-input-price" value="1500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Colocación de Cerradura Eléctrica y Pestillo (M.O.)</td>
+                                    <td><input type="number" id="el_port_cerradura_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_port_cerradura_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
             <div class="sidebar">
                 <div class="total-section">
                     <div style="font-size: 0.8rem; color: #a1a1aa; margin-bottom: 5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Subtotal Mano de Obra</div>
-                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 10px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
+                    
+                    <div style="font-size: 0.8rem; color: #a1a1aa; margin-bottom: 5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Gestión de Compra / Logística</div>
+                    <div style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_logistica">$ 0</div>
                     
                     <div class="final-price-box">
-                        <span style="font-size: 0.75rem; display: block; opacity: 0.7; font-weight: bold; text-transform: uppercase;">Mano de Obra Final</span>
+                        <span style="font-size: 0.75rem; display: block; opacity: 0.7; font-weight: bold; text-transform: uppercase;">Total Servicio</span>
                         <span id="res_final">$ 0</span>
                     </div>
 
@@ -837,6 +888,7 @@
         </div>
 
         <div style="margin-top: 30px; text-align: right; border-top: 2px solid #000; padding-top: 15px;">
+            <div id="pdf_logistica_row" style="font-size: 12px; margin-bottom: 5px; display: none;">Gestión de Insumos y Logística: <span id="pdf_logistica_val">$ 0</span></div>
             <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
             <p style="font-size: 10px; color: #555; margin-top: 5px;">* Validez del presupuesto: 15 días. Garantía en mano de obra: 6 meses.</p>
         </div>
@@ -890,7 +942,12 @@
             srv_fuga: 75000,
             srv_cable_m: 1800,
             srv_bastidor: 6000,
-            srv_orden: 45000
+            srv_orden: 45000,
+            el_port_frente: 38000,
+            el_port_tel: 22000,
+            el_port_comp: 125000,
+            el_port_cable: 1500,
+            el_port_cerradura: 45000
         };
 
         window.onload = function () {
@@ -983,14 +1040,16 @@
 
             const viaticosPct = (parseFloat(document.getElementById('cfg_viaticos').value) || 0) / 100;
             const margenPct = (parseFloat(document.getElementById('cfg_margen').value) || 0) / 100;
+            const logistica = parseFloat(document.getElementById('cfg_logistica').value) || 0;
 
             const viaticos = moFinal * viaticosPct;
             const margen = (moFinal + viaticos) * margenPct;
-            const total = moFinal + viaticos + margen;
+            const total = moFinal + viaticos + margen + logistica;
             
             const ganancia = moFinal + margen; 
 
             document.getElementById('lbl_subtotal').innerText = fmt(subtotal);
+            document.getElementById('lbl_logistica').innerText = fmt(logistica);
             document.getElementById('res_final').innerText = fmt(total);
             
             document.getElementById('dash_viaticos').innerText = fmt(viaticos);
@@ -1000,6 +1059,15 @@
             lastTotal = total;
 
             document.getElementById('pdf_fecha').innerText = document.getElementById('presp_fecha').value;
+            
+            // Mostrar u ocultar la fila de logística en el PDF
+            const pdfLogisticaRow = document.getElementById('pdf_logistica_row');
+            if (logistica > 0) {
+                pdfLogisticaRow.style.display = 'block';
+                document.getElementById('pdf_logistica_val').innerText = fmt(logistica);
+            } else {
+                pdfLogisticaRow.style.display = 'none';
+            }
             document.getElementById('pdf_cliente').innerText = document.getElementById('presp_cliente').value || "A definir";
             document.getElementById('pdf_ubicacion').innerText = document.getElementById('presp_ubicacion').value || "A definir";
             
@@ -1191,6 +1259,29 @@
                 descriptions.push(`**Reacondicionamiento, peinado de conductores con precintos plásticos y rotulado de identificación de zonas** en el interior del tablero eléctrico.`);
             }
 
+            // 6. Portería y Corrientes Débiles
+            const port_frente = parseInt(document.getElementById('el_port_frente_qty').value) || 0;
+            const port_tel = parseInt(document.getElementById('el_port_tel_qty').value) || 0;
+            const port_comp = parseInt(document.getElementById('el_port_comp_qty').value) || 0;
+            const port_cable = parseInt(document.getElementById('el_port_cable_qty').value) || 0;
+            const port_cerradura = parseInt(document.getElementById('el_port_cerradura_qty').value) || 0;
+
+            if (port_frente > 0) {
+                descriptions.push(`**Reemplazo y montaje de Frente de Portero Eléctrico**: Desconexión del frente dañado en intemperie/calle, adecuación del cableado existente, conexionado de unidad nueva y sellado estanco contra ingreso de agua.`);
+            }
+            if (port_tel > 0) {
+                descriptions.push(`**Reemplazo de teléfono interno de portero**: Desmontaje de la unidad interna averiada, identificación de pares de señal/audio y conexionado de nuevo intercomunicador mural.`);
+            }
+            if (port_comp > 0) {
+                descriptions.push(`**Instalación completa de sistema de portero eléctrico unifamiliar**: Montaje de frente exterior en calle, fijación de teléfono interno mural, tendido de cable multipar/UTP (hasta 15 metros), conexión de fuente de alimentación de baja tensión y puesta en marcha del sistema.`);
+            }
+            if (port_cable > 0) {
+                descriptions.push(`**Tendido de conductores para corrientes débiles**: Instalación y conexionado de ${port_cable} metros de cable multipar o UTP para portería, telefonía o redes de datos.`);
+            }
+            if (port_cerradura > 0) {
+                descriptions.push(`**Instalación de cerradura eléctrica / pestillo de seguridad**: Montaje físico de cerradura eléctrica en puerta de acceso, instalación de cableado de alimentación y vinculación al pulsador del portero eléctrico para apertura remota.`);
+            }
+
             return descriptions;
         }
 
@@ -1217,11 +1308,20 @@
                 text += ` • ${desc}\n\n`;
             });
             
-            text += `*TOTAL HONORARIOS DE MANO DE OBRA:* ${fmt(lastTotal)}\n`;
+            const logistica = parseFloat(document.getElementById('cfg_logistica').value) || 0;
+            if (logistica > 0) {
+                text += `*Gestión de Materiales y Logística:* ${fmt(logistica)}\n\n`;
+            }
+            
+            text += `*TOTAL SERVICIO:* ${fmt(lastTotal)}\n`;
             text += `------------------------------------------------\n`;
             text += `👉 *Garantía técnica:* 6 meses en mano de obra.\n`;
             text += `👉 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
-            text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
+            if (logistica > 0) {
+                text += `👉 *Insumos:* Los materiales fueron provistos por el profesional según acuerdo de compra.\n`;
+            } else {
+                text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
+            }
             text += `_High-Volt Servicios Eléctricos_`;
 
             try {

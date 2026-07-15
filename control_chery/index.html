@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>Control de Desgaste - Chery 2018</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --panel-bg: #141418;
+            --card-bg: rgba(30, 30, 38, 0.6);
+            --border-color: #27272a;
+            --text-color: #f4f4f5;
+            --text-muted: #a1a1aa;
+            
+            --accent-color: #f97316; /* Naranja Chery/Seguridad */
+            --accent-hover: #ea580c;
+            
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 1.5rem 1rem 3rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.005) 1px, transparent 1px);
+            background-size: 100% 100%, 24px 24px, 24px 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; /* Tamaño móvil óptimo */
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Cabecera */
+        header {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #ffedd5);
+        }
+
+        .brand-section {
+            text-align: center;
+        }
+
+        .brand-title {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .model-subtitle {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Odometer display */
+        .odometer-wrapper {
+            background: #020203;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 260px;
+        }
+
+        .odometer-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .odometer-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(249, 115, 22, 0.2);
+            background: var(--accent-hover);
+        }
+
+        /* Tarjetas de desgaste */
+        .cards-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card:active {
+            border-color: rgba(249, 115, 22, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .card-icon-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            color: var(--accent-color);
+        }
+
+        .card-title-section {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .card-limit {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .wear-percent-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .progress-bar-bg {
+            background: #18181c;
+            border-radius: 8px;
+            height: 12px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), background-color 0.5s ease;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Status descriptions */
+        .status-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.6rem 0.8rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .status-badge {
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+
+        .status-text {
+            color: var(--text-muted);
+        }
+
+        .status-text strong {
+            color: #fff;
+        }
+
+        /* Buttons on cards */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.7rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--text-muted);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .input-group label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .modal-input {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            outline: none;
+            width: 100%;
+            transition: border-color 0.2s;
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            flex: 1;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem;
+            flex: 1.5;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Color States */
+        .color-success { color: var(--success-color); }
+        .color-warning { color: var(--warning-color); }
+        .color-danger { color: var(--danger-color); }
+
+        .bg-success { background-color: var(--success-color); }
+        .bg-warning { background-color: var(--warning-color); }
+        .bg-danger { background-color: var(--danger-color); }
+
+        .border-success { border-color: rgba(16, 185, 129, 0.2); }
+        .border-warning { border-color: rgba(245, 158, 11, 0.2); }
+        .border-danger { border-color: rgba(239, 68, 68, 0.2); }
+        
+        .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning-color); }
+        .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger-color); }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            background: #18181c;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1100;
+            text-align: center;
+        }
+
+        .toast.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="brand-section">
+                <div class="brand-title">Control de Desgaste</div>
+                <div class="model-subtitle">Chery 2018 🇨🇳</div>
+            </div>
+            
+            <div class="odometer-wrapper">
+                <div class="odometer-label">Kilometraje Actual</div>
+                <div class="odometer-value" id="current_odometer">114,000</div>
+            </div>
+            
+            <button class="btn-primary" onclick="openOdometerModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                Actualizar Kilometraje
+            </button>
+        </header>
+
+        <!-- TARJETAS -->
+        <div class="cards-list">
+            
+            <!-- TARJETA 1: ACEITE -->
+            <div class="card" id="card_aceite">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <!-- Icono Aceitera / Gotero -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                            <path d="M10.5 7.5c.5-.7 1.5-.7 2 0l2 2.5c.3.4.3 1 0 1.4l-2 2.5c-.5.7-1.5.7-2 0l-2-2.5c-.3-.4-.3-1 0-1.4l2-2.5z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                    <div class="card-title-section">
+                        <div class="card-title">Aceite de Motor</div>
+                        <div class="card-limit">Límite recomendado: 10,000 km</div>
+                    </div>
+                    <div class="wear-percent-badge" id="oil_wear_pct">0%</div>
+                </div>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="oil_bar_fill"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span id="oil_km_spent">0 km recorridos</span>
+                        <span id="oil_km_left">10,000 km restantes</span>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <span class="status-badge" id="oil_status_badge">Excelente</span>
+                    <span class="status-text" id="oil_last_change">Último cambio: <strong>0 km</strong></span>
+                </div>
+
+                <button class="btn-secondary" onclick="registerChange('oil')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Registrar Cambio Realizado
+                </button>
+            </div>
+
+            <!-- TARJETA 2: FRENOS -->
+            <div class="card" id="card_frenos">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <!-- Icono Disco de Freno -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10" stroke-dasharray="4 4"/>
+                            <circle cx="12" cy="12" r="6"/>
+                            <path d="M4.93 4.93a10 10 0 0 1 14.14 0" stroke-width="3"/>
+                        </svg>
+                    </div>
+                    <div class="card-title-section">
+                        <div class="card-title">Pastillas de Freno</div>
+                        <div class="card-limit">Límite recomendado: 20,000 km</div>
+                    </div>
+                    <div class="wear-percent-badge" id="brakes_wear_pct">0%</div>
+                </div>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="brakes_bar_fill"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span id="brakes_km_spent">0 km recorridos</span>
+                        <span id="brakes_km_left">20,000 km restantes</span>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <span class="status-badge" id="brakes_status_badge">Excelente</span>
+                    <span class="status-text" id="brakes_last_change">Último cambio: <strong>0 km</strong></span>
+                </div>
+
+                <button class="btn-secondary" onclick="registerChange('brakes')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Registrar Cambio Realizado
+                </button>
+            </div>
+
+            <!-- TARJETA 3: NEUMÁTICOS -->
+            <div class="card" id="card_neumaticos">
+                <div class="card-header">
+                    <div class="card-icon-container">
+                        <!-- Icono Neumático -->
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/>
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+                        </svg>
+                    </div>
+                    <div class="card-title-section">
+                        <div class="card-title">Neumáticos</div>
+                        <div class="card-limit">Límite recomendado: 50,000 km</div>
+                    </div>
+                    <div class="wear-percent-badge" id="tires_wear_pct">0%</div>
+                </div>
+                
+                <div class="progress-wrapper">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="tires_bar_fill"></div>
+                    </div>
+                    <div class="progress-labels">
+                        <span id="tires_km_spent">0 km recorridos</span>
+                        <span id="tires_km_left">50,000 km restantes</span>
+                    </div>
+                </div>
+
+                <div class="status-section">
+                    <span class="status-badge" id="tires_status_badge">Excelente</span>
+                    <span class="status-text" id="tires_last_change">Último cambio: <strong>0 km</strong></span>
+                </div>
+
+                <button class="btn-secondary" onclick="registerChange('tires')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    Registrar Cambio Realizado
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MODAL DE ODÓMETRO -->
+    <div class="modal-overlay" id="odometer_modal" onclick="closeOdometerModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Actualizar Odómetro</div>
+                <button class="btn-close" onclick="closeOdometerModal()">×</button>
+            </div>
+            
+            <div class="input-group">
+                <label for="new_odometer_input">Nuevo Kilometraje (km)</label>
+                <input type="number" id="new_odometer_input" class="modal-input" pattern="[0-9]*" inputmode="numeric">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeOdometerModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveOdometer()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICACIÓN -->
+    <div class="toast" id="toast_notification">Cambios guardados</div>
+
+    <script>
+        // Configuración de límites de componentes
+        const LIMITS = {
+            oil: 10000,
+            brakes: 20000,
+            tires: 50000
+        };
+
+        // Estado inicial de datos (Valores por defecto solicitados o coherentes)
+        const DEFAULTS = {
+            odometer: 114000,
+            last_oil: 110000,   // recorridos: 4,000 km (40% desgaste)
+            last_brakes: 100000, // recorridos: 14,000 km (70% desgaste - alerta amarilla)
+            last_tires: 80000    // recorridos: 34,000 km (68% desgaste)
+        };
+
+        // Variables de estado
+        let appState = {};
+
+        // Cargar datos al iniciar
+        window.onload = function() {
+            loadState();
+            render();
+        };
+
+        // Cargar estado desde LocalStorage o inicializar
+        function loadState() {
+            appState.odometer = parseInt(localStorage.getItem('chery_odometer')) || DEFAULTS.odometer;
+            appState.last_oil = parseInt(localStorage.getItem('chery_last_oil')) || DEFAULTS.last_oil;
+            appState.last_brakes = parseInt(localStorage.getItem('chery_last_brakes')) || DEFAULTS.last_brakes;
+            appState.last_tires = parseInt(localStorage.getItem('chery_last_tires')) || DEFAULTS.last_tires;
+        }
+
+        // Guardar estado en LocalStorage
+        function saveState() {
+            localStorage.setItem('chery_odometer', appState.odometer);
+            localStorage.setItem('chery_last_oil', appState.last_oil);
+            localStorage.setItem('chery_last_brakes', appState.last_brakes);
+            localStorage.setItem('chery_last_tires', appState.last_tires);
+        }
+
+        // Renderizar la pantalla completa
+        function render() {
+            // Actualizar odómetro principal
+            document.getElementById('current_odometer').innerText = formatKm(appState.odometer);
+
+            // Calcular y renderizar cada componente
+            renderComponent('oil', appState.last_oil);
+            renderComponent('brakes', appState.last_brakes);
+            renderComponent('tires', appState.last_tires);
+        }
+
+        // Formatear número con puntos de miles (ej: 114.000)
+        function formatKm(num) {
+            return new Intl.NumberFormat('es-AR').format(num);
+        }
+
+        // Renderizar tarjeta individual
+        function renderComponent(key, lastChangeKm) {
+            const spent = appState.odometer - lastChangeKm;
+            const limit = LIMITS[key];
+            
+            // Si el kilometraje actual es menor que el último cambio (error de carga o reseteo)
+            const safeSpent = Math.max(0, spent);
+            
+            // Calcular porcentaje de desgaste (máximo 100% visualmente)
+            const rawPercent = (safeSpent / limit) * 100;
+            const percent = Math.min(100, Math.round(rawPercent));
+
+            // Actualizar etiquetas de texto
+            document.getElementById(`${key}_wear_pct`).innerText = `${percent}%`;
+            document.getElementById(`${key}_km_spent`).innerText = `${formatKm(safeSpent)} km recorridos`;
+            
+            const left = limit - safeSpent;
+            const kmLeftLabel = document.getElementById(`${key}_km_left`);
+            if (left >= 0) {
+                kmLeftLabel.innerText = `${formatKm(left)} km restantes`;
+                kmLeftLabel.className = '';
+            } else {
+                kmLeftLabel.innerText = `Vencido hace ${formatKm(Math.abs(left))} km`;
+                kmLeftLabel.className = 'color-danger';
+            }
+
+            document.getElementById(`${key}_last_change`).innerHTML = `Último cambio: <strong>${formatKm(lastChangeKm)} km</strong>`;
+
+            // Elementos visuales
+            const barFill = document.getElementById(`${key}_bar_fill`);
+            const statusBadge = document.getElementById(`${key}_status_badge`);
+            const cardEl = document.getElementById(`card_${key}`);
+
+            // Resetear clases de color
+            barFill.className = 'progress-bar-fill';
+            statusBadge.className = 'status-badge';
+            cardEl.className = 'card';
+
+            // Asignar color según porcentaje de desgaste
+            if (percent < 70) {
+                barFill.classList.add('bg-success');
+                statusBadge.classList.add('badge-success');
+                statusBadge.innerText = 'Excelente';
+                cardEl.classList.add('border-success');
+            } else if (percent >= 70 && percent < 90) {
+                barFill.classList.add('bg-warning');
+                statusBadge.classList.add('badge-warning');
+                statusBadge.innerText = 'Alerta';
+                cardEl.classList.add('border-warning');
+            } else {
+                barFill.classList.add('bg-danger');
+                statusBadge.classList.add('badge-danger');
+                statusBadge.innerText = 'Crítico';
+                cardEl.classList.add('border-danger');
+            }
+
+            // Animar el ancho de la barra
+            setTimeout(() => {
+                barFill.style.width = `${percent}%`;
+            }, 50);
+        }
+
+        // Abrir modal de kilometraje
+        function openOdometerModal() {
+            document.getElementById('new_odometer_input').value = appState.odometer;
+            document.getElementById('odometer_modal').classList.add('active');
+            document.getElementById('new_odometer_input').focus();
+        }
+
+        // Cerrar modal de kilometraje
+        function closeOdometerModal() {
+            document.getElementById('odometer_modal').classList.remove('active');
+        }
+
+        function closeOdometerModalOnOverlay(event) {
+            if (event.target === document.getElementById('odometer_modal')) {
+                closeOdometerModal();
+            }
+        }
+
+        // Guardar nuevo kilometraje
+        function saveOdometer() {
+            const inputVal = parseInt(document.getElementById('new_odometer_input').value);
+            if (isNaN(inputVal) || inputVal <= 0) {
+                showToast("Por favor ingresá un kilometraje válido");
+                return;
+            }
+
+            if (inputVal < appState.odometer) {
+                const confirmAlert = confirm("¿El kilometraje ingresado es menor al actual? Esto es inusual. ¿Deseás guardarlo igual?");
+                if (!confirmAlert) return;
+            }
+
+            appState.odometer = inputVal;
+            saveState();
+            render();
+            closeOdometerModal();
+            showToast("Kilometraje actualizado");
+        }
+
+        // Registrar cambio realizado en componente
+        function registerChange(key) {
+            const labels = {
+                oil: "Aceite de Motor",
+                brakes: "Pastillas de Freno",
+                tires: "Neumáticos"
+            };
+
+            const confirmAction = confirm(`¿Confirmás que realizaste el cambio de ${labels[key]} a los ${formatKm(appState.odometer)} km? El desgaste volverá a 0%.`);
+            if (confirmAction) {
+                appState[`last_${key}`] = appState.odometer;
+                saveState();
+                render();
+                showToast(`${labels[key]} reiniciado`);
+            }
+        }
+
+        // Mostrar notificación flotante toast
+        function showToast(message) {
+            const toast = document.getElementById('toast_notification');
+            toast.innerText = message;
+            toast.classList.add('active');
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

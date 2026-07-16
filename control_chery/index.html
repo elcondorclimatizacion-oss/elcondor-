@@ -916,6 +916,11 @@
                     </div>
                 </div>
 
+                <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <input type="checkbox" id="add_to_odo" checked style="accent-color: var(--accent-color); width: 16px; height: 16px; cursor: pointer;">
+                    <label for="add_to_odo" style="cursor: pointer; user-select: none;">Sumar kilómetros al Odómetro Actual al guardar</label>
+                </div>
+
                 <div style="display: flex; gap: 8px; margin-top: 10px;">
                     <button class="btn-success" onclick="addTripToHistory()">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
@@ -1229,6 +1234,12 @@
             if (km === 0 && days === 0) {
                 showToast("Por favor carga kilómetros o días.");
                 return;
+            }
+
+            // Sumar kilómetros al odómetro general si la opción está activada
+            const addOdo = document.getElementById('add_to_odo').checked;
+            if (addOdo && km > 0) {
+                appState.odometer += km;
             }
 
             const today = new Date();

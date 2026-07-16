@@ -1,0 +1,69 @@
+============================================================
+MANUAL DE USO: CONTROL Y REEMBOLSO - CHERY 2016
+============================================================
+
+Esta aplicación te permite llevar el control de mantenimiento de la camioneta Chery 2016 (cambio de aceite, pastillas de freno y neumáticos) y, al mismo tiempo, calcular de manera exacta cuánto cobrarle al contratista en concepto de amortización por el desgaste y costos fijos (seguro y patente) por cada día de trabajo.
+
+------------------------------------------------------------
+1. ¿CÓMO ABRIR LA APLICACIÓN?
+------------------------------------------------------------
+* En el celular: 
+  Abrí el siguiente enlace en el navegador de tu celular:
+  https://elcondorclimatizacion-oss.github.io/elcondor-/control_chery/index.html
+  (Tip: Guardá el enlace en tus favoritos o agregalo a la pantalla de inicio de tu celular como si fuera una app).
+
+* En la computadora:
+  Hacé doble clic en el acceso directo "Control Chery 2016" que está creado en el Escritorio.
+
+* NOTA DE PRIVACIDAD: Los datos cargados se guardan en la memoria local de cada dispositivo. Lo que cargues en tu celular queda en tu celular, y lo que cargues en la compu queda en la compu.
+
+------------------------------------------------------------
+2. PASO 1: CONFIGURAR LOS COSTOS DE REFERENCIA (Una sola vez)
+------------------------------------------------------------
+Antes de empezar a usar la calculadora, debés configurar los costos reales para que la aplicación calcule las tarifas correctas:
+1. Ingresá a la pestaña "REEMBOLSOS".
+2. En la sección "[01] COSTOS DE REFERENCIA", cargá los valores de mercado actuales:
+   - Costo Cambio de Aceite (ej. $200.000)
+   - Costo Cambio de Pastillas de Freno (ej. $500.000)
+   - Costo Juego de 4 Neumáticos (ej. $700.000)
+   - Seguro Mensual (ej. $150.000)
+   - Patente Mensual (ej. $80.000)
+   - Días hábiles al mes (por defecto 30, determina el costo fijo por día).
+3. La aplicación guardará estos valores automáticamente y calculará tu costo de desgaste por kilómetro ($59/km) y tu costo fijo diario ($7.667/día). Si los precios aumentan con el tiempo, simplemente venís acá y actualizás los números.
+
+------------------------------------------------------------
+3. PASO 2: USO DIARIO - CALCULAR Y ENVIAR REEMBOLSOS
+============================================================
+Cuando finalices una jornada o un trabajo de varios días:
+1. Reseteá el odómetro parcial de la camioneta al iniciar cada trabajo. Al finalizarlo, mirá los kilómetros totales recorridos (ejemplo: 160 km en 2 días).
+2. Ingresá a la pestaña "REEMBOLSOS".
+3. En la sección "[02] CALCULADORA DE JORNADA HOY", cargá:
+   - "Km recorridos hoy": Los kilómetros realizados (ej. 160).
+   - "Días trabajados hoy": Los días que duró el trabajo (ej. 2).
+4. Abajo verás el desglose y el TOTAL en pesos a cobrar.
+5. Presioná el botón "COPIAR HOY":
+   - Copiará un texto formal y profesional en tu portapapeles.
+   - Te abrirá WhatsApp automáticamente para que selecciones el contacto del contratista y le pegues el mensaje directo.
+   - IMPORTANTE: En el mensaje de WhatsApp NO se muestran tus costos fijos privados (seguro/repuestos), solo muestra los totales a cobrar por desgaste y fijos de ese trabajo en particular.
+
+------------------------------------------------------------
+4. PASO 3: GUARDAR JORNADAS E HISTORIAL ACUMULADO
+------------------------------------------------------------
+Si querés ir sumando varias jornadas para cobrar todo junto al final de la semana o del mes:
+1. Luego de calcular una jornada en la calculadora, presioná el botón verde "GUARDAR JORNADA".
+2. Se guardará en la sección "[03] HISTORIAL ACUMULADO" abajo de todo y la calculadora se reiniciará para que cargues el siguiente viaje.
+3. Al final del período, podés presionar el botón "COPIAR HISTORIAL ACUMULADO" para enviarle al contratista el desglose detallado de todos los días trabajados con la suma total.
+4. Para empezar un nuevo período de cobro, presioná "BORRAR TODO" en el historial.
+
+------------------------------------------------------------
+5. PASO 4: CONTROL DE DESGASTE Y MANTENIMIENTO
+------------------------------------------------------------
+* Vincular tus viajes: Al guardar una jornada con la opción "[✓] Sumar kilómetros al Odómetro Actual" activada, los kilómetros recorridos de ese viaje se sumarán automáticamente al kilometraje general de la camioneta, actualizando el desgaste de las barras de Aceite, Frenos y Neumáticos al instante.
+* Si le cambiás el aceite, pastillas o neumáticos a la camioneta:
+  1. Asegurate de que el "Kilometraje Actual" de la cabecera sea el que tiene la camioneta en ese momento.
+  2. Presioná el botón "REGISTRAR CAMBIO REALIZADO" en la tarjeta correspondiente.
+  3. El desgaste de esa pieza volverá al 0% (indicador verde) y volverá a contar desde cero a partir de ahí.
+
+============================================================
+¡Listo! Siguiendo estos pasos, se aseguran de cobrar el valor justo por el desgaste real de la camioneta y nunca ir a pérdida.
+============================================================

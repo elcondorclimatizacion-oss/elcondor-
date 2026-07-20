@@ -1,0 +1,1401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0c">
+    <title>Control y Reembolso - Chery 2016</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0a0a0c;
+            --panel-bg: #141418;
+            --card-bg: rgba(30, 30, 38, 0.6);
+            --border-color: #27272a;
+            --text-color: #f4f4f5;
+            --text-muted: #a1a1aa;
+            
+            --accent-color: #f97316; /* Naranja Chery/Seguridad */
+            --accent-hover: #ea580c;
+            
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 1.5rem 1rem 3rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.005) 1px, transparent 1px);
+            background-size: 100% 100%, 24px 24px, 24px 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px; /* Tamaño móvil óptimo */
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        /* Cabecera */
+        header {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), #ffedd5);
+        }
+
+        .brand-section {
+            text-align: center;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .model-subtitle {
+            font-size: 1.4rem;
+            font-weight: 800;
+            margin-top: 2px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Odometer display */
+        .odometer-wrapper {
+            background: #020203;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.6rem 1.2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 220px;
+        }
+
+        .odometer-label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+        }
+
+        .odometer-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+            text-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 5px rgba(249, 115, 22, 0.2);
+            background: var(--accent-hover);
+        }
+
+        /* TABS */
+        .tabs-header {
+            display: flex;
+            background: #121216;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #000;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Módulos de Ajustes y Formularios */
+        .module {
+            border: 1px solid var(--border-color);
+            margin-bottom: 1.2rem;
+            background: #09090b;
+            position: relative;
+            padding: 1.2rem;
+            border-radius: 16px;
+        }
+
+        .module-title {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 8px;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 0.7rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            outline: none;
+            width: 100%;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Tarjetas de desgaste */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-icon-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            color: var(--accent-color);
+        }
+
+        .card-title-section {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        .card-limit {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        .wear-percent-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        /* Progress Bar */
+        .progress-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .progress-bar-bg {
+            background: #18181c;
+            border-radius: 8px;
+            height: 10px;
+            width: 100%;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            border-radius: 6px;
+            transition: width 0.8s cubic-bezier(0.1, 0.8, 0.3, 1), background-color 0.5s ease;
+        }
+
+        .progress-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* Status descriptions */
+        .status-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.5rem 0.7rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .status-badge {
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+        }
+
+        .status-text {
+            color: var(--text-muted);
+        }
+
+        .status-text strong {
+            color: #fff;
+        }
+
+        /* Buttons */
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.7rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .btn-secondary:active {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-success:active {
+            transform: scale(0.98);
+        }
+
+        /* Caja de Resultados de Reembolso */
+        .result-box {
+            background: #18181c;
+            border: 2px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .result-row strong {
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 8px;
+            margin-top: 4px;
+        }
+
+        .result-total-label {
+            font-size: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--accent-color);
+        }
+
+        .result-total-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+        }
+
+        /* Historial de Viajes */
+        .history-list {
+            margin-top: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .history-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 8px 12px;
+            font-size: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .history-item-date {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .history-item-info {
+            color: #eee;
+        }
+
+        .history-item-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            color: var(--success-color);
+        }
+
+        .history-empty {
+            text-align: center;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            padding: 10px;
+            font-style: italic;
+        }
+
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .btn-text {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+
+        .modal-input {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            color: #fff;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+            outline: none;
+            width: 100%;
+        }
+
+        .modal-input:focus {
+            border-color: var(--accent-color);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 12px;
+            padding: 0.8rem;
+            flex: 1;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-save {
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.8rem;
+            flex: 1.5;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Color States */
+        .color-success { color: var(--success-color); }
+        .color-warning { color: var(--warning-color); }
+        .color-danger { color: var(--danger-color); }
+
+        .bg-success { background-color: var(--success-color); }
+        .bg-warning { background-color: var(--warning-color); }
+        .bg-danger { background-color: var(--danger-color); }
+
+        .border-success { border-color: rgba(16, 185, 129, 0.2); }
+        .border-warning { border-color: rgba(245, 158, 11, 0.2); }
+        .border-danger { border-color: rgba(239, 68, 68, 0.2); }
+        
+        .badge-success { background: rgba(16, 185, 129, 0.15); color: var(--success-color); }
+        .badge-warning { background: rgba(245, 158, 11, 0.15); color: var(--warning-color); }
+        .badge-danger { background: rgba(239, 68, 68, 0.15); color: var(--danger-color); }
+
+        /* Notification Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            background: #18181c;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 1100;
+            text-align: center;
+        }
+
+        .toast.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="brand-section">
+                <div class="brand-title">Amortización de Camioneta</div>
+                <div class="model-subtitle">Chery 2016 🇨🇳</div>
+            </div>
+            
+            <div class="odometer-wrapper">
+                <div class="odometer-label">Kilometraje Actual</div>
+                <div class="odometer-value" id="current_odometer">114,000</div>
+            </div>
+            
+            <button class="btn-primary" onclick="openOdometerModal()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+                Actualizar Kilometraje
+            </button>
+        </header>
+
+        <!-- TABS BAR -->
+        <div class="tabs-header">
+            <button class="tab-btn active" id="btn_tab_desgaste" onclick="switchTab('tab_desgaste')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                Desgaste
+            </button>
+            <button class="tab-btn" id="btn_tab_reembolso" onclick="switchTab('tab_reembolso')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                Reembolsos
+            </button>
+        </div>
+
+        <!-- TAB 1: DESGASTE -->
+        <div id="tab_desgaste" class="tab-content active">
+            <div class="cards-list">
+                
+                <!-- TARJETA: ACEITE -->
+                <div class="card" id="card_oil">
+                    <div class="card-header">
+                        <div class="card-icon-container">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                                <path d="M10.5 7.5c.5-.7 1.5-.7 2 0l2 2.5c.3.4.3 1 0 1.4l-2 2.5c-.5.7-1.5.7-2 0l-2-2.5c-.3-.4-.3-1 0-1.4l2-2.5z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-section">
+                            <div class="card-title">Aceite de Motor</div>
+                            <div class="card-limit">Cambio cada 10,000 km</div>
+                        </div>
+                        <div class="wear-percent-badge" id="oil_wear_pct">0%</div>
+                    </div>
+                    
+                    <div class="progress-wrapper">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="oil_bar_fill"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span id="oil_km_spent">0 km</span>
+                            <span id="oil_km_left">10,000 km</span>
+                        </div>
+                    </div>
+
+                    <div class="status-section">
+                        <span class="status-badge" id="oil_status_badge">Excelente</span>
+                        <span class="status-text" id="oil_last_change">Último: <strong>0 km</strong></span>
+                    </div>
+
+                    <button class="btn-secondary" onclick="registerChange('oil')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        Registrar Cambio Realizado
+                    </button>
+                </div>
+
+                <!-- TARJETA: FRENOS -->
+                <div class="card" id="card_brakes">
+                    <div class="card-header">
+                        <div class="card-icon-container">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <circle cx="12" cy="12" r="10" stroke-dasharray="4 4"/>
+                                <circle cx="12" cy="12" r="6"/>
+                                <path d="M4.93 4.93a10 10 0 0 1 14.14 0" stroke-width="3"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-section">
+                            <div class="card-title">Pastillas de Freno</div>
+                            <div class="card-limit">Cambio cada 20,000 km</div>
+                        </div>
+                        <div class="wear-percent-badge" id="brakes_wear_pct">0%</div>
+                    </div>
+                    
+                    <div class="progress-wrapper">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="brakes_bar_fill"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span id="brakes_km_spent">0 km</span>
+                            <span id="brakes_km_left">20,000 km</span>
+                        </div>
+                    </div>
+
+                    <div class="status-section">
+                        <span class="status-badge" id="brakes_status_badge">Excelente</span>
+                        <span class="status-text" id="brakes_last_change">Último: <strong>0 km</strong></span>
+                    </div>
+
+                    <button class="btn-secondary" onclick="registerChange('brakes')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        Registrar Cambio Realizado
+                    </button>
+                </div>
+
+                <!-- TARJETA: NEUMÁTICOS -->
+                <div class="card" id="card_tires">
+                    <div class="card-header">
+                        <div class="card-icon-container">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <circle cx="12" cy="12" r="10"/>
+                                <circle cx="12" cy="12" r="7" stroke-dasharray="2 2"/>
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>
+                            </svg>
+                        </div>
+                        <div class="card-title-section">
+                            <div class="card-title">Neumáticos</div>
+                            <div class="card-limit">Cambio cada 50,000 km</div>
+                        </div>
+                        <div class="wear-percent-badge" id="tires_wear_pct">0%</div>
+                    </div>
+                    
+                    <div class="progress-wrapper">
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="tires_bar_fill"></div>
+                        </div>
+                        <div class="progress-labels">
+                            <span id="tires_km_spent">0 km</span>
+                            <span id="tires_km_left">50,000 km</span>
+                        </div>
+                    </div>
+
+                    <div class="status-section">
+                        <span class="status-badge" id="tires_status_badge">Excelente</span>
+                        <span class="status-text" id="tires_last_change">Último: <strong>0 km</strong></span>
+                    </div>
+
+                    <button class="btn-secondary" onclick="registerChange('tires')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                        Registrar Cambio Realizado
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- TAB 2: REEMBOLSOS -->
+        <div id="tab_reembolso" class="tab-content">
+            
+            <!-- PANEL DE PARÁMETROS DE COSTO -->
+            <div class="module">
+                <div class="module-title">[01] COSTOS DE REFERENCIA (REPUESTOS Y FIJOS)</div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Costo Aceite ($)</label>
+                        <input type="number" id="cost_oil" value="200000" oninput="recalcRates()">
+                    </div>
+                    <div class="form-group">
+                        <label>Costo Pastillas ($)</label>
+                        <input type="number" id="cost_brakes" value="500000" oninput="recalcRates()">
+                    </div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Costo 4 Neumáticos ($)</label>
+                        <input type="number" id="cost_tires" value="700000" oninput="recalcRates()">
+                    </div>
+                    <div class="form-group">
+                        <label>Seguro Mensual ($)</label>
+                        <input type="number" id="cost_insurance" value="150000" oninput="recalcRates()">
+                    </div>
+                </div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Patente Mensual ($)</label>
+                        <input type="number" id="cost_tax" value="80000" oninput="recalcRates()">
+                    </div>
+                    <div class="form-group">
+                        <label>Días hábiles / mes</label>
+                        <input type="number" id="cost_workdays" value="30" oninput="recalcRates()">
+                    </div>
+                </div>
+                
+                <div style="font-size: 0.75rem; color: var(--text-muted); border-top: 1px dashed var(--border-color); padding-top: 6px; margin-top: 8px;">
+                    Costo desgaste: <strong class="color-warning" id="rate_km">$ 0.00 / km</strong> | Fijo diario: <strong class="color-warning" id="rate_day">$ 0.00 / día</strong>
+                </div>
+            </div>
+
+            <!-- CALCULADORA DE JORNADA -->
+            <div class="module" style="border-color: var(--accent-color);">
+                <div class="module-title" style="color: var(--accent-color); border-color: var(--accent-color);">[02] CALCULADORA DE JORNADA HOY</div>
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label>Km recorridos hoy</label>
+                        <input type="number" id="calc_km" value="50" oninput="calcReimbursement()">
+                    </div>
+                    <div class="form-group">
+                        <label>Días trabajados hoy</label>
+                        <input type="number" id="calc_days" value="1" oninput="calcReimbursement()">
+                    </div>
+                </div>
+
+                <div class="result-box">
+                    <div class="result-row">
+                        <span>Desgaste por uso ({calc_km} km):</span>
+                        <strong id="res_desgaste">$ 0</strong>
+                    </div>
+                    <div class="result-row">
+                        <span>Gastos fijos ({calc_days} día/s):</span>
+                        <strong id="res_fijos">$ 0</strong>
+                    </div>
+                    <div class="result-total-row">
+                        <span class="result-total-label">Total a cobrar:</span>
+                        <strong class="result-total-value" id="res_total">$ 0</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted);">
+                    <input type="checkbox" id="add_to_odo" checked style="accent-color: var(--accent-color); width: 16px; height: 16px; cursor: pointer;">
+                    <label for="add_to_odo" style="cursor: pointer; user-select: none;">Sumar kilómetros al Odómetro Actual al guardar</label>
+                </div>
+
+                <div style="display: flex; gap: 8px; margin-top: 10px;">
+                    <button class="btn-success" onclick="addTripToHistory()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+                        Guardar Jornada
+                    </button>
+                    <button class="btn-secondary" onclick="copyReimbursementWhatsApp()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                        Copiar Hoy
+                    </button>
+                </div>
+            </div>
+
+            <!-- HISTORIAL DE JORNADAS ACUMULADAS -->
+            <div class="module">
+                <div class="module-title">[03] HISTORIAL ACUMULADO</div>
+                <div class="history-header">
+                    <span style="font-size: 0.8rem; color: var(--text-muted);">
+                        Acumulado: <strong class="color-success" id="hist_accumulated">$ 0</strong>
+                    </span>
+                    <button class="btn-text" onclick="clearHistory()">Borrar todo</button>
+                </div>
+                
+                <div class="history-list" id="history_container">
+                    <!-- Se inyecta dinámicamente -->
+                </div>
+
+                <button class="btn-secondary" onclick="copyHistoryWhatsApp()" style="margin-top: 10px;" id="btn_copy_history">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8M16 6L12 2 8 6M12 2v13"/></svg>
+                    Copiar Historial Acumulado
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MODAL DE ODÓMETRO -->
+    <div class="modal-overlay" id="odometer_modal" onclick="closeOdometerModalOnOverlay(event)">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-title">Actualizar Odómetro</div>
+                <button class="btn-close" onclick="closeOdometerModal()">×</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="new_odometer_input">Nuevo Kilometraje (km)</label>
+                <input type="number" id="new_odometer_input" class="modal-input" pattern="[0-9]*" inputmode="numeric">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeOdometerModal()">Cancelar</button>
+                <button class="btn-save" onclick="saveOdometer()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICACIÓN -->
+    <div class="toast" id="toast_notification">Cambios guardados</div>
+
+    <script>
+        // Límites recomendados en kilómetros
+        const LIMITS = {
+            oil: 10000,
+            brakes: 20000,
+            tires: 50000
+        };
+
+        // Valores por defecto
+        const DEFAULTS = {
+            odometer: 114000,
+            last_oil: 110000,
+            last_brakes: 100000,
+            last_tires: 80000,
+            
+            // Costos reales ingresados por el usuario
+            cost_oil: 200000,
+            cost_brakes: 500000,
+            cost_tires: 700000,
+            cost_insurance: 150000,
+            cost_tax: 80000,
+            cost_workdays: 30
+        };
+
+        // Variables de estado global
+        let appState = {};
+        let historyState = [];
+
+        // Inicialización
+        window.onload = function() {
+            loadState();
+            recalcRates();
+            switchTab('tab_desgaste');
+        };
+
+        // Cargar estado de LocalStorage
+        function loadState() {
+            appState.odometer = parseInt(localStorage.getItem('chery_odometer')) || DEFAULTS.odometer;
+            appState.last_oil = parseInt(localStorage.getItem('chery_last_oil')) || DEFAULTS.last_oil;
+            appState.last_brakes = parseInt(localStorage.getItem('chery_last_brakes')) || DEFAULTS.last_brakes;
+            appState.last_tires = parseInt(localStorage.getItem('chery_last_tires')) || DEFAULTS.last_tires;
+
+            // Costos
+            document.getElementById('cost_oil').value = localStorage.getItem('chery_cost_oil') || DEFAULTS.cost_oil;
+            document.getElementById('cost_brakes').value = localStorage.getItem('chery_cost_brakes') || DEFAULTS.cost_brakes;
+            document.getElementById('cost_tires').value = localStorage.getItem('chery_cost_tires') || DEFAULTS.cost_tires;
+            document.getElementById('cost_insurance').value = localStorage.getItem('chery_cost_insurance') || DEFAULTS.cost_insurance;
+            document.getElementById('cost_tax').value = localStorage.getItem('chery_cost_tax') || DEFAULTS.cost_tax;
+            document.getElementById('cost_workdays').value = localStorage.getItem('chery_cost_workdays') || DEFAULTS.cost_workdays;
+
+            // Historial
+            const savedHistory = localStorage.getItem('chery_history');
+            historyState = savedHistory ? JSON.parse(savedHistory) : [];
+        }
+
+        // Guardar estado en LocalStorage
+        function saveState() {
+            localStorage.setItem('chery_odometer', appState.odometer);
+            localStorage.setItem('chery_last_oil', appState.last_oil);
+            localStorage.setItem('chery_last_brakes', appState.last_brakes);
+            localStorage.setItem('chery_last_tires', appState.last_tires);
+
+            localStorage.setItem('chery_cost_oil', document.getElementById('cost_oil').value);
+            localStorage.setItem('chery_cost_brakes', document.getElementById('cost_brakes').value);
+            localStorage.setItem('chery_cost_tires', document.getElementById('cost_tires').value);
+            localStorage.setItem('chery_cost_insurance', document.getElementById('cost_insurance').value);
+            localStorage.setItem('chery_cost_tax', document.getElementById('cost_tax').value);
+            localStorage.setItem('chery_cost_workdays', document.getElementById('cost_workdays').value);
+
+            localStorage.setItem('chery_history', JSON.stringify(historyState));
+        }
+
+        // Navegación de pestañas
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (tabId === 'tab_desgaste') {
+                document.getElementById('btn_tab_desgaste').classList.add('active');
+                document.getElementById('tab_desgaste').classList.add('active');
+            } else {
+                document.getElementById('btn_tab_reembolso').classList.add('active');
+                document.getElementById('tab_reembolso').classList.add('active');
+                calcReimbursement();
+            }
+            render();
+        }
+
+        // Formatear Moneda
+        function fmt(n) {
+            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(n);
+        }
+
+        // Formatear Km
+        function fmtKm(num) {
+            return new Intl.NumberFormat('es-AR').format(num) + ' km';
+        }
+
+        // Recalcular tasas de costo por km y por día
+        let ratePerKm = 0;
+        let ratePerDay = 0;
+
+        function recalcRates() {
+            const oilCost = parseFloat(document.getElementById('cost_oil').value) || 0;
+            const brakesCost = parseFloat(document.getElementById('cost_brakes').value) || 0;
+            const tiresCost = parseFloat(document.getElementById('cost_tires').value) || 0;
+            const insuranceCost = parseFloat(document.getElementById('cost_insurance').value) || 0;
+            const taxCost = parseFloat(document.getElementById('cost_tax').value) || 0;
+            const workdays = parseInt(document.getElementById('cost_workdays').value) || 30;
+
+            // Desgaste por km = Costo / Duración
+            const oilRate = oilCost / LIMITS.oil;
+            const brakesRate = brakesCost / LIMITS.brakes;
+            const tiresRate = tiresCost / LIMITS.tires;
+            
+            ratePerKm = oilRate + brakesRate + tiresRate;
+            ratePerDay = (insuranceCost + taxCost) / workdays;
+
+            document.getElementById('rate_km').innerText = `${fmt(ratePerKm)} / km`;
+            document.getElementById('rate_day').innerText = `${fmt(ratePerDay)} / día`;
+
+            saveState();
+            calcReimbursement();
+        }
+
+        // Calcular reembolso
+        let currentDesgaste = 0;
+        let currentFijos = 0;
+        let currentTotal = 0;
+
+        function calcReimbursement() {
+            const km = parseFloat(document.getElementById('calc_km').value) || 0;
+            const days = parseFloat(document.getElementById('calc_days').value) || 0;
+
+            currentDesgaste = km * ratePerKm;
+            currentFijos = days * ratePerDay;
+            currentTotal = currentDesgaste + currentFijos;
+
+            document.getElementById('res_desgaste').innerText = fmt(currentDesgaste);
+            document.getElementById('res_fijos').innerText = fmt(currentFijos);
+            document.getElementById('res_total').innerText = fmt(currentTotal);
+        }
+
+        // Renderizar interfaz general
+        function render() {
+            document.getElementById('current_odometer').innerText = formatNumber(appState.odometer);
+
+            // Renderizar las 3 tarjetas de desgaste
+            renderCard('oil', appState.last_oil);
+            renderCard('brakes', appState.last_brakes);
+            renderCard('tires', appState.last_tires);
+
+            // Renderizar historial
+            renderHistory();
+        }
+
+        function formatNumber(num) {
+            return new Intl.NumberFormat('es-AR').format(num);
+        }
+
+        function renderCard(key, lastChangeKm) {
+            const spent = appState.odometer - lastChangeKm;
+            const limit = LIMITS[key];
+            const safeSpent = Math.max(0, spent);
+            const rawPercent = (safeSpent / limit) * 100;
+            const percent = Math.min(100, Math.round(rawPercent));
+
+            document.getElementById(`${key}_wear_pct`).innerText = `${percent}%`;
+            document.getElementById(`${key}_km_spent`).innerText = `${formatNumber(safeSpent)} km recorridos`;
+            
+            const left = limit - safeSpent;
+            const kmLeftLabel = document.getElementById(`${key}_km_left`);
+            if (left >= 0) {
+                kmLeftLabel.innerText = `${formatNumber(left)} km restantes`;
+                kmLeftLabel.className = '';
+            } else {
+                kmLeftLabel.innerText = `Vencido hace ${formatNumber(Math.abs(left))} km`;
+                kmLeftLabel.className = 'color-danger';
+            }
+
+            document.getElementById(`${key}_last_change`).innerHTML = `Último: <strong>${formatNumber(lastChangeKm)} km</strong>`;
+
+            const barFill = document.getElementById(`${key}_bar_fill`);
+            const statusBadge = document.getElementById(`${key}_status_badge`);
+            const cardEl = document.getElementById(`card_${key}`);
+
+            barFill.className = 'progress-bar-fill';
+            statusBadge.className = 'status-badge';
+            cardEl.className = 'card';
+
+            if (percent < 70) {
+                barFill.classList.add('bg-success');
+                statusBadge.classList.add('badge-success');
+                statusBadge.innerText = 'Excelente';
+                cardEl.classList.add('border-success');
+            } else if (percent >= 70 && percent < 90) {
+                barFill.classList.add('bg-warning');
+                statusBadge.classList.add('badge-warning');
+                statusBadge.innerText = 'Alerta';
+                cardEl.classList.add('border-warning');
+            } else {
+                barFill.classList.add('bg-danger');
+                statusBadge.classList.add('badge-danger');
+                statusBadge.innerText = 'Crítico';
+                cardEl.classList.add('border-danger');
+            }
+
+            setTimeout(() => {
+                barFill.style.width = `${percent}%`;
+            }, 50);
+        }
+
+        // Historial
+        function renderHistory() {
+            const container = document.getElementById('history_container');
+            const accumulatedEl = document.getElementById('hist_accumulated');
+            
+            container.innerHTML = "";
+            let totalAccumulated = 0;
+
+            if (historyState.length === 0) {
+                container.innerHTML = `<div class="history-empty">No hay jornadas guardadas en el historial.</div>`;
+                accumulatedEl.innerText = fmt(0);
+                document.getElementById('btn_copy_history').style.display = 'none';
+                return;
+            }
+
+            document.getElementById('btn_copy_history').style.display = 'flex';
+
+            historyState.forEach((item, index) => {
+                totalAccumulated += item.total;
+                
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.innerHTML = `
+                    <div>
+                        <div class="history-item-info"><strong>${item.km} km</strong> / <strong>${item.days} día/s</strong></div>
+                        <div class="history-item-date">${item.date}</div>
+                    </div>
+                    <div class="history-item-value">${fmt(item.total)}</div>
+                `;
+                container.appendChild(div);
+            });
+
+            accumulatedEl.innerText = fmt(totalAccumulated);
+        }
+
+        function addTripToHistory() {
+            const km = parseFloat(document.getElementById('calc_km').value) || 0;
+            const days = parseFloat(document.getElementById('calc_days').value) || 0;
+
+            if (km === 0 && days === 0) {
+                showToast("Por favor carga kilómetros o días.");
+                return;
+            }
+
+            // Sumar kilómetros al odómetro general si la opción está activada
+            const addOdo = document.getElementById('add_to_odo').checked;
+            if (addOdo && km > 0) {
+                appState.odometer += km;
+            }
+
+            const today = new Date();
+            const dateStr = today.toLocaleDateString('es-AR') + ' ' + today.toLocaleTimeString('es-AR', {hour: '2-digit', minute:'2-digit'});
+
+            historyState.push({
+                date: dateStr,
+                km: km,
+                days: days,
+                total: currentTotal
+            });
+
+            saveState();
+            render();
+            showToast("Jornada guardada en historial");
+
+            // Resetear inputs de la calculadora para la siguiente carga
+            document.getElementById('calc_km').value = 0;
+            document.getElementById('calc_days').value = 1;
+            calcReimbursement();
+        }
+
+        function clearHistory() {
+            if (historyState.length === 0) return;
+            const confirmClear = confirm("¿Deseas borrar todo el historial acumulado?");
+            if (confirmClear) {
+                historyState = [];
+                saveState();
+                render();
+                showToast("Historial borrado");
+            }
+        }
+
+        // Copiar reembolsos a WhatsApp
+        function copyReimbursementWhatsApp() {
+            const km = parseFloat(document.getElementById('calc_km').value) || 0;
+            const days = parseFloat(document.getElementById('calc_days').value) || 0;
+            const today = new Date().toLocaleDateString('es-AR');
+
+            let text = `*DESGLOSE DE AMORTIZACIÓN VEHÍCULO - CHERY 2016*\n`;
+            text += `------------------------------------------------\n`;
+            text += `*Fecha:* ${today}\n`;
+            text += `*Kilómetros recorridos:* ${km} km (${fmt(currentDesgaste)})\n`;
+            text += `*Días de trabajo amortizados:* ${days} día/s (${fmt(currentFijos)})\n`;
+            text += `------------------------------------------------\n`;
+            text += `*TOTAL A REEMBOLSAR:* ${fmt(currentTotal)}\n`;
+            text += `------------------------------------------------\n`;
+            text += `_Nota: Este valor cubre el desgaste de neumáticos, aceite, pastillas de freno, seguro y patente proporcional. No incluye combustible._`;
+
+            copyTextToClipboard(text);
+        }
+
+        function copyHistoryWhatsApp() {
+            if (historyState.length === 0) return;
+            
+            let totalAccumulated = 0;
+            let text = `*RESUMEN ACUMULADO DE AMORTIZACIÓN - CHERY 2016*\n`;
+            text += `------------------------------------------------\n`;
+            
+            historyState.forEach((item, index) => {
+                totalAccumulated += item.total;
+                text += `• ${item.date.split(' ')[0]}: ${item.km} km / ${item.days} día/s -> *${fmt(item.total)}*\n`;
+            });
+
+            text += `------------------------------------------------\n`;
+            text += `*TOTAL ACUMULADO A LIQUIDAR:* ${fmt(totalAccumulated)}\n`;
+            text += `------------------------------------------------\n`;
+            text += `_No incluye combustible._`;
+
+            copyTextToClipboard(text);
+        }
+
+        function copyTextToClipboard(text) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(text);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = text;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+                showToast("Copiado al portapapeles. ¡Listo para pegar!");
+                
+                const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+                window.open(waUrl, '_blank');
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+        }
+
+        // Modales
+        function openOdometerModal() {
+            document.getElementById('new_odometer_input').value = appState.odometer;
+            document.getElementById('odometer_modal').classList.add('active');
+            document.getElementById('new_odometer_input').focus();
+        }
+
+        function closeOdometerModal() {
+            document.getElementById('odometer_modal').classList.remove('active');
+        }
+
+        function closeOdometerModalOnOverlay(event) {
+            if (event.target === document.getElementById('odometer_modal')) {
+                closeOdometerModal();
+            }
+        }
+
+        function saveOdometer() {
+            const inputVal = parseInt(document.getElementById('new_odometer_input').value);
+            if (isNaN(inputVal) || inputVal <= 0) {
+                showToast("Ingresá un kilometraje válido");
+                return;
+            }
+
+            if (inputVal < appState.odometer) {
+                const confirmAlert = confirm("¿El kilometraje ingresado es menor al actual? ¿Deseás guardarlo igual?");
+                if (!confirmAlert) return;
+            }
+
+            appState.odometer = inputVal;
+            saveState();
+            render();
+            closeOdometerModal();
+            showToast("Kilometraje actualizado");
+        }
+
+        function registerChange(key) {
+            const labels = {
+                oil: "Aceite de Motor",
+                brakes: "Pastillas de Freno",
+                tires: "Neumáticos"
+            };
+
+            const confirmAction = confirm(`¿Confirmás que realizaste el cambio de ${labels[key]} a los ${formatNumber(appState.odometer)} km?`);
+            if (confirmAction) {
+                appState[`last_${key}`] = appState.odometer;
+                saveState();
+                render();
+                showToast(`${labels[key]} reiniciado`);
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast_notification');
+            toast.innerText = message;
+            toast.classList.add('active');
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

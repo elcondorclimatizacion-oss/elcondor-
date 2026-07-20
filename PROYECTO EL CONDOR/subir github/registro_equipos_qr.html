@@ -82,7 +82,6 @@
         <div id="view_admin" class="panel">
             <h2 style="color: var(--accent);">NUEVO REGISTRO DE EQUIPO</h2>
             
-            <input type="text" id="in_id" placeholder="ID del Equipo (Vacío para generar nuevo)">
             <input type="text" id="in_cli" placeholder="Nombre del Cliente">
             <input type="text" id="in_dir" placeholder="Dirección del Cliente">
             <input type="text" id="in_eq" placeholder="Equipo / Modelo (Ej: Split BGH 3000fg)">
@@ -166,11 +165,7 @@
                 <a href="#" id="link_wpp" class="btn btn-wpp">SOLICITAR SERVICE</a>
             </div>
             
-            <p style="text-align: center; font-size: 0.65rem; color: #64748b; margin-top: 2rem;">
-                ID de Seguimiento: <span id="out_id">---</span>
-                <span style="margin: 0 8px; color: #334155;">|</span>
-                <a href="#" onclick="showLoginFromClient()" style="color: var(--accent); text-decoration: none; font-weight: bold;">🔑 ACCESO TÉCNICO</a>
-            </p>
+            <p style="text-align: center; font-size: 0.6rem; color: #64748b; margin-top: 2rem;">ID de Seguimiento: <span id="out_id">---</span></p>
         </div>
     </div>
 
@@ -247,24 +242,11 @@
             if (document.getElementById('pin_input').value === PIN) {
                 document.getElementById('view_login').style.display = 'none';
                 document.getElementById('view_admin').style.display = 'block';
-                
-                // Si veníamos de la vista de un cliente, pre-completar los datos
-                const p = new URLSearchParams(window.location.search);
-                if (p.has('id')) {
-                    document.getElementById('in_id').value = p.get('id');
-                    document.getElementById('in_cli').value = document.getElementById('out_cli').innerText;
-                    document.getElementById('in_dir').value = document.getElementById('out_dir').innerText;
-                    document.getElementById('in_eq').value = document.getElementById('out_eq').innerText;
-                }
             } else { alert("PIN Incorrecto"); }
         }
 
         function generate() {
-            let id = document.getElementById('in_id').value.trim().toUpperCase();
-            if (!id) {
-                id = "EC-" + Math.floor(Math.random()*9000 + 1000);
-            }
-            
+            const id = "EC-" + Math.floor(Math.random()*9000 + 1000);
             const cli = document.getElementById('in_cli').value.trim();
             const dir = document.getElementById('in_dir').value.trim();
             const eq = document.getElementById('in_eq').value.trim();
@@ -280,7 +262,7 @@
             // URL Limpia y corta para el QR (Solo pasa el ID)
             const final = `${GHP_URL}?id=${id}`;
             
-            // Mostrar estado de carga
+            // Show loading status
             const statusSheets = document.getElementById('status_sheets');
             statusSheets.innerText = "Guardando en Google Sheets...";
             statusSheets.style.color = "#d97706";
@@ -396,13 +378,6 @@
                     detailsDiv.innerHTML = "<span style='color: #f87171;'>Error de conexión.</span>";
                     console.error(err);
                 });
-        }
-
-        function showLoginFromClient() {
-            document.getElementById('view_client').style.display = 'none';
-            document.getElementById('view_login').style.display = 'block';
-            document.getElementById('pin_input').value = '';
-            document.getElementById('pin_input').focus();
         }
     </script>
 </body>

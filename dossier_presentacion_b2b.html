@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier Corporativo El Condor B2B</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary: #0F172A;
+            --secondary: #D97706;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --border: #E2E8F0;
+            --bg-light: #F8FAFC;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: var(--text-dark);
+            line-height: 1.6;
+            background: #E2E8F0;
+            padding: 2rem 1rem;
+        }
+
+        /* Control Panel */
+        .controls {
+            max-width: 800px;
+            margin: 0 auto 1.5rem auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .btn-pdf {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-pdf:hover {
+            background: #B45309;
+            transform: translateY(-1px);
+        }
+
+        .controls-info {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Document Container */
+        .document-page {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            position: relative;
+        }
+
+        /* Header */
+        .doc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--secondary);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-area h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            letter-spacing: -0.05em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-area p {
+            font-size: 0.9rem;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-top: 0.2rem;
+        }
+
+        .header-meta {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .header-meta strong {
+            color: var(--primary);
+        }
+
+        /* Intro */
+        .intro-section {
+            margin-bottom: 2rem;
+        }
+
+        .salutation {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .lead-text {
+            font-size: 1.05rem;
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+        }
+
+        /* Services Grid */
+        .services-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            padding-left: 0.75rem;
+        }
+
+        .service-card {
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .service-card ul {
+            list-style-type: none;
+            padding-left: 0.5rem;
+        }
+
+        .service-card li {
+            position: relative;
+            padding-left: 1.25rem;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .service-card li::before {
+            content: "•";
+            color: var(--secondary);
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        /* Pillars Section */
+        .pillars-section {
+            margin: 2.5rem 0;
+        }
+
+        .pillars-section h2 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--secondary);
+            padding-left: 0.75rem;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .pillar-item {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 8px;
+            background: var(--bg-light);
+        }
+
+        .pillar-item strong {
+            font-size: 1.05rem;
+            color: var(--primary);
+        }
+
+        .pillar-item p {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin-top: 0.25rem;
+        }
+
+        /* Footer / Contact */
+        .doc-footer {
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .contact-info p {
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info a {
+            color: var(--secondary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signature {
+            text-align: right;
+        }
+
+        .signature-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .signature-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Print styling overrides */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .controls {
+                display: none;
+            }
+            .document-page {
+                box-shadow: none;
+                padding: 0;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <span class="controls-info">Generación de Dossier B2B en PDF (Optimizada)</span>
+        <button class="btn-pdf" id="downloadBtn" onclick="generatePDF()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Descargar PDF
+        </button>
+    </div>
+
+    <div class="document-page" id="printableDocument">
+        <div class="doc-header">
+            <div class="logo-area">
+                <h1>🦅 EL CÓNDOR</h1>
+                <p>Servicios Integrales de Ingeniería</p>
+            </div>
+            <div class="header-meta">
+                <p><strong>Dossier Institucional</strong></p>
+                <p>Presentación de Servicios B2B</p>
+            </div>
+        </div>
+
+        <div class="intro-section">
+            <h2 class="salutation">🦅 EL CÓNDOR - SERVICIOS INTEGRALES</h2>
+            <p class="subtitle">Soluciones de Ingeniería, Mantenimiento y Soporte Técnico de Precisión</p>
+            
+            <p class="lead-text">
+                En <strong>El Cóndor</strong>, entendemos que la operatividad continua y la seguridad de sus instalaciones son la máxima prioridad. Nos posicionamos como el <strong>aliado técnico estratégico</strong> para Administradores de Consorcios, Estudios de Arquitectura e Inmobiliarias que demandan intervenciones limpias, planificadas y estrictamente apegadas a las normativas vigentes.
+            </p>
+            <p class="lead-text">
+                Dejamos atrás la informalidad del sector técnico tradicional para ofrecer un servicio corporativo con <strong>garantía escrita, facturación formal e instrumental de última generación</strong>.
+            </p>
+        </div>
+
+        <div class="services-section">
+            <h2>🛠️ Nuestras 5 Divisiones de Servicio</h2>
+            
+            <div class="service-card">
+                <h3>⚡ 1. Ingeniería Eléctrica y Potencia</h3>
+                <ul>
+                    <li><strong>Obras desde Cero y Recableados:</strong> Tendido de líneas de Alta y Baja Tensión con conductores normalizados.</li>
+                    <li><strong>Tableros Eléctricos de Precisión:</strong> Diseño, armado y normalización de Tableros Principales (TP) y Seccionales (TS) con peines de conexión y terminales tubulares.</li>
+                    <li><strong>Seguridad y Certificación:</strong> Cálculo de protecciones (termomagnéticas y disyuntores diferenciales) para evitar sobrecargas e incendios.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>📹 2. Seguridad Electrónica y CCTV</h3>
+                <ul>
+                    <li><strong>Cámaras HD e IP de Alta Definición:</strong> Cobertura estratégica de accesos, palieres y perímetros con visión nocturna infrarroja.</li>
+                    <li><strong>Mantenimiento Preventivo de Flotas:</strong> Diagnóstico y recambio inmediato de baluns, fuentes de alimentación centralizadas y cableado dañado.</li>
+                    <li><strong>Monitoreo Remoto:</strong> Configuración centralizada para visualización ágil desde dispositivos móviles.</li>
+                </ul>
+            </div>
+
+            <div class="service-card" style="page-break-before: always;">
+                <h3>❄️ 3. Climatización y Refrigeración (AA)</h3>
+                <ul>
+                    <li><strong>Instalación Premium:</strong> Montaje de equipos Split y centrales con cañerías de cobre de primera calidad, ménsulas reforzadas y terminaciones estéticas.</li>
+                    <li><strong>Preinstalaciones en Obra:</strong> Trabajo conjunto con arquitectos para dejar ductos ocultos antes del final de obra.</li>
+                    <li><strong>Mantenimiento Pre-Temporada:</strong> Limpieza profunda de serpentinas, control de presiones y recarga de gas para optimizar el rendimiento eléctrico.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>🏠 4. Domótica y Gestión Energética (Smart Home)</h3>
+                <ul>
+                    <li><strong>Automatización de Edificios y Locales:</strong> Control inteligente de iluminación en áreas comunes y encendido programado de bombas de agua para reducir el gasto de expensas.</li>
+                    <li><strong>Accesos Inteligentes:</strong> Integración de porteros y cerraduras controladas de forma remota.</li>
+                </ul>
+            </div>
+
+            <div class="service-card">
+                <h3>🌐 5. Conectividad y Fibra Óptica</h3>
+                <ul>
+                    <li><strong>Redes de Alta Velocidad:</strong> Tendido estructurado de cableado UTP Cat5e/Cat6 para oficinas y locales.</li>
+                    <li><strong>Fusión y Certificación:</strong> Reparación y empalme de fibra óptica con mínima atenuación garantizada.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="pillars-section">
+            <h2>🤝 ¿Por qué elegir a El Cóndor? (Diferenciales B2B)</h2>
+            <div class="pillars-grid">
+                <div class="pillar-item">
+                    <strong>📄 Transparencia y Formalidad</strong>
+                    <p>Entregamos presupuestos detallados con separación clara de costos de materiales y mano de obra, aptos para rendición en asambleas de consorcio. Emitimos facturación formal.</p>
+                </div>
+                <div class="pillar-item">
+                    <strong>🛡️ Garantía Escrita Post-Instalación</strong>
+                    <p>Respaldamos cada uno de nuestros trabajos para asegurar su tranquilidad a largo plazo y la durabilidad de las instalaciones.</p>
+                </div>
+                <div class="pillar-item">
+                    <strong>👷 Estética y Prolijidad Absoluta</strong>
+                    <p>Nuestro equipo trabaja con uniforme, seguros vigentes (ART/AP) para el ingreso a consorcios, y aplica un estricto protocolo de orden y limpieza al finalizar cada jornada.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="doc-footer">
+            <div class="contact-info">
+                <p><strong>WhatsApp Directo:</strong> <a href="https://wa.me/5491126139527">+54 9 11 2613-9527</a></p>
+                <p><strong>Instagram / Portafolio:</strong> <a href="https://www.instagram.com/elcondorservicios/">@elcondorservicios</a></p>
+                <p><strong>Página Web:</strong> <a href="https://elcondorclimatizacion-oss.github.io/elcondor-/">elcondorclimatizacion-oss.github.io/elcondor-/</a></p>
+            </div>
+            <div class="signature">
+                <p class="signature-title">El Cóndor - Servicios Integrales</p>
+                <p class="signature-subtitle">La tranquilidad de contar con expertos.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function generatePDF() {
+            const element = document.getElementById('printableDocument');
+            const downloadBtn = document.getElementById('downloadBtn');
+            
+            // Temporary styles for printing
+            downloadBtn.style.opacity = '0.5';
+            downloadBtn.innerText = 'Generando...';
+            
+            const opt = {
+                margin:       10,
+                filename:     'dossier_institucional_el_condor.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, letterRendering: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                downloadBtn.style.opacity = '1';
+                downloadBtn.innerHTML = `
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Descargar PDF
+                `;
+            });
+        }
+    </script>
+</body>
+</html>

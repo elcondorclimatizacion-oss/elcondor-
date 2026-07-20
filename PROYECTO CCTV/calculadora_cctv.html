@@ -576,6 +576,16 @@
                                     <td><input type="number" id="vec_usuario_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="vec_usuario_prc" class="cell-input-price" value="5000" oninput="calc()"></td>
                                 </tr>
+                                <tr>
+                                    <td>Configuración Lógica de Red / Starlink / Switch Industrial & VLANs</td>
+                                    <td><input type="number" id="vec_cfg_starlink_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_cfg_starlink_prc" class="cell-input-price" value="140000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación & Configuración de Punto de Acceso (AP) Industrial / Wi-Fi Mesh</td>
+                                    <td><input type="number" id="vec_ap_industrial_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_ap_industrial_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -810,6 +820,8 @@
             vec_cam_poste: 175000,
             vec_tendido_m: 2000,
             vec_usuario: 5000,
+            vec_cfg_starlink: 140000,
+            vec_ap_industrial: 75000,
             cer_central: 180000,
             cer_tendido_m: 9500,
             al_central: 120000,
@@ -1019,6 +1031,12 @@
             const n_parante = parseInt(document.getElementById('cctv_parante_qty').value) || 0;
             if (n_parante > 0) {
                 descriptions.push(`**Fabricación & Montaje de ${n_parante} Parante(s) / Soporte(s) Especial(es) (2.5m de elevación en Muro):** Incluye corte, perforaciones pasantes, empernado de platina 10x10cm para alojar caja estanca, tratamiento antióxido y amurado de 50cm sobre pared.`);
+            }
+
+            const n_cfg_starlink = parseInt(document.getElementById('vec_cfg_starlink_qty').value) || 0;
+            const n_ap_ind = parseInt(document.getElementById('vec_ap_industrial_qty').value) || 0;
+            if (n_cfg_starlink > 0 || n_ap_ind > 0) {
+                descriptions.push(`**Infraestructura de Conectividad & Red Wi-Fi Industrial (Starlink):** Integración de router Starlink mediante adaptador ethernet gigabit, switch industrial PoE y despliegue de ${n_ap_ind} Punto(s) de Acceso (AP) industrial(es) de alta densidad para cobertura Wi-Fi continua sin microcortes en nave interior y playa exterior.`);
             }
 
             const r4 = parseInt(document.getElementById('cctv_rack_4_qty').value) || 0;

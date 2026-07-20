@@ -537,6 +537,11 @@
                                     <td><input type="number" id="cctv_rack_32_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="cctv_rack_32_prc" class="cell-input-price" value="637000" oninput="calc()"></td>
                                 </tr>
+                                <tr>
+                                    <td>Fabricación & Montaje de Parante / Soporte Especial (2.5m en Muro)</td>
+                                    <td><input type="number" id="cctv_parante_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_parante_prc" class="cell-input-price" value="40000" oninput="calc()"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -801,6 +806,7 @@
             cctv_rack_8: 429700,
             cctv_rack_16: 515600,
             cctv_rack_32: 637000,
+            cctv_parante: 40000,
             vec_cam_poste: 175000,
             vec_tendido_m: 2000,
             vec_usuario: 5000,
@@ -1008,6 +1014,11 @@
                 }
 
                 descriptions.push(`**Colocación, conexionado y calibración de ${camTypeStr.join(' y ')}${canalizStr}**, incluyendo la provisión e instalación de cajas estancas para la protección hermética y estanqueidad de las borneras, baluns de video y conectores eléctricos de alimentación contra la intemperie.`);
+            }
+
+            const n_parante = parseInt(document.getElementById('cctv_parante_qty').value) || 0;
+            if (n_parante > 0) {
+                descriptions.push(`**Fabricación & Montaje de ${n_parante} Parante(s) / Soporte(s) Especial(es) (2.5m de elevación en Muro):** Incluye corte, perforaciones pasantes, empernado de platina 10x10cm para alojar caja estanca, tratamiento antióxido y amurado de 50cm sobre pared.`);
             }
 
             const r4 = parseInt(document.getElementById('cctv_rack_4_qty').value) || 0;

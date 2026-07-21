@@ -547,11 +547,11 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: RED VECINAL -->
+                <!-- TAB 2: CONECTIVIDAD Y REDES -->
                 <div id="tab_vecinal" class="tab-content">
                     <div class="module" style="border-color: #3b82f6;">
-                        <div class="module-title">[02] RED VECINAL / SEGURIDAD URBANA</div>
-                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Mano de obra para tendido en postes y configuración multipunto de usuarios.</p>
+                        <div class="module-title">[02] INFRAESTRUCTURA DE RED, STARLINK & WI-FI MESH INDUSTRIAL</div>
+                        <p style="font-size: 0.75rem; color: #71717a; margin-bottom: 10px;">Mano de obra para tendidos en altura, integración Starlink, Switches PoE y Nodos AP Malla.</p>
                         <table class="items-table">
                             <thead>
                                 <tr>
@@ -562,29 +562,34 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Instalación de Cámara IP en Poste / Altura (con arnés)</td>
-                                    <td><input type="number" id="vec_cam_poste_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="vec_cam_poste_prc" class="cell-input-price" value="175000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Tendido Aéreo de cable UTP c/tensor de acero (Metros)</td>
-                                    <td><input type="number" id="vec_tendido_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="vec_tendido_m_prc" class="cell-input-price" value="2000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Configuración y capacitación por Celular de Vecino</td>
-                                    <td><input type="number" id="vec_usuario_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="vec_usuario_prc" class="cell-input-price" value="5000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
                                     <td>Configuración Lógica de Red / Starlink / Switch Industrial & VLANs</td>
                                     <td><input type="number" id="vec_cfg_starlink_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="vec_cfg_starlink_prc" class="cell-input-price" value="140000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Instalación & Configuración de Punto de Acceso (AP) Industrial / Wi-Fi Mesh</td>
+                                    <td>Montaje & Configuración de Nodo AP Interior en Altura (PoE / Wi-Fi 6)</td>
                                     <td><input type="number" id="vec_ap_industrial_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="vec_ap_industrial_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Montaje & Configuración de Nodo AP Outdoor Intemperie (IP66 / Playa)</td>
+                                    <td><input type="number" id="vec_ap_outdoor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_ap_outdoor_prc" class="cell-input-price" value="85000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de Cable UTP Cat6 Exterior por Metro (en Altura)</td>
+                                    <td><input type="number" id="vec_tendido_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_tendido_m_prc" class="cell-input-price" value="2500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación de Cámara IP en Poste / Altura (con arnés)</td>
+                                    <td><input type="number" id="vec_cam_poste_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_cam_poste_prc" class="cell-input-price" value="175000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Configuración y capacitación por Celular de Usuario / Vecino</td>
+                                    <td><input type="number" id="vec_usuario_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_usuario_prc" class="cell-input-price" value="5000" oninput="calc()"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -822,6 +827,7 @@
             vec_usuario: 5000,
             vec_cfg_starlink: 140000,
             vec_ap_industrial: 75000,
+            vec_ap_outdoor: 85000,
             cer_central: 180000,
             cer_tendido_m: 9500,
             al_central: 120000,
@@ -1035,8 +1041,13 @@
 
             const n_cfg_starlink = parseInt(document.getElementById('vec_cfg_starlink_qty').value) || 0;
             const n_ap_ind = parseInt(document.getElementById('vec_ap_industrial_qty').value) || 0;
-            if (n_cfg_starlink > 0 || n_ap_ind > 0) {
-                descriptions.push(`**Infraestructura de Conectividad & Red Wi-Fi Industrial (Starlink):** Integración de router Starlink mediante adaptador ethernet gigabit, switch industrial PoE y despliegue de ${n_ap_ind} Punto(s) de Acceso (AP) industrial(es) de alta densidad para cobertura Wi-Fi continua sin microcortes en nave interior y playa exterior.`);
+            const n_ap_out = parseInt(document.getElementById('vec_ap_outdoor_qty').value) || 0;
+            if (n_cfg_starlink > 0 || n_ap_ind > 0 || n_ap_out > 0) {
+                let apDetails = [];
+                if (n_ap_ind > 0) apDetails.push(`${n_ap_ind} Nodo(s) AP Interior Wi-Fi 6 en altura`);
+                if (n_ap_out > 0) apDetails.push(`${n_ap_out} Nodo(s) AP Outdoor Intemperie IP66`);
+
+                descriptions.push(`**Infraestructura de Conectividad & Red Wi-Fi Industrial (Starlink):** Integración de router Starlink mediante switch industrial PoE, tendidos Cat6 y despliegue de ${apDetails.join(' y ')} para cobertura Wi-Fi continua sin microcortes en nave interior y playa exterior.`);
             }
 
             const r4 = parseInt(document.getElementById('cctv_rack_4_qty').value) || 0;

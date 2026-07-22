@@ -382,6 +382,7 @@
                         id: 1,
                         name: "Cámara 1 (Ala Norte)",
                         type: "ip_cam",
+                        model_spec: "varifocal_sip",
                         dist: 30,
                         conduit: "estanco_pvc",
                         size: "7/8",
@@ -405,6 +406,7 @@
                 id: newId,
                 name: `Punto ${newId} (Ubicación)`,
                 type: "ip_cam",
+                model_spec: "varifocal_sip",
                 dist: 20,
                 conduit: "estanco_pvc",
                 size: "7/8",
@@ -465,8 +467,14 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Dist. al Rack (m)</label>
-                            <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
+                            <label>Lente / Modelo</label>
+                            <select onchange="updatePointValue(${p.id}, 'model_spec', this.value)">
+                                <option value="varifocal_sip" ${p.model_spec === 'varifocal_sip' ? 'selected' : ''}>Uniview Varifocal c/SIP</option>
+                                <option value="gran_angular" ${p.model_spec === 'gran_angular' ? 'selected' : ''}>Uniview Gran Angular 2.8</option>
+                                <option value="ap_indoor_spec" ${p.model_spec === 'ap_indoor_spec' ? 'selected' : ''}>AP Omada EAP610</option>
+                                <option value="ap_outdoor_spec" ${p.model_spec === 'ap_outdoor_spec' ? 'selected' : ''}>AP Outdoor EAP225</option>
+                                <option value="estandar" ${p.model_spec === 'estandar' ? 'selected' : ''}>Estándar / Genérico</option>
+                            </select>
                         </div>
                     </div>
 
@@ -503,12 +511,18 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label>¿Requiere Parante Especial en Muro?</label>
-                        <select onchange="updatePointValue(${p.id}, 'parante', this.value)">
-                            <option value="false" ${!p.parante ? 'selected' : ''}>No</option>
-                            <option value="true" ${p.parante ? 'selected' : ''}>Sí (Parante 2.5m en Muro)</option>
-                        </select>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Dist. al Rack (m)</label>
+                            <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>¿Requiere Parante?</label>
+                            <select onchange="updatePointValue(${p.id}, 'parante', this.value)">
+                                <option value="false" ${!p.parante ? 'selected' : ''}>No</option>
+                                <option value="true" ${p.parante ? 'selected' : ''}>Sí (2.5m)</option>
+                            </select>
+                        </div>
                     </div>
                 `;
                 container.appendChild(card);
@@ -542,6 +556,13 @@
                 if (p.type === 'ap_indoor') eqName = "Punto de Acceso Interior (AP)";
                 if (p.type === 'ap_outdoor') eqName = "Punto de Acceso Outdoor IP66";
 
+                let modelDesc = "";
+                if (p.model_spec === 'varifocal_sip') modelDesc = " - Uniview Bullet IP 4MP Varifocal con SIP (Perimetral)";
+                else if (p.model_spec === 'gran_angular') modelDesc = " - Uniview Bullet IP 4MP Gran Angular 2.8mm c/IR largo alcance (Playa)";
+                else if (p.model_spec === 'ap_indoor_spec') modelDesc = " - TP-Link Omada EAP610 Wi-Fi 6";
+                else if (p.model_spec === 'ap_outdoor_spec') modelDesc = " - TP-Link Omada EAP225-Outdoor";
+                else if (p.model_spec === 'estandar') modelDesc = " - Modelo Estándar";
+
                 let conduitDesc = "";
                 let boxCount = 0;
                 
@@ -564,7 +585,7 @@
                 let paranteDesc = p.parante ? " | Requiere montaje en Parante de elevación de 2.5m sobre muro (elevación a 4m)" : "";
                 if (p.parante) totalParantes++;
 
-                text += `${num}. ${p.name} (${eqName}):\n`;
+                text += `${num}. ${p.name} (${eqName}${modelDesc}):\n`;
                 text += `   - Conexión: Desde el Rack hasta el equipo por ${conduitDesc}.\n`;
                 text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
                 text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;

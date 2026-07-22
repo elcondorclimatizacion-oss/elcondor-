@@ -518,6 +518,11 @@
                                     <td><input type="number" id="cctv_cam_ip_can_prc" class="cell-input-price" value="170000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
+                                    <td>Cámara Wi-Fi (Ezviz / Imou) - Montaje & Configuración lógica</td>
+                                    <td><input type="number" id="cctv_cam_wifi_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_cam_wifi_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
                                     <td>Armado de Rack / NVR / DVR (Hasta 4 canales)</td>
                                     <td><input type="number" id="cctv_rack_4_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="cctv_rack_4_prc" class="cell-input-price" value="319300" oninput="calc()"></td>
@@ -832,6 +837,7 @@
             cctv_cam_analog_can: 131300,
             cctv_cam_ip_sup: 130000,
             cctv_cam_ip_can: 170000,
+            cctv_cam_wifi: 75000,
             cctv_rack_4: 319300,
             cctv_rack_8: 429700,
             cctv_rack_16: 515600,
@@ -1050,6 +1056,11 @@
                 }
 
                 descriptions.push(`**Colocación, conexionado y calibración de ${camTypeStr.join(' y ')}${canalizStr}**, incluyendo la provisión e instalación de cajas estancas para la protección hermética y estanqueidad de las borneras, baluns de video y conectores eléctricos de alimentación contra la intemperie.`);
+            }
+
+            const n_cam_wifi = parseInt(document.getElementById('cctv_cam_wifi_qty').value) || 0;
+            if (n_cam_wifi > 0) {
+                descriptions.push(`**Instalación & Configuración de ${n_cam_wifi} Cámara(s) Wi-Fi (Ezviz / Imou):** Incluye montaje y fijación física del equipo, vinculación inalámbrica a la red del cliente, configuración lógica de la aplicación en celulares y conexionado de alimentación eléctrica a punto cercano.`);
             }
 
             const n_parante = parseInt(document.getElementById('cctv_parante_qty').value) || 0;

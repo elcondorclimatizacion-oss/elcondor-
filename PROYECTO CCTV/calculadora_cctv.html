@@ -591,6 +591,21 @@
                                     <td><input type="number" id="vec_usuario_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="vec_usuario_prc" class="cell-input-price" value="5000" oninput="calc()"></td>
                                 </tr>
+                                <tr>
+                                    <td>Programación de Ciberseguridad & Segmentación de VLANs (ER605/Switch L2)</td>
+                                    <td><input type="number" id="vec_vlan_sec_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_vlan_sec_prc" class="cell-input-price" value="70000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Diseño & Programación de Portal Cautivo con Base de Datos</td>
+                                    <td><input type="number" id="vec_portal_cautivo_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_portal_cautivo_prc" class="cell-input-price" value="60000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Montaje & Configuración de Controladora Física OC200</td>
+                                    <td><input type="number" id="vec_oc200_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="vec_oc200_prc" class="cell-input-price" value="40000" oninput="calc()"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -828,6 +843,9 @@
             vec_cfg_starlink: 140000,
             vec_ap_industrial: 75000,
             vec_ap_outdoor: 85000,
+            vec_vlan_sec: 70000,
+            vec_portal_cautivo: 60000,
+            vec_oc200: 40000,
             cer_central: 180000,
             cer_tendido_m: 9500,
             al_central: 120000,
@@ -1048,6 +1066,21 @@
                 if (n_ap_out > 0) apDetails.push(`${n_ap_out} Nodo(s) AP Outdoor Intemperie IP66`);
 
                 descriptions.push(`**Infraestructura de Conectividad & Red Wi-Fi Industrial (Starlink):** Integración de router Starlink mediante switch industrial PoE, tendidos Cat6 y despliegue de ${apDetails.join(' y ')} para cobertura Wi-Fi continua sin microcortes en nave interior y playa exterior.`);
+            }
+
+            const n_vlan_sec = parseInt(document.getElementById('vec_vlan_sec_qty').value) || 0;
+            if (n_vlan_sec > 0) {
+                descriptions.push(`**Programación de Ciberseguridad & Segmentación de VLANs:** Aislamiento lógico de redes virtuales (Administración, Seguridad/CCTV, Visitas/Choferes) mediante reglas de Firewall en el Router ER605 y Switch L2 Administrable para proteger la red corporativa de intrusiones y propagación de virus.`);
+            }
+
+            const n_portal = parseInt(document.getElementById('vec_portal_cautivo_qty').value) || 0;
+            if (n_portal > 0) {
+                descriptions.push(`**Diseño & Programación de Portal Cautivo con Registro Digital:** Página web de bienvenida personalizada con logo de la empresa, términos de uso de seguridad del predio, registro digital de choferes y control de velocidad de visitas individual para evitar la saturación de internet.`);
+            }
+
+            const n_oc200 = parseInt(document.getElementById('vec_oc200_qty').value) || 0;
+            if (n_oc200 > 0) {
+                descriptions.push(`**Montaje & Configuración de Controladora Física TP-Link Omada OC200:** Gestión centralizada local y remota en la nube de los puntos de acceso y del switch PoE, y base de datos permanente de accesos de visitas.`);
             }
 
             const r4 = parseInt(document.getElementById('cctv_rack_4_qty').value) || 0;

@@ -464,6 +464,7 @@
                                 <option value="analog_cam" ${p.type === 'analog_cam' ? 'selected' : ''}>Cámara Analógica</option>
                                 <option value="ap_indoor" ${p.type === 'ap_indoor' ? 'selected' : ''}>AP Wifi Interior</option>
                                 <option value="ap_outdoor" ${p.type === 'ap_outdoor' ? 'selected' : ''}>AP Wifi Playa Outdoor</option>
+                                <option value="rack_ctrl" ${p.type === 'rack_ctrl' ? 'selected' : ''}>Controladora de Red (Rack)</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -473,6 +474,7 @@
                                 <option value="gran_angular" ${p.model_spec === 'gran_angular' ? 'selected' : ''}>Uniview Gran Angular 2.8</option>
                                 <option value="ap_indoor_spec" ${p.model_spec === 'ap_indoor_spec' ? 'selected' : ''}>AP Omada EAP610</option>
                                 <option value="ap_outdoor_spec" ${p.model_spec === 'ap_outdoor_spec' ? 'selected' : ''}>AP Outdoor EAP225</option>
+                                <option value="oc200" ${p.model_spec === 'oc200' ? 'selected' : ''}>TP-Link Omada OC200</option>
                                 <option value="estandar" ${p.model_spec === 'estandar' ? 'selected' : ''}>Estándar / Genérico</option>
                             </select>
                         </div>
@@ -555,12 +557,14 @@
                 if (p.type === 'analog_cam') eqName = "Cámara Analógica";
                 if (p.type === 'ap_indoor') eqName = "Punto de Acceso Interior (AP)";
                 if (p.type === 'ap_outdoor') eqName = "Punto de Acceso Outdoor IP66";
+                if (p.type === 'rack_ctrl') eqName = "Controladora de Red (Rack)";
 
                 let modelDesc = "";
                 if (p.model_spec === 'varifocal_sip') modelDesc = " - Uniview Bullet IP 4MP Varifocal con SIP (Perimetral)";
                 else if (p.model_spec === 'gran_angular') modelDesc = " - Uniview Bullet IP 4MP Gran Angular 2.8mm c/IR largo alcance (Playa)";
                 else if (p.model_spec === 'ap_indoor_spec') modelDesc = " - TP-Link Omada EAP610 Wi-Fi 6";
                 else if (p.model_spec === 'ap_outdoor_spec') modelDesc = " - TP-Link Omada EAP225-Outdoor";
+                else if (p.model_spec === 'oc200') modelDesc = " - TP-Link Omada OC200 Hardware Controller";
                 else if (p.model_spec === 'estandar') modelDesc = " - Modelo Estándar";
 
                 let conduitDesc = "";

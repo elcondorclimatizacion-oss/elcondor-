@@ -375,12 +375,11 @@
             const savedPoints = localStorage.getItem('elcondor_relevamiento');
             if (savedPoints) {
                 points = JSON.parse(savedPoints);
-            } else {
-                // Crear 1er punto por defecto para guiar al usuario
+                   // Crear 1er punto por defecto para guiar al usuario
                 points = [
                     {
                         id: 1,
-                        name: "Cámara 1 (Ala Norte)",
+                        name: "Cámara 1 (Muro Norte)",
                         type: "ip_cam",
                         model_spec: "varifocal_sip",
                         dist: 30,
@@ -388,7 +387,8 @@
                         size: "7/8",
                         box_spacing: 5,
                         height: 4,
-                        parante: false
+                        parante: false,
+                        shared_conduit: false
                     }
                 ];
             }
@@ -404,7 +404,7 @@
             const newId = points.length > 0 ? Math.max(...points.map(p => p.id)) + 1 : 1;
             points.push({
                 id: newId,
-                name: `Punto ${newId} (Ubicación)`,
+                name: `Cámara ${newId} (Ubicación)`,
                 type: "ip_cam",
                 model_spec: "varifocal_sip",
                 dist: 20,
@@ -412,7 +412,8 @@
                 size: "7/8",
                 box_spacing: 5,
                 height: 4,
-                parante: false
+                parante: false,
+                shared_conduit: false
             });
             renderPoints();
             saveToLocal();
@@ -431,6 +432,8 @@
                     point[key] = parseFloat(val) || 0;
                 } else if (key === 'parante') {
                     point[key] = val === 'true';
+                } else if (key === 'shared_conduit') {
+                    point[key] = val === true || val === 'true';
                 } else {
                     point[key] = val;
                 }
@@ -452,7 +455,7 @@
                 card.className = 'point-card';
                 card.innerHTML = `
                     <div class="point-card-header">
-                        <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)">
+                        <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)" placeholder="Nombre / Ubicación (ej: Cam 1 Muro Norte)">
                         <button class="btn-delete-point" onclick="deletePoint(${p.id})">Eliminar</button>
                     </div>
                     
@@ -531,6 +534,12 @@
                             </select>
                         </div>
                     </div>
+
+                    <!-- CHECKBOX CAÑERIA COMPARTIDA -->
+                    <div style="margin-top: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent-color);">
+                        <input type="checkbox" id="shared_conduit_${p.id}" ${p.shared_conduit ? 'checked' : ''} style="accent-color: var(--accent-color); width: 15px; height: 15px; cursor: pointer;" onchange="updatePointValue(${p.id}, 'shared_conduit', this.checked)">
+                        <label for="shared_conduit_${p.id}" style="cursor: pointer; user-select: none; font-weight: 600;">¿Cañería compartida o existente? (Solo suma cable UTP, no caños/cajas)</label>
+                    </div>
                 `;
                 container.appendChild(card);
             });
@@ -581,12 +590,16 @@
                 let boxCount = 0;
                 
                 if (p.conduit === 'estanco_pvc' || p.conduit === 'pvc_comun') {
-                    conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}"`;
-                    totalConduitM += p.dist;
-                    if (p.box_spacing > 0) {
-                        boxCount = Math.floor(p.dist / p.box_spacing);
-                        if (p.dist % p.box_spacing !== 0) boxCount += 1;
-                        totalBoxes += boxCount;
+                    if (p.shared_conduit) {
+                        conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}" (Compartida/Existente)`;
+                    } else {
+                        conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}"`;
+                        totalConduitM += p.dist;
+                        if (p.box_spacing > 0) {
+                            boxCount = Math.floor(p.dist / p.box_spacing);
+                            if (p.dist % p.box_spacing !== 0) boxCount += 1;
+                            totalBoxes += boxCount;
+                        }
                     }
                 } else if (p.conduit === 'aereo') {
                     conduitDesc = `tendido aéreo con tensor de acero galvanizado`;
@@ -602,7 +615,11 @@
                 text += `${num}. ${p.name} (${eqName}${modelDesc}):\n`;
                 text += `   - Conexión: Desde el Rack hasta el equipo por ${conduitDesc}.\n`;
                 text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
-                text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;
+                if (!p.shared_conduit && (p.conduit === 'estanco_pvc' || p.conduit === 'pvc_comun')) {
+                    text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;
+                } else if (p.shared_conduit) {
+                    text += `   - Cajas de paso: Compartidas con tramo principal.\n`;
+                }
                 text += `   - Montaje: Altura de colocación a ${p.height} metros${paranteDesc}.\n\n`;
 
                 totalCable += p.dist;

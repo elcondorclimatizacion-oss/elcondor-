@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0b0f19">
+    <title>Planificador y Relevamiento de Obra - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --card-bg: rgba(19, 26, 43, 0.8);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --accent-color: #38bdf8; /* Azul Conectividad */
+            --accent-hover: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #25d366;
+            --danger-color: #ef4444;
+            --gold-color: #f59e0b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 1.5rem 1rem 3rem 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.1) 0%, transparent 50%);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        header {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 1.2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-color), var(--success-color));
+        }
+
+        .brand-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            font-weight: 800;
+        }
+
+        .model-subtitle {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .module {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 1.2rem;
+            border-radius: 16px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .module-title {
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 8px;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 0.8rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            background: #080c14;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 0.7rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            outline: none;
+            width: 100%;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Tarjeta de Punto Relevado */
+        .point-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            position: relative;
+        }
+
+        .point-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 6px;
+        }
+
+        .point-title {
+            font-weight: 800;
+            font-size: 0.95rem;
+            color: var(--text-color);
+        }
+
+        .btn-delete-point {
+            background: none;
+            border: none;
+            color: var(--danger-color);
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        /* Botones de Acción */
+        .btn-add {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px dashed var(--accent-color);
+            color: var(--accent-color);
+            border-radius: 12px;
+            padding: 0.9rem;
+            width: 100%;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-add:active {
+            background: rgba(56, 189, 248, 0.2);
+            transform: scale(0.98);
+        }
+
+        .btn-success-action {
+            background: var(--success-color);
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2);
+        }
+
+        .btn-success-action:active {
+            transform: scale(0.98);
+        }
+
+        .btn-danger-action {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            border-radius: 12px;
+            padding: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: 100%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Cuadro de Cómputo y Reporte */
+        .summary-box {
+            background: #080c14;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            max-height: 250px;
+            overflow-y: auto;
+            color: #e2e8f0;
+            line-height: 1.5;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .totals-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .total-badge {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+        }
+
+        .total-badge strong {
+            color: var(--accent-color);
+            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Toast Notificación */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            background: #1e293b;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 0.8rem 1.2rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            z-index: 2000;
+            text-align: center;
+        }
+
+        .toast.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <header>
+            <div class="brand-title">Planificador Técnico</div>
+            <div class="model-subtitle">Relevamiento de Obra 📝</div>
+        </header>
+
+        <!-- CONFIG GENERAL DE OBRA -->
+        <div class="module">
+            <div class="module-title">[01] DATOS DEL PROYECTO</div>
+            <div class="form-group">
+                <label>Nombre del Proyecto</label>
+                <input type="text" id="proj_name" value="EN UN FLASH S.A.">
+            </div>
+            <div class="form-group">
+                <label>Ubicación del Rack Principal</label>
+                <input type="text" id="rack_loc" value="Oficina de Control Central">
+            </div>
+        </div>
+
+        <!-- LISTA DE PUNTOS RELEVADOS -->
+        <div class="module">
+            <div class="module-title">[02] PUNTOS RELEVADOS (CÁMARAS Y NODOS)</div>
+            <div id="points_container">
+                <!-- Se agregan dinámicamente -->
+            </div>
+            <button class="btn-add" onclick="addNewPoint()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Agregar Punto de Conexión
+            </button>
+        </div>
+
+        <!-- GENERADOR DE REPORTES Y CÓMPUTO -->
+        <div class="module">
+            <div class="module-title">[03] REPORTE DE CÓMPUTO DE MATERIALES</div>
+            <div class="summary-box" id="report_text">Cargue puntos de conexión arriba para generar el reporte de obra...</div>
+            
+            <!-- Desglose rápido de materiales -->
+            <div class="totals-grid">
+                <div class="total-badge">Cable UTP:<br><strong id="tot_cable">0 m</strong></div>
+                <div class="total-badge">Caños PVC UV:<br><strong id="tot_pipes">0 u (0m)</strong></div>
+                <div class="total-badge">Cajas Estancas:<br><strong id="tot_boxes">0 u</strong></div>
+                <div class="total-badge">Parantes 2.5m:<br><strong id="tot_parantes">0 u</strong></div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 15px;">
+                <button class="btn-success-action" onclick="copyReportWhatsApp()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    Enviar Relevamiento por WhatsApp
+                </button>
+                <button class="btn-danger-action" onclick="resetSurvey()">Restablecer Todo</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICACIÓN -->
+    <div class="toast" id="toast_notification">Copiado al portapapeles</div>
+
+    <script>
+        // Array de puntos relevados en memoria
+        let points = [];
+
+        window.onload = function() {
+            // Cargar relevamiento previo si existe
+            const savedPoints = localStorage.getItem('elcondor_relevamiento');
+            if (savedPoints) {
+                points = JSON.parse(savedPoints);
+            } else {
+                // Crear 1er punto por defecto para guiar al usuario
+                points = [
+                    {
+                        id: 1,
+                        name: "Cámara 1 (Ala Norte)",
+                        type: "ip_cam",
+                        dist: 30,
+                        conduit: "estanco_pvc",
+                        size: "7/8",
+                        box_spacing: 5,
+                        height: 4,
+                        parante: false
+                    }
+                ];
+            }
+            renderPoints();
+        };
+
+        function saveToLocal() {
+            localStorage.setItem('elcondor_relevamiento', JSON.stringify(points));
+            generateReport();
+        }
+
+        function addNewPoint() {
+            const newId = points.length > 0 ? Math.max(...points.map(p => p.id)) + 1 : 1;
+            points.push({
+                id: newId,
+                name: `Punto ${newId} (Ubicación)`,
+                type: "ip_cam",
+                dist: 20,
+                conduit: "estanco_pvc",
+                size: "7/8",
+                box_spacing: 5,
+                height: 4,
+                parante: false
+            });
+            renderPoints();
+            saveToLocal();
+        }
+
+        function deletePoint(id) {
+            points = points.filter(p => p.id !== id);
+            renderPoints();
+            saveToLocal();
+        }
+
+        function updatePointValue(id, key, val) {
+            const point = points.find(p => p.id === id);
+            if (point) {
+                if (key === 'dist' || key === 'box_spacing' || key === 'height') {
+                    point[key] = parseFloat(val) || 0;
+                } else if (key === 'parante') {
+                    point[key] = val === 'true';
+                } else {
+                    point[key] = val;
+                }
+                saveToLocal();
+            }
+        }
+
+        function renderPoints() {
+            const container = document.getElementById('points_container');
+            container.innerHTML = "";
+
+            if (points.length === 0) {
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px; font-style: italic;">No hay puntos relevados. Presione el botón de abajo para agregar uno.</div>`;
+                return;
+            }
+
+            points.forEach(p => {
+                const card = document.createElement('div');
+                card.className = 'point-card';
+                card.innerHTML = `
+                    <div class="point-card-header">
+                        <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)">
+                        <button class="btn-delete-point" onclick="deletePoint(${p.id})">Eliminar</button>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Tipo Equipo</label>
+                            <select onchange="updatePointValue(${p.id}, 'type', this.value)">
+                                <option value="ip_cam" ${p.type === 'ip_cam' ? 'selected' : ''}>Cámara IP</option>
+                                <option value="analog_cam" ${p.type === 'analog_cam' ? 'selected' : ''}>Cámara Analógica</option>
+                                <option value="ap_indoor" ${p.type === 'ap_indoor' ? 'selected' : ''}>AP Wifi Interior</option>
+                                <option value="ap_outdoor" ${p.type === 'ap_outdoor' ? 'selected' : ''}>AP Wifi Playa Outdoor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Dist. al Rack (m)</label>
+                            <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Canalización</label>
+                            <select onchange="updatePointValue(${p.id}, 'conduit', this.value)">
+                                <option value="estanco_pvc" ${p.conduit === 'estanco_pvc' ? 'selected' : ''}>Cañería Estanca O-ring</option>
+                                <option value="pvc_comun" ${p.conduit === 'pvc_comun' ? 'selected' : ''}>Caño PVC común</option>
+                                <option value="aereo" ${p.conduit === 'aereo' ? 'selected' : ''}>Tendido Aéreo c/tensor</option>
+                                <option value="existente" ${p.conduit === 'existente' ? 'selected' : ''}>Cañería Existente</option>
+                                <option value="engrampado" ${p.conduit === 'engrampado' ? 'selected' : ''}>Grampeado superficial</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Diámetro Caño</label>
+                            <select onchange="updatePointValue(${p.id}, 'size', this.value)">
+                                <option value="3/4" ${p.size === '3/4' ? 'selected' : ''}>3/4" (19mm)</option>
+                                <option value="7/8" ${p.size === '7/8' ? 'selected' : ''}>7/8" (22mm)</option>
+                                <option value="1" ${p.size === '1' ? 'selected' : ''}>1" (25mm)</option>
+                                <option value="N/A" ${p.size === 'N/A' ? 'selected' : ''}>No aplica</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Cajas Paso (c/ X mts)</label>
+                            <input type="number" value="${p.box_spacing}" oninput="updatePointValue(${p.id}, 'box_spacing', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Altura Montaje (m)</label>
+                            <input type="number" value="${p.height}" oninput="updatePointValue(${p.id}, 'height', this.value)">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Requiere Parante Especial en Muro?</label>
+                        <select onchange="updatePointValue(${p.id}, 'parante', this.value)">
+                            <option value="false" ${!p.parante ? 'selected' : ''}>No</option>
+                            <option value="true" ${p.parante ? 'selected' : ''}>Sí (Parante 2.5m en Muro)</option>
+                        </select>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function generateReport() {
+            const pName = document.getElementById('proj_name').value || 'PROYECTO';
+            const rLoc = document.getElementById('rack_loc').value || 'Rack Principal';
+            
+            let text = `=== INFORME DE RELEVAMIENTO TÉCNICO ===\n`;
+            text += `Proyecto: ${pName}\n`;
+            text += `Ubicación Central del Rack: ${rLoc}\n`;
+            text += `----------------------------------------\n\n`;
+
+            let totalCable = 0;
+            let totalConduitM = 0;
+            let totalBoxes = 0;
+            let totalParantes = 0;
+
+            if (points.length === 0) {
+                document.getElementById('report_text').innerText = "Cargue puntos arriba para generar el reporte.";
+                return;
+            }
+
+            points.forEach((p, index) => {
+                const num = index + 1;
+                let eqName = "";
+                if (p.type === 'ip_cam') eqName = "Cámara IP";
+                if (p.type === 'analog_cam') eqName = "Cámara Analógica";
+                if (p.type === 'ap_indoor') eqName = "Punto de Acceso Interior (AP)";
+                if (p.type === 'ap_outdoor') eqName = "Punto de Acceso Outdoor IP66";
+
+                let conduitDesc = "";
+                let boxCount = 0;
+                
+                if (p.conduit === 'estanco_pvc' || p.conduit === 'pvc_comun') {
+                    conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}"`;
+                    totalConduitM += p.dist;
+                    if (p.box_spacing > 0) {
+                        boxCount = Math.floor(p.dist / p.box_spacing);
+                        if (p.dist % p.box_spacing !== 0) boxCount += 1;
+                        totalBoxes += boxCount;
+                    }
+                } else if (p.conduit === 'aereo') {
+                    conduitDesc = `tendido aéreo con tensor de acero galvanizado`;
+                } else if (p.conduit === 'existente') {
+                    conduitDesc = `cañería existente en el predio`;
+                } else {
+                    conduitDesc = `grampeado directo sobre superficie (perímetro)`;
+                }
+
+                let paranteDesc = p.parante ? " | Requiere montaje en Parante de elevación de 2.5m sobre muro (elevación a 4m)" : "";
+                if (p.parante) totalParantes++;
+
+                text += `${num}. ${p.name} (${eqName}):\n`;
+                text += `   - Conexión: Desde el Rack hasta el equipo por ${conduitDesc}.\n`;
+                text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
+                text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;
+                text += `   - Montaje: Altura de colocación a ${p.height} metros${paranteDesc}.\n\n`;
+
+                totalCable += p.dist;
+            });
+
+            // Sumar 10% de desperdicio de cable/caño habitual en obra
+            const totalCableWithMargin = Math.round(totalCable * 1.1);
+            const totalConduitMWithMargin = Math.round(totalConduitM * 1.1);
+            const totalPipesQty = Math.ceil(totalConduitMWithMargin / 3); // Caños de 3 metros
+
+            text += `----------------------------------------\n`;
+            text += `=== CÓMPUTO GENERAL DE MATERIALES (Estimado) ===\n`;
+            text += `- Total Cable UTP Cat6: ${totalCableWithMargin} metros (con 10% de margen de obra).\n`;
+            text += `- Caños de PVC Rígido (de 3m): ${totalPipesQty} unidades (${totalConduitMWithMargin} metros totales).\n`;
+            text += `- Cajas de Paso Estancas IP65: ${totalBoxes} unidades.\n`;
+            text += `- Parantes Especiales 2.5m: ${totalParantes} unidades.\n`;
+
+            document.getElementById('report_text').innerText = text;
+
+            // Actualizar badges
+            document.getElementById('tot_cable').innerText = `${totalCableWithMargin} m`;
+            document.getElementById('tot_pipes').innerText = `${totalPipesQty} u (${totalConduitMWithMargin}m)`;
+            document.getElementById('tot_boxes').innerText = `${totalBoxes} u`;
+            document.getElementById('tot_parantes').innerText = `${totalParantes} u`;
+        }
+
+        function copyReportWhatsApp() {
+            const reportText = document.getElementById('report_text').innerText;
+            if (points.length === 0) return;
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(reportText);
+                } else {
+                    let textArea = document.createElement("textarea");
+                    textArea.value = reportText;
+                    textArea.style.position = "fixed";
+                    textArea.style.left = "-999999px";
+                    document.body.appendChild(textArea);
+                    textArea.focus();
+                    textArea.select();
+                    document.execCommand('copy');
+                    textArea.remove();
+                }
+                showToast("Relevamiento copiado al portapapeles");
+                const waUrl = "https://api.whatsapp.com/send?text=" + encodeURIComponent(reportText);
+                window.open(waUrl, '_blank');
+            } catch (e) {
+                console.error("Error al copiar:", e);
+            }
+        }
+
+        function resetSurvey() {
+            const confirmReset = confirm("¿Desea borrar todos los puntos cargados y reiniciar el relevamiento?");
+            if (confirmReset) {
+                points = [];
+                saveToLocal();
+                renderPoints();
+                showToast("Relevamiento restablecido");
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast_notification');
+            toast.innerText = message;
+            toast.classList.add('active');
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 2500);
+        }
+    </script>
+</body>
+</html>

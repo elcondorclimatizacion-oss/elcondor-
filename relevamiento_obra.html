@@ -438,6 +438,9 @@
                     point[key] = val;
                 }
                 saveToLocal();
+                if (key === 'type') {
+                    renderPoints(); // Redibuja para actualizar la etiqueta de distancia
+                }
             }
         }
 
@@ -453,6 +456,11 @@
             points.forEach(p => {
                 const card = document.createElement('div');
                 card.className = 'point-card';
+                
+                // Si es tramo extra, la etiqueta de distancia dice "Largo Tramo (m)"
+                const isExtra = p.type === 'extra_conduit';
+                const distLabel = isExtra ? 'Largo Tramo (m)' : 'Dist. al Rack (m)';
+
                 card.innerHTML = `
                     <div class="point-card-header">
                         <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)" placeholder="Nombre / Ubicación (ej: Cam 1 Muro Norte)">
@@ -525,7 +533,7 @@
 
                     <div class="grid-2">
                         <div class="form-group">
-                            <label>Dist. al Rack (m)</label>
+                            <label>${distLabel}</label>
                             <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
                         </div>
                         <div class="form-group">

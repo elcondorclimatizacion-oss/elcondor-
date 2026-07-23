@@ -381,7 +381,8 @@
             const savedPoints = localStorage.getItem('elcondor_relevamiento');
             if (savedPoints) {
                 points = JSON.parse(savedPoints);
-                   // Crear 1er punto por defecto para guiar al usuario
+            } else {
+                // Crear 1er punto por defecto para guiar al usuario
                 points = [
                     {
                         id: 1,
@@ -394,7 +395,8 @@
                         box_spacing: 5,
                         height: 4,
                         parante: false,
-                        shared_conduit: false
+                        shared_conduit: false,
+                        extra_conduit_m: 0
                     }
                 ];
             }
@@ -419,7 +421,8 @@
                 box_spacing: 5,
                 height: 4,
                 parante: false,
-                shared_conduit: false
+                shared_conduit: false,
+                extra_conduit_m: 0
             });
             renderPoints();
             saveToLocal();
@@ -453,7 +456,7 @@
         function updatePointValue(id, key, val) {
             const point = points.find(p => p.id === id);
             if (point) {
-                if (key === 'dist' || key === 'box_spacing' || key === 'height') {
+                if (key === 'dist' || key === 'box_spacing' || key === 'height' || key === 'extra_conduit_m') {
                     point[key] = parseFloat(val) || 0;
                 } else if (key === 'parante') {
                     point[key] = val === 'true';
@@ -610,6 +613,16 @@
                             </div>
                         </div>
 
+                        <div class="grid-2">
+                            <div class="form-group">
+                                <label>Cañería Extra / Bajada (m)</label>
+                                <input type="number" value="${p.extra_conduit_m || 0}" oninput="updatePointValue(${p.id}, 'extra_conduit_m', this.value)">
+                            </div>
+                            <div class="form-group">
+                                <!-- spacer -->
+                            </div>
+                        </div>
+
                         <!-- CHECKBOX CAÑERIA COMPARTIDA -->
                         <div style="margin-top: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent-color);">
                             <input type="checkbox" id="shared_conduit_${p.id}" ${p.shared_conduit ? 'checked' : ''} style="accent-color: var(--accent-color); width: 15px; height: 15px; cursor: pointer;" onchange="updatePointValue(${p.id}, 'shared_conduit', this.checked)">
@@ -700,11 +713,20 @@
                         conduitDesc = `grampeado directo sobre superficie (perímetro)`;
                     }
 
+                    // Sumar tramo de cañería adicional si se cargó en esta cámara
+                    if (p.extra_conduit_m > 0) {
+                        totalConduitM += p.extra_conduit_m;
+                        totalBoxes += 1; // 1 caja para la bajada/subida local
+                    }
+
                     let paranteDesc = p.parante ? " | Requiere montaje en Parante de elevación de 2.5m sobre muro (elevación a 4m)" : "";
                     if (p.parante) totalParantes++;
 
                     text += `${num}. ${p.name} (${eqName}${modelDesc}):\n`;
                     text += `   - Conexión: Desde el Rack hasta el equipo por ${conduitDesc}.\n`;
+                    if (p.extra_conduit_m > 0) {
+                        text += `   - Cañería adicional local: ${p.extra_conduit_m} metros de caño PVC (bajada/subida).\n`;
+                    }
                     if (p.type !== 'rack_ctrl' && p.type !== 'switch_l2' && p.type !== 'router_fw') {
                         text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
                         totalCable += p.dist;
@@ -713,6 +735,9 @@
                         text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;
                     } else if (p.shared_conduit) {
                         text += `   - Cajas de paso: Compartidas con tramo principal.\n`;
+                    }
+                    if (p.extra_conduit_m > 0) {
+                        text += `   - Cajas de paso adicionales: 1 caja estanca IP65 en la bajada.\n`;
                     }
                     text += `   - Montaje: Altura de colocación a ${p.height} metros${paranteDesc}.\n\n`;
                 }

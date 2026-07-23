@@ -470,6 +470,7 @@
                                 <option value="rack_ctrl" ${p.type === 'rack_ctrl' ? 'selected' : ''}>Controladora de Red (Rack)</option>
                                 <option value="switch_l2" ${p.type === 'switch_l2' ? 'selected' : ''}>Switch L2 Administrable</option>
                                 <option value="router_fw" ${p.type === 'router_fw' ? 'selected' : ''}>Router / Firewall</option>
+                                <option value="extra_conduit" ${p.type === 'extra_conduit' ? 'selected' : ''}>Tramo Cañería Extra</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -483,6 +484,7 @@
                                 <option value="tlsg2008p" ${p.model_spec === 'tlsg2008p' ? 'selected' : ''}>Switch TL-SG2008P</option>
                                 <option value="tlsg1016pe" ${p.model_spec === 'tlsg1016pe' ? 'selected' : ''}>Switch TL-SG1016PE</option>
                                 <option value="er605" ${p.model_spec === 'er605' ? 'selected' : ''}>Router Omada ER605</option>
+                                <option value="pvc_tubing" ${p.model_spec === 'pvc_tubing' ? 'selected' : ''}>PVC Rígido (Solo Caño)</option>
                                 <option value="estandar" ${p.model_spec === 'estandar' ? 'selected' : ''}>Estándar / Genérico</option>
                             </select>
                         </div>
@@ -574,6 +576,7 @@
                 if (p.type === 'rack_ctrl') eqName = "Controladora de Red (Rack)";
                 if (p.type === 'switch_l2') eqName = "Switch L2 Administrable";
                 if (p.type === 'router_fw') eqName = "Router / Firewall";
+                if (p.type === 'extra_conduit') eqName = "Cañería Adicional / Bajada";
 
                 let modelDesc = "";
                 if (p.model_spec === 'varifocal_sip') modelDesc = " - Uniview Bullet IP 4MP Varifocal con SIP (Perimetral)";
@@ -584,6 +587,7 @@
                 else if (p.model_spec === 'tlsg2008p') modelDesc = " - TP-Link TL-SG2008P JetStream L2 PoE+";
                 else if (p.model_spec === 'tlsg1016pe') modelDesc = " - TP-Link TL-SG1016PE Smart Switch 16p PoE+";
                 else if (p.model_spec === 'er605') modelDesc = " - TP-Link Omada ER605 VPN Router / Firewall";
+                else if (p.model_spec === 'pvc_tubing') modelDesc = " - PVC Rígido de Alto Impacto UV";
                 else if (p.model_spec === 'estandar') modelDesc = " - Modelo Estándar";
 
                 let conduitDesc = "";
@@ -614,15 +618,18 @@
 
                 text += `${num}. ${p.name} (${eqName}${modelDesc}):\n`;
                 text += `   - Conexión: Desde el Rack hasta el equipo por ${conduitDesc}.\n`;
-                text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
+                if (p.type !== 'extra_conduit' && p.type !== 'rack_ctrl' && p.type !== 'switch_l2' && p.type !== 'router_fw') {
+                    text += `   - Distancia cableada: ${p.dist} metros de UTP Cat6.\n`;
+                    totalCable += p.dist;
+                } else if (p.type === 'extra_conduit') {
+                    text += `   - Distancia de cañería: ${p.dist} metros de caño PVC rígido extra.\n`;
+                }
                 if (!p.shared_conduit && (p.conduit === 'estanco_pvc' || p.conduit === 'pvc_comun')) {
                     text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n`;
                 } else if (p.shared_conduit) {
                     text += `   - Cajas de paso: Compartidas con tramo principal.\n`;
                 }
                 text += `   - Montaje: Altura de colocación a ${p.height} metros${paranteDesc}.\n\n`;
-
-                totalCable += p.dist;
             });
 
             // Sumar 10% de desperdicio de cable/caño habitual en obra

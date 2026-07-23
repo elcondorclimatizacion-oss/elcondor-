@@ -824,9 +824,15 @@
             </div>
         </div>
 
-        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #000; padding-top: 15px;">
-            <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
-            <p style="font-size: 10px; color: #555; margin-top: 5px;">* Validez del presupuesto: 15 días. Garantía en mano de obra: 6 meses.</p>
+        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 15px; font-family: Arial, sans-serif;">
+            <div style="text-align: right; margin-bottom: 15px;">
+                <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #333; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <div><strong>Garantía:</strong> 1 año de garantía escrita.</div>
+                <div><strong>El Cóndor Servicios Integrales</strong></div>
+                <div><strong>Web:</strong> www.elcondorservicios.com.ar</div>
+            </div>
         </div>
     </div>
 
@@ -1050,9 +1056,10 @@
 
                 let canalizStr = "";
                 if (n_analog_can > 0 || n_ip_can > 0) {
-                    canalizStr = " realizando el tendido de cañerías de PVC rígido o cablecanal de alta resistencia";
+                    const total_can_cams = n_analog_can + n_ip_can;
+                    canalizStr = ` realizando el tendido e instalación de cañerías rígidas de PVC estancas de alto impacto (filtro UV) para la protección mecánica del cableado en los tramos de bajadas y subidas de las ${total_can_cams} cámaras`;
                 } else {
-                    canalizStr = " utilizando cañerías preexistentes o fijación en superficie (grampeado)";
+                    canalizStr = " utilizando cañerías preexistentes (bandejas portacables) o fijación en superficie (grampeado)";
                 }
 
                 descriptions.push(`**Colocación, conexionado y calibración de ${camTypeStr.join(' y ')}${canalizStr}**, incluyendo la provisión e instalación de cajas estancas para la protección hermética y estanqueidad de las borneras, baluns de video y conectores eléctricos de alimentación contra la intemperie.`);
@@ -1119,7 +1126,7 @@
                 descriptions.push(`**Montaje y sujeción en altura de ${vec_cams} cámaras IP perimetrales sobre postes / columnas de servicios público**, utilizando arnés de seguridad de cuerpo completo con cola de amarre, fijación con soportes metálicos y cajas estancas en altura.`);
             }
             if (vec_tendido > 0) {
-                descriptions.push(`**Tendido aéreo de ${vec_tendido} metros de cableado estructurado UTP exterior con tensor de acero (catenaria)**, tensado y fijado firmemente mediante soportes preformados de retención.`);
+                descriptions.push(`**Tendido de Cableado UTP Cat6 en Altura:** Despliegue, guiado y peinado de **${vec_tendido} metros** de cable de red Cat6 exterior (doble vaina 100% cobre) a través de cañerías y bandejas portacables para interconectar todos los puntos.`);
             }
             if (vec_users > 0) {
                 descriptions.push(`**Configuración multipunto, alta y capacitación para ${vec_users} vecinos**, instalando la aplicación en sus respectivos celulares y configurando los accesos y permisos individuales.`);
@@ -1186,7 +1193,7 @@
                 descriptions.push(`**Mano de obra para el reemplazo y re-orientación de ${srv_repl} cámaras** defectuosas por unidades nuevas.`);
             }
             if (srv_est > 0) {
-                descriptions.push(`**Reemplazo de ${srv_est} cajas estancas** de conexiones para garantizar estanqueidad.`);
+                descriptions.push(`**Montaje e Instalación de ${srv_est} Cajas Estancas IP65:** Fijación, perforación y sellado de cajas estancas aéreas para la protección y estanqueidad de las conexiones de los cables contra el agua y la intemperie.`);
             }
             if (srv_fic > 0) {
                 descriptions.push(`**Cambio y re-conexionado de ${srv_fic} fichas de conexión** (baluns de video, borneras de alimentación DC o RJ45 de red).`);
@@ -1233,7 +1240,7 @@
             
             text += `*TOTAL MANO DE OBRA (CERRADO):* ${fmt(lastTotal)}\n`;
             text += `------------------------------------------------\n`;
-            text += `👉 *Garantía técnica:* 6 meses en mano de obra.\n`;
+            text += `👉 *Garantía técnica:* 1 año en mano de obra.\n`;
             text += `👉 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
             text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
             text += `_El Cóndor Climatización y Seguridad_`;

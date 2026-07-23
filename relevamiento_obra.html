@@ -334,16 +334,10 @@
             <div id="points_container">
                 <!-- Se agregan dinámicamente -->
             </div>
-            <div style="display: flex; flex-direction: column; gap: 8px;">
-                <button class="btn-add" onclick="addNewPoint()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    Agregar Cámara / AP / Equipo
-                </button>
-                <button class="btn-add" style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;" onclick="addNewConduitOnly()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="m22 2-7 20-4-9-9-4Z"/></svg>
-                    Agregar Tramo Cañería Extra
-                </button>
-            </div>
+            <button class="btn-add" onclick="addNewPoint()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                Agregar Punto de Conexión (Cámara / AP)
+            </button>
         </div>
 
         <!-- GENERADOR DE REPORTES Y CÓMPUTO -->
@@ -428,25 +422,6 @@
             saveToLocal();
         }
 
-        function addNewConduitOnly() {
-            const newId = points.length > 0 ? Math.max(...points.map(p => p.id)) + 1 : 1;
-            points.push({
-                id: newId,
-                name: `Tramo Cañería Extra ${newId}`,
-                type: "conduit_only",
-                model_spec: "pvc_tubing",
-                dist: 10,
-                conduit: "estanco_pvc",
-                size: "3/4",
-                box_spacing: 5,
-                height: 4,
-                parante: false,
-                shared_conduit: false
-            });
-            renderPoints();
-            saveToLocal();
-        }
-
         function deletePoint(id) {
             points = points.filter(p => p.id !== id);
             renderPoints();
@@ -477,7 +452,7 @@
             container.innerHTML = "";
 
             if (points.length === 0) {
-                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px; font-style: italic;">No hay puntos relevados. Presione los botones de abajo para agregar puntos o cañería.</div>`;
+                container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.85rem; padding: 15px; font-style: italic;">No hay puntos relevados. Presione el botón de abajo para agregar puntos.</div>`;
                 return;
             }
 
@@ -485,151 +460,104 @@
                 const card = document.createElement('div');
                 card.className = 'point-card';
                 
-                const isConduitOnly = p.type === 'conduit_only';
+                card.innerHTML = `
+                    <div class="point-card-header">
+                        <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)" placeholder="Nombre / Ubicación (ej: Cam 1 Muro Norte)">
+                        <button class="btn-delete-point" onclick="deletePoint(${p.id})">Eliminar</button>
+                    </div>
+                    
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Tipo Equipo</label>
+                            <select onchange="updatePointValue(${p.id}, 'type', this.value)">
+                                <option value="ip_cam" ${p.type === 'ip_cam' ? 'selected' : ''}>Cámara IP</option>
+                                <option value="analog_cam" ${p.type === 'analog_cam' ? 'selected' : ''}>Cámara Analógica</option>
+                                <option value="ap_indoor" ${p.type === 'ap_indoor' ? 'selected' : ''}>AP Wifi Interior</option>
+                                <option value="ap_outdoor" ${p.type === 'ap_outdoor' ? 'selected' : ''}>AP Wifi Playa Outdoor</option>
+                                <option value="rack_ctrl" ${p.type === 'rack_ctrl' ? 'selected' : ''}>Controladora de Red (Rack)</option>
+                                <option value="switch_l2" ${p.type === 'switch_l2' ? 'selected' : ''}>Switch L2 Administrable</option>
+                                <option value="router_fw" ${p.type === 'router_fw' ? 'selected' : ''}>Router / Firewall</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Lente / Modelo</label>
+                            <select onchange="updatePointValue(${p.id}, 'model_spec', this.value)">
+                                <option value="varifocal_sip" ${p.model_spec === 'varifocal_sip' ? 'selected' : ''}>Uniview Varifocal c/SIP</option>
+                                <option value="gran_angular" ${p.model_spec === 'gran_angular' ? 'selected' : ''}>Uniview Gran Angular 2.8</option>
+                                <option value="ap_indoor_spec" ${p.model_spec === 'ap_indoor_spec' ? 'selected' : ''}>AP Omada EAP610</option>
+                                <option value="ap_outdoor_spec" ${p.model_spec === 'ap_outdoor_spec' ? 'selected' : ''}>AP Outdoor EAP225</option>
+                                <option value="oc200" ${p.model_spec === 'oc200' ? 'selected' : ''}>TP-Link Omada OC200</option>
+                                <option value="tlsg2008p" ${p.model_spec === 'tlsg2008p' ? 'selected' : ''}>Switch TL-SG2008P</option>
+                                <option value="tlsg1016pe" ${p.model_spec === 'tlsg1016pe' ? 'selected' : ''}>Switch TL-SG1016PE</option>
+                                <option value="er605" ${p.model_spec === 'er605' ? 'selected' : ''}>Router Omada ER605</option>
+                                <option value="estandar" ${p.model_spec === 'estandar' ? 'selected' : ''}>Estándar / Genérico</option>
+                            </select>
+                        </div>
+                    </div>
 
-                if (isConduitOnly) {
-                    // Diseño simplificado de tarjeta de Cañería Extra (Sin equipos)
-                    card.innerHTML = `
-                        <div class="point-card-header" style="border-bottom: 1px solid #222; padding-bottom: 6px; margin-bottom: 8px;">
-                            <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#10b981; border-bottom:1px dashed #10b981; padding: 2px; width:75%; font-weight: bold;" onchange="updatePointValue(${p.id}, 'name', this.value)" placeholder="Nombre del Tramo (ej: Bajada Techo)">
-                            <button class="btn-delete-point" onclick="deletePoint(${p.id})">Eliminar</button>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Canalización</label>
+                            <select onchange="updatePointValue(${p.id}, 'conduit', this.value)">
+                                <option value="estanco_pvc" ${p.conduit === 'estanco_pvc' ? 'selected' : ''}>Cañería Estanca O-ring</option>
+                                <option value="pvc_comun" ${p.conduit === 'pvc_comun' ? 'selected' : ''}>Caño PVC común</option>
+                                <option value="aereo" ${p.conduit === 'aereo' ? 'selected' : ''}>Tendido Aéreo c/tensor</option>
+                                <option value="existente" ${p.conduit === 'existente' ? 'selected' : ''}>Cañería Existente</option>
+                                <option value="engrampado" ${p.conduit === 'engrampado' ? 'selected' : ''}>Grampeado superficial</option>
+                            </select>
                         </div>
-                        
-                        <div style="font-size: 0.75rem; color: #10b981; margin-bottom: 10px; font-weight: bold; display: flex; align-items: center; gap: 4px;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 2v20M5 12h14"/></svg>
-                            Tramo de Cañería Adicional (Sin cable UTP)
+                        <div class="form-group">
+                            <label>Diámetro Caño</label>
+                            <select onchange="updatePointValue(${p.id}, 'size', this.value)">
+                                <option value="3/4" ${p.size === '3/4' ? 'selected' : ''}>3/4" (19mm)</option>
+                                <option value="7/8" ${p.size === '7/8' ? 'selected' : ''}>7/8" (22mm)</option>
+                                <option value="1" ${p.size === '1' ? 'selected' : ''}>1" (25mm)</option>
+                                <option value="N/A" ${p.size === 'N/A' ? 'selected' : ''}>No aplica</option>
+                            </select>
                         </div>
+                    </div>
 
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Canalización</label>
-                                <select onchange="updatePointValue(${p.id}, 'conduit', this.value)">
-                                    <option value="estanco_pvc" ${p.conduit === 'estanco_pvc' ? 'selected' : ''}>Cañería Estanca O-ring</option>
-                                    <option value="pvc_comun" ${p.conduit === 'pvc_comun' ? 'selected' : ''}>Caño PVC común</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Diámetro Caño</label>
-                                <select onchange="updatePointValue(${p.id}, 'size', this.value)">
-                                    <option value="3/4" ${p.size === '3/4' ? 'selected' : ''}>3/4" (19mm)</option>
-                                    <option value="7/8" ${p.size === '7/8' ? 'selected' : ''}>7/8" (22mm)</option>
-                                    <option value="1" ${p.size === '1' ? 'selected' : ''}>1" (25mm)</option>
-                                </select>
-                            </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Cajas Paso (c/ X mts)</label>
+                            <input type="number" value="${p.box_spacing}" oninput="updatePointValue(${p.id}, 'box_spacing', this.value)">
                         </div>
+                        <div class="form-group">
+                            <label>Altura Montaje (m)</label>
+                            <input type="number" value="${p.height}" oninput="updatePointValue(${p.id}, 'height', this.value)">
+                        </div>
+                    </div>
 
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Cajas Paso (c/ X mts)</label>
-                                <input type="number" value="${p.box_spacing}" oninput="updatePointValue(${p.id}, 'box_spacing', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <label>Largo del Tramo (m)</label>
-                                <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
-                            </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Dist. al Rack (m)</label>
+                            <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
                         </div>
-                    `;
-                } else {
-                    // Diseño estándar de tarjeta de Equipos (Cámaras/AP/Switches)
-                    card.innerHTML = `
-                        <div class="point-card-header">
-                            <input type="text" value="${p.name}" class="point-title" style="background:none; border:none; color:#fff; border-bottom:1px dashed #555; padding: 2px; width:75%;" onchange="updatePointValue(${p.id}, 'name', this.value)" placeholder="Nombre / Ubicación (ej: Cam 1 Muro Norte)">
-                            <button class="btn-delete-point" onclick="deletePoint(${p.id})">Eliminar</button>
+                        <div class="form-group">
+                            <label>¿Requiere Parante?</label>
+                            <select onchange="updatePointValue(${p.id}, 'parante', this.value)">
+                                <option value="false" ${!p.parante ? 'selected' : ''}>No</option>
+                                <option value="true" ${p.parante ? 'selected' : ''}>Sí (2.5m)</option>
+                            </select>
                         </div>
-                        
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Tipo Equipo</label>
-                                <select onchange="updatePointValue(${p.id}, 'type', this.value)">
-                                    <option value="ip_cam" ${p.type === 'ip_cam' ? 'selected' : ''}>Cámara IP</option>
-                                    <option value="analog_cam" ${p.type === 'analog_cam' ? 'selected' : ''}>Cámara Analógica</option>
-                                    <option value="ap_indoor" ${p.type === 'ap_indoor' ? 'selected' : ''}>AP Wifi Interior</option>
-                                    <option value="ap_outdoor" ${p.type === 'ap_outdoor' ? 'selected' : ''}>AP Wifi Playa Outdoor</option>
-                                    <option value="rack_ctrl" ${p.type === 'rack_ctrl' ? 'selected' : ''}>Controladora de Red (Rack)</option>
-                                    <option value="switch_l2" ${p.type === 'switch_l2' ? 'selected' : ''}>Switch L2 Administrable</option>
-                                    <option value="router_fw" ${p.type === 'router_fw' ? 'selected' : ''}>Router / Firewall</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Lente / Modelo</label>
-                                <select onchange="updatePointValue(${p.id}, 'model_spec', this.value)">
-                                    <option value="varifocal_sip" ${p.model_spec === 'varifocal_sip' ? 'selected' : ''}>Uniview Varifocal c/SIP</option>
-                                    <option value="gran_angular" ${p.model_spec === 'gran_angular' ? 'selected' : ''}>Uniview Gran Angular 2.8</option>
-                                    <option value="ap_indoor_spec" ${p.model_spec === 'ap_indoor_spec' ? 'selected' : ''}>AP Omada EAP610</option>
-                                    <option value="ap_outdoor_spec" ${p.model_spec === 'ap_outdoor_spec' ? 'selected' : ''}>AP Outdoor EAP225</option>
-                                    <option value="oc200" ${p.model_spec === 'oc200' ? 'selected' : ''}>TP-Link Omada OC200</option>
-                                    <option value="tlsg2008p" ${p.model_spec === 'tlsg2008p' ? 'selected' : ''}>Switch TL-SG2008P</option>
-                                    <option value="tlsg1016pe" ${p.model_spec === 'tlsg1016pe' ? 'selected' : ''}>Switch TL-SG1016PE</option>
-                                    <option value="er605" ${p.model_spec === 'er605' ? 'selected' : ''}>Router Omada ER605</option>
-                                    <option value="estandar" ${p.model_spec === 'estandar' ? 'selected' : ''}>Estándar / Genérico</option>
-                                </select>
-                            </div>
-                        </div>
+                    </div>
 
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Canalización</label>
-                                <select onchange="updatePointValue(${p.id}, 'conduit', this.value)">
-                                    <option value="estanco_pvc" ${p.conduit === 'estanco_pvc' ? 'selected' : ''}>Cañería Estanca O-ring</option>
-                                    <option value="pvc_comun" ${p.conduit === 'pvc_comun' ? 'selected' : ''}>Caño PVC común</option>
-                                    <option value="aereo" ${p.conduit === 'aereo' ? 'selected' : ''}>Tendido Aéreo c/tensor</option>
-                                    <option value="existente" ${p.conduit === 'existente' ? 'selected' : ''}>Cañería Existente</option>
-                                    <option value="engrampado" ${p.conduit === 'engrampado' ? 'selected' : ''}>Grampeado superficial</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Diámetro Caño</label>
-                                <select onchange="updatePointValue(${p.id}, 'size', this.value)">
-                                    <option value="3/4" ${p.size === '3/4' ? 'selected' : ''}>3/4" (19mm)</option>
-                                    <option value="7/8" ${p.size === '7/8' ? 'selected' : ''}>7/8" (22mm)</option>
-                                    <option value="1" ${p.size === '1' ? 'selected' : ''}>1" (25mm)</option>
-                                    <option value="N/A" ${p.size === 'N/A' ? 'selected' : ''}>No aplica</option>
-                                </select>
-                            </div>
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>Cañería Extra / Bajada (m)</label>
+                            <input type="number" value="${p.extra_conduit_m || 0}" oninput="updatePointValue(${p.id}, 'extra_conduit_m', this.value)">
                         </div>
+                        <div class="form-group">
+                            <!-- spacer -->
+                        </div>
+                    </div>
 
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Cajas Paso (c/ X mts)</label>
-                                <input type="number" value="${p.box_spacing}" oninput="updatePointValue(${p.id}, 'box_spacing', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <label>Altura Montaje (m)</label>
-                                <input type="number" value="${p.height}" oninput="updatePointValue(${p.id}, 'height', this.value)">
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Dist. al Rack (m)</label>
-                                <input type="number" value="${p.dist}" oninput="updatePointValue(${p.id}, 'dist', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <label>¿Requiere Parante?</label>
-                                <select onchange="updatePointValue(${p.id}, 'parante', this.value)">
-                                    <option value="false" ${!p.parante ? 'selected' : ''}>No</option>
-                                    <option value="true" ${p.parante ? 'selected' : ''}>Sí (2.5m)</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="grid-2">
-                            <div class="form-group">
-                                <label>Cañería Extra / Bajada (m)</label>
-                                <input type="number" value="${p.extra_conduit_m || 0}" oninput="updatePointValue(${p.id}, 'extra_conduit_m', this.value)">
-                            </div>
-                            <div class="form-group">
-                                <!-- spacer -->
-                            </div>
-                        </div>
-
-                        <!-- CHECKBOX CAÑERIA COMPARTIDA -->
-                        <div style="margin-top: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent-color);">
-                            <input type="checkbox" id="shared_conduit_${p.id}" ${p.shared_conduit ? 'checked' : ''} style="accent-color: var(--accent-color); width: 15px; height: 15px; cursor: pointer;" onchange="updatePointValue(${p.id}, 'shared_conduit', this.checked)">
-                            <label for="shared_conduit_${p.id}" style="cursor: pointer; user-select: none; font-weight: 600;">¿Cañería compartida o existente? (Solo suma cable UTP, no caños/cajas)</label>
-                        </div>
-                    `;
-                }
+                    <!-- CHECKBOX CAÑERIA COMPARTIDA -->
+                    <div style="margin-top: 5px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; color: var(--accent-color);">
+                        <input type="checkbox" id="shared_conduit_${p.id}" ${p.shared_conduit ? 'checked' : ''} style="accent-color: var(--accent-color); width: 15px; height: 15px; cursor: pointer;" onchange="updatePointValue(${p.id}, 'shared_conduit', this.checked)">
+                        <label for="shared_conduit_${p.id}" style="cursor: pointer; user-select: none; font-weight: 600;">¿Cañería compartida o existente? (Solo suma cable UTP, no caños/cajas)</label>
+                    </div>
+                `;
                 container.appendChild(card);
             });
         }
@@ -663,7 +591,6 @@
                 else if (p.type === 'rack_ctrl') eqName = "Controladora de Red (Rack)";
                 else if (p.type === 'switch_l2') eqName = "Switch L2 Administrable";
                 else if (p.type === 'router_fw') eqName = "Router / Firewall";
-                else if (p.type === 'conduit_only') eqName = "Tramo Cañería Extra";
 
                 let modelDesc = "";
                 if (p.model_spec === 'varifocal_sip') modelDesc = " - Uniview Bullet IP 4MP Varifocal con SIP (Perimetral)";
@@ -674,25 +601,10 @@
                 else if (p.model_spec === 'tlsg2008p') modelDesc = " - TP-Link TL-SG2008P JetStream L2 PoE+";
                 else if (p.model_spec === 'tlsg1016pe') modelDesc = " - TP-Link TL-SG1016PE Smart Switch 16p PoE+";
                 else if (p.model_spec === 'er605') modelDesc = " - TP-Link Omada ER605 VPN Router / Firewall";
-                else if (p.model_spec === 'pvc_tubing') modelDesc = " - PVC Rígido de Alto Impacto UV";
                 else if (p.model_spec === 'estandar') modelDesc = " - Modelo Estándar";
 
                 let conduitDesc = "";
                 let boxCount = 0;
-                
-                if (p.type === 'conduit_only') {
-                    conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}" (Tramo Adicional)`;
-                    totalConduitM += p.dist;
-                    if (p.box_spacing > 0) {
-                        boxCount = Math.floor(p.dist / p.box_spacing);
-                        if (p.dist % p.box_spacing !== 0) boxCount += 1;
-                        totalBoxes += boxCount;
-                    }
-                    text += `${num}. ${p.name} (Tramo Cañería Extra):\n`;
-                    text += `   - Conexión: Recorrido físico por ${conduitDesc}.\n`;
-                    text += `   - Distancia de cañería: ${p.dist} metros de caño PVC.\n`;
-                    text += `   - Cajas de paso: ${boxCount} cajas estancas IP65 (colocadas cada ${p.box_spacing}m).\n\n`;
-                } else {
                     if (p.conduit === 'estanco_pvc' || p.conduit === 'pvc_comun') {
                         if (p.shared_conduit) {
                             conduitDesc = `cañería ${p.conduit === 'estanco_pvc' ? 'estanca con O-ring' : 'de PVC común'} de ${p.size}" (Compartida/Existente)`;
@@ -740,7 +652,6 @@
                         text += `   - Cajas de paso adicionales: 1 caja estanca IP65 en la bajada.\n`;
                     }
                     text += `   - Montaje: Altura de colocación a ${p.height} metros${paranteDesc}.\n\n`;
-                }
             });
 
             // Sumar 10% de desperdicio de cable/caño habitual en obra

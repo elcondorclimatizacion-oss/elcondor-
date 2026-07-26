@@ -443,6 +443,17 @@
                     <label>Logística y Compra ($ Fijo)</label>
                     <input type="number" id="cfg_logistica" value="0" step="1000" oninput="calc()" placeholder="Ej: 15000">
                 </div>
+                <div class="form-group">
+                    <label>Trabajo en Altura (Recargo M.O.)</label>
+                    <select id="cfg_nivel_altura" onchange="calc()">
+                        <option value="1.0" selected>Nivel 1 (Hasta 2.5m) - Sin recargo (x1.00)</option>
+                        <option value="1.30">Nivel 2 (De 2.5m a 4m) - Media Altura (+30% / x1.30)</option>
+                        <option value="1.35">Nivel 2 (De 2.5m a 4m) - Media Altura (+35% / x1.35)</option>
+                        <option value="1.60">Nivel 3 (Más de 4m) - Alto Riesgo (+60% / x1.60)</option>
+                        <option value="1.80">Nivel 3 (Más de 4m) - Alto Riesgo (+80% / x1.80)</option>
+                        <option value="2.00">Nivel 3 (Más de 4m) - Máximo Riesgo (+100% / x2.00)</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -841,6 +852,10 @@
                     <div class="private-dashboard">
                         <div class="private-dashboard-title">🔒 Rentabilidad Interna (Privado)</div>
                         <div class="dashboard-row">
+                            <span>Recargo Trabajo Altura:</span>
+                            <strong id="dash_altura">x1.00 (0%)</strong>
+                        </div>
+                        <div class="dashboard-row">
                             <span>Viáticos Calculados:</span>
                             <strong id="dash_viaticos">$ 0</strong>
                         </div>
@@ -1030,13 +1045,17 @@
             lastSubtotal = subtotal;
 
             const mode = document.getElementById('cfg_metodo_mo').value;
-            let moFinal = subtotal;
+            let moBase = subtotal;
 
             if (mode === 'jornadas') {
                 const tecnicos = parseInt(document.getElementById('cfg_mo_tecnicos').value) || 2;
                 const dias = parseFloat(document.getElementById('cfg_mo_dias').value) || 1;
-                moFinal = tecnicos * dias * 250000;
+                moBase = tecnicos * dias * 250000;
             }
+
+            // Aplicar multiplicador por trabajo en altura
+            const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
+            const moFinal = moBase * multAltura;
 
             const viaticosPct = (parseFloat(document.getElementById('cfg_viaticos').value) || 0) / 100;
             const margenPct = (parseFloat(document.getElementById('cfg_margen').value) || 0) / 100;
@@ -1052,6 +1071,8 @@
             document.getElementById('lbl_logistica').innerText = fmt(logistica);
             document.getElementById('res_final').innerText = fmt(total);
             
+            const pctAltura = Math.round((multAltura - 1) * 100);
+            document.getElementById('dash_altura').innerText = `x${multAltura.toFixed(2)} (+${pctAltura}%)`;
             document.getElementById('dash_viaticos').innerText = fmt(viaticos);
             document.getElementById('dash_margen').innerText = fmt(margen);
             document.getElementById('dash_ganancia').innerText = fmt(ganancia);
@@ -1094,6 +1115,14 @@
 
         function generarDescripcionTecnica() {
             let descriptions = [];
+
+            // Adicional trabajo en altura
+            const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
+            if (multAltura > 1.0) {
+                const selectEl = document.getElementById('cfg_nivel_altura');
+                const optText = selectEl.options[selectEl.selectedIndex].text;
+                descriptions.push(`**Servicio y Maniobra de Trabajo en Altura (${optText}):** Incluye el despliegue de arneses de seguridad, andamios/escaleras de elevación y cumplimiento estricto de normativas de trabajo seguro en altura.`);
+            }
 
             // 1. Acometida y Tableros
             const aco_mono = parseInt(document.getElementById('el_aco_mono_qty').value) || 0;

@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Calculadora de Climatización v1.0 - EL CÓNDOR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050811;
+            --panel-bg: #0c1222;
+            --border-color: #1e293b;
+            --text-color: #e2e8f0;
+            --accent-color: #0ea5e9; /* Celeste / Azul Climatización */
+            --accent-hover: #38bdf8;
+            --sys-color: #0ea5e9;
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            line-height: 1.5;
+            background-image:
+                linear-gradient(rgba(14, 165, 233, 0.01) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(14, 165, 233, 0.01) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            border: 1px solid var(--border-color);
+            background: var(--panel-bg);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+
+        header {
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .tagline {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Pestañas de Servicios */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            border-bottom: 2px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            background: #0f172a;
+            color: #94a3b8;
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            background: #1e293b;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Módulos de Ajustes y Formularios */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .module {
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+            background: #070a13;
+            position: relative;
+            padding: 1.5rem;
+            border-radius: 12px;
+        }
+
+        .module-title {
+            position: absolute;
+            top: -12px;
+            left: 15px;
+            background: var(--bg-color);
+            padding: 0 10px;
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .section-title {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            margin: 1.5rem 0 0.8rem;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 4px;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0.5rem;
+        }
+
+        label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+        }
+
+        input[type="number"],
+        input[type="text"],
+        select {
+            background: #070a13;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 0.6rem;
+            font-size: 0.9rem;
+            outline: none;
+            width: 100%;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        /* Tabla de Ítems */
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .items-table th {
+            padding: 8px;
+            color: #64748b;
+            font-weight: bold;
+            border-bottom: 1px solid var(--border-color);
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .items-table td {
+            padding: 8px;
+            border-bottom: 1px solid #0f172a;
+            vertical-align: middle;
+        }
+
+        /* Inputs específicos para celdas */
+        .cell-input-qty {
+            width: 70px;
+            text-align: center;
+            padding: 4px;
+            border-radius: 6px;
+        }
+
+        .cell-input-price {
+            width: 110px;
+            text-align: right;
+            padding: 4px;
+            border-radius: 6px;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* Sticky Sidebar Totales */
+        .sidebar {
+            position: sticky;
+            top: 2rem;
+            align-self: start;
+        }
+
+        .total-section {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .final-price-box {
+            background: var(--accent-color);
+            color: #000;
+            padding: 1.2rem;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn-action {
+            background: #25D366;
+            color: #000;
+            border: none;
+            padding: 1rem;
+            width: 100%;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            opacity: 0.9;
+        }
+
+        .private-dashboard {
+            background: #070a13;
+            border: 1px solid #1e293b;
+            margin: 15px 0;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .private-dashboard-title {
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 8px;
+            border-bottom: 1px dashed #1e293b;
+            padding-bottom: 4px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .dashboard-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+
+        .dashboard-row span {
+            color: #64748b;
+        }
+
+        .dashboard-row strong {
+            color: #fff;
+        }
+
+        /* Responsive Print Styles */
+        @media print {
+            @page {
+                margin: 0;
+            }
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                display: none !important;
+            }
+
+            #doc_print_wrapper {
+                display: block !important;
+                color: #000 !important;
+                padding: 2cm;
+                box-sizing: border-box;
+            }
+
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+
+            .print-table th,
+            .print-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+                font-size: 11px;
+            }
+
+            .print-table th {
+                background-color: #f2f2f2;
+            }
+        }
+
+        /* Document template wrapper for screen / print hidden */
+        #doc_print_wrapper {
+            display: none;
+            background: #fff;
+            color: #000;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>CALCULADORA DE CLIMATIZACIÓN v1.0</h1>
+            <div class="tagline">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD ELECTRONICA</div>
+        </header>
+
+        <!-- CONFIGURACIONES GLOBALES -->
+        <div class="module" id="settings_panel" style="border-color: var(--accent-color); background: rgba(14, 165, 233, 0.02);">
+            <div class="module-title">[00] CONFIGURACIONES Y AJUSTES DE MERCADO</div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Tipo de Cliente / Coeficiente</label>
+                    <select id="cfg_tipo_cliente" onchange="adjustMarketMultiplier()">
+                        <option value="0.4">Residencial / Familiar (Ajuste del mercado local - 40%)</option>
+                        <option value="0.7">Comercio / Consorcio (Intermedio - 70%)</option>
+                        <option value="1.0" selected>Industrial / Corporativo (Tarifa Oficial 100%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Método de Mano de Obra</label>
+                    <select id="cfg_metodo_mo" onchange="toggleCalculationMode()">
+                        <option value="items" selected>Cotizar por Tareas (Suma de Ítems)</option>
+                        <option value="jornadas">Cotizar por Jornada Diaria (Tarifa Fija)</option>
+                    </select>
+                </div>
+                <div class="form-group" id="group_mo_jornadas" style="display: none; grid-column: span 2; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; border: 1px dashed #444; margin-top: 5px;">
+                    <div style="display: flex; gap: 10px;">
+                        <div class="form-group" style="flex: 1;">
+                            <label>Técnicos en Obra</label>
+                            <select id="cfg_mo_tecnicos" onchange="calc()">
+                                <option value="1">1 Técnico ($250.000 / día)</option>
+                                <option value="2" selected>2 Técnicos ($500.000 / día)</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="flex: 1;">
+                            <label>Duración Estimada (Días)</label>
+                            <select id="cfg_mo_dias" onchange="calc()">
+                                <option value="0.5">0.5 Días (Media Jornada)</option>
+                                <option value="1" selected>1 Día Completo (8hs)</option>
+                                <option value="1.5">1.5 Días</option>
+                                <option value="2">2 Días</option>
+                                <option value="2.5">2.5 Días</option>
+                                <option value="3">3 Días</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-grid" style="margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
+                <div class="form-group">
+                    <label>Fecha de Presupuesto</label>
+                    <input type="text" id="presp_fecha" placeholder="Ej: 27/04/2026" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cliente</label>
+                    <input type="text" id="presp_cliente" placeholder="Nombre del cliente" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Dirección / Ubicación</label>
+                    <input type="text" id="presp_ubicacion" placeholder="Ej: Avellaneda" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Viáticos (%)</label>
+                    <input type="number" id="cfg_viaticos" value="15" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Margen de Ganancia (%)</label>
+                    <input type="number" id="cfg_margen" value="35" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Trabajo en Altura (Recargo M.O.)</label>
+                    <select id="cfg_nivel_altura" onchange="calc()">
+                        <option value="1.0" selected>Nivel 1 (Hasta 2.5m) - Sin recargo (x1.00)</option>
+                        <option value="1.30">Nivel 2 (De 2.5m a 4m) - Media Altura (+30% / x1.30)</option>
+                        <option value="1.35">Nivel 2 (De 2.5m a 4m) - Media Altura (+35% / x1.35)</option>
+                        <option value="1.60">Nivel 3 (Más de 4m) - Alto Riesgo (+60% / x1.60)</option>
+                        <option value="1.80">Nivel 3 (Más de 4m) - Alto Riesgo (+80% / x1.80)</option>
+                        <option value="2.00">Nivel 3 (Más de 4m) - Máximo Riesgo (+100% / x2.00)</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <!-- PESTAÑAS Y LISTADO DE TRABAJOS (IZQ) -->
+            <div>
+                <!-- TABS HEADER -->
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchTab('tab_split')">❄️ INSTALACIÓN SPLIT</button>
+                    <button class="tab-btn" onclick="switchTab('tab_industrial')">🏢 INSTALACIÓN INDUSTRIAL</button>
+                    <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE & REPARACIÓN</button>
+                    <button class="tab-btn" onclick="switchTab('tab_desinst')">❌ DESINSTALACIONES</button>
+                    <button class="tab-btn" onclick="switchTab('tab_adicionales')">➕ ADICIONALES M.O.</button>
+                </div>
+
+                <!-- TAB 1: INSTALACIÓN SPLIT -->
+                <div id="tab_split" class="tab-content active">
+                    <div class="module" style="border-color: #3b82f6;">
+                        <div class="module-title">[01] INSTALACIÓN DE EQUIPOS SPLIT (MANO DE OBRA SOLA)</div>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Precios de mano de obra base. No incluye materiales ni kit de instalación.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Instalación Split 2250 Frigorías (Hasta 2600W)</td>
+                                    <td><input type="number" id="ac_inst_split_2250_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_2250_prc" class="cell-input-price" value="90000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Split 3000 Frigorías (Hasta 3500W)</td>
+                                    <td><input type="number" id="ac_inst_split_3000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_3000_prc" class="cell-input-price" value="105000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Split 4500 Frigorías (Hasta 5200W)</td>
+                                    <td><input type="number" id="ac_inst_split_4500_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_4500_prc" class="cell-input-price" value="125000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Split 6000 Frigorías (Hasta 7000W)</td>
+                                    <td><input type="number" id="ac_inst_split_6000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_6000_prc" class="cell-input-price" value="160000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Split 9000 Frigorías (Hasta 10500W) - M.O. Sola</td>
+                                    <td><input type="number" id="ac_inst_split_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_9000_prc" class="cell-input-price" value="230000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: INSTALACIÓN INDUSTRIAL -->
+                <div id="tab_industrial" class="tab-content">
+                    <div class="module" style="border-color: #10b981;">
+                        <div class="module-title">[02] EQUIPOS INDUSTRIALES / COMERCIALES (PISO TECHO / CASSETTE / VRF)</div>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Instalaciones de alta capacidad y sistemas centralizados comercial e industrial.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Instalación Piso Techo / Cassette 9000 Frigorías (10000 kcal/h) M.O.</td>
+                                    <td><input type="number" id="ac_inst_pt_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_pt_9000_prc" class="cell-input-price" value="290000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Piso Techo / Cassette 15000 Frigorías (Trifásico) M.O.</td>
+                                    <td><input type="number" id="ac_inst_pt_15000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_pt_15000_prc" class="cell-input-price" value="390000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: SERVICE Y REPARACIÓN -->
+                <div id="tab_service" class="tab-content">
+                    <div class="module" style="border-color: #06b6d4;">
+                        <div class="module-title">[03] SERVICE, DIAGNÓSTICO Y REPARACIÓN</div>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Trabajos de mantenimiento correctivo y preventivo en equipos de climatización.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Visita de Diagnóstico y Presupuesto Técnico (Fijo)</td>
+                                    <td><input type="number" id="ac_srv_diagnos_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_diagnos_prc" class="cell-input-price" value="50000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Limpieza Química Profunda y Desinfección (Turbina y Evaporador)</td>
+                                    <td><input type="number" id="ac_srv_limpieza_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_limpieza_prc" class="cell-input-price" value="65000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mano de obra Carga de Gas Refrigerante (R410a / R22)</td>
+                                    <td><input type="number" id="ac_srv_carga_gas_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_carga_gas_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Presurización con Nitrógeno y Búsqueda de Fuga</td>
+                                    <td><input type="number" id="ac_srv_presuriz_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_presuriz_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Soldadura de Fuga / Reparación de pestaña Flare</td>
+                                    <td><input type="number" id="ac_srv_soldadura_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_soldadura_prc" class="cell-input-price" value="30000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo de Placa Lógica Electrónica / Placa Universal</td>
+                                    <td><input type="number" id="ac_srv_placa_uni_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_placa_uni_prc" class="cell-input-price" value="60000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Mano de obra para Cambio de Compresor (Hasta 6000 Frg)</td>
+                                    <td><input type="number" id="ac_srv_compresor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_compresor_prc" class="cell-input-price" value="120000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo de Capacitor de Arranque (Compresor/Forzador)</td>
+                                    <td><input type="number" id="ac_srv_capacitor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_capacitor_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo de Motor Forzador (Interior / Exterior)</td>
+                                    <td><input type="number" id="ac_srv_forzador_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_forzador_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: DESINSTALACIONES -->
+                <div id="tab_desinst" class="tab-content">
+                    <div class="module" style="border-color: #ef4444;">
+                        <div class="module-title">[04] REMOCIÓN Y DESINSTALACIÓN DE EQUIPOS</div>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Remoción técnica con recuperación y envasado de gas refrigerante en unidad exterior.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Desinstalación Split hasta 3000 Frigorías (Con envasado de gas)</td>
+                                    <td><input type="number" id="ac_desinst_split_3000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_desinst_split_3000_prc" class="cell-input-price" value="40000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Desinstalación Split 4500 a 6000 Frigorías (Con envasado de gas)</td>
+                                    <td><input type="number" id="ac_desinst_split_6000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_desinst_split_6000_prc" class="cell-input-price" value="55000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Desinstalación Split / Piso Techo 9000 Frigorías</td>
+                                    <td><input type="number" id="ac_desinst_split_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_desinst_split_9000_prc" class="cell-input-price" value="80000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 5: ADICIONALES M.O. -->
+                <div id="tab_adicionales" class="tab-content">
+                    <div class="module" style="border-color: #8b5cf6;">
+                        <div class="module-title">[05] TRABAJOS COMPLEMENTARIOS Y ADICIONALES DE OBRA</div>
+                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Adicionales por metro excedente, pases de muros especiales y soportes.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Mano de Obra por Metro Adicional de Cañería de Cobre / Interconexión</td>
+                                    <td><input type="number" id="ac_ad_cano_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_cano_m_prc" class="cell-input-price" value="20000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Pase de Viga / Hormigón / Losa (Estructura dura)</td>
+                                    <td><input type="number" id="ac_ad_pase_horm_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_pase_horm_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Pase de Pared Mampostería Estándar (Ladrillo hueco / común)</td>
+                                    <td><input type="number" id="ac_ad_pase_mamp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_pase_mamp_prc" class="cell-input-price" value="15000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Calado y Canaleta en mampostería para embutir cañería (por metro)</td>
+                                    <td><input type="number" id="ac_ad_canaleta_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_canaleta_m_prc" class="cell-input-price" value="18000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Fijación y Colocación de Ménsulas / Soporte con Amortiguadores</td>
+                                    <td><input type="number" id="ac_ad_mensula_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_mensula_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
+            <div class="sidebar">
+                <div class="total-section">
+                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Subtotal Mano de Obra</div>
+                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
+                    
+                    <div class="final-price-box">
+                        <span style="font-size: 0.75rem; display: block; opacity: 0.7; font-weight: bold; text-transform: uppercase;">Mano de Obra Final</span>
+                        <span id="res_final">$ 0</span>
+                    </div>
+
+                    <!-- PANEL DE RENTABILIDAD PRIVADO -->
+                    <div class="private-dashboard">
+                        <div class="private-dashboard-title">🔒 Rentabilidad Interna (Privado)</div>
+                        <div class="dashboard-row">
+                            <span>Recargo Trabajo Altura:</span>
+                            <strong id="dash_altura">x1.00 (0%)</strong>
+                        </div>
+                        <div class="dashboard-row">
+                            <span>Viáticos Calculados:</span>
+                            <strong id="dash_viaticos">$ 0</strong>
+                        </div>
+                        <div class="dashboard-row">
+                            <span>Margen / Utilidad:</span>
+                            <strong id="dash_margen">$ 0</strong>
+                        </div>
+                        <div class="dashboard-row" style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed #1e293b;">
+                            <span>Ganancia Neta Total:</span>
+                            <strong id="dash_ganancia" style="color: var(--sys-color); font-weight: bold;">$ 0</strong>
+                        </div>
+                    </div>
+
+                    <button class="btn-action" onclick="copyWhatsApp()">📱 COPIAR PARA WHATSAPP</button>
+                    <button class="btn-action" onclick="window.print()" style="background: var(--accent-color); color: #000; font-weight: 800;">📝 GUARDAR PRESUPUESTO PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DOCUMENTO DE IMPRESIÓN (PDF) -->
+    <div id="doc_print_wrapper">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+            <div>
+                <h2 style="margin: 0; font-size: 22px;">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD</h2>
+                <p style="margin: 3px 0 0 0; font-size: 11px; color: #555;">Email: elcondorclimatizacion@gmail.com | Tel: 1126139527</p>
+            </div>
+            <div style="text-align: right;">
+                <h3 style="margin: 0; font-size: 16px; color: #0ea5e9;">PRESUPUESTO CLIMATIZACIÓN</h3>
+                <p style="margin: 3px 0 0 0; font-size: 11px;">Fecha: <span id="pdf_fecha"></span></p>
+            </div>
+        </div>
+
+        <div style="background-color: #f8fafc; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 12px; line-height: 1.5; border: 1px solid #e2e8f0;">
+            <strong>Cliente:</strong> <span id="pdf_cliente"></span><br>
+            <strong>Ubicación:</strong> <span id="pdf_ubicacion"></span><br>
+            <strong>Detalle:</strong> Presupuesto formal de climatización y mano de obra especializada en aire acondicionado.
+        </div>
+
+        <div style="margin-top: 15px; margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
+            <h4 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; color: #0ea5e9; border-bottom: 1px solid #0ea5e9; padding-bottom: 4px; font-family: Arial, sans-serif;">Detalle Técnico de los Trabajos (Mano de Obra)</h4>
+            <div id="pdf_items_body" style="font-size: 12px; line-height: 1.6; color: #222; font-family: Arial, sans-serif;">
+                <!-- Se inyecta dinámicamente -->
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 15px; font-family: Arial, sans-serif;">
+            <div style="text-align: right; margin-bottom: 15px;">
+                <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #333; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <div><strong>Garantía:</strong> 1 año de garantía escrita en instalación.</div>
+                <div><strong>El Cóndor Servicios Integrales</strong></div>
+                <div><strong>Web:</strong> www.elcondorservicios.com.ar</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Precios base oficiales (Electroinstalador / Cámara Climatización 2026)
+        const PRECIOS_BASE = {
+            ac_inst_split_2250: 90000,
+            ac_inst_split_3000: 105000,
+            ac_inst_split_4500: 125000,
+            ac_inst_split_6000: 160000,
+            ac_inst_split_9000: 230000,
+            ac_inst_pt_9000: 290000,
+            ac_inst_pt_15000: 390000,
+            ac_desinst_split_3000: 40000,
+            ac_desinst_split_6000: 55000,
+            ac_desinst_split_9000: 80000,
+            ac_srv_diagnos: 50000,
+            ac_srv_limpieza: 65000,
+            ac_srv_carga_gas: 45000,
+            ac_srv_presuriz: 75000,
+            ac_srv_soldadura: 30000,
+            ac_srv_placa_uni: 60000,
+            ac_srv_compresor: 120000,
+            ac_srv_capacitor: 25000,
+            ac_srv_forzador: 45000,
+            ac_ad_cano_m: 20000,
+            ac_ad_pase_horm: 45000,
+            ac_ad_pase_mamp: 15000,
+            ac_ad_canaleta_m: 18000,
+            ac_ad_mensula: 25000
+        };
+
+        window.onload = function () {
+            const today = new Date();
+            document.getElementById('presp_fecha').value = today.toLocaleDateString('es-AR');
+            adjustMarketMultiplier();
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
+                return btn.onclick.toString().includes(tabId);
+            });
+            if (activeBtn) activeBtn.classList.add('active');
+
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabId).classList.add('active');
+        }
+
+        function adjustMarketMultiplier() {
+            const multiplier = parseFloat(document.getElementById('cfg_tipo_cliente').value);
+            for (const key in PRECIOS_BASE) {
+                const prcInput = document.getElementById(`${key}_prc`);
+                if (prcInput) {
+                    prcInput.value = Math.round(PRECIOS_BASE[key] * multiplier);
+                }
+            }
+            calc();
+        }
+
+        function toggleCalculationMode() {
+            const mode = document.getElementById('cfg_metodo_mo').value;
+            const groupJornadas = document.getElementById('group_mo_jornadas');
+            
+            if (mode === 'jornadas') {
+                groupJornadas.style.display = 'block';
+            } else {
+                groupJornadas.style.display = 'none';
+            }
+            calc();
+        }
+
+        function fmt(n) {
+            return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n);
+        }
+
+        let lastTotal = 0;
+        let lastSubtotal = 0;
+        let selectedTasks = [];
+
+        function calc() {
+            let subtotal = 0;
+            selectedTasks = [];
+
+            for (const key in PRECIOS_BASE) {
+                const qtyInput = document.getElementById(`${key}_qty`);
+                const prcInput = document.getElementById(`${key}_prc`);
+                
+                if (qtyInput && prcInput) {
+                    const qty = parseInt(qtyInput.value) || 0;
+                    const prc = parseFloat(prcInput.value) || 0;
+                    
+                    if (qty > 0) {
+                        const totalItem = qty * prc;
+                        subtotal += totalItem;
+
+                        const labelCell = qtyInput.closest('tr').firstElementChild.innerText;
+                        selectedTasks.push({
+                            label: labelCell,
+                            qty: qty,
+                            total: totalItem
+                        });
+                    }
+                }
+            }
+
+            lastSubtotal = subtotal;
+
+            const mode = document.getElementById('cfg_metodo_mo').value;
+            let moBase = subtotal;
+
+            if (mode === 'jornadas') {
+                const tecnicos = parseInt(document.getElementById('cfg_mo_tecnicos').value) || 2;
+                const dias = parseFloat(document.getElementById('cfg_mo_dias').value) || 1;
+                moBase = tecnicos * dias * 250000;
+            }
+
+            const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
+            const moFinal = moBase * multAltura;
+
+            const viaticosPct = (parseFloat(document.getElementById('cfg_viaticos').value) || 0) / 100;
+            const margenPct = (parseFloat(document.getElementById('cfg_margen').value) || 0) / 100;
+
+            const viaticos = moFinal * viaticosPct;
+            const margen = (moFinal + viaticos) * margenPct;
+            const total = moFinal + viaticos + margen;
+            
+            const ganancia = moFinal + margen; 
+
+            document.getElementById('lbl_subtotal').innerText = fmt(subtotal);
+            document.getElementById('res_final').innerText = fmt(total);
+            
+            const pctAltura = Math.round((multAltura - 1) * 100);
+            document.getElementById('dash_altura').innerText = `x${multAltura.toFixed(2)} (+${pctAltura}%)`;
+            document.getElementById('dash_viaticos').innerText = fmt(viaticos);
+            document.getElementById('dash_margen').innerText = fmt(margen);
+            document.getElementById('dash_ganancia').innerText = fmt(ganancia);
+
+            lastTotal = total;
+
+            document.getElementById('pdf_fecha').innerText = document.getElementById('presp_fecha').value;
+            document.getElementById('pdf_cliente').innerText = document.getElementById('presp_cliente').value || "A definir";
+            document.getElementById('pdf_ubicacion').innerText = document.getElementById('presp_ubicacion').value || "A definir";
+            
+            const pdfBody = document.getElementById('pdf_items_body');
+            pdfBody.innerHTML = "";
+            
+            const descripcionesTecnicas = generarDescripcionTecnica();
+            
+            if (descripcionesTecnicas.length === 0) {
+                pdfBody.innerHTML = `<p style="text-align: center; color: #666; padding: 15px; font-style: italic;">No se seleccionaron tareas aún.</p>`;
+            } else {
+                descripcionesTecnicas.forEach(desc => {
+                    const p = document.createElement('p');
+                    p.style.marginBottom = "12px";
+                    p.style.paddingLeft = "10px";
+                    p.style.borderLeft = "2px solid #0ea5e9";
+                    p.innerHTML = desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    pdfBody.appendChild(p);
+                });
+            }
+
+            document.getElementById('pdf_total').innerText = fmt(total);
+        }
+
+        function generarDescripcionTecnica() {
+            let descriptions = [];
+
+            const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
+            if (multAltura > 1.0) {
+                const selectEl = document.getElementById('cfg_nivel_altura');
+                const optText = selectEl.options[selectEl.selectedIndex].text;
+                descriptions.push(`**Servicio y Maniobra de Trabajo en Altura (${optText}):** Incluye el despliegue de arneses de seguridad, andamios/escaleras de elevación y cumplimiento estricto de normativas de trabajo seguro en altura.`);
+            }
+
+            // 1. Splits
+            const spl_2250 = parseInt(document.getElementById('ac_inst_split_2250_qty').value) || 0;
+            const spl_3000 = parseInt(document.getElementById('ac_inst_split_3000_qty').value) || 0;
+            const spl_4500 = parseInt(document.getElementById('ac_inst_split_4500_qty').value) || 0;
+            const spl_6000 = parseInt(document.getElementById('ac_inst_split_6000_qty').value) || 0;
+            const spl_9000 = parseInt(document.getElementById('ac_inst_split_9000_qty').value) || 0;
+
+            if (spl_2250 > 0) {
+                descriptions.push(`**Instalación técnica de ${spl_2250} equipo(s) Split de 2250 Frigorías (Hasta 2600W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
+            }
+            if (spl_3000 > 0) {
+                descriptions.push(`**Instalación técnica de ${spl_3000} equipo(s) Split de 3000 Frigorías (Hasta 3500W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
+            }
+            if (spl_4500 > 0) {
+                descriptions.push(`**Instalación técnica de ${spl_4500} equipo(s) Split de 4500 Frigorías (Hasta 5200W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
+            }
+            if (spl_6000 > 0) {
+                descriptions.push(`**Instalación técnica de ${spl_6000} equipo(s) Split de 6000 Frigorías (Hasta 7000W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
+            }
+            if (spl_9000 > 0) {
+                descriptions.push(`**Instalación técnica de ${spl_9000} equipo(s) Split de 9000 Frigorías (Hasta 10500W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
+            }
+
+            // 2. Industrial
+            const pt_9000 = parseInt(document.getElementById('ac_inst_pt_9000_qty').value) || 0;
+            const pt_15000 = parseInt(document.getElementById('ac_inst_pt_15000_qty').value) || 0;
+
+            if (pt_9000 > 0) {
+                descriptions.push(`**Instalación comercial/industrial de ${pt_9000} equipo(s) Piso Techo / Cassette de 9000 Frigorías (10000 kcal/h)**, incluyendo el anclaje estructural suspendido en losa de la unidad evaporadora, montaje de unidad exterior, interconexión de tubería de cobre comercial, aislamiento térmico anticondensante, vacío del circuito y habilitación de refrigerante.`);
+            }
+            if (pt_15000 > 0) {
+                descriptions.push(`**Instalación comercial/industrial de ${pt_15000} equipo(s) Piso Techo / Cassette de 15000 Frigorías (Trifásico)**, incluyendo el anclaje estructural suspendido en losa de la unidad evaporadora, montaje de unidad exterior de alta capacidad, conexionado de energía trifásica y protección en tablero seccional, vacío de circuito comercial y habilitación.`);
+            }
+
+            // 3. Service
+            const srv_diag = parseInt(document.getElementById('ac_srv_diagnos_qty').value) || 0;
+            const srv_limp = parseInt(document.getElementById('ac_srv_limpieza_qty').value) || 0;
+            const srv_gas = parseInt(document.getElementById('ac_srv_carga_gas_qty').value) || 0;
+            const srv_pres = parseInt(document.getElementById('ac_srv_presuriz_qty').value) || 0;
+            const srv_sold = parseInt(document.getElementById('ac_srv_soldadura_qty').value) || 0;
+            const srv_plac = parseInt(document.getElementById('ac_srv_placa_uni_qty').value) || 0;
+            const srv_comp = parseInt(document.getElementById('ac_srv_compresor_qty').value) || 0;
+            const srv_cap = parseInt(document.getElementById('ac_srv_capacitor_qty').value) || 0;
+            const srv_forz = parseInt(document.getElementById('ac_srv_forzador_qty').value) || 0;
+
+            if (srv_diag > 0) {
+                descriptions.push(`**Visita de diagnóstico técnico especializado** para mediciones eléctricas de consumo, control de presiones de gas refrigerante, inspección ocular de fugas y verificación de plaquetas lógicas.`);
+            }
+            if (srv_limp > 0) {
+                descriptions.push(`**Mantenimiento preventivo e higiene profunda de ${srv_limp} equipo(s)**: incluye desarme parcial, aplicación de químicos biodegradables para desincrustar hongos y suciedad en serpentina evaporadora/condensadora y limpieza profunda de turbina.`);
+            }
+            if (srv_gas > 0) {
+                descriptions.push(`**Mano de obra para recarga de gas refrigerante (R410a / R22) en ${srv_gas} equipo(s)**, nivelando presiones de trabajo hasta llegar a valores nominales ideales según temperatura ambiente.`);
+            }
+            if (srv_pres > 0) {
+                descriptions.push(`**Prueba de estanqueidad y presurización del sistema con Nitrógeno de alta presión en ${srv_pres} equipo(s)**, con el objetivo de forzar y localizar microfugas difíciles de detectar.`);
+            }
+            if (srv_sold > 0) {
+                descriptions.push(`**Reparación física y soldadura fuerte de caños de cobre / pestañas de acople tipo Flare en ${srv_sold} punto(s)**, eliminando pérdidas de gas refrigerante.`);
+            }
+            if (srv_plac > 0) {
+                descriptions.push(`**Reemplazo y adaptación de placa lógica electrónica quemada por plaqueta universal inteligente en ${srv_plac} equipo(s)**, incluyendo cableado de sensores de pozo/ambiente y receptor de control remoto.`);
+            }
+            if (srv_comp > 0) {
+                descriptions.push(`**Cambio de motor compresor dañado en ${srv_comp} equipo(s)**, realizando desoldado, limpieza del circuito con agente R141b para eliminar acidez, soldadura de nuevo motor, vacío profundo y recarga total de refrigerante.`);
+            }
+            if (srv_cap > 0) {
+                descriptions.push(`**Reemplazo de ${srv_cap} capacitor(es) de arranque** defectuosos para motores/compresores, normalizando los picos de arranque del equipo.`);
+            }
+            if (srv_forz > 0) {
+                descriptions.push(`**Reemplazo de ${srv_forz} motor(es) forzador(es) de ventilador**, devolviendo el correcto flujo de aire al equipo.`);
+            }
+
+            // 4. Desinstalaciones
+            const des_3000 = parseInt(document.getElementById('ac_desinst_split_3000_qty').value) || 0;
+            const des_6000 = parseInt(document.getElementById('ac_desinst_split_6000_qty').value) || 0;
+            const des_9000 = parseInt(document.getElementById('ac_desinst_split_9000_qty').value) || 0;
+
+            if (des_3000 > 0) {
+                descriptions.push(`**Desinstalación técnica de ${des_3000} Split de hasta 3000 Frigorías**, encendiendo el equipo para recuperar y envasar el gas refrigerante en la unidad exterior, y procediendo al desmontaje ordenado de cañerías y cables.`);
+            }
+            if (des_6000 > 0) {
+                descriptions.push(`**Desinstalación técnica de ${des_6000} Split de 4500 a 6000 Frigorías**, encendiendo el equipo para recuperar y envasar el gas refrigerante en la unidad exterior, y procediendo al desmontaje ordenado de cañerías y cables.`);
+            }
+            if (des_9000 > 0) {
+                descriptions.push(`**Desinstalación técnica de ${des_9000} Split / Piso Techo de 9000 Frigorías**, con recuperación completa de gas refrigerante en condensadora y desmontaje de anclajes suspendidos.`);
+            }
+
+            // 5. Adicionales
+            const ad_cano = parseInt(document.getElementById('ac_ad_cano_m_qty').value) || 0;
+            const ad_horm = parseInt(document.getElementById('ac_ad_pase_horm_qty').value) || 0;
+            const ad_mamp = parseInt(document.getElementById('ac_ad_pase_mamp_qty').value) || 0;
+            const ad_cana = parseInt(document.getElementById('ac_ad_canaleta_m_qty').value) || 0;
+            const ad_men = parseInt(document.getElementById('ac_ad_mensula_qty').value) || 0;
+
+            if (ad_cano > 0) {
+                descriptions.push(`**Mano de obra para la colocación de ${ad_cano} metros excedentes de interconexión de cañería de cobre**, incluyendo aislamiento térmico individual (funda elastomérica) y cinta protectora exterior.`);
+            }
+            if (ad_horm > 0) {
+                descriptions.push(`**Realización de ${ad_horm} pase(s) especial(es) a través de losa, viga o muro de hormigón armado** mediante taladro percutor de alta potencia.`);
+            }
+            if (ad_mamp > 0) {
+                descriptions.push(`**Realización de ${ad_mamp} pase(s) en pared de mampostería estándar** (ladrillo común o hueco).`);
+            }
+            if (ad_cana > 0) {
+                descriptions.push(`**Calado e instalación de canaleta en mampostería de ${ad_cana} metros** para embutir y ocultar cañerías de climatización dentro de la pared.`);
+            }
+            if (ad_men > 0) {
+                descriptions.push(`**Instalación y fijación de ${ad_men} juego(s) de ménsulas reforzadas** con colocación de tacos antivibratorios para amortiguar el ruido del motor.`);
+            }
+
+            return descriptions;
+        }
+
+        function copyWhatsApp() {
+            const cliente = document.getElementById('presp_cliente').value || "A definir";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
+            const fecha = document.getElementById('presp_fecha').value;
+            
+            let text = `❄️ *PRESUPUESTO DE CLIMATIZACIÓN - EL CÓNDOR*\n`;
+            text += `?? *Cliente:* ${cliente}\n`;
+            text += `📍 *Ubicación:* ${ubicacion}\n`;
+            text += `📅 *Fecha:* ${fecha}\n`;
+            text += `===============================\n\n`;
+            text += `*DETALLE DE MANO DE OBRA ESPECIALIZADA:*\n\n`;
+
+            const descripciones = generarDescripcionTecnica();
+
+            if (descripciones.length === 0) {
+                alert("Por favor cargue al menos una tarea para generar el presupuesto.");
+                return;
+            }
+
+            descripciones.forEach(desc => {
+                text += `• ${desc}\n\n`;
+            });
+
+            text += `===============================\n`;
+            text += `💰 *TOTAL SERVICIO (M.O. Neto):* ${fmt(lastTotal)}\n\n`;
+            text += `📝 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
+            text += `🔧 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
+            text += `_El Cóndor Climatización y Seguridad_`;
+
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text);
+                alert("¡Presupuesto copiado al portapapeles en formato WhatsApp!");
+            } else {
+                let textArea = document.createElement("textarea");
+                textArea.value = text;
+                textArea.style.position = "fixed";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    alert("¡Presupuesto copiado al portapapeles en formato WhatsApp!");
+                } catch (err) {
+                    alert("No se pudo copiar automáticamente. Copie el texto de la pantalla.");
+                }
+                document.body.removeChild(textArea);
+            }
+        }
+    </script>
+</body>
+
+</html>

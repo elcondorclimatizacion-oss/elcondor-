@@ -413,8 +413,9 @@
                 background: #fafafa;
             }
 
-            .camera-svg {
-                filter: none;
+            .camera-img-file {
+                box-shadow: none !important;
+                border: none !important;
             }
 
             .specs-table tr {
@@ -525,27 +526,8 @@
             <!-- ILUSTRACIÓN CÁMARA -->
             <div class="visual-col">
                 <span class="visual-badge">Gama Alta</span>
-                <!-- SVG de Cámara Bullet de alta calidad -->
-                <svg class="camera-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Soporte de montaje -->
-                    <path d="M40 80 L20 100 L20 60 Z" fill="#64748b" stroke="#334155" stroke-width="3"/>
-                    <rect x="15" y="55" width="8" height="50" rx="4" fill="#475569"/>
-                    <!-- Brazo articulado -->
-                    <rect x="38" y="70" width="30" height="15" rx="3" transform="rotate(-15 38 70)" fill="#64748b" stroke="#334155" stroke-width="2"/>
-                    <circle cx="68" cy="70" r="8" fill="#38bdf8"/>
-                    <!-- Parasol / Cubierta -->
-                    <path d="M75 35 L165 35 L175 55 L75 55 Z" fill="#e2e8f0" stroke="#475569" stroke-width="2"/>
-                    <!-- Cuerpo cilíndrico de la cámara -->
-                    <rect x="75" y="45" width="90" height="45" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="3"/>
-                    <!-- Lente frontal y anillo -->
-                    <rect x="165" y="48" width="10" height="39" fill="#1e293b" stroke="#334155" stroke-width="2"/>
-                    <ellipse cx="175" cy="67" rx="4" ry="18" fill="#0b0f19" stroke="#38bdf8" stroke-width="2"/>
-                    <circle cx="175" cy="67" r="8" fill="#0c4a6e"/>
-                    <circle cx="173" cy="65" r="3" fill="#38bdf8"/>
-                    <!-- Detalles técnicos adicionales en carcasa -->
-                    <rect x="90" y="80" width="40" height="5" fill="#94a3b8" rx="2"/>
-                </svg>
-                <div style="margin-top: 15px; text-align: center;">
+                <img src="camera_ipc2324sb.png" alt="Cámara Uniview IPC2324SB-DZK-I0" class="camera-img-file" style="width: 100%; max-width: 240px; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(56, 189, 248, 0.25); border: 1px solid rgba(56, 189, 248, 0.3); margin-bottom: 10px;">
+                <div style="margin-top: 5px; text-align: center;">
                     <p style="font-size: 0.8rem; font-weight: 700; color: #fff;">IPC2324SB-DZK-I0</p>
                     <p style="font-size: 0.7rem; color: var(--accent-color); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">Cámara de Seguridad Bullet Varifocal</p>
                 </div>

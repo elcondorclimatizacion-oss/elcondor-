@@ -341,7 +341,7 @@
         /* Responsive Print Styles */
         @media print {
             @page {
-                margin: 0; /* Oculta el encabezado (título) y pie de página (URL) del navegador */
+                margin: 0;
             }
             body {
                 background: white;
@@ -357,7 +357,7 @@
             #doc_print_wrapper {
                 display: block !important;
                 color: #000 !important;
-                padding: 2cm; /* Añade margen físico al contenido para que no se corte */
+                padding: 2.5cm 2cm 2cm 2cm;
                 box-sizing: border-box;
             }
 
@@ -521,6 +521,16 @@
                                     <td>Cámara IP (Red/PoE) - Con canalización de caño PVC/cablecanal</td>
                                     <td><input type="number" id="cctv_cam_ip_can_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="cctv_cam_ip_can_prc" class="cell-input-price" value="170000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Tendido de cable UTP/Coaxial adicional (por metro)</td>
+                                    <td><input type="number" id="cctv_tendido_cable_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_tendido_cable_m_prc" class="cell-input-price" value="1500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación de cañería PVC/Tubo rígido adicional (por metro)</td>
+                                    <td><input type="number" id="cctv_instalacion_cano_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="cctv_instalacion_cano_m_prc" class="cell-input-price" value="2000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
                                     <td>Cámara Wi-Fi (Ezviz / Imou) - Montaje & Configuración lógica</td>
@@ -834,9 +844,9 @@
                 <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
             </div>
             <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #333; border-top: 1px dashed #ccc; padding-top: 10px;">
-                <div><strong>Garantía:</strong> 1 año de garantía escrita.</div>
-                <div><strong>El Cóndor Servicios Integrales</strong></div>
-                <div><strong>Web:</strong> www.elcondorservicios.com.ar</div>
+                <div><strong>Garantía:</strong> 1 año de garantía escrita en instalación.</div>
+                <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+                <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
             </div>
         </div>
     </div>
@@ -848,6 +858,8 @@
             cctv_cam_analog_can: 131300,
             cctv_cam_ip_sup: 130000,
             cctv_cam_ip_can: 170000,
+            cctv_tendido_cable_m: 1500,
+            cctv_instalacion_cano_m: 2000,
             cctv_cam_wifi: 75000,
             cctv_rack_4: 319300,
             cctv_rack_8: 429700,
@@ -1061,13 +1073,22 @@
 
                 let canalizStr = "";
                 if (n_analog_can > 0 || n_ip_can > 0) {
-                    const total_can_cams = n_analog_can + n_ip_can;
-                    canalizStr = ` realizando el tendido e instalación de cañerías rígidas de PVC estancas de alto impacto (filtro UV) para la protección mecánica del cableado en los tramos de bajadas y subidas de las ${total_can_cams} cámaras`;
+                    canalizStr = " realizando el tendido de cañerías de PVC rígido o cablecanal de alta resistencia";
                 } else {
-                    canalizStr = " utilizando cañerías preexistentes (bandejas portacables) o fijación en superficie (grampeado)";
+                    canalizStr = " utilizando cañerías preexistentes o fijación en superficie (grampeado)";
                 }
 
                 descriptions.push(`**Colocación, conexionado y calibración de ${camTypeStr.join(' y ')}${canalizStr}**, incluyendo la provisión e instalación de cajas estancas para la protección hermética y estanqueidad de las borneras, baluns de video y conectores eléctricos de alimentación contra la intemperie.`);
+            }
+
+            const n_tendido_cable = parseInt(document.getElementById('cctv_tendido_cable_m_qty').value) || 0;
+            if (n_tendido_cable > 0) {
+                descriptions.push(`**Tendido de ${n_tendido_cable} metros de cableado estructurado adicional (UTP Cat6 / Coaxial)**, incluyendo el tendido de conductores, rotulado, conexionado y certificación básica de canalización.`);
+            }
+
+            const n_instalacion_cano = parseInt(document.getElementById('cctv_instalacion_cano_m_qty').value) || 0;
+            if (n_instalacion_cano > 0) {
+                descriptions.push(`**Instalación y montaje de ${n_instalacion_cano} metros de canalización y cañería adicional (PVC rígido / Tubo / Cablecanal)**, fijando firmemente los soportes, grampas omega y cajas de pase estancas necesarias para el tendido de cables.`);
             }
 
             const n_cam_wifi = parseInt(document.getElementById('cctv_cam_wifi_qty').value) || 0;
@@ -1131,7 +1152,7 @@
                 descriptions.push(`**Montaje y sujeción en altura de ${vec_cams} cámaras IP perimetrales sobre postes / columnas de servicios público**, utilizando arnés de seguridad de cuerpo completo con cola de amarre, fijación con soportes metálicos y cajas estancas en altura.`);
             }
             if (vec_tendido > 0) {
-                descriptions.push(`**Tendido de Cableado UTP Cat6 en Altura:** Despliegue, guiado y peinado de **${vec_tendido} metros** de cable de red Cat6 exterior (doble vaina 100% cobre) a través de cañerías y bandejas portacables para interconectar todos los puntos.`);
+                descriptions.push(`**Tendido aéreo de ${vec_tendido} metros de cableado estructurado UTP exterior con tensor de acero (catenaria)**, tensado y fijado firmemente mediante soportes preformados de retención.`);
             }
             if (vec_users > 0) {
                 descriptions.push(`**Configuración multipunto, alta y capacitación para ${vec_users} vecinos**, instalando la aplicación en sus respectivos celulares y configurando los accesos y permisos individuales.`);
@@ -1198,7 +1219,7 @@
                 descriptions.push(`**Mano de obra para el reemplazo y re-orientación de ${srv_repl} cámaras** defectuosas por unidades nuevas.`);
             }
             if (srv_est > 0) {
-                descriptions.push(`**Montaje e Instalación de ${srv_est} Cajas Estancas IP65:** Fijación, perforación y sellado de cajas estancas aéreas para la protección y estanqueidad de las conexiones de los cables contra el agua y la intemperie.`);
+                descriptions.push(`**Reemplazo de ${srv_est} cajas estancas** de conexiones para garantizar estanqueidad.`);
             }
             if (srv_fic > 0) {
                 descriptions.push(`**Cambio y re-conexionado de ${srv_fic} fichas de conexión** (baluns de video, borneras de alimentación DC o RJ45 de red).`);
@@ -1245,7 +1266,7 @@
             
             text += `*TOTAL MANO DE OBRA (CERRADO):* ${fmt(lastTotal)}\n`;
             text += `------------------------------------------------\n`;
-            text += `👉 *Garantía técnica:* 1 año en mano de obra.\n`;
+            text += `👉 *Garantía técnica:* 6 meses en mano de obra.\n`;
             text += `👉 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
             text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
             text += `_El Cóndor Climatización y Seguridad_`;

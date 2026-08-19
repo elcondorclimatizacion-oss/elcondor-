@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paso a Paso Configuración Cámaras Uniview - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --border-color: rgba(56, 189, 248, 0.15);
+            --accent-color: #38bdf8; /* Azul Conectividad / CCTV */
+            --accent-hover: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #10b981);
+        }
+
+        /* Cabecera */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-sub {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .doc-type {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Selector de Fases (Tabs) */
+        .tabs-selector {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        @media (max-width: 768px) {
+            .tabs-selector {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 6px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .tab-btn .phase-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            opacity: 0.6;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #0b0f19;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Paneles */
+        .phase-panel {
+            display: none;
+        }
+
+        .phase-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Bloques de advertencia */
+        .tip-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .tip-box-icon {
+            color: var(--success-color);
+            flex-shrink: 0;
+        }
+
+        .tip-box-text h4 {
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .tip-box-text p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Pasos */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-card {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .step-card:hover {
+            background: rgba(56, 189, 248, 0.02);
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .step-num {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .step-badge {
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            font-weight: 700;
+        }
+
+        .step-badge.critical {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger-color);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        .code-box {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            line-height: 1.4;
+        }
+
+        /* Tabla de parámetros */
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.03);
+            margin-top: 1rem;
+        }
+
+        .params-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .params-table th {
+            background: rgba(255,255,255,0.02);
+            padding: 12px 10px;
+            font-weight: 700;
+            color: #fff;
+            text-align: left;
+        }
+
+        .params-table td {
+            padding: 12px 10px;
+            color: var(--text-muted);
+            vertical-align: middle;
+        }
+
+        .params-table td.bold-cell {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Botón de Impresión */
+        .print-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.5rem;
+        }
+
+        .btn-print {
+            background: var(--accent-color);
+            color: #0b0f19;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 2rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-print:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Impresión */
+        @media print {
+            @page {
+                margin: 1.5cm;
+            }
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: #fff;
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .container::before {
+                display: none;
+            }
+
+            header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 2rem;
+            }
+
+            .brand-sub {
+                color: #000;
+            }
+
+            .doc-type {
+                border: 1px solid #000;
+                color: #000;
+                background: none;
+            }
+
+            .tabs-selector {
+                display: none !important;
+            }
+
+            .phase-panel {
+                display: block !important;
+                page-break-after: always;
+                opacity: 1 !important;
+                transform: none !important;
+                margin-bottom: 2.5cm;
+            }
+
+            .phase-panel:last-child {
+                page-break-after: avoid;
+            }
+
+            .step-card {
+                background: none;
+                border: 1px solid #e2e8f0;
+                page-break-inside: avoid;
+            }
+
+            .step-title {
+                color: #000;
+            }
+
+            .step-num {
+                background: #f1f5f9;
+                color: #000;
+                border: 1px solid #ccc;
+            }
+
+            .code-box {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                color: #000;
+            }
+
+            .params-table {
+                background: none;
+                border: 1px solid #ccc;
+            }
+
+            .params-table th {
+                background: #f1f5f9;
+                color: #000;
+                border-bottom: 2px solid #000;
+            }
+
+            .params-table td {
+                color: #333;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .params-table td.bold-cell {
+                color: #000;
+            }
+
+            .print-btn-container {
+                display: none !important;
+            }
+
+            .print-footer-doc {
+                display: flex !important;
+            }
+        }
+
+        .print-footer-doc {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #333;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <div class="brand">
+                <div class="brand-title">El Cóndor</div>
+                <div class="brand-sub">Servicios Integrales</div>
+            </div>
+            <div class="doc-type">Guía Técnica de Obra</div>
+        </header>
+
+        <!-- SELECTOR DE FASES (PANTALLA) -->
+        <div class="tabs-selector">
+            <button class="tab-btn active" onclick="switchPhase(0)">
+                <span class="phase-num">FASE 1</span>
+                IPs Estáticas
+            </button>
+            <button class="tab-btn" onclick="switchPhase(1)">
+                <span class="phase-num">FASE 2</span>
+                Video & Audio
+            </button>
+            <button class="tab-btn" onclick="switchPhase(2)">
+                <span class="phase-num">FASE 3</span>
+                Zoom & Foco
+            </button>
+            <button class="tab-btn" onclick="switchPhase(3)">
+                <span class="phase-num">FASE 4</span>
+                Protección Perimetral
+            </button>
+            <button class="tab-btn" onclick="switchPhase(4)">
+                <span class="phase-num">FASE 5</span>
+                NVR & Cloud
+            </button>
+        </div>
+
+        <!-- ================= FASE 1: DIRECCIONAMIENTO IP ================= -->
+        <div class="phase-panel active" id="panel-0">
+            <div class="tip-box">
+                <div class="tip-box-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/><path d="M12 18h.01M8 14h8M8 10h8M8 6h8"/></svg>
+                </div>
+                <div class="tip-box-text">
+                    <h4>Recomendación de Instalador para El Cóndor</h4>
+                    <p>Usa siempre tu <strong>notebook</strong> conectada por cable al Switch PoE para hacer el direccionamiento masivo. Escribir contraseñas e IPs en el teclado en pantalla del NVR usando el mouse provisto es muy lento y propenso a errores en obras con 8 cámaras.</p>
+                </div>
+            </div>
+
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Conexión Física Inicial <span class="step-badge">FÍSICO</span></div>
+                        <div class="step-desc">Conecta las 8 cámaras Uniview varifocales a los puertos PoE del Switch de CCTV o directamente a los puertos traseros del NVR. Conecta tu notebook de configuración a un puerto LAN libre del switch o del NVR mediante un cable de red categoría 5e/6.</div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Escaneo de Red con EZTool <span class="step-badge">SOFTWARE</span></div>
+                        <div class="step-desc">Abre el software **EZTool** de Uniview en tu notebook. La herramienta realizará un barrido automático de la red y listará las 8 cámaras detectadas, mostrando sus direcciones de fábrica (por lo general en el rango 192.168.1.X o autodefinidas por link-local).</div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Inicialización y Contraseña del Proyecto <span class="step-badge critical">SEGURIDAD</span></div>
+                        <div class="step-desc">Selecciona las 8 cámaras simultáneamente en EZTool y haz clic en **Initialize**. Configura la contraseña unificada del sistema que utilizará El Cóndor para este cliente. Evita contraseñas obvias.
+                            <div class="code-box">Contraseña Recomendada: CondorCCTV2026! (o una combinada para el cliente)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Asignación Masiva de IPs Estáticas <span class="step-badge">RED</span></div>
+                        <div class="step-desc">Selecciona todas las cámaras y cambia el modo de red de DHCP a **Static IP** en EZTool. Esto evita que los dispositivos cambien de dirección ante cortes de energía, lo que provocaría pérdidas de conexión en el NVR.
+                            <table class="params-table">
+                                <thead>
+                                    <tr>
+                                        <th>Dispositivo</th>
+                                        <th>Dirección IP sugerida</th>
+                                        <th>Máscara / Puerta de enlace</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="bold-cell">NVR Uniview</td>
+                                        <td>192.168.1.200</td>
+                                        <td>255.255.255.0 / 192.168.1.1</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="bold-cell">Cámaras 1 a 8</td>
+                                        <td>192.168.1.201 a 192.168.1.208</td>
+                                        <td>255.255.255.0 / 192.168.1.1</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= FASE 2: VIDEO Y AUDIO ================= -->
+        <div class="network-panel" id="panel-1">
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Optimizar Resolución y Compresión Ultra 265 <span class="step-badge">ENCODER</span></div>
+                        <div class="step-desc">Entra mediante el navegador web de tu notebook a la dirección IP de la primera cámara (ej: 192.168.1.201). Ve a **Setup > Video & Audio > Video**. Configura:
+                            <ul>
+                                <li><strong>Resolución:</strong> 4 Megapíxeles (2688 x 1520) - Máxima calidad del sensor.</li>
+                                <li><strong>Frame Rate (FPS):</strong> 20 FPS. Es una tasa fluida para exteriores que ahorra ancho de banda.</li>
+                                <li><strong>Compresión:</strong> Activar **Ultra 265** (o H.265 en su defecto). Esto reducirá un 75% el espacio consumido en el disco rígido en comparación con el estándar H.264 antiguo.</li>
+                                <li><strong>Bitrate Type / Calidad:</strong> VBR (Variable) / Calidad Alta.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Activación del Micrófono Integrado <span class="step-badge">AUDIO</span></div>
+                        <div class="step-desc">La cámara IPC2324LB-ADZK-G incorpora micrófono de alta sensibilidad. Para que el sonido se grabe en el NVR y se escuche en el celular, ve a **Video & Audio > Audio**:
+                            <ul>
+                                <li><strong>Audio Input:</strong> Cambiar a **On** (Encendido).</li>
+                                <li><strong>Audio Compression:</strong> Seleccionar **G.711u** o **AAC** para asegurar máxima fidelidad y bajo ruido de viento.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Configurar Compensación de Contraluz WDR <span class="step-badge">IMAGEN</span></div>
+                        <div class="step-desc">En las cámaras instaladas en el exterior con incidencia directa del sol, ve a **Setup > Image > Exposure**:
+                            <ul>
+                                <li>Activa la función **WDR** (Wide Dynamic Range) de 120dB.</li>
+                                <li>Pon el nivel en **Medio** o **Alto**. Esto aclara las zonas sombrías (como caras bajo aleros o viseras) y evita que los fondos muy iluminados saturen el sensor.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= FASE 3: ZOOM Y ENFOQUE ================= -->
+        <div class="network-panel" id="panel-2">
+            <div class="tip-box">
+                <div class="tip-box-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="tip-box-text">
+                    <h4>Ventaja de la Lente Motorizada 2.8 - 12mm</h4>
+                    <p>No necesitas trepar a la escalera para regular el anillo de foco y zoom a mano. Se controla directamente desde la interfaz web o desde el grabador, lo que simplifica enormemente la puesta a punto.</p>
+                </div>
+            </div>
+
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Calibrar el Zoom según Ubicación <span class="step-badge">LENTE</span></div>
+                        <div class="step-desc">Abre la vista en vivo de la cámara en pantalla completa. Usa los comandos de control PTZ (+ / - Zoom):
+                            <ul>
+                                <li><strong>2.8 mm (Gran Angular):</strong> Utilízalo en patios amplios o esquinas para vigilar la mayor área posible.</li>
+                                <li><strong>12 mm (Teleobjetivo):</strong> Utilízalo para capturar detalles lejanos, como portones de entrada de vehículos, entrada de personas a 20 metros, para asegurar identificación nítida de patentes y rostros.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Enfoque Automático Inteligente (Auto Focus) <span class="step-badge critical">CRÍTICO</span></div>
+                        <div class="step-desc">Cada vez que realices una modificación en el nivel de zoom, el lente de la cámara se moverá. Debes hacer clic en la función **One-Key Focus** (Enfoque rápido de un solo toque) en la interfaz del NVR o cámara para que el lente calibre de forma electrónica la máxima nitidez posible. Asegúrate de verificar el enfoque tanto de día como de noche (con infrarrojos encendidos) para evitar pérdidas de foco nocturno.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= FASE 4: PROTECCIÓN PERIMETRAL ================= -->
+        <div class="network-panel" id="panel-3">
+            <div class="tip-box" style="background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3);">
+                <div class="tip-box-icon" style="color: var(--warning-color);">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                </div>
+                <div class="tip-box-text">
+                    <h4>Configuración Exclusiva para las 6 Cámaras Exteriores</h4>
+                    <p>Las analíticas inteligentes son el gran valor de El Cóndor. Configurar protección perimetral con <strong>filtrado de humanos y vehículos</strong> evita falsas alarmas provocadas por sombras de árboles, lluvia, insectos o perros, dándole un servicio sumamente profesional al cliente.</p>
+                </div>
+            </div>
+
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Ingresar a Prevención Inteligente <span class="step-badge">ANALÍTICA</span></div>
+                        <div class="step-desc">En la configuración de la cámara (vía Web) o en el menú de analíticas del NVR, ve a **Setup > Intelligent > Smart Prevention** (o Prevención Inteligente). Verás la vista en vivo de la cámara con herramientas de dibujo en pantalla.</div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Dibujar Reglas de Detección perimetral <span class="step-badge">DIBUJAR</span></div>
+                        <div class="step-desc">Selecciona la regla adecuada para cada una de las 6 cámaras de exterior:
+                            <ul>
+                                <li><strong>Cruce de Línea (Cross Line):</strong> Dibuja líneas en los límites exactos de la propiedad (paredes medianeras, portón de entrada, alambrados). Configura la dirección en **A<->B** (ida y vuelta) o en un solo sentido según convenga.</li>
+                                <li><strong>Intrusión de Área (Intrusion):</strong> Dibuja un polígono cerrado de 4 esquinas sobre áreas donde nadie debería ingresar (el jardín de adelante por la noche, el acceso a la puerta principal).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Activar Filtrado de Objetos Smart <span class="step-badge critical">FILTRADO SMART</span></div>
+                        <div class="step-desc">Esto es lo más importante para el éxito del sistema. En la sección de configuración de la regla, activa exclusivamente:
+                            <ul>
+                                <li><strong>[x] Human (Humanos):</strong> Para disparar alarma cuando una persona salte la medianera o camine por el patio.</li>
+                                <li><strong>[x] Motor Vehicle (Vehículos):</strong> Para detectar autos o motos cruzando los portones.</li>
+                                <li><em>Desactiva "Non-Motor Vehicle" y "Motion" (movimiento general) para descartar viento, perros, pájaros y lluvia.</em></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Calibrar Sensibilidad del Algoritmo <span class="step-badge">CALIBRAR</span></div>
+                        <div class="step-desc">Establece la **Sensibilidad** de la regla en un valor entre **60% y 75%**. Si la sensibilidad es demasiado alta (90%+), el reflejo de luces en la noche o sombras marcadas podrían llegar a confundir al algoritmo de inteligencia artificial de la cámara.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= FASE 5: CONFIGURACIÓN DEL NVR Y ALERTAS ================= -->
+        <div class="network-panel" id="panel-4">
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Grabación Inteligente en Disco Rígido <span class="step-badge">STORAGE</span></div>
+                        <div class="step-desc">Para optimizar al máximo la capacidad del disco y durar semanas o meses de grabación continua:
+                            <ul>
+                                <li>Ve al menú de **Storage > Schedule** en el NVR.</li>
+                                <li>Configura un calendario mixto:
+                                    <ul>
+                                        <li><strong>Grabación Normal / Continua (24/7):</strong> Configurada para grabar en el sub-stream (resolución y FPS más bajos).</li>
+                                        <li><strong>Grabación por Evento (Cruce / Intrusión):</strong> Cuando una cámara detecta un humano cruzando el perímetro, el grabador conmuta de forma instantánea y graba a resolución de 4MP (Stream Principal) a máxima calidad.</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Vincular Evento a Notificaciones Celulares <span class="step-badge critical">PUSH ALERTS</span></div>
+                        <div class="step-desc">En la configuración de las reglas inteligentes del NVR, ingresa a **Linkage Actions** (Acciones de enlace):
+                            <ul>
+                                <li>Marca **[x] Trigger Push Notification** en todas las reglas perimetrales de las 6 cámaras de exterior.</li>
+                                <li>Marca **[x] Buzzer** (opcional, para que el NVR emita un pitido de advertencia físico si alguien irrumpe).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Activar EZCloud y Escaneo de App Móvil <span class="step-badge">EZVIEW</span></div>
+                        <div class="step-desc">Para brindar monitoreo remoto seguro y rápido:
+                            <ul>
+                                <li>Ve en el NVR a **System > Network > EZCloud**. Activa el interruptor de la nube. Asegúrate de que el estado en pantalla cambie a **Online** (En línea).</li>
+                                <li>Descarga en el celular del cliente la App oficial **EZView** de Uniview.</li>
+                                <li>Dentro de la App, ve a *Agregar Dispositivo*, escanea el código QR que se visualiza en la pantalla del monitor del NVR, e introduce la contraseña unificada del sistema.</li>
+                                <li>En los ajustes de notificaciones del celular, activa las alarmas push para que el cliente reciba capturas y avisos al instante cuando alguien cruce el perímetro delimitado por El Cóndor.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN DE IMPRESIÓN -->
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+                Imprimir Guía de Configuración / Guardar PDF
+            </button>
+        </div>
+
+        <!-- PIE DE PÁGINA IMPRESIÓN (OCULTO EN PANTALLA) -->
+        <div class="print-footer-doc">
+            <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+            <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+    </div>
+
+    <script>
+        function switchPhase(index) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.network-panel, .phase-panel');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            panels[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

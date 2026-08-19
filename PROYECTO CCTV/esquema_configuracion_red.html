@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esquema de Configuración de Red Mesh - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --border-color: rgba(56, 189, 248, 0.15);
+            --accent-color: #38bdf8; /* Azul Conectividad */
+            --accent-hover: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 950px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #8b5cf6);
+        }
+
+        /* Cabecera */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-sub {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .doc-type {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Selector de Línea de Red (Tabs) */
+        .tabs-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #0b0f19;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Paneles */
+        .network-panel {
+            display: none;
+        }
+
+        .network-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Alerta Inicial */
+        .app-notice {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .app-notice-icon {
+            color: var(--warning-color);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .app-notice-text h4 {
+            color: #fff;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .app-notice-text p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* Diagrama de Conectividad */
+        .diagram-container {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .diagram-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .topology-flow {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 1rem 0;
+        }
+
+        .topology-node {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            text-align: center;
+            flex: 1;
+            min-width: 140px;
+            position: relative;
+            transition: border-color 0.2s;
+        }
+
+        .topology-node:hover {
+            border-color: var(--accent-color);
+        }
+
+        .topology-node .node-type {
+            font-size: 0.65rem;
+            color: var(--accent-color);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 4px;
+        }
+
+        .topology-node .node-name {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .topology-node .node-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .topology-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Pasos del Checklist */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-card {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1.2rem;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .step-card:hover {
+            background: rgba(56, 189, 248, 0.02);
+            border-color: rgba(56, 189, 248, 0.2);
+        }
+
+        .step-num {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 1.1rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+
+        .step-content {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .step-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .step-badge {
+            font-size: 0.65rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success-color);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-weight: 700;
+        }
+
+        .step-badge.warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--warning-color);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .tech-box {
+            background: rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 0.8rem;
+            margin-top: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            line-height: 1.4;
+        }
+
+        /* Tabla de Parámetros Recomendados */
+        .params-section {
+            margin-top: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .params-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            background: rgba(0,0,0,0.1);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .params-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .params-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .params-table th {
+            background: rgba(255,255,255,0.02);
+            padding: 12px 10px;
+            font-weight: 700;
+            color: #fff;
+            text-align: left;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .params-table td {
+            padding: 12px 10px;
+            vertical-align: top;
+        }
+
+        .params-table td.label-cell {
+            font-weight: 700;
+            color: #fff;
+            width: 30%;
+        }
+
+        .params-table td.val-cell {
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .highlight-text {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        /* Botón de Impresión */
+        .print-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.5rem;
+        }
+
+        .btn-print {
+            background: var(--accent-color);
+            color: #0b0f19;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 2rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-print:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-print:active {
+            transform: translateY(0);
+        }
+
+        /* Botones de descarga de Apps */
+        .app-links {
+            margin-top: 12px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-app {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .btn-app:hover {
+            background: var(--accent-color);
+            color: #0b0f19;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        /* Estilos de Impresión */
+        @media print {
+            @page {
+                margin: 1.5cm;
+            }
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: #fff;
+                padding: 0;
+                border-radius: 0;
+            }
+
+            .container::before {
+                display: none;
+            }
+
+            header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 2rem;
+            }
+
+            .brand-sub {
+                color: #000;
+            }
+
+            .doc-type {
+                border: 1px solid #000;
+                color: #000;
+                background: none;
+            }
+
+            .tabs-selector {
+                display: none !important;
+            }
+
+            .app-notice {
+                border: 1px solid #ccc;
+                background: #fafafa;
+                color: #000;
+            }
+            .app-notice-text h4 {
+                color: #000;
+            }
+
+            .network-panel {
+                display: block !important;
+                page-break-after: always;
+                opacity: 1 !important;
+                transform: none !important;
+                margin-bottom: 2cm;
+            }
+
+            .network-panel:last-child {
+                page-break-after: avoid;
+            }
+
+            .topology-node {
+                border: 1px solid #000;
+                background: #fafafa;
+            }
+            .topology-node .node-name {
+                color: #000;
+            }
+            .topology-node .node-type {
+                color: #333;
+            }
+
+            .step-card {
+                background: none;
+                border: 1px solid #e2e8f0;
+                page-break-inside: avoid;
+            }
+
+            .step-title {
+                color: #000;
+            }
+            .step-num {
+                background: #f1f5f9;
+                color: #000;
+                border: 1px solid #ccc;
+            }
+
+            .tech-box {
+                background: #f8fafc;
+                border: 1px solid #e2e8f0;
+                color: #000;
+            }
+
+            .params-table {
+                background: none;
+                border: 1px solid #ccc;
+            }
+            .params-table th {
+                background: #f1f5f9;
+                color: #000;
+                border-bottom: 2px solid #000;
+            }
+            .params-table td {
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .params-table td.label-cell {
+                color: #000;
+            }
+
+            .print-btn-container {
+                display: none !important;
+            }
+
+            .print-footer-doc {
+                display: flex !important;
+            }
+
+            .app-links {
+                display: none !important;
+            }
+        }
+
+        .print-footer-doc {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #333;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <div class="brand">
+                <div class="brand-title">El Cóndor</div>
+                <div class="brand-sub">Servicios Integrales</div>
+            </div>
+            <div class="doc-type">Esquema Técnico</div>
+        </header>
+
+        <!-- SELECTOR DE LÍNEA (PANTALLA) -->
+        <div class="tabs-selector">
+            <button class="tab-btn active" onclick="switchTab(0)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+                Red Profesional (TP-Link Omada)
+            </button>
+            <button class="tab-btn" onclick="switchTab(1)">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Red Residencial (TP-Link Deco)
+            </button>
+        </div>
+
+        <!-- ================= PANEL 1: TP-LINK OMADA ================= -->
+        <div class="network-panel active" id="panel-0">
+            <!-- Nota de App -->
+            <div class="app-notice">
+                <div class="app-notice-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="app-notice-text">
+                    <h4>¿Necesito una App para configurar TP-Link Omada?</h4>
+                    <p><strong>Sí, se recomienda descargar la App "TP-Link Omada"</strong> (disponible en Android y iOS) para el escaneo rápido de códigos QR y puesta en marcha inicial en sitio. Sin embargo, también se puede configurar al 100% conectando una notebook a la red local y accediendo a la IP del hardware controller (OC200) o de forma individual en modo Standalone.</p>
+                    <div class="app-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.tplink.omada" target="_blank" class="btn-app">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 2v20l17-10z"/></svg> Android (Google Play)
+                        </a>
+                        <a href="https://apps.apple.com/app/tp-link-omada/id1453915003" target="_blank" class="btn-app">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/></svg> iOS (App Store)
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topología Física -->
+            <div class="diagram-container">
+                <div class="diagram-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"/><circle cx="8" cy="12" r="2"/></svg>
+                    Diagrama de Conexiones Físicas
+                </div>
+                <div class="topology-flow">
+                    <div class="topology-node">
+                        <div class="node-type">Proveedor</div>
+                        <div class="node-name">Modem / Starlink</div>
+                        <div class="node-sub">Modo Puente / Bypass</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">Router / WAN</div>
+                        <div class="node-name">Omada ER605</div>
+                        <div class="node-sub">IP default: 192.168.0.1</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">Switch PoE+</div>
+                        <div class="node-name">TL-SG2008P</div>
+                        <div class="node-sub">Distribución PoE</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">APs & Controladora</div>
+                        <div class="node-name">OC200 + EAP610</div>
+                        <div class="node-sub">Nodos Mesh Activos</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasos del Checklist -->
+            <h3 class="section-title" style="margin-bottom: 1.2rem;">Paso a Paso del Montaje y Configuración</h3>
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Conexión Física e Inyección PoE <span class="step-badge">FÍSICO</span></div>
+                        <div class="step-desc">
+                            Conecta el puerto LAN de Starlink (o módem del cliente) al puerto WAN (Puerto 1) del Router ER605. Conecta un cable desde un puerto LAN del ER605 al puerto 8 (no PoE) del Switch PoE TL-SG2008P. Conecta la controladora OC200 en el Puerto 1 del switch y los puntos de acceso (EAP610/EAP225) en los Puertos 2 y 3. El switch alimentará a los equipos de forma directa mediante PoE.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Preparación del Módem/Starlink del Cliente <span class="step-badge warning">CRÍTICO</span></div>
+                        <div class="step-desc">
+                            Ingresa a la configuración del router del proveedor y desactiva su Wi-Fi para evitar interferencias. Si el cliente tiene Starlink, utiliza el adaptador Ethernet oficial y activa el <strong>"Bypass Mode" (Modo Puente)</strong> en la App de Starlink para delegar toda la gestión de red y ruteo a nuestro router Omada ER605.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Inicializar la Controladora Física (OC200) <span class="step-badge">APP / WEB</span></div>
+                        <div class="step-desc">
+                            Abre la App "TP-Link Omada" en tu celular conectado a la red local Wi-Fi temporal que emiten los EAP por defecto. Toca en "Local Access", la app buscará la controladora OC200 de forma automática (o puedes escanear el código QR del sticker trasero de la controladora). También puedes hacerlo desde una laptop ingresando a la IP asignada por DHCP a la controladora. Crea un usuario administrador y contraseña seguros.
+                        </div>
+                        <div class="tech-box">
+                            Usuario Sugerido: condor_admin<br>
+                            Ubicación recomendada del QR: Sticker en la tapa del rack o caja de red.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Adopción de Equipos y Puesta en Red <span class="step-badge">OMADA SDN</span></div>
+                        <div class="step-desc">
+                            En el panel de control de Omada, dirígete a la pestaña "Devices" (Dispositivos). Verás listados el Router ER605, el Switch TL-SG2008P y los APs (EAP610 y EAP225-Outdoor) en estado "Pending" (Pendiente). Toca el botón <strong>"Adopt"</strong> en cada uno de ellos. Espera de 2 a 3 minutos hasta que el estado cambie a "Connected" (Conectado). Todos los equipos ahora estarán bajo el control central de la OC200.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <div class="step-title">Configuración de Red Inalámbrica y Red CCTV <span class="step-badge">SSID / VLAN</span></div>
+                        <div class="step-desc">
+                            Crea la red Wi-Fi del cliente en "Settings" &gt; "Wireless Networks" &gt; "Create New Wireless Network". Asigna un nombre (SSID) unificado para ambas frecuencias (2.4 y 5 GHz) y seguridad WPA2-PSK/WPA3-Personal. Adicionalmente, crea una red oculta o una VLAN separada exclusivamente para el NVR y las cámaras de seguridad para proteger el tráfico y evitar que los teléfonos o notebooks de visitas tengan acceso a los feeds de video.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">6</div>
+                    <div class="step-content">
+                        <div class="step-title">Activar Roaming Continuo y Mesh Inalámbrico <span class="step-badge warning">CERO MICRO-CORTES</span></div>
+                        <div class="step-desc">
+                            Ve a "Settings" &gt; "Site" y asegúrate de activar las opciones de <strong>Fast Roaming (802.11k/v)</strong> y <strong>AI WLAN Optimization</strong>. Esto permite que los clientes se traspasen de forma invisible y sin microcortes de un AP a otro. Activa la función <strong>"Mesh"</strong> para que si algún AP exterior no cuenta con cable de red, pueda conectarse de forma inalámbrica ("Link inalámbrico") a uno de los EAPs interiores cableados.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parámetros de Configuración Recomendados -->
+            <div class="params-section">
+                <h3 class="section-title">Parámetros Técnicos Recomendados</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Parámetro</th>
+                            <th>Valor Recomendado</th>
+                            <th>Motivo / Explicación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="label-cell">SSID Único (Doble Banda)</td>
+                            <td class="val-cell"><span class="highlight-text">[NombreCliente] Wi-Fi</span></td>
+                            <td class="val-cell">Permite que el Smart Connect de Omada envíe los dispositivos viejos a 2.4GHz y los nuevos a 5GHz de forma automática.</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Seguridad Wi-Fi</td>
+                            <td class="val-cell"><span class="highlight-text">WPA2 / WPA3 Personal</span></td>
+                            <td class="val-cell">Compatibilidad máxima con dispositivos de domótica y máxima seguridad para celulares modernos.</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Ancho de Canal (5 GHz)</td>
+                            <td class="val-cell"><span class="highlight-text">80 MHz (o 40 MHz)</span></td>
+                            <td class="val-cell">80 MHz entrega la máxima velocidad posible de Wi-Fi 6. Si hay mucho ruido, bajar a 40 MHz para mayor estabilidad.</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">SSID Exclusivo Domótica/CCTV</td>
+                            <td class="val-cell"><span class="highlight-text">[NombreCliente]_IOT</span></td>
+                            <td class="val-cell">Frecuencia exclusiva en 2.4 GHz. Aislar las cámaras e interruptores inteligentes para que no saturen la red principal.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= PANEL 2: TP-LINK DECO ================= -->
+        <div class="network-panel" id="panel-1">
+            <!-- Nota de App -->
+            <div class="app-notice">
+                <div class="app-notice-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                </div>
+                <div class="app-notice-text">
+                    <h4>¿Necesito una App para configurar TP-Link Deco?</h4>
+                    <p><strong>Sí, es 100% OBLIGATORIO descargar la App "TP-Link Deco"</strong> en tu smartphone. A diferencia de la línea Omada, los dispositivos Deco residenciales no tienen interfaz web de configuración inicial. Toda la instalación, el emparejamiento Mesh y la administración remota posterior se realiza desde esta app vinculada a una cuenta TP-Link ID.</p>
+                    <div class="app-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.tplink.tpm5" target="_blank" class="btn-app">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 2v20l17-10z"/></svg> Android (Google Play)
+                        </a>
+                        <a href="https://apps.apple.com/app/tp-link-deco/id1200109033" target="_blank" class="btn-app">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"/></svg> iOS (App Store)
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Topología Física -->
+            <div class="diagram-container">
+                <div class="diagram-title">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M16 16v1a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v1"/><path d="M18 8h4a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-4"/><circle cx="8" cy="12" r="2"/></svg>
+                    Diagrama de Conexiones Físicas
+                </div>
+                <div class="topology-flow">
+                    <div class="topology-node">
+                        <div class="node-type">Proveedor</div>
+                        <div class="node-name">Modem / Starlink</div>
+                        <div class="node-sub">Bypass Activo</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">Deco Principal (Master)</div>
+                        <div class="node-name">Deco X20 / X50</div>
+                        <div class="node-sub">Puerto WAN/LAN 1</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">Switch Giga (Opcional)</div>
+                        <div class="node-name">Switch Gigabit</div>
+                        <div class="node-sub">Distribución por Cable</div>
+                    </div>
+                    <div class="topology-arrow">→</div>
+                    <div class="topology-node">
+                        <div class="node-type">Nodos Satélite</div>
+                        <div class="node-name">Deco Nodos 2 y 3</div>
+                        <div class="node-sub">Enlace Mesh Inalámbrico/Cable</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pasos del Checklist -->
+            <h3 class="section-title" style="margin-bottom: 1.2rem;">Paso a Paso del Montaje y Configuración</h3>
+            <div class="step-list">
+                <div class="step-card">
+                    <div class="step-num">1</div>
+                    <div class="step-content">
+                        <div class="step-title">Conectar el Deco Principal <span class="step-badge">FÍSICO</span></div>
+                        <div class="step-desc">
+                            Apaga el módem del proveedor. Conecta un cable Ethernet desde el puerto LAN del módem (o del adaptador Ethernet de Starlink en modo Bypass) a cualquiera de los puertos Ethernet del primer dispositivo Deco (este se convertirá en el Deco Principal o Master). Enciende el módem y el Deco. Espera a que el LED del Deco parpadee en color <strong>azul</strong>, lo que indica que está listo para la configuración.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">2</div>
+                    <div class="step-content">
+                        <div class="step-title">Configurar desde la App "TP-Link Deco" <span class="step-badge">APP</span></div>
+                        <div class="step-desc">
+                            Abre la App "TP-Link Deco" en tu celular. Inicia sesión con el TP-Link ID de "El Cóndor" (o crea una cuenta usando el correo del cliente si prefiere la administración propia). Toca en "Comencemos" y selecciona el modelo exacto de Deco que estás instalando. La app detectará el Deco por Bluetooth o Wi-Fi y te guiará para elegir el tipo de conexión (usualmente "IP Dinámica").
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">3</div>
+                    <div class="step-content">
+                        <div class="step-title">Crear el Nombre de Red Único <span class="step-badge">SSID</span></div>
+                        <div class="step-desc">
+                            La app te solicitará definir el SSID (Nombre del Wi-Fi) y la contraseña para la red del cliente. Recuerda que Deco creará una sola red inteligente que une las bandas de 2.4 y 5 GHz. Completa el asistente y conéctate con tu celular a la nueva red creada para continuar la configuración.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">4</div>
+                    <div class="step-content">
+                        <div class="step-title">Agregar Nodos Adicionales (Mesh Satélites) <span class="step-badge">MALLA</span></div>
+                        <div class="step-desc">
+                            Ubica los otros nodos Deco en puntos intermedios (a no más de 2 paredes de distancia o 10 metros del nodo principal si es enlace inalámbrico). Enchúfalos y espera a que el LED parpadee en <strong>azul</strong>. En la App Deco de tu celular, toca el icono <strong>"+"</strong> en la esquina superior derecha y selecciona "Agregar un Deco". La app los buscará y agregará automáticamente a la red Mesh existente. El LED de cada Deco pasará a color <strong>verde/blanco fijo</strong> cuando esté enlazado correctamente.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-num">5</div>
+                    <div class="step-content">
+                        <div class="step-title">Configurar el Backhaul por Cable (Opcional pero Recomendado) <span class="step-badge warning">ALTA PERFORMANCE</span></div>
+                        <div class="step-desc">
+                            Si la casa o local tiene cableado estructurado, conecta un cable de red desde el segundo puerto del Deco Principal a un Switch Gigabit común, y desde el switch lleva cables a los puertos Ethernet de los Decos satélites. El sistema Deco detectará el cable de forma automática y pasará el backhaul de inalámbrico a cableado (Ethernet Backhaul), liberando el 100% de la banda inalámbrica para los celulares y notebooks de los clientes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Parámetros de Configuración Recomendados -->
+            <div class="params-section">
+                <h3 class="section-title">Parámetros Técnicos Recomendados</h3>
+                <table class="params-table">
+                    <thead>
+                        <tr>
+                            <th>Ajuste en App Deco</th>
+                            <th>Configuración Recomendada</th>
+                            <th>Motivo / Explicación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="label-cell">Modo de Operación</td>
+                            <td class="val-cell"><span class="highlight-text">Modo Router</span> (por defecto)</td>
+                            <td class="val-cell">Permite utilizar funciones de control parental, QoS y seguridad. Si el router principal del ISP no se puede poner en bypass, cambiar Deco a <span class="highlight-text">Modo AP (Access Point)</span> para evitar doble NAT.</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Red de Invitados</td>
+                            <td class="val-cell"><span class="highlight-text">Activada (Aislada)</span></td>
+                            <td class="val-cell">Brinda internet a las visitas sin darles acceso a las impresoras, Smart TVs o cámaras del cliente.</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Tecnología de Roaming Rápido</td>
+                            <td class="val-cell"><span class="highlight-text">Activado (Fast Roaming)</span></td>
+                            <td class="val-cell">Asegura la conmutación rápida entre nodos. (Nota: algunos dispositivos muy antiguos de domótica pueden requerir desactivar esto temporalmente si fallan al conectarse).</td>
+                        </tr>
+                        <tr>
+                            <td class="label-cell">Prioridad de Dispositivos (QoS)</td>
+                            <td class="val-cell"><span class="highlight-text">Asignar al NVR / Smart TV</span></td>
+                            <td class="val-cell">Garantiza que el streaming de cámaras y video 4K nunca sufran cortes aunque otros usuarios estén descargando archivos pesados.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- BOTÓN DE IMPRESIÓN -->
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+                Imprimir Esquema / Guardar PDF
+            </button>
+        </div>
+
+        <!-- PIE DE PÁGINA IMPRESIÓN (OCULTO EN PANTALLA) -->
+        <div class="print-footer-doc">
+            <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+            <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(index) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.network-panel');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            
+            tabs[index].classList.add('active');
+            panels[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

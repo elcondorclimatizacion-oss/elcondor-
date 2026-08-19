@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica - TIC2621SR-F3-4F4AC-VD - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --border-color: rgba(239, 68, 68, 0.2); /* Borde rojo / térmico */
+            --accent-color: #ef4444; /* Rojo Térmico */
+            --accent-hover: #dc2626;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #f97316);
+        }
+
+        /* Cabecera Comercial */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-sub {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .doc-type {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Grid de Contenido Principal */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Columna Izquierda: Presentación y Destacados */
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .product-title-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-model {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .product-desc {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 1.2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(239, 68, 68, 0.3);
+            background: rgba(239, 68, 68, 0.02);
+        }
+
+        .feature-icon {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--accent-color);
+            padding: 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .feature-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Columna Derecha: Ilustración e Info Adicional */
+        .visual-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.15);
+            border: 1px dashed rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .camera-img-file {
+            width: 100%;
+            max-width: 240px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.25);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .visual-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f97316;
+            color: #000;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Tabla de Especificaciones Técnicas */
+        .specs-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .specs-table td {
+            padding: 10px 8px;
+            vertical-align: top;
+        }
+
+        .specs-table td.label-cell {
+            font-weight: 700;
+            color: #fff;
+            width: 30%;
+        }
+
+        .specs-table td.val-cell {
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Gráfico de Rangos DORI */
+        .dori-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .dori-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .dori-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .dori-name {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .dori-dist {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .dori-purpose {
+            font-size: 0.65rem;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* Botón de Impresión de Acción */
+        .print-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.5rem;
+        }
+
+        .btn-print {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 2rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 20px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-print:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-print:active {
+            transform: translateY(0);
+        }
+
+        /* Estilos y Sobrescritura para Impresión (PDF) */
+        @media print {
+            @page {
+                margin: 0;
+            }
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: #fff;
+                padding: 2.5cm 2cm 2cm 2cm;
+                box-sizing: border-box;
+                border-radius: 0;
+            }
+
+            .container::before {
+                display: none;
+            }
+
+            header {
+                border-bottom: 2px solid #000;
+            }
+
+            .brand-sub {
+                color: #000;
+            }
+
+            .doc-type {
+                border: 1px solid #000;
+                color: #000;
+                background: none;
+            }
+
+            .product-title-box .product-model {
+                color: #000;
+            }
+
+            .feature-card {
+                background: none;
+                border: 1px solid #e2e8f0;
+                page-break-inside: avoid;
+            }
+
+            .feature-title {
+                color: #000;
+            }
+
+            .feature-icon {
+                background: #f1f5f9;
+                color: #000;
+            }
+
+            .visual-col {
+                border: 1px solid #e2e8f0;
+                background: #fafafa;
+            }
+
+            .camera-img-file {
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .specs-table tr {
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .specs-table td.label-cell {
+                color: #000;
+            }
+
+            .dori-card {
+                border: 1px solid #e2e8f0;
+                background: #fafafa;
+            }
+
+            .print-btn-container {
+                display: none !important;
+            }
+
+            .print-footer-doc {
+                display: flex !important;
+            }
+        }
+
+        /* Footer del documento de impresión */
+        .print-footer-doc {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <div class="brand">
+                <div class="brand-title">El Cóndor</div>
+                <div class="brand-sub">Servicios Integrales</div>
+            </div>
+            <div class="doc-type">Ficha de Producto</div>
+        </header>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-grid">
+            <!-- INFO -->
+            <div class="info-col">
+                <div class="product-title-box">
+                    <span class="product-desc">Cámara de Red Bullet Térmica y Óptica de Doble Espectro con Disuasión Activa</span>
+                    <h1 class="product-model">TIC2621SR-F3-4F4AC-VD</h1>
+                </div>
+
+                <div class="features-list">
+                    <!-- Detalle 1 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        </div>
+                        <div class="feature-info">
+                            <span class="feature-title">Monitoreo Térmico y Visual Dual</span>
+                            <span class="feature-text">Integra un sensor térmico de 256x192 para ver en total oscuridad o humo, junto a un sensor óptico de 4 Megapíxeles con lente de 4.0mm (ángulo de 89.9°).</span>
+                        </div>
+                    </div>
+
+                    <!-- Detalle 2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        </div>
+                        <div class="feature-info">
+                            <span class="feature-title">Disuasión Activa Inteligente</span>
+                            <span class="feature-text">Ante intrusiones, activa luces estroboscópicas rojas y azules integradas y emite alertas a través de su altavoz/sirena física para ahuyentar amenazas.</span>
+                        </div>
+                    </div>
+
+                    <!-- Detalle 3 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3z"/></svg>
+                        </div>
+                        <div class="feature-info">
+                            <span class="feature-title">Detección de Temperatura y Fuego</span>
+                            <span class="feature-text">Monitoreo de calor en tiempo real (-20°C a 150°C). Algoritmo inteligente que detecta focos de incendio y humo de forma temprana y rastrea puntos calientes.</span>
+                        </div>
+                    </div>
+
+                    <!-- Detalle 4 -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <div class="feature-info">
+                            <span class="feature-title">Analíticas Duales Avanzadas</span>
+                            <span class="feature-text">Combina ambos espectros para prevenir intrusiones (cruce de línea, entrada/salida de área) descartando falsas alarmas con máxima precisión industrial.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FOTO CÁMARA -->
+            <div class="visual-col">
+                <span class="visual-badge">Gama Especial</span>
+                <img src="camera_tic2621_real.png" alt="Cámara Uniview TIC2621SR-F3-4F4AC-VD" class="camera-img-file">
+                <div style="margin-top: 5px; text-align: center;">
+                    <p style="font-size: 0.8rem; font-weight: 700; color: #fff;">TIC2621SR-F3-4F4AC-VD</p>
+                    <p style="font-size: 0.65rem; color: var(--accent-color); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">Cámara Térmica y Óptica Dual</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ESPECIFICACIONES DETALLADAS -->
+        <div class="specs-section">
+            <h2 class="section-title">Especificaciones Técnicas Clave</h2>
+            <table class="specs-table">
+                <tr>
+                    <td class="label-cell">Módulo Óptico</td>
+                    <td class="val-cell">Sensor CMOS de 1/1.8" y 4 Megapíxeles (2688 × 1520 a 30fps). Lente fijo de 4.0mm con apertura F1.6 y gran angular de 89.9°. Sensibilidad ultra baja a la luz (0.001 Lux).</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Módulo Térmico</td>
+                    <td class="val-cell">Sensor de Microbolómetro no refrigerado de Óxido de Vanadio. Resolución térmica de 256 × 192 (píxel de 12 μm). Lente térmico de 3.2mm (apertura F1.0). Sensibilidad NETD &lt; 55 mK.</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Monitoreo de Temperatura</td>
+                    <td class="val-cell">Rango de medición de -20°C a 150°C con precisión de ±8°C. Soporta alarmas por exceso de temperatura y detección de fumadores o incendios.</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Disuasión Activa</td>
+                    <td class="val-cell">Luz de advertencia estroboscópica integrada (LEDs color rojo y azul parpadeantes tipo patrullero) y altavoz/sirena audible incorporado de alta potencia.</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Compresión y Red</td>
+                    <td class="val-cell">Ultra 265 / H.265 / H.264. Soporta alimentación PoE (IEEE 802.3af) o 12V CC. Consumo máximo eficiente.</td>
+                </tr>
+                <tr>
+                    <td class="label-cell">Interfaces y Estructura</td>
+                    <td class="val-cell">Entrada/Salida de Alarma (2/2) y Audio (1/1). Ranura MicroSD de hasta 256 GB. Carcasa metálica sellada con certificación de intemperie IP67.</td>
+                </tr>
+            </table>
+        </div>
+        
+        <!-- SECCIÓN DORI ÓPTICO -->
+        <div class="specs-section">
+            <h2 class="section-title">Rangos de Trabajo Óptico (Norma DORI - Lente 4.0mm)</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">El estándar internacional DORI define las distancias máximas para el lente de luz visible de 4.0mm:</p>
+            <div class="dori-grid">
+                <div class="dori-card">
+                    <div class="dori-name">Detectar</div>
+                    <div class="dori-dist">62.1 m</div>
+                    <div class="dori-purpose">Presencia general de un objetivo</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Observar</div>
+                    <div class="dori-dist">24.8 m</div>
+                    <div class="dori-purpose">Detalles y contorno de la escena</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Reconocer</div>
+                    <div class="dori-dist">12.4 m</div>
+                    <div class="dori-purpose">Verificar si es una persona conocida</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Identificar</div>
+                    <div class="dori-dist">6.2 m</div>
+                    <div class="dori-purpose">Rasgos faciales o patentes</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DORI TÉRMICO -->
+        <div class="specs-section">
+            <h2 class="section-title">Alcances de Detección Infrarroja (Espectro Térmico 3.2mm)</h2>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px; line-height: 1.4;">El calor emitido permite la detección de personas y vehículos a largas distancias, incluso sin luz:</p>
+            <div class="dori-grid">
+                <div class="dori-card">
+                    <div class="dori-name">Detectar Humano</div>
+                    <div class="dori-dist">126.0 m</div>
+                    <div class="dori-purpose">Presencia térmica humana</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Reconocer Humano</div>
+                    <div class="dori-dist">32.0 m</div>
+                    <div class="dori-purpose">Clasificación de silueta humana</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Detectar Vehículo</div>
+                    <div class="dori-dist">316.0 m</div>
+                    <div class="dori-purpose">Silueta de vehículo o calor de motor</div>
+                </div>
+                <div class="dori-card">
+                    <div class="dori-name">Reconocer Vehículo</div>
+                    <div class="dori-dist">79.0 m</div>
+                    <div class="dori-purpose">Clasificación silueta de vehículo</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTÓN DE IMPRESIÓN -->
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+                Imprimir / Guardar en PDF
+            </button>
+        </div>
+
+        <!-- PIE DE PÁGINA IMPRESIÓN (OCULTO EN PANTALLA) -->
+        <div class="print-footer-doc">
+            <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+            <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+    </div>
+
+</body>
+</html>

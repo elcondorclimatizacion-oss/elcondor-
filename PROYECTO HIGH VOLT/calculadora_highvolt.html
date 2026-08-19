@@ -340,6 +340,9 @@
 
         /* Responsive Print Styles */
         @media print {
+            @page {
+                margin: 0;
+            }
             body {
                 background: white;
                 color: black;
@@ -354,6 +357,8 @@
             #doc_print_wrapper {
                 display: block !important;
                 color: #000 !important;
+                padding: 2.5cm 2cm 2cm 2cm;
+                box-sizing: border-box;
             }
         }
 
@@ -902,10 +907,16 @@
             </div>
         </div>
 
-        <div style="margin-top: 30px; text-align: right; border-top: 2px solid #000; padding-top: 15px;">
-            <div id="pdf_logistica_row" style="font-size: 12px; margin-bottom: 5px; display: none;">Gestión de Insumos y Logística: <span id="pdf_logistica_val">$ 0</span></div>
-            <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
-            <p style="font-size: 10px; color: #555; margin-top: 5px;">* Validez del presupuesto: 15 días. Garantía en mano de obra: 6 meses.</p>
+        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 15px; font-family: Arial, sans-serif;">
+            <div id="pdf_logistica_row" style="font-size: 12px; margin-bottom: 5px; display: none; text-align: right;">Gestión de Insumos y Logística: <span id="pdf_logistica_val">$ 0</span></div>
+            <div style="text-align: right; margin-bottom: 15px;">
+                <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #333; border-top: 1px dashed #ccc; padding-top: 10px;">
+                <div><strong>Garantía:</strong> 6 meses de garantía escrita en mano de obra.</div>
+                <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+                <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+            </div>
         </div>
     </div>
 

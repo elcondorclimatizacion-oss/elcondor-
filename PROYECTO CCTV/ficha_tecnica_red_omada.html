@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Técnica - Equipamiento de Conectividad Omada - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --border-color: rgba(56, 189, 248, 0.15);
+            --accent-color: #38bdf8; /* Azul Conectividad */
+            --accent-hover: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #8b5cf6);
+        }
+
+        /* Cabecera Comercial */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-sub {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .doc-type {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Selector de Productos (Tabs) */
+        .tabs-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #0b0f19;
+            box-shadow: 0 4px 15px rgba(56, 189, 248, 0.25);
+        }
+
+        .tab-btn:hover:not(.active) {
+            color: #fff;
+            background: rgba(255,255,255,0.03);
+        }
+
+        /* Paneles de Contenido */
+        .product-panel {
+            display: none;
+        }
+
+        .product-panel.active {
+            display: block;
+            animation: fadeIn 0.4s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Grid de Contenido Principal */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Columna Izquierda: Presentación y Destacados */
+        .info-col {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .product-title-box {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .product-model {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+
+        .product-desc {
+            font-size: 1rem;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .features-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 1.2rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+            transition: all 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.02);
+        }
+
+        .feature-icon {
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent-color);
+            padding: 8px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .feature-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .feature-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Columna Derecha: Ilustración e Info Adicional */
+        .visual-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.15);
+            border: 1px dashed rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .camera-img-file {
+            width: 100%;
+            max-width: 240px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            margin-bottom: 10px;
+        }
+
+        .visual-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent-color);
+            color: #0b0f19;
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Tabla de Especificaciones Técnicas */
+        .specs-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .specs-table td {
+            padding: 10px 8px;
+            vertical-align: top;
+        }
+
+        .specs-table td.label-cell {
+            font-weight: 700;
+            color: #fff;
+            width: 30%;
+        }
+
+        .specs-table td.val-cell {
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* Botón de Impresión de Acción */
+        .print-btn-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 2.5rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 1.5rem;
+        }
+
+        .btn-print {
+            background: var(--accent-color);
+            color: #0b0f19;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 2rem;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-print:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-print:active {
+            transform: translateY(0);
+        }
+
+        /* Estilos y Sobrescritura para Impresión (PDF) */
+        @media print {
+            @page {
+                margin: 0;
+            }
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: #fff;
+                padding: 2cm;
+                box-sizing: border-box;
+                border-radius: 0;
+            }
+
+            .container::before {
+                display: none;
+            }
+
+            header {
+                border-bottom: 2px solid #000;
+                margin-bottom: 2rem;
+            }
+
+            .brand-sub {
+                color: #000;
+            }
+
+            .doc-type {
+                border: 1px solid #000;
+                color: #000;
+                background: none;
+            }
+
+            .tabs-selector {
+                display: none !important;
+            }
+
+            /* Forzar a mostrar todos los paneles en impresión, uno abajo del otro con salto de página */
+            .product-panel {
+                display: block !important;
+                page-break-after: always;
+                opacity: 1 !important;
+                transform: none !important;
+                margin-bottom: 3cm;
+            }
+
+            .product-panel:last-child {
+                page-break-after: avoid;
+            }
+
+            .product-title-box .product-model {
+                color: #000;
+            }
+
+            .feature-card {
+                background: none;
+                border: 1px solid #e2e8f0;
+                page-break-inside: avoid;
+            }
+
+            .feature-title {
+                color: #000;
+            }
+
+            .feature-icon {
+                background: #f1f5f9;
+                color: #000;
+            }
+
+            .visual-col {
+                border: 1px solid #e2e8f0;
+                background: #fafafa;
+                page-break-inside: avoid;
+            }
+
+            .camera-img-file {
+                box-shadow: none !important;
+                border: none !important;
+            }
+
+            .specs-table tr {
+                border-bottom: 1px solid #e2e8f0;
+            }
+
+            .specs-table td.label-cell {
+                color: #000;
+            }
+
+            .print-btn-container {
+                display: none !important;
+            }
+
+            .print-footer-doc {
+                display: flex !important;
+            }
+        }
+
+        /* Footer del documento de impresión */
+        .print-footer-doc {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <div class="brand">
+                <div class="brand-title">El Cóndor</div>
+                <div class="brand-sub">Servicios Integrales</div>
+            </div>
+            <div class="doc-type">Ficha de Producto</div>
+        </header>
+
+        <!-- SELECTOR DE TABS (PANTALLA) -->
+        <div class="tabs-selector">
+            <button class="tab-btn active" onclick="switchProduct(0)">Switch PoE (TL-SG2008P)</button>
+            <button class="tab-btn" onclick="switchProduct(1)">AP Exterior (EAP225)</button>
+            <button class="tab-btn" onclick="switchProduct(2)">AP Interior (EAP610)</button>
+        </div>
+
+        <!-- ================= PRODUCTO 1: SWITCH ================= -->
+        <div class="product-panel active" id="panel-0">
+            <div class="main-grid">
+                <div class="info-col">
+                    <div class="product-title-box">
+                        <span class="product-desc">Switch Smart Gigabit JetStream de 8 Puertos con 4 Puertos PoE+ (62W)</span>
+                        <h1 class="product-model">TP-Link TL-SG2008P</h1>
+                    </div>
+
+                    <div class="features-list">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="10" y1="6" x2="10.01" y2="6"/><line x1="14" y1="6" x2="14.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/><line x1="10" y1="18" x2="10.01" y2="18"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">8 Puertos Gigabit (4 con PoE+)</span>
+                                <span class="feature-text">Cuenta con 8 puertos RJ45 a 10/100/1000 Mbps. Los puertos del 1 al 4 soportan salida de energía PoE+ bajo estándar 802.3af/at.</span>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Potencia Eficiente de 62 Watts</span>
+                                <span class="feature-text">Presupuesto PoE total de 62W (hasta 30W por puerto), ideal para alimentar de forma directa hasta 4 puntos de acceso o cámaras sin necesidad de inyectores.</span>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Administración Centralizada Omada</span>
+                                <span class="feature-text">Integración total en la plataforma Omada SDN para gestión remota en la nube, monitoreo del consumo PoE, segmentación por VLANs y seguridad avanzada.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-col">
+                    <span class="visual-badge">Switch Smart PoE+</span>
+                    <img src="switch_tl_sg1008mp.png" alt="Switch TP-Link TL-SG2008P" class="camera-img-file">
+                    <div style="margin-top: 5px; text-align: center;">
+                        <p style="font-size: 0.8rem; font-weight: 700; color: #fff;">TL-SG2008P</p>
+                        <p style="font-size: 0.65rem; color: var(--accent-color); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">Switch Smart PoE+ (Omada)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="section-title">Especificaciones Técnicas Clave</h2>
+                <table class="specs-table">
+                    <tr>
+                        <td class="label-cell">Puertos</td>
+                        <td class="val-cell">8 Puertos RJ45 10/100/1000 Mbps con Auto-Negociación (Puertos 1-4 con salida PoE+).</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Presupuesto PoE</td>
+                        <td class="val-cell">62W en total (estándar 802.3af/at). Hasta 30W por puerto.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Rendimiento</td>
+                        <td class="val-cell">Tasa de reenvío de paquetes 11.9 Mpps. Capacidad de conmutación 16 Gbps. Integrable a Omada SDN Controller.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Diseño Físico</td>
+                        <td class="val-cell">Chasis de metal de alta resistencia. Diseño silencioso sin ventilador (fanless). Dimensiones compactas: 209 x 126 x 26 mm. Apto para escritorio o montaje en pared.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- ================= PRODUCTO 2: AP EXTERIOR ================= -->
+        <div class="product-panel" id="panel-1">
+            <div class="main-grid">
+                <div class="info-col">
+                    <div class="product-title-box">
+                        <span class="product-desc">Punto de Acceso Inalámbrico de Doble Banda AC1200 para Exterior</span>
+                        <h1 class="product-model">TP-Link Omada EAP225-Outdoor</h1>
+                    </div>
+
+                    <div class="features-list">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.38 8.82a17.88 17.88 0 0 1 21.24 0M8.59 16.16a5 5 0 0 1 6.82 0M12 20h.01"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Wi-Fi AC1200 de Doble Banda</span>
+                                <span class="feature-text">Velocidad inalámbrica de hasta 867 Mbps en 5 GHz y 300 Mbps en 2.4 GHz, con antenas omnidireccionales de gran ganancia.</span>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Resistente a la Intemperie (IP65)</span>
+                                <span class="feature-text">Gabinete hermético duradero y sellado para soportar lluvia, polvo y temperaturas extremas (-30°C a 70°C).</span>
+                            </div>
+                        </div>
+
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Administración Centralizada Omada</span>
+                                <span class="feature-text">Compatible con la plataforma Omada SDN para control remoto, configuración centralizada de SSID y monitoreo de tráfico.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="visual-col">
+                    <span class="visual-badge">Exterior IP65</span>
+                    <img src="eap225_outdoor.png" alt="AP TP-Link EAP225-Outdoor" class="camera-img-file">
+                    <div style="margin-top: 5px; text-align: center;">
+                        <p style="font-size: 0.8rem; font-weight: 700; color: #fff;">EAP225-Outdoor</p>
+                        <p style="font-size: 0.65rem; color: var(--accent-color); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">Punto de Acceso Exterior</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="specs-section">
+                <h2 class="section-title">Especificaciones Técnicas Clave</h2>
+                <table class="specs-table">
+                    <tr>
+                        <td class="label-cell">Interfaz</td>
+                        <td class="val-cell">1 Puerto RJ45 Gigabit (10/100/1000 Mbps) compatible con PoE pasivo o PoE estándar 802.3af.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Antenas</td>
+                        <td class="val-cell">2 Antenas omnidireccionales desmontables externas (Doble banda: 2.4 GHz: 3 dBi; 5 GHz: 4 dBi).</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Alimentación</td>
+                        <td class="val-cell">Compatible con PoE estándar 802.3af (se conecta directo al Switch PoE) o mediante inyector PoE pasivo (incluido). Consumo máximo: 10.5W.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Características Físicas</td>
+                        <td class="val-cell">Gabinete IP65 para exterior. Protección contra rayos de 6KV y ESD de 15KV. Montaje en poste o pared (kit de montaje incluido). Dimensiones: 215 × 46 × 27 mm (sin antenas).</td>
+                    </tr>
+                      <!-- ================= PRODUCTO 3: AP INTERIOR ================= -->
+        <div class="product-panel" id="panel-2">
+            <div class="main-grid">
+                <div class="info-col">
+                    <div class="product-title-box">
+                        <span class="product-desc">Punto de Acceso Inalámbrico Wi-Fi 6 AX1800 de Montaje en Techo</span>
+                        <h1 class="product-model">TP-Link EAP610</h1>
+                    </div>
+ 
+                    <div class="features-list">
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.38 8.82a17.88 17.88 0 0 1 21.24 0M8.59 16.16a5 5 0 0 1 6.82 0M12 20h.01"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Wi-Fi 6 de Alta Velocidad (AX1800)</span>
+                                <span class="feature-text">Velocidades inalámbricas combinadas de hasta 1.8 Gbps (1201 Mbps en la banda de 5 GHz y 574 Mbps en la de 2.4 GHz) con OFDMA y MU-MIMO.</span>
+                            </div>
+                        </div>
+ 
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Eficiencia y Optimización de Canales</span>
+                                <span class="feature-text">La tecnología Wi-Fi 6 incrementa la eficiencia de transferencia y permite un gran número de dispositivos conectados de forma concurrente sin degradar ancho de banda.</span>
+                            </div>
+                        </div>
+ 
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                            </div>
+                            <div class="feature-info">
+                                <span class="feature-title">Roaming Continuo Inteligente (802.11k/v)</span>
+                                <span class="feature-text">Los dispositivos se desconectan y conectan de forma automática al nodo con mejor señal a medida que el usuario camina por las oficinas y depósitos, sin cortes.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+ 
+                <div class="visual-col">
+                    <span class="visual-badge">Wi-Fi 6 Omada</span>
+                    <img src="eap620_ceiling.png" alt="AP TP-Link EAP610" class="camera-img-file">
+                    <div style="margin-top: 5px; text-align: center;">
+                        <p style="font-size: 0.8rem; font-weight: 700; color: #fff;">EAP610</p>
+                        <p style="font-size: 0.65rem; color: var(--accent-color); font-family: 'JetBrains Mono', monospace; margin-top: 2px;">Access Point Wi-Fi 6</p>
+                    </div>
+                </div>
+            </div>
+ 
+            <div class="specs-section">
+                <h2 class="section-title">Especificaciones Técnicas Clave</h2>
+                <table class="specs-table">
+                    <tr>
+                        <td class="label-cell">Interfaz</td>
+                        <td class="val-cell">1 Puerto RJ45 Gigabit (10/100/1000 Mbps) compatible con PoE estándar 802.3af/at.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Estándares Inalámbricos</td>
+                        <td class="val-cell">IEEE 802.11ax/ac/n/g/b/a. Soporta roaming rápido 802.11k/v. Portal cautivo y seguridad WPA3.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Alimentación</td>
+                        <td class="val-cell">PoE estándar 802.3af/at (se conecta directo al Switch PoE TL-SG2008P) o adaptador de corriente externo de 12V / 1A CC (incluido). Consumo máximo: 12.8W.</td>
+                    </tr>
+                    <tr>
+                        <td class="label-cell">Características Físicas</td>
+                        <td class="val-cell">Enchufe redondo para montaje de bajo perfil en techo o pared (kit de anclaje incluido). Antenas internas omnidireccionales potentes. Dimensiones: 243 × 243 × 44 mm.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- BOTÓN DE IMPRESIÓN -->
+        <div class="print-btn-container">
+            <button class="btn-print" onclick="window.print()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+                Imprimir Fichas / PDF
+            </button>
+        </div>
+
+        <!-- PIE DE PÁGINA IMPRESIÓN (OCULTO EN PANTALLA) -->
+        <div class="print-footer-doc">
+            <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+            <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+    </div>
+
+    <script>
+        function switchProduct(index) {
+            // Desactivar todos los botones y paneles
+            const tabs = document.querySelectorAll('.tab-btn');
+            const panels = document.querySelectorAll('.product-panel');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+            
+            // Activar el seleccionado
+            tabs[index].classList.add('active');
+            panels[index].classList.add('active');
+        }
+    </script>
+</body>
+</html>

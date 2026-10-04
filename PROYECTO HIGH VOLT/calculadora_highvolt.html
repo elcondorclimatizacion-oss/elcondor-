@@ -473,6 +473,7 @@
                     <button class="tab-btn" onclick="switchTab('tab_luminaria')">📯 ILUMINACIÓN & PAT</button>
                     <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE ELÉCTRICO</button>
                     <button class="tab-btn" onclick="switchTab('tab_porteria')">🎛️ PORTERÍA & DÉBILES</button>
+                    <button class="tab-btn" onclick="switchTab('tab_bombas')">🚰 BOMBAS & TANQUES</button>
                 </div>
 
                 <!-- TAB 1: ACOMETIDA Y TABLERO -->
@@ -837,6 +838,54 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- TAB 7: BOMBAS Y AUTOMÁTICOS DE TANQUE -->
+                <div id="tab_bombas" class="tab-content">
+                    <div class="module" style="border-color: #06b6d4;">
+                        <div class="module-title">[07] AUTOMATIZACIÓN DE TANQUES, CISTERNAS Y BOMBAS (M.O.)</div>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Instalación de Automático de Tanque Elevado (Flotante eléctrico hermético + contrapeso + regulación) M.O.</td>
+                                    <td><input type="number" id="el_flot_tanque_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_flot_tanque_prc" class="cell-input-price" value="65000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación de Automático en Cisterna (Corte por falta de agua / protección marcha en seco) M.O.</td>
+                                    <td><input type="number" id="el_flot_cisterna_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_flot_cisterna_prc" class="cell-input-price" value="60000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Automatización Completa Sistema Combinado (Tanque Elevado + Cisterna Subterránea) M.O.</td>
+                                    <td><input type="number" id="el_flot_combo_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_flot_combo_prc" class="cell-input-price" value="115000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado y Conexionado de Tablero de Bomba en Muy Baja Tensión 24V (Contactor + Trafo 24V + Guardamotor + Llave M-0-A) M.O.</td>
+                                    <td><input type="number" id="el_tab_bomba_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_tab_bomba_prc" class="cell-input-price" value="145000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Reemplazo / Service de Flotante Automático Averiado (Desconexión, recambio de boya y prueba) M.O.</td>
+                                    <td><input type="number" id="srv_flotante_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="srv_flotante_prc" class="cell-input-price" value="42000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Conexión Eléctrica de Bomba de Agua Elevadora / Presurizadora (Alimentación, bornera estanca y PAT) M.O.</td>
+                                    <td><input type="number" id="el_bomba_inst_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="el_bomba_inst_prc" class="cell-input-price" value="55000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
@@ -886,7 +935,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
             <div>
                 <h2 style="margin: 0; font-size: 22px;">EL CÓNDOR - SERVICIOS INTEGRALES</h2>
-                <p style="margin: 3px 0 0 0; font-size: 11px; color: #555;">Email: elcondorclimatizacion@gmail.com | Tel: 1126139527</p>
+                <p style="margin: 3px 0 0 0; font-size: 11px; color: #555;">Email: elcondorclimatizacion@gmail.com | Tel: 11 2613-9527</p>
             </div>
             <div style="text-align: right;">
                 <h3 style="margin: 0; font-size: 16px; color: #ffaa55;">PRESUPUESTO</h3>
@@ -973,7 +1022,13 @@
             el_port_tel: 22000,
             el_port_comp: 125000,
             el_port_cable: 1500,
-            el_port_cerradura: 45000
+            el_port_cerradura: 45000,
+            el_flot_tanque: 65000,
+            el_flot_cisterna: 60000,
+            el_flot_combo: 115000,
+            el_tab_bomba: 145000,
+            srv_flotante: 42000,
+            el_bomba_inst: 55000
         };
 
         window.onload = function () {
@@ -1322,6 +1377,33 @@
                 descriptions.push(`**Instalación de cerradura eléctrica / pestillo de seguridad**: Montaje físico de cerradura eléctrica en puerta de acceso, instalación de cableado de alimentación y vinculación al pulsador del portero eléctrico para apertura remota.`);
             }
 
+            // 7. Automatización de Tanques, Cisternas y Bombas
+            const flot_tanque = parseInt(document.getElementById('el_flot_tanque_qty').value) || 0;
+            const flot_cisterna = parseInt(document.getElementById('el_flot_cisterna_qty').value) || 0;
+            const flot_combo = parseInt(document.getElementById('el_flot_combo_qty').value) || 0;
+            const tab_bomba = parseInt(document.getElementById('el_tab_bomba_qty').value) || 0;
+            const srv_flot = parseInt(document.getElementById('srv_flotante_qty').value) || 0;
+            const bomba_inst = parseInt(document.getElementById('el_bomba_inst_qty').value) || 0;
+
+            if (flot_tanque > 0) {
+                descriptions.push(`**Instalación y calibración de Automático de Tanque Elevado (${flot_tanque} unidad/es)**: Colocación de flotante eléctrico hermético basculante de nivel de agua, contrapeso de regulación, tendido de cableado bajo cañería de protección y conexionado al circuito de comando de la electrobomba para arranque y parada automática.`);
+            }
+            if (flot_cisterna > 0) {
+                descriptions.push(`**Instalación de Automático de Cisterna para protección por falta de agua (${flot_cisterna} unidad/es)**: Montaje de sensor de nivel mínimo hermético en cisterna subterránea o pozo de reserva, impidiendo que la bomba trabaje en seco y se queme cuando el suministro de red esté interrumpido.`);
+            }
+            if (flot_combo > 0) {
+                descriptions.push(`**Automatización Completa de Sistema de Agua Combinado (Tanque Elevado + Cisterna)**: Instalación y sincronización de sistema de doble boya flotante con interbloqueo de seguridad: la bomba opera en forma 100% automática llenando el tanque superior únicamente si la cisterna inferior dispone de nivel de agua suficiente.`);
+            }
+            if (tab_bomba > 0) {
+                descriptions.push(`**Armado y montaje de Tablero de Comando para Bomba en Muy Baja Tensión de Seguridad (24V MBTS - Norma AEA 770/771)**: Montaje de gabinete estanco estandarizado, contactor electromagnético con bobina en 24V, transformador de aislación de seguridad 220V/24V (evitando riesgo de descarga eléctrica en los tanques de agua), protección por relevo térmico/guardamotor y llave selectora frontal de 3 posiciones Manual - 0 - Automático (M-0-A) con luces testigo de marcha y falla.`);
+            }
+            if (srv_flot > 0) {
+                descriptions.push(`**Service y reemplazo de Flotante Automático averiado (${srv_flot} unidad/es)**: Desconexión y retiro de automático sulfatado o pinchado, verificación de línea de alimentación, colocación y sellado de nuevo automático hermético IP68 y prueba dinámica de llenado y corte.`);
+            }
+            if (bomba_inst > 0) {
+                descriptions.push(`**Conexión y puesta en marcha de Electrobomba Elevadora o Presurizadora (${bomba_inst} unidad/es)**: Conexión de alimentación eléctrica a bornera estanca, vinculación a la red de tierra de protección (PAT) y verificación de sentido de giro, consumo en amperes y correcto accionamiento.`);
+            }
+
             return descriptions;
         }
 
@@ -1362,7 +1444,8 @@
             } else {
                 text += `👉 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
             }
-            text += `_El Cóndor - Servicios Integrales_`;
+            text += `_El Cóndor - Servicios Integrales_\n`;
+            text += `📞 *Cel:* 11 2613-9527`;
 
             try {
                 if (navigator.clipboard && window.isSecureContext) {

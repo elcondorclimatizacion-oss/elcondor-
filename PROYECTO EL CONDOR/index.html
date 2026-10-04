@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -895,25 +895,7 @@
                 <a href="https://wa.me/5491126139527?text=Hola%20El%20C%C3%B3ndor,%20quiero%20conocer%20m%C3%A1s%20sobre%20sus%20servicios." target="_blank" class="btn-main" style="background: transparent; border: 2px solid var(--accent); color: var(--accent); box-shadow: none; margin-top: 1rem;">HABLA CON NOSOTROS</a>
             </div>
         </section>
-
-        <!-- SECCIÓN GALERÍA DE TRAYECTORIA -->
-        <section class="section-title" id="galeria" style="margin-top: 5rem;">
-            <span class="tag">Nuestra Obra</span>
-            <h2>Galería de Trayectoria</h2>
-            <p>Conoce de cerca la calidad y prolijidad técnica de nuestros trabajos en obra.</p>
-            <div class="underline"></div>
-        </section>
-
-        <div class="gallery-tabs">
-            <button class="tab-btn active" onclick="filterGallery('todos')">Todos</button>
-            <button class="tab-btn" onclick="filterGallery('aa')">❄️ Climatización (AA)</button>
-            <button class="tab-btn" onclick="filterGallery('electricidad')">⚡ Electricidad</button>
-            <button class="tab-btn" onclick="filterGallery('cctv')">📹 CCTV & Redes</button>
-        </div>
-
-        <div class="gallery-grid" id="galleryGrid">
-            <!-- Las imágenes se cargan dinámicamente vía JavaScript -->
-        </div>
+        <!-- SECCION GALERIA DE FOTOS (OCULTA TEMPORALMENTE HASTA EL NUEVO BOOK) -->
 
         <!-- SECCIÓN CONTACTO -->
         <section id="contacto" class="section-title" style="margin-top: 6rem;">
@@ -1118,7 +1100,7 @@
                 }
             });
 
-            renderGallery();
+            if (document.getElementById('galleryGrid')) { renderGallery(); }
         }
 
         // --- LÓGICA DE LIGHTBOX ---
@@ -1174,7 +1156,7 @@
 
         // --- INICIALIZACIÓN ---
         window.onload = function() {
-            renderGallery();
+            if (document.getElementById('galleryGrid')) { renderGallery(); }
         };
 
         // --- ENVÍO DEL FORMULARIO DE PRESUPUESTO ---

@@ -5,20 +5,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Calculadora de Climatización v1.0 - EL CÓNDOR</title>
+    <title>El Cóndor Climatización - Calculadora & Cotizador Profesional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050811;
-            --panel-bg: #0c1222;
-            --border-color: #1e293b;
+            --bg-color: #070b14;
+            --panel-bg: #0d1527;
+            --panel-surface: #111b30;
+            --border-color: #1e2c4a;
+            --border-highlight: #2d426d;
             --text-color: #e2e8f0;
-            --accent-color: #0ea5e9; /* Celeste / Azul Climatización */
-            --accent-hover: #38bdf8;
-            --sys-color: #0ea5e9;
-            --danger-color: #ef4444;
+            --text-muted: #8e9db7;
+            --accent-cyan: #00d2ff;
+            --accent-blue: #0284c7;
+            --accent-glow: rgba(0, 210, 255, 0.15);
+            --sys-green: #10b981;
+            --sys-amber: #f59e0b;
+            --sys-danger: #ef4444;
+            --card-radius: 14px;
         }
 
         * {
@@ -31,68 +37,122 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-color);
-            padding: 2rem 1rem;
+            padding: 1.5rem 1rem;
             line-height: 1.5;
             background-image:
-                linear-gradient(rgba(14, 165, 233, 0.01) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(14, 165, 233, 0.01) 1px, transparent 1px);
-            background-size: 20px 20px;
+                radial-gradient(ellipse at 80% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 20% 100%, rgba(2, 132, 199, 0.06) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 24px 24px, 24px 24px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1260px;
             margin: 0 auto;
             border: 1px solid var(--border-color);
             background: var(--panel-bg);
             padding: 2rem;
-            border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 210, 255, 0.03);
         }
 
+        /* HEADER */
         header {
-            border-bottom: 1px dashed var(--border-color);
+            border-bottom: 1px solid var(--border-color);
             padding-bottom: 1.5rem;
-            margin-bottom: 2rem;
-            text-align: center;
+            margin-bottom: 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .brand-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #0284c7, #00d2ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 8px 20px rgba(0, 210, 255, 0.3);
         }
 
         h1 {
-            color: var(--accent-color);
-            text-transform: uppercase;
-            font-size: 2rem;
-            letter-spacing: 2px;
+            color: #fff;
+            font-size: 1.85rem;
             font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1 span {
+            background: linear-gradient(90deg, #00d2ff, #38bdf8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .tagline {
-            color: #94a3b8;
-            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 5px;
+            letter-spacing: 1.5px;
+            margin-top: 3px;
             font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Pestañas de Servicios */
+        .badges-bar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            background: var(--panel-surface);
+            border: 1px solid var(--border-color);
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            color: var(--accent-cyan);
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* TABS */
         .tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: 6px;
             border-bottom: 2px solid var(--border-color);
-            margin-bottom: 2rem;
+            margin-bottom: 1.8rem;
+            padding-bottom: 2px;
         }
 
         .tab-btn {
-            background: #0f172a;
-            color: #94a3b8;
+            background: #090e1a;
+            color: var(--text-muted);
             border: 1px solid var(--border-color);
             border-bottom: none;
-            padding: 10px 20px;
+            padding: 11px 18px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.84rem;
             cursor: pointer;
-            border-radius: 8px 8px 0 0;
-            transition: all 0.2s;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.2s ease;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -100,18 +160,25 @@
 
         .tab-btn:hover {
             color: #fff;
-            background: #1e293b;
+            background: #141e33;
+            border-color: var(--border-highlight);
         }
 
         .tab-btn.active {
-            background: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
+            background: linear-gradient(180deg, #11223e 0%, var(--panel-surface) 100%);
+            color: #fff;
+            border-color: var(--accent-cyan);
+            border-bottom: 2px solid var(--accent-cyan);
+            box-shadow: 0 -4px 15px rgba(0, 210, 255, 0.15);
+        }
+
+        .tab-btn.highlight-tab {
+            border-top: 2px solid var(--accent-cyan);
         }
 
         .tab-content {
             display: none;
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.25s ease-out;
         }
 
         .tab-content.active {
@@ -119,56 +186,48 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Módulos de Ajustes y Formularios */
+        /* GRID LAYOUT */
         .grid-layout {
             display: grid;
-            grid-template-columns: 2fr 1.2fr;
-            gap: 2rem;
+            grid-template-columns: 1fr 400px;
+            gap: 1.8rem;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 1050px) {
             .grid-layout {
                 grid-template-columns: 1fr;
             }
         }
 
+        /* MODULES & CARDS */
         .module {
             border: 1px solid var(--border-color);
-            margin-bottom: 2rem;
-            background: #070a13;
+            margin-bottom: 1.8rem;
+            background: var(--panel-surface);
             position: relative;
             padding: 1.5rem;
-            border-radius: 12px;
+            border-radius: var(--card-radius);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
         }
 
         .module-title {
             position: absolute;
             top: -12px;
-            left: 15px;
-            background: var(--bg-color);
-            padding: 0 10px;
-            color: var(--accent-color);
+            left: 16px;
+            background: #090e1a;
+            padding: 2px 12px;
+            color: var(--accent-cyan);
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            border: 1px solid var(--accent-color);
-            border-radius: 4px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 6px;
             font-family: 'JetBrains Mono', monospace;
-        }
-
-        .section-title {
-            font-size: 0.8rem;
-            color: #64748b;
-            text-transform: uppercase;
-            margin: 1.5rem 0 0.8rem;
-            border-bottom: 1px solid #1e293b;
-            padding-bottom: 4px;
-            font-weight: bold;
-            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.5px;
         }
 
         .form-grid {
@@ -184,209 +243,453 @@
         }
 
         label {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-bottom: 0.3rem;
-            font-weight: 500;
+            font-size: 0.74rem;
+            color: var(--text-muted);
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input[type="number"],
         input[type="text"],
         select {
-            background: #070a13;
+            background: #080d19;
             border: 1px solid var(--border-color);
-            color: var(--text-color);
-            padding: 0.6rem;
-            font-size: 0.9rem;
+            color: #fff;
+            padding: 0.65rem 0.85rem;
+            font-size: 0.88rem;
             outline: none;
             width: 100%;
             border-radius: 8px;
             font-family: 'JetBrains Mono', monospace;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         input:focus,
         select:focus {
-            border-color: var(--accent-color);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(0, 210, 255, 0.15);
         }
 
-        /* Tabla de Ítems */
+        /* PRESET BUTTONS FOR PROFIT & EXPENSES */
+        .preset-buttons {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .btn-preset {
+            background: #080e1b;
+            border: 1px solid #1e2c4a;
+            color: var(--accent-cyan);
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            transition: all 0.15s;
+        }
+
+        .btn-preset:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            border-color: var(--accent-cyan);
+        }
+
+        /* TABLES */
         .items-table {
             width: 100%;
-            border-collapse: collapse;
-            font-size: 0.85rem;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.86rem;
             text-align: left;
             margin-top: 10px;
         }
 
         .items-table th {
-            padding: 8px;
-            color: #64748b;
-            font-weight: bold;
+            padding: 10px 12px;
+            color: var(--text-muted);
+            font-weight: 700;
             border-bottom: 1px solid var(--border-color);
             font-family: 'JetBrains Mono', monospace;
             text-transform: uppercase;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
+            background: rgba(0, 0, 0, 0.2);
         }
 
         .items-table td {
-            padding: 8px;
-            border-bottom: 1px solid #0f172a;
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
             vertical-align: middle;
         }
 
-        /* Inputs específicos para celdas */
+        .items-table tr:hover td {
+            background: rgba(0, 210, 255, 0.02);
+        }
+
         .cell-input-qty {
             width: 70px;
             text-align: center;
-            padding: 4px;
+            padding: 5px;
             border-radius: 6px;
         }
 
         .cell-input-price {
-            width: 110px;
+            width: 120px;
             text-align: right;
-            padding: 4px;
+            padding: 5px 8px;
             border-radius: 6px;
-            color: var(--accent-color);
+            color: var(--accent-cyan);
             font-weight: bold;
         }
 
-        /* Sticky Sidebar Totales */
-        .sidebar {
-            position: sticky;
-            top: 2rem;
-            align-self: start;
-        }
-
-        .total-section {
-            background: #0f172a;
-            border: 1px solid var(--border-color);
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .final-price-box {
-            background: var(--accent-color);
-            color: #000;
-            padding: 1.2rem;
-            text-align: center;
-            font-size: 2.2rem;
-            font-weight: 800;
-            border-radius: 8px;
-            margin-bottom: 1rem;
+        .ref-badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.12);
+            color: var(--accent-cyan);
+            padding: 2px 7px;
+            border-radius: 4px;
+            font-size: 0.68rem;
             font-family: 'JetBrains Mono', monospace;
+            margin-left: 6px;
+            font-weight: 700;
         }
 
-        .btn-action {
-            background: #25D366;
-            color: #000;
-            border: none;
-            padding: 1rem;
-            width: 100%;
-            font-weight: 800;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 0.8rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            transition: opacity 0.2s;
+        /* THERMAL CALCULATOR SECTION */
+        .thermal-box {
+            background: linear-gradient(145deg, #0e1a33 0%, #0a1224 100%);
+            border: 1px solid #1f3763;
+            border-radius: 16px;
+            padding: 1.8rem;
+            margin-bottom: 1.8rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .thermal-title {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-action:hover {
-            opacity: 0.9;
-        }
-
-        .private-dashboard {
-            background: #070a13;
-            border: 1px solid #1e293b;
-            margin: 15px 0;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .private-dashboard-title {
-            color: var(--accent-color);
-            font-weight: bold;
-            margin-bottom: 8px;
-            border-bottom: 1px dashed #1e293b;
-            padding-bottom: 4px;
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .dashboard-row {
-            display: flex;
             justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+
+        .thermal-results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 1.5rem;
+        }
+
+        .result-card {
+            background: #080e1c;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card.highlight {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(180deg, #0b1c38 0%, #080f1e 100%);
+            box-shadow: 0 8px 24px rgba(0, 210, 255, 0.12);
+        }
+
+        .result-label {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+            margin-bottom: 5px;
+        }
+
+        .result-val {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .result-val.cyan {
+            color: var(--accent-cyan);
+        }
+
+        .result-val.green {
+            color: var(--sys-green);
+        }
+
+        .result-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .recommendation-banner {
+            margin-top: 1.5rem;
+            background: #0c1c36;
+            border: 1px solid #1a4279;
+            border-radius: 14px;
+            padding: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .rec-info h3 {
+            font-size: 1.1rem;
+            color: #fff;
             margin-bottom: 4px;
         }
 
-        .dashboard-row span {
-            color: #64748b;
+        .rec-info p {
+            font-size: 0.82rem;
+            color: #94a3b8;
         }
 
-        .dashboard-row strong {
+        .btn-transfer {
+            background: linear-gradient(135deg, #0284c7, #00d2ff);
+            color: #000;
+            border: none;
+            padding: 0.8rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.82rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .btn-transfer:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(0, 210, 255, 0.45);
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .spec-item {
+            font-size: 0.78rem;
+        }
+
+        .spec-item span {
+            color: var(--text-muted);
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .spec-item strong {
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* SIDEBAR TOTALES */
+        .sidebar {
+            position: sticky;
+            top: 1.5rem;
+            align-self: start;
+        }
+
+        .total-card {
+            background: var(--panel-surface);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: var(--card-radius);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar-breakdown {
+            background: #080d19;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .breakdown-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .breakdown-row span {
+            color: var(--text-muted);
+        }
+
+        .breakdown-row strong {
             color: #fff;
         }
 
-        /* Responsive Print Styles */
-        @media print {
-            @page {
-                margin: 0;
-            }
-            body {
-                background: white;
-                color: black;
-                padding: 0;
-                margin: 0;
-            }
+        .final-box {
+            background: linear-gradient(135deg, #0284c7 0%, #00d2ff 100%);
+            color: #040914;
+            padding: 1.3rem;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+            box-shadow: 0 10px 25px rgba(0, 210, 255, 0.25);
+        }
 
-            .container {
+        .final-box .lbl {
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.85;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .final-box .amount {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.1;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 0.95rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 0.84rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: none;
+            transition: all 0.2s;
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 0.75rem;
+        }
+
+        .btn-whatsapp {
+            background: #22c55e;
+            color: #000;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.25);
+        }
+
+        .btn-whatsapp:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+        }
+
+        .btn-pdf {
+            background: var(--panel-bg);
+            color: #fff;
+            border: 1px solid var(--border-highlight);
+        }
+
+        .btn-pdf:hover {
+            border-color: var(--accent-cyan);
+            background: #141e33;
+        }
+
+        /* PRIVATE DASHBOARD */
+        .private-box {
+            background: #080d19;
+            border: 1px solid #1a2742;
+            padding: 12px;
+            border-radius: 10px;
+            margin: 1.2rem 0;
+            font-size: 0.78rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .private-header {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1px dashed #1a2742;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dash-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .dash-row span {
+            color: var(--text-muted);
+        }
+
+        .dash-row strong {
+            color: #fff;
+        }
+
+        /* TOAST */
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: #00d2ff;
+            color: #000;
+            font-weight: 700;
+            padding: 12px 24px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            font-size: 0.85rem;
+            display: none;
+            z-index: 9999;
+            animation: slideUp 0.3s ease-out;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* PRINT STYLES */
+        @media print {
+            body {
+                background: #fff !important;
+                color: #000 !important;
+                padding: 0 !important;
+            }
+            .container, #toast {
                 display: none !important;
             }
-
             #doc_print_wrapper {
                 display: block !important;
+                padding: 2.5cm 2cm;
                 color: #000 !important;
-                padding: 2cm;
-                box-sizing: border-box;
-            }
-
-            .print-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-top: 15px;
-            }
-
-            .print-table th,
-            .print-table td {
-                border: 1px solid #ddd;
-                padding: 8px;
-                text-align: left;
-                font-size: 11px;
-            }
-
-            .print-table th {
-                background-color: #f2f2f2;
+                background: #fff !important;
+                font-family: 'Inter', Arial, sans-serif !important;
             }
         }
 
-        /* Document template wrapper for screen / print hidden */
         #doc_print_wrapper {
             display: none;
-            background: #fff;
-            color: #000;
-            padding: 20px;
-            font-family: Arial, sans-serif;
         }
     </style>
 </head>
@@ -394,74 +697,43 @@
 <body>
 
     <div class="container">
+        <!-- HEADER -->
         <header>
-            <h1>CALCULADORA DE CLIMATIZACIÓN v1.0</h1>
-            <div class="tagline">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD ELECTRONICA</div>
+            <div class="brand-box">
+                <div class="brand-icon">❄️</div>
+                <div>
+                    <h1>EL CÓNDOR <span>CLIMATIZACIÓN</span></h1>
+                    <div class="tagline">Ingeniería Térmica • Instalación • Mantenimiento & Seguridad</div>
+                </div>
+            </div>
+            <div class="badges-bar">
+                <div class="badge-pill">📊 VALORES DE REFERENCIA 2026</div>
+                <div class="badge-pill">⚡ NORMA AEA 770/771</div>
+                <div class="badge-pill">🛡️ TÉCNICOS MATRICULADOS</div>
+            </div>
         </header>
 
         <!-- CONFIGURACIONES GLOBALES -->
-        <div class="module" id="settings_panel" style="border-color: var(--accent-color); background: rgba(14, 165, 233, 0.02);">
-            <div class="module-title">[00] CONFIGURACIONES Y AJUSTES DE MERCADO</div>
+        <div class="module" style="border-color: var(--border-highlight); background: rgba(0, 210, 255, 0.02);">
+            <div class="module-title">[00] DATOS DEL CLIENTE, MARGEN Y CONDICIONES COMERCIALES</div>
             <div class="form-grid">
                 <div class="form-group">
-                    <label>Tipo de Cliente / Coeficiente</label>
+                    <label>Tarifa / Tipo de Cliente</label>
                     <select id="cfg_tipo_cliente" onchange="adjustMarketMultiplier()">
-                        <option value="0.4">Residencial / Familiar (Ajuste del mercado local - 40%)</option>
-                        <option value="0.7">Comercio / Consorcio (Intermedio - 70%)</option>
-                        <option value="1.0" selected>Industrial / Corporativo (Tarifa Oficial 100%)</option>
+                        <option value="1.0" selected>Tarifa Plena Oficial 100% (Valores Máximos Recomendados 2026)</option>
+                        <option value="0.90">Comercio / Consorcio de Edificio (Tarifa Intermedia 90%)</option>
+                        <option value="0.85">Residencial Particular / Promoción Clientes Frecuentes (85%)</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Método de Mano de Obra</label>
+                    <label>Modalidad de Cotización</label>
                     <select id="cfg_metodo_mo" onchange="toggleCalculationMode()">
-                        <option value="items" selected>Cotizar por Tareas (Suma de Ítems)</option>
-                        <option value="jornadas">Cotizar por Jornada Diaria (Tarifa Fija)</option>
+                        <option value="items" selected>Por Tareas Especializadas (Ítems)</option>
+                        <option value="jornadas">Por Jornada de Cuadrilla Técnica</option>
                     </select>
                 </div>
-                <div class="form-group" id="group_mo_jornadas" style="display: none; grid-column: span 2; background: rgba(255,255,255,0.02); padding: 8px; border-radius: 8px; border: 1px dashed #444; margin-top: 5px;">
-                    <div style="display: flex; gap: 10px;">
-                        <div class="form-group" style="flex: 1;">
-                            <label>Técnicos en Obra</label>
-                            <select id="cfg_mo_tecnicos" onchange="calc()">
-                                <option value="1">1 Técnico ($250.000 / día)</option>
-                                <option value="2" selected>2 Técnicos ($500.000 / día)</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="flex: 1;">
-                            <label>Duración Estimada (Días)</label>
-                            <select id="cfg_mo_dias" onchange="calc()">
-                                <option value="0.5">0.5 Días (Media Jornada)</option>
-                                <option value="1" selected>1 Día Completo (8hs)</option>
-                                <option value="1.5">1.5 Días</option>
-                                <option value="2">2 Días</option>
-                                <option value="2.5">2.5 Días</option>
-                                <option value="3">3 Días</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-grid" style="margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
-                <div class="form-group">
-                    <label>Fecha de Presupuesto</label>
-                    <input type="text" id="presp_fecha" placeholder="Ej: 27/04/2026" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Cliente</label>
-                    <input type="text" id="presp_cliente" placeholder="Nombre del cliente" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Dirección / Ubicación</label>
-                    <input type="text" id="presp_ubicacion" placeholder="Ej: Avellaneda" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Viáticos (%)</label>
-                    <input type="number" id="cfg_viaticos" value="15" oninput="calc()">
-                </div>
-                <div class="form-group">
-                    <label>Margen de Ganancia (%)</label>
-                    <input type="number" id="cfg_margen" value="35" oninput="calc()">
-                </div>
+
+                <!-- CATEGORÍAS DE ALTURA (IGUAL QUE CCTV) -->
                 <div class="form-group">
                     <label>Trabajo en Altura (Recargo M.O.)</label>
                     <select id="cfg_nivel_altura" onchange="calc()">
@@ -473,366 +745,856 @@
                         <option value="2.00">Nivel 3 (Más de 4m) - Máximo Riesgo (+100% / x2.00)</option>
                     </select>
                 </div>
+
+                <!-- VIÁTICOS CONFIGURABLES -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label>Viáticos y Movilidad (%)</label>
+                        <span id="lbl_viaticos_val" style="font-size: 0.72rem; color: var(--accent-cyan); font-family: 'JetBrains Mono', monospace; font-weight: bold;">15%</span>
+                    </div>
+                    <input type="number" id="cfg_viaticos" value="15" min="0" max="100" oninput="calc()">
+                    <div class="preset-buttons">
+                        <button type="button" class="btn-preset" onclick="setViaticos(0)">0%</button>
+                        <button type="button" class="btn-preset" onclick="setViaticos(10)">10%</button>
+                        <button type="button" class="btn-preset" onclick="setViaticos(15)">15%</button>
+                        <button type="button" class="btn-preset" onclick="setViaticos(20)">20%</button>
+                        <button type="button" class="btn-preset" onclick="setViaticos(25)">25%</button>
+                    </div>
+                </div>
+
+                <!-- MARGEN DE GANANCIA CONFIGURABLE -->
+                <div class="form-group">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <label>Margen de Ganancia (%)</label>
+                        <span id="lbl_margen_val" style="font-size: 0.72rem; color: var(--sys-green); font-family: 'JetBrains Mono', monospace; font-weight: bold;">30%</span>
+                    </div>
+                    <input type="number" id="cfg_margen" value="30" min="0" max="100" oninput="calc()">
+                    <div class="preset-buttons">
+                        <button type="button" class="btn-preset" onclick="setMargen(20)">20%</button>
+                        <button type="button" class="btn-preset" onclick="setMargen(30)">30%</button>
+                        <button type="button" class="btn-preset" onclick="setMargen(35)">35%</button>
+                        <button type="button" class="btn-preset" onclick="setMargen(40)">40%</button>
+                        <button type="button" class="btn-preset" onclick="setMargen(50)">50%</button>
+                    </div>
+                </div>
             </div>
+
+            <!-- JORNADAS ROW (HIDDEN BY DEFAULT) -->
+            <div id="group_mo_jornadas" style="display: none; margin-top: 12px; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 10px; border: 1px dashed var(--border-highlight);">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Técnicos Matriculados en Cuadrilla</label>
+                        <select id="cfg_mo_tecnicos" onchange="calc()">
+                            <option value="1">1 Oficial Técnico ($240.000 / jornada)</option>
+                            <option value="2" selected>2 Técnicos (Oficial + Ayudante: $420.000 / jornada)</option>
+                            <option value="3">3 Técnicos (Cuadrilla Reforzada: $580.000 / jornada)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Duración Estimada (Jornadas de 8hs)</label>
+                        <select id="cfg_mo_dias" onchange="calc()">
+                            <option value="0.5">Media Jornada (4 horas)</option>
+                            <option value="1" selected>1 Jornada Completa (8 horas)</option>
+                            <option value="1.5">1.5 Jornadas</option>
+                            <option value="2">2 Jornadas Completas</option>
+                            <option value="3">3 Jornadas</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CLIENT DETAILS ROW -->
+            <div class="form-grid" style="margin-top: 15px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
+                <div class="form-group">
+                    <label>Fecha del Presupuesto</label>
+                    <input type="text" id="presp_fecha" placeholder="04/10/2026" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Cliente / Razón Social</label>
+                    <input type="text" id="presp_cliente" placeholder="Nombre o empresa del cliente" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Ubicación / Domicilio de Obra</label>
+                    <input type="text" id="presp_ubicacion" placeholder="Ej: San Isidro / CABA" oninput="calc()">
+                </div>
+                <div class="form-group">
+                    <label>Teléfono de Contacto</label>
+                    <input type="text" id="presp_telefono" placeholder="Ej: 11-xxxx-xxxx" oninput="calc()">
+                </div>
+            </div>
+        </div>
+
+        <!-- TABS BAR -->
+        <div class="tabs">
+            <button class="tab-btn active highlight-tab" onclick="switchTab('tab_balance')">📐 BALANCE TÉRMICO (FRIGORÍAS)</button>
+            <button class="tab-btn" onclick="switchTab('tab_split')">❄️ INSTALACIÓN SPLIT</button>
+            <button class="tab-btn" onclick="switchTab('tab_industrial')">🏢 COMERCIAL / INDUSTRIAL</button>
+            <button class="tab-btn" onclick="switchTab('tab_materiales')">📦 KITS DE MATERIALES</button>
+            <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE & REPARACIÓN</button>
+            <button class="tab-btn" onclick="switchTab('tab_desinst')">❌ DESINSTALACIONES</button>
+            <button class="tab-btn" onclick="switchTab('tab_adicionales')">➕ ADICIONALES DE OBRA</button>
         </div>
 
         <div class="grid-layout">
-            <!-- PESTAÑAS Y LISTADO DE TRABAJOS (IZQ) -->
+            <!-- COLUMNA PRINCIPAL IZQUIERDA -->
             <div>
-                <!-- TABS HEADER -->
-                <div class="tabs">
-                    <button class="tab-btn active" onclick="switchTab('tab_split')">❄️ INSTALACIÓN SPLIT</button>
-                    <button class="tab-btn" onclick="switchTab('tab_industrial')">🏢 INSTALACIÓN INDUSTRIAL</button>
-                    <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE & REPARACIÓN</button>
-                    <button class="tab-btn" onclick="switchTab('tab_desinst')">❌ DESINSTALACIONES</button>
-                    <button class="tab-btn" onclick="switchTab('tab_adicionales')">➕ ADICIONALES M.O.</button>
+
+                <!-- TAB 0: CALCULADORA DE CARGA TÉRMICA Y FRIGORÍAS -->
+                <div id="tab_balance" class="tab-content active">
+                    <div class="thermal-box">
+                        <div class="thermal-title">
+                            <div>
+                                <h2 style="font-size: 1.25rem; color: #fff;">Calculadora de Balance Térmico de Ambientes</h2>
+                                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;">Determinación exacta de frigorías (kcal/h), BTU y potencia eléctrica según AEA.</p>
+                            </div>
+                            <div class="badge-pill">MÉTODO TÉCNICO CAR</div>
+                        </div>
+
+                        <!-- INPUTS DIMENSIONES -->
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Largo del Ambiente (m)</label>
+                                <input type="number" id="th_largo" value="4.0" step="0.1" min="1" oninput="calculateThermalLoad()">
+                            </div>
+                            <div class="form-group">
+                                <label>Ancho del Ambiente (m)</label>
+                                <input type="number" id="th_ancho" value="3.5" step="0.1" min="1" oninput="calculateThermalLoad()">
+                            </div>
+                            <div class="form-group">
+                                <label>Altura de Techo (m)</label>
+                                <input type="number" id="th_alto" value="2.6" step="0.1" min="2" oninput="calculateThermalLoad()">
+                            </div>
+                            <div class="form-group">
+                                <label>Destino del Ambiente</label>
+                                <select id="th_tipo_ambiente" onchange="calculateThermalLoad()">
+                                    <option value="45">Dormitorio / Habitación (45 fg/m³)</option>
+                                    <option value="50" selected>Living / Sala de Estar (50 fg/m³)</option>
+                                    <option value="55">Oficina / Consultorio / Estudio (55 fg/m³)</option>
+                                    <option value="65">Cocina / Comedor Diario (65 fg/m³)</option>
+                                    <option value="75">Local Comercial / Sala de Espera (75 fg/m³)</option>
+                                    <option value="90">Sala de Racks / Servidores / IT (90 fg/m³)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- FACTORES TÉRMICOS ADICIONALES -->
+                        <div class="form-grid" style="margin-top: 15px;">
+                            <div class="form-group">
+                                <label>Asoleamiento / Orientación de Muros</label>
+                                <select id="th_asoleamiento" onchange="calculateThermalLoad()">
+                                    <option value="0.00">Orientación Sur (Sombra constante / Fresco)</option>
+                                    <option value="0.05">Orientación Este (Sol suave de mañana +5%)</option>
+                                    <option value="0.12" selected>Orientación Norte (Sol pleno durante el día +12%)</option>
+                                    <option value="0.22">Orientación Oeste (Sol fuerte de tarde - Máxima radiación +22%)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Techo / Cubierta</label>
+                                <select id="th_techo" onchange="calculateThermalLoad()">
+                                    <option value="0.00" selected>Piso Intermedio / Cielorraso con aislación</option>
+                                    <option value="0.15">Losa maciza de hormigón al exterior (+15%)</option>
+                                    <option value="0.28">Techo de chapa sin aislar / Altillo caliente (+28%)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Superficie de Ventanas / Vidriados</label>
+                                <select id="th_vidrios" onchange="calculateThermalLoad()">
+                                    <option value="0">Normal: Hasta 2 m² con persiana o cortina</option>
+                                    <option value="350">Mediana: 2 m² a 4 m² expuesta al sol (+350 fg)</option>
+                                    <option value="750">Grande: Ventanal / Balcón 4 m² a 7 m² (+750 fg)</option>
+                                    <option value="1400">Vidriera Comercial / Doble Altura (+1400 fg)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Personas Habituales</label>
+                                <select id="th_personas" onchange="calculateThermalLoad()">
+                                    <option value="0">1 a 2 Personas (Carga base estándar)</option>
+                                    <option value="300" selected>3 a 4 Personas (+300 fg)</option>
+                                    <option value="600">5 a 6 Personas (+600 fg)</option>
+                                    <option value="1200">Más de 8 Personas / Afluencia comercial (+1200 fg)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Equipamiento Electrónico / Cocina</label>
+                                <select id="th_equipos" onchange="calculateThermalLoad()">
+                                    <option value="0">Bajo (1 TV + Iluminación LED)</option>
+                                    <option value="250" selected>Medio (PC de escritorio + Smart TV + Consola)</option>
+                                    <option value="600">Alto (Múltiples PCs + Heladera / Microondas)</option>
+                                    <option value="1200">Extremo (Hornos / Racks / Servidores encendidos)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- RESULTADOS DEL CÁLCULO TÉRMICO -->
+                        <div class="thermal-results-grid">
+                            <div class="result-card">
+                                <div class="result-label">Volumen Calculado</div>
+                                <div class="result-val" id="th_res_volumen">36.4 m³</div>
+                                <div class="result-sub" id="th_res_superficie">14.0 m² de superficie</div>
+                            </div>
+                            <div class="result-card highlight">
+                                <div class="result-label">Frigorías Necesarias</div>
+                                <div class="result-val cyan" id="th_res_frigorias">2.750 fg</div>
+                                <div class="result-sub">Carga térmica en refrigeración</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Equivalencia BTU/h</div>
+                                <div class="result-val" id="th_res_btu">11.000 BTU</div>
+                                <div class="result-sub" id="th_res_watts">≈ 3.20 kW térmicos</div>
+                            </div>
+                            <div class="result-card">
+                                <div class="result-label">Equipo Comercial Sugerido</div>
+                                <div class="result-val green" id="th_res_equipo">3.000 fg</div>
+                                <div class="result-sub">Split Comercial 12.000 BTU</div>
+                            </div>
+                        </div>
+
+                        <!-- RECOMENDACIÓN TÉCNICA Y BOTÓN TRANSFERIR -->
+                        <div class="recommendation-banner">
+                            <div class="rec-info">
+                                <h3 id="rec_banner_title">Recomendación: Equipo Split de 3.000 Frigorías (12.000 BTU)</h3>
+                                <p id="rec_banner_desc">Capacidad ideal con margen de rendimiento para los días de calor extremo en verano sin sobrecargar el compresor.</p>
+                                
+                                <div class="specs-grid">
+                                    <div class="spec-item">
+                                        <span>Consumo Nominal Aprox.</span>
+                                        <strong id="spec_amperaje">≈ 4.8 a 5.5 A</strong>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span>Térmica Sugerida (Tablero)</span>
+                                        <strong id="spec_termica">1x16A Curva C (TUE)</strong>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span>Sección Mínima Conductor</span>
+                                        <strong id="spec_cable">2.5 mm² + Tierra</strong>
+                                    </div>
+                                    <div class="spec-item">
+                                        <span>Tomacorriente / Conexión</span>
+                                        <strong id="spec_toma">Ficha 10A o 20A dedicada</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button class="btn-transfer" id="btn_transfer_quote" onclick="transferToQuote()">
+                                    ⚡ Cotizar Este Equipo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <!-- TAB 1: INSTALACIÓN SPLIT -->
-                <div id="tab_split" class="tab-content active">
-                    <div class="module" style="border-color: #3b82f6;">
-                        <div class="module-title">[01] INSTALACIÓN DE EQUIPOS SPLIT (MANO DE OBRA SOLA)</div>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Precios de mano de obra base. No incluye materiales ni kit de instalación.</p>
+                <!-- TAB 1: INSTALACIÓN SPLIT RESIDENCIAL -->
+                <div id="tab_split" class="tab-content">
+                    <div class="module" style="border-color: #0284c7;">
+                        <div class="module-title">[01] INSTALACIÓN DE EQUIPOS SPLIT (VALORES OFICIALES 2026 - MÁXIMO RECOMENDADO)</div>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Mano de obra especializada pura (No incluye materiales, viáticos ni trabajo en altura).</p>
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 55%;">Tipo de Trabajo / Capacidad</th>
                                     <th style="width: 20%; text-align: center;">Cantidad</th>
-                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                    <th style="width: 25%; text-align: right;">Unitario M.O. ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Instalación Split 2250 Frigorías (Hasta 2600W)</td>
+                                    <td>
+                                        <strong>Instalación Equipo 2.250 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $200.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Hasta 2500 fg / 9000 BTU. Montaje de unidades, vacío y puesta en marcha.</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_split_2250_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_split_2250_prc" class="cell-input-price" value="90000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_2250_prc" class="cell-input-price" value="200000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Instalación Split 3000 Frigorías (Hasta 3500W)</td>
+                                    <td>
+                                        <strong>Instalación Equipo 3.000 a 4.500 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $240.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">12.000 a 18.000 BTU. Cañerías abocardadas y prueba de rendimiento.</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_split_3000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_split_3000_prc" class="cell-input-price" value="105000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_3000_prc" class="cell-input-price" value="240000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Instalación Split 4500 Frigorías (Hasta 5200W)</td>
-                                    <td><input type="number" id="ac_inst_split_4500_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_split_4500_prc" class="cell-input-price" value="125000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Instalación Split 6000 Frigorías (Hasta 7000W)</td>
+                                    <td>
+                                        <strong>Instalación Equipo 6.000 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $260.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">24.000 BTU. Cañería 3/8" y 5/8", montaje reforzado.</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_split_6000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_split_6000_prc" class="cell-input-price" value="160000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_6000_prc" class="cell-input-price" value="260000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Instalación Split 9000 Frigorías (Hasta 10500W) - M.O. Sola</td>
+                                    <td>
+                                        <strong>Instalación Equipo 7.000 a 8.000 kcal/h (Hasta 9.000 fg)</strong>
+                                        <span class="ref-badge">MÁXIMO: $280.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Grandes recintos residenciales y comerciales.</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_split_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_split_9000_prc" class="cell-input-price" value="230000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_split_9000_prc" class="cell-input-price" value="280000" oninput="calc()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB 2: INSTALACIÓN INDUSTRIAL -->
+                <!-- TAB 2: INDUSTRIAL / COMERCIAL -->
                 <div id="tab_industrial" class="tab-content">
                     <div class="module" style="border-color: #10b981;">
-                        <div class="module-title">[02] EQUIPOS INDUSTRIALES / COMERCIALES (PISO TECHO / CASSETTE / VRF)</div>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Instalaciones de alta capacidad y sistemas centralizados comercial e industrial.</p>
+                        <div class="module-title">[02] EQUIPOS PISO TECHO, CENTRALES CHILLERS & VRF</div>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Montaje pesado, anclajes suspendidos en losa, circuitos comerciales y trifásicos 380V.</p>
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 55%;">Tipo de Trabajo</th>
                                     <th style="width: 20%; text-align: center;">Cantidad</th>
-                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                    <th style="width: 25%; text-align: right;">Unitario M.O. ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Instalación Piso Techo / Cassette 9000 Frigorías (10000 kcal/h) M.O.</td>
+                                    <td>
+                                        <strong>Instalación Piso Techo 9.000 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $300.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Montaje suspendido con varillas y amortiguadores en losa</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_pt_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_pt_9000_prc" class="cell-input-price" value="290000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_pt_9000_prc" class="cell-input-price" value="300000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Instalación Piso Techo / Cassette 15000 Frigorías (Trifásico) M.O.</td>
+                                    <td>
+                                        <strong>Instalación Piso Techo 15.000 a 18.000 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $400.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Unidades trifásicas comerciales de alta capacidad</div>
+                                    </td>
                                     <td><input type="number" id="ac_inst_pt_15000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_inst_pt_15000_prc" class="cell-input-price" value="390000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_pt_15000_prc" class="cell-input-price" value="400000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Centrales Chillers / VRF</strong>
+                                        <span class="ref-badge">TARIFA: $500.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Sistemas centralizados industriales de gran escala</div>
+                                    </td>
+                                    <td><input type="number" id="ac_inst_chillers_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_inst_chillers_prc" class="cell-input-price" value="500000" oninput="calc()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB 3: SERVICE Y REPARACIÓN -->
-                <div id="tab_service" class="tab-content">
-                    <div class="module" style="border-color: #06b6d4;">
-                        <div class="module-title">[03] SERVICE, DIAGNÓSTICO Y REPARACIÓN</div>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Trabajos de mantenimiento correctivo y preventivo en equipos de climatización.</p>
+                <!-- TAB 3: KITS DE MATERIALES -->
+                <div id="tab_materiales" class="tab-content">
+                    <div class="module" style="border-color: #f59e0b;">
+                        <div class="module-title">[03] KITS COMPLETOS DE MATERIALES E INSUMOS CERTIFICADOS (3 METROS)</div>
+                        
+                        <!-- BANNER DE CALIDAD Y SEGURIDAD CIUDADANA -->
+                        <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                                <span style="font-size: 1.2rem;">🛡️</span>
+                                <strong style="color: #f59e0b; font-size: 0.92rem; text-transform: uppercase; letter-spacing: 0.5px;">ESTÁNDAR TÉCNICO EL CÓNDOR: 100% MARCAS DE PRIMERA LÍNEA (0% GENÉRICOS)</strong>
+                            </div>
+                            <div style="font-size: 0.78rem; color: #cbd5e1; line-height: 1.5;">
+                                Por seguridad de las familias y transeúntes, <strong>no utilizamos caños finos de 0.5mm ni ménsulas livianas</strong> que se doblan o generan microfugas de gas bajo alta presión (R410A / R32):
+                                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-top: 8px;">
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Cobre:</strong> ELUMA / HALCOR 0.8mm (ASTM B280)
+                                    </div>
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Aislación:</strong> ARMACELL / ISOTUBE Ignífugo
+                                    </div>
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Ménsulas:</strong> D-CONTROL / REPHOUSE 50cm Epoxi
+                                    </div>
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Cables:</strong> PRYSMIAN / IMSAT 100% Cobre IRAM
+                                    </div>
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Fijaciones:</strong> FISCHER SX10 / UX10 con tirafondos
+                                    </div>
+                                    <div style="background: rgba(17, 27, 48, 0.8); padding: 6px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.06);">
+                                        <strong>🔸 Cinta & Tacos:</strong> TACSA UV 120µ + AMORTIGOMAS
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 55%;">Kit de Materiales Profesional Certificado</th>
                                     <th style="width: 20%; text-align: center;">Cantidad</th>
-                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                    <th style="width: 25%; text-align: right;">Precio Kit ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Visita de Diagnóstico y Presupuesto Técnico (Fijo)</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                            <strong>Kit Profesional 2.250 a 3.500 Frg (1/4" y 3/8" - 3m)</strong>
+                                            <span style="background: rgba(16, 185, 129, 0.15); color: #10b981; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(16, 185, 129, 0.3);">ELUMA + ARMACELL</span>
+                                        </div>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+                                            Caño cobre ELUMA/HALCOR 0.8mm + Aislación ARMACELL + Ménsulas D-CONTROL 42cm pintura epoxi + Cable taller PRYSMIAN 5x1.5mm² IRAM + Cinta TACSA UV + Desagüe reforzado + Tacos AMORTIGOMAS + Fijaciones FISCHER SX10.
+                                        </div>
+                                    </td>
+                                    <td><input type="number" id="mat_kit_3000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_kit_3000_prc" class="cell-input-price" value="135000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                            <strong>Kit Profesional 4.500 Frg (1/4" y 1/2" - 3m) [REFORZADO]</strong>
+                                            <span style="background: rgba(245, 158, 11, 0.15); color: #f59e0b; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(245, 158, 11, 0.3);">MÉNSULAS 50CM + FISCHER</span>
+                                        </div>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+                                            Caño cobre ELUMA/HALCOR 0.8mm ASTM B280 (1/4" y 1/2") + Aislación ARMACELL celular cerrada + Ménsulas REFORZADAS D-CONTROL de 50cm epoxi horneada + Cable PRYSMIAN 5x2.5mm² IRAM + Tacos AMORTIGOMAS + Cinta TACSA 120µ UV + Anclajes de seguridad FISCHER SX10 con tirafondos 1/4".
+                                        </div>
+                                    </td>
+                                    <td><input type="number" id="mat_kit_4500_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_kit_4500_prc" class="cell-input-price" value="165000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                            <strong>Kit Profesional 6.000 Frg (3/8" y 5/8" - 3m) [EXTRA PESADO]</strong>
+                                            <span style="background: rgba(2, 132, 199, 0.15); color: #38bdf8; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; border: 1px solid rgba(2, 132, 199, 0.3);">MÉNSULAS 55CM INDUSTRIAL</span>
+                                        </div>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">
+                                            Caño cobre ELUMA/HALCOR 0.8mm (3/8" y 5/8") + Aislación ARMACELL alta densidad + Ménsulas industriales de 55cm para unidad exterior pesada + Cable PRYSMIAN 5x2.5mm² + Tacos caucho virgen AMORTIGOMAS + Cinta TACSA UV + Anclajes FISCHER SX12.
+                                        </div>
+                                    </td>
+                                    <td><input type="number" id="mat_kit_6000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_kit_6000_prc" class="cell-input-price" value="195000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                                            <strong>Tira de Cablecanal Decorativo PVC con protección UV (2 metros)</strong>
+                                            <span style="background: rgba(148, 163, 184, 0.15); color: #cbd5e1; font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 4px;">ZOLODA / CANAPLAST</span>
+                                        </div>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 4px;">Tiras de 2m para emprolijar caños, aislación y cable a la vista sin romper pared</div>
+                                    </td>
+                                    <td><input type="number" id="mat_cablecanal_tira_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_cablecanal_tira_prc" class="cell-input-price" value="35000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Curva Plana / Codo 90° para Cablecanal</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Accesorio de giro en ángulo recto con traba a presión para acabado profesional</div>
+                                    </td>
+                                    <td><input type="number" id="mat_cablecanal_curva_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_cablecanal_curva_prc" class="cell-input-price" value="9000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Entrada / Tapa de Pared Pasamuro para Cablecanal</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted); margin-top: 2px;">Tapa embellecedora pasamuro hermética para salida exterior limpia</div>
+                                    </td>
+                                    <td><input type="number" id="mat_cablecanal_entrada_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="mat_cablecanal_entrada_prc" class="cell-input-price" value="9000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: SERVICE Y REPARACIÓN -->
+                <div id="tab_service" class="tab-content">
+                    <div class="module" style="border-color: #06b6d4;">
+                        <div class="module-title">[04] SERVICE, DIAGNÓSTICO & REPARACIONES (VALORES OFICIALES 2026)</div>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Tarifas oficiales según la tabla de referencia del sector refrigeración.</p>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Tipo de Trabajo</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Unitario M.O. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <strong>Limpieza y Mantenimiento S/Desinstalación</strong>
+                                        <span class="ref-badge">OFICIAL: $140.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Limpieza profunda in situ con funda colectora, turbina y serpentinas</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_limpieza_sin_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_limpieza_sin_prc" class="cell-input-price" value="140000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Limpieza y Mantenimiento C/Desinstalación</strong>
+                                        <span class="ref-badge">OFICIAL: $200.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Desmontaje de unidad, hidrolavado químico completo y reinstalación</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_limpieza_con_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_limpieza_con_prc" class="cell-input-price" value="200000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Detección de Fuga y Carga de Gas</strong>
+                                        <span class="ref-badge">OFICIAL: $200.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Presurización, localización de pérdidas, sellado y carga completa</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_fuga_gas_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_fuga_gas_prc" class="cell-input-price" value="200000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Sustitución de Plaqueta (Universal)</strong>
+                                        <span class="ref-badge">OFICIAL: $150.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Mano de obra para adaptación de placa lógica y cableado de sensores</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_placa_uni_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_placa_uni_prc" class="cell-input-price" value="150000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Recambio de Válvula Inversora</strong>
+                                        <span class="ref-badge">OFICIAL: $290.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Desoldado con barrido, soldadura autógena de nueva válvula y vacío</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_valvula_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_valvula_prc" class="cell-input-price" value="290000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Recambio de Capacitor</strong>
+                                        <span class="ref-badge">OFICIAL: $150.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Reemplazo de capacitor de arranque/marcha de motocompresor o forzador</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_capacitor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_capacitor_prc" class="cell-input-price" value="150000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Recambio de Compresor</strong>
+                                        <span class="ref-badge">TARIFA REF: $300.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Mano de obra equivalente al valor del compresor según tabla oficial</div>
+                                    </td>
+                                    <td><input type="number" id="ac_srv_compresor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_srv_compresor_prc" class="cell-input-price" value="300000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Visita Técnica y Diagnóstico Especializado</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Medición de presiones, consumo eléctrico y verificación electrónica</div>
+                                    </td>
                                     <td><input type="number" id="ac_srv_diagnos_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="ac_srv_diagnos_prc" class="cell-input-price" value="50000" oninput="calc()"></td>
                                 </tr>
-                                <tr>
-                                    <td>Limpieza Química Profunda y Desinfección (Turbina y Evaporador)</td>
-                                    <td><input type="number" id="ac_srv_limpieza_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_limpieza_prc" class="cell-input-price" value="65000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Mano de obra Carga de Gas Refrigerante (R410a / R22)</td>
-                                    <td><input type="number" id="ac_srv_carga_gas_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_carga_gas_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Presurización con Nitrógeno y Búsqueda de Fuga</td>
-                                    <td><input type="number" id="ac_srv_presuriz_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_presuriz_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Soldadura de Fuga / Reparación de pestaña Flare</td>
-                                    <td><input type="number" id="ac_srv_soldadura_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_soldadura_prc" class="cell-input-price" value="30000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Reemplazo de Placa Lógica Electrónica / Placa Universal</td>
-                                    <td><input type="number" id="ac_srv_placa_uni_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_placa_uni_prc" class="cell-input-price" value="60000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Mano de obra para Cambio de Compresor (Hasta 6000 Frg)</td>
-                                    <td><input type="number" id="ac_srv_compresor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_compresor_prc" class="cell-input-price" value="120000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Reemplazo de Capacitor de Arranque (Compresor/Forzador)</td>
-                                    <td><input type="number" id="ac_srv_capacitor_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_capacitor_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Reemplazo de Motor Forzador (Interior / Exterior)</td>
-                                    <td><input type="number" id="ac_srv_forzador_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_srv_forzador_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB 4: DESINSTALACIONES -->
+                <!-- TAB 5: DESINSTALACIONES -->
                 <div id="tab_desinst" class="tab-content">
                     <div class="module" style="border-color: #ef4444;">
-                        <div class="module-title">[04] REMOCIÓN Y DESINSTALACIÓN DE EQUIPOS</div>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Remoción técnica con recuperación y envasado de gas refrigerante en unidad exterior.</p>
+                        <div class="module-title">[05] DESINSTALACIONES CON ENVASADO DE GAS</div>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Envasado y recuperación del refrigerante en la unidad exterior para no perder la carga.</p>
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 55%;">Tipo de Trabajo</th>
                                     <th style="width: 20%; text-align: center;">Cantidad</th>
-                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                    <th style="width: 25%; text-align: right;">Unitario M.O. ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Desinstalación Split hasta 3000 Frigorías (Con envasado de gas)</td>
-                                    <td><input type="number" id="ac_desinst_split_3000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_desinst_split_3000_prc" class="cell-input-price" value="40000" oninput="calc()"></td>
-                                </tr>
-                                <tr>
-                                    <td>Desinstalación Split 4500 a 6000 Frigorías (Con envasado de gas)</td>
+                                    <td>
+                                        <strong>Desinstalación Equipo hasta 6.000 kcal/h</strong>
+                                        <span class="ref-badge">MÁXIMO: $160.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Con recuperación y envasado de refrigerante en condensadora</div>
+                                    </td>
                                     <td><input type="number" id="ac_desinst_split_6000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_desinst_split_6000_prc" class="cell-input-price" value="55000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_desinst_split_6000_prc" class="cell-input-price" value="160000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Desinstalación Split / Piso Techo 9000 Frigorías</td>
+                                    <td>
+                                        <strong>Desinstalación Piso Techo / 9.000 a 18.000 kcal/h</strong>
+                                        <span class="ref-badge">OFICIAL: $200.000</span>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Desanclaje suspendido de equipo comercial pesado y recuperación</div>
+                                    </td>
                                     <td><input type="number" id="ac_desinst_split_9000_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_desinst_split_9000_prc" class="cell-input-price" value="80000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_desinst_split_9000_prc" class="cell-input-price" value="200000" oninput="calc()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
 
-                <!-- TAB 5: ADICIONALES M.O. -->
+                <!-- TAB 6: ADICIONALES DE OBRA -->
                 <div id="tab_adicionales" class="tab-content">
                     <div class="module" style="border-color: #8b5cf6;">
-                        <div class="module-title">[05] TRABAJOS COMPLEMENTARIOS Y ADICIONALES DE OBRA</div>
-                        <p style="font-size: 0.75rem; color: #64748b; margin-bottom: 10px;">Adicionales por metro excedente, pases de muros especiales y soportes.</p>
+                        <div class="module-title">[06] ADICIONALES DE OBRA Y ESTRUCTURALES</div>
+                        <p style="font-size: 0.78rem; color: var(--text-muted); margin-bottom: 12px;">Metros excedentes, pases en vigas/hormigón y circuitos dedicados.</p>
                         <table class="items-table">
                             <thead>
                                 <tr>
-                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 55%;">Descripción del Trabajo</th>
                                     <th style="width: 20%; text-align: center;">Cantidad</th>
-                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                    <th style="width: 25%; text-align: right;">Unitario M.O. ($)</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Mano de Obra por Metro Adicional de Cañería de Cobre / Interconexión</td>
+                                    <td>
+                                        <strong>M.O. Metro Adicional de Cañería de Cobre e Interconexión</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Curvado, aislación elastomérica y encintado UV</div>
+                                    </td>
                                     <td><input type="number" id="ac_ad_cano_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_ad_cano_m_prc" class="cell-input-price" value="20000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_cano_m_prc" class="cell-input-price" value="35000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Pase de Viga / Hormigón / Losa (Estructura dura)</td>
+                                    <td>
+                                        <strong>Pase de Viga / Columna / Losa de Hormigón Armado</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Perforación con copa diamantada refrigerada de alto calibre</div>
+                                    </td>
                                     <td><input type="number" id="ac_ad_pase_horm_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_ad_pase_horm_prc" class="cell-input-price" value="45000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_pase_horm_prc" class="cell-input-price" value="65000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Pase de Pared Mampostería Estándar (Ladrillo hueco / común)</td>
+                                    <td>
+                                        <strong>Pase de Pared Mampostería Estándar (Ladrillo hueco / macizo)</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Perforación con pendiente de desagüe hacia el exterior</div>
+                                    </td>
                                     <td><input type="number" id="ac_ad_pase_mamp_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_ad_pase_mamp_prc" class="cell-input-price" value="15000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_pase_mamp_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Calado y Canaleta en mampostería para embutir cañería (por metro)</td>
+                                    <td>
+                                        <strong>Canaleteado y Calado en pared para embutir cañería (por metro)</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Ranurado para caños y desagüe embutido en revoque</div>
+                                    </td>
                                     <td><input type="number" id="ac_ad_canaleta_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_ad_canaleta_m_prc" class="cell-input-price" value="18000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_canaleta_m_prc" class="cell-input-price" value="30000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Fijación y Colocación de Ménsulas / Soporte con Amortiguadores</td>
+                                    <td>
+                                        <strong>Instalación y Fijación de Ménsulas con Amortiguadores de Goma</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Anclaje con tirafondos y tarugos Fisher para evitar ruidos y vibraciones</div>
+                                    </td>
                                     <td><input type="number" id="ac_ad_mensula_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
-                                    <td><input type="number" id="ac_ad_mensula_prc" class="cell-input-price" value="25000" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_mensula_prc" class="cell-input-price" value="40000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>Instalación de Línea Eléctrica Dedicada TUE (Hasta 5 metros)</strong>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">Cable 2.5 mm² desde tablero, térmica bipolar dedicada y toma 20A</div>
+                                    </td>
+                                    <td><input type="number" id="ac_ad_electrica_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ac_ad_electrica_prc" class="cell-input-price" value="95000" oninput="calc()"></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
 
-            <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
+            <!-- SIDEBAR DERECHO DE TOTALES Y BOTONES -->
             <div class="sidebar">
-                <div class="total-section">
-                    <div style="font-size: 0.8rem; color: #64748b; margin-bottom: 5px; text-transform: uppercase; font-family: 'JetBrains Mono', monospace;">Subtotal Mano de Obra</div>
-                    <div style="font-size: 1.5rem; font-weight: bold; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
-                    
-                    <div class="final-price-box">
-                        <span style="font-size: 0.75rem; display: block; opacity: 0.7; font-weight: bold; text-transform: uppercase;">Mano de Obra Final</span>
-                        <span id="res_final">$ 0</span>
+                <div class="total-card">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; font-family: 'JetBrains Mono', monospace; margin-bottom: 4px;">Subtotal Tareas Seleccionadas</div>
+                    <div style="font-size: 1.4rem; font-weight: 700; color: #fff; margin-bottom: 15px; font-family: 'JetBrains Mono', monospace;" id="lbl_subtotal">$ 0</div>
+
+                    <!-- DESGLOSE EN VIVO DE VIÁTICOS Y GANANCIA -->
+                    <div class="sidebar-breakdown">
+                        <div class="breakdown-row">
+                            <span>Mano de Obra Base:</span>
+                            <strong id="side_mo_base">$ 0</strong>
+                        </div>
+                        <div class="breakdown-row" id="side_row_altura">
+                            <span>Recargo Altura:</span>
+                            <strong id="side_altura" style="color: var(--sys-amber);">$ 0</strong>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Viáticos (<span id="side_viaticos_pct">15%</span>):</span>
+                            <strong id="side_viaticos">$ 0</strong>
+                        </div>
+                        <div class="breakdown-row">
+                            <span>Margen / Ganancia (<span id="side_margen_pct">30%</span>):</span>
+                            <strong id="side_margen" style="color: var(--accent-cyan);">$ 0</strong>
+                        </div>
                     </div>
 
-                    <!-- PANEL DE RENTABILIDAD PRIVADO -->
-                    <div class="private-dashboard">
-                        <div class="private-dashboard-title">🔒 Rentabilidad Interna (Privado)</div>
-                        <div class="dashboard-row">
-                            <span>Recargo Trabajo Altura:</span>
+                    <div class="final-box">
+                        <span class="lbl">Presupuesto Final (M.O. + Insumos)</span>
+                        <div class="amount" id="res_final">$ 0</div>
+                    </div>
+
+                    <!-- PANEL DE CONTROL INTERNO (RENTABILIDAD) -->
+                    <div class="private-box">
+                        <div class="private-header">
+                            <span>🔒 PANEL INTERNO DE RENTABILIDAD</span>
+                            <span style="font-size: 0.7rem; color: var(--sys-green);">PRIVADO</span>
+                        </div>
+                        <div class="dash-row">
+                            <span>Coef. Cliente:</span>
+                            <strong id="dash_cliente">Tarifa Plena Oficial 100%</strong>
+                        </div>
+                        <div class="dash-row">
+                            <span>Recargo Altura:</span>
                             <strong id="dash_altura">x1.00 (0%)</strong>
                         </div>
-                        <div class="dashboard-row">
+                        <div class="dash-row">
                             <span>Viáticos Calculados:</span>
                             <strong id="dash_viaticos">$ 0</strong>
                         </div>
-                        <div class="dashboard-row">
-                            <span>Margen / Utilidad:</span>
+                        <div class="dash-row">
+                            <span>Margen de Ganancia:</span>
                             <strong id="dash_margen">$ 0</strong>
                         </div>
-                        <div class="dashboard-row" style="margin-top: 5px; padding-top: 5px; border-top: 1px dashed #1e293b;">
-                            <span>Ganancia Neta Total:</span>
-                            <strong id="dash_ganancia" style="color: var(--sys-color); font-weight: bold;">$ 0</strong>
+                        <div class="dash-row" style="margin-top: 6px; padding-top: 6px; border-top: 1px dashed #1a2742;">
+                            <span>Utilidad Neta del Trabajo:</span>
+                            <strong id="dash_ganancia" style="color: var(--accent-cyan);">$ 0</strong>
                         </div>
                     </div>
 
-                    <button class="btn-action" onclick="copyWhatsApp()">📱 COPIAR PARA WHATSAPP</button>
-                    <button class="btn-action" onclick="window.print()" style="background: var(--accent-color); color: #000; font-weight: 800;">📝 GUARDAR PRESUPUESTO PDF</button>
+                    <button class="btn-action btn-whatsapp" onclick="copyWhatsApp()">
+                        💬 Copiar Presupuesto WhatsApp
+                    </button>
+                    <button class="btn-action btn-pdf" onclick="window.print()">
+                        📄 Imprimir / Guardar en PDF
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- DOCUMENTO DE IMPRESIÓN (PDF) -->
+    <!-- DOCUMENTO FORMAL PARA IMPRESIÓN (PDF) -->
     <div id="doc_print_wrapper">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 20px;">
             <div>
-                <h2 style="margin: 0; font-size: 22px;">EL CÓNDOR CLIMATIZACIÓN Y SEGURIDAD</h2>
-                <p style="margin: 3px 0 0 0; font-size: 11px; color: #555;">Email: elcondorclimatizacion@gmail.com | Tel: 1126139527</p>
+                <h1 style="margin: 0; font-size: 24px; color: #0284c7; text-transform: uppercase; font-weight: 800;">EL CÓNDOR CLIMATIZACIÓN</h1>
+                <p style="margin: 3px 0 0 0; font-size: 11px; color: #444; font-weight: 600;">Ingeniería Térmica • Instalación Certificada • Reparación & Mantenimiento</p>
+                <p style="margin: 2px 0 0 0; font-size: 11px; color: #555;">Cel / WhatsApp: 11 2613-9527 | Email: elcondorclimatizacion@gmail.com</p>
             </div>
             <div style="text-align: right;">
-                <h3 style="margin: 0; font-size: 16px; color: #0ea5e9;">PRESUPUESTO CLIMATIZACIÓN</h3>
-                <p style="margin: 3px 0 0 0; font-size: 11px;">Fecha: <span id="pdf_fecha"></span></p>
+                <div style="background: #0284c7; color: #fff; padding: 4px 12px; font-weight: bold; font-size: 12px; border-radius: 4px; display: inline-block;">
+                    PRESUPUESTO FORMAL
+                </div>
+                <p style="margin: 6px 0 0 0; font-size: 11px; font-weight: 600;">Fecha: <span id="pdf_fecha"></span></p>
             </div>
         </div>
 
-        <div style="background-color: #f8fafc; padding: 10px; border-radius: 4px; margin-bottom: 20px; font-size: 12px; line-height: 1.5; border: 1px solid #e2e8f0;">
-            <strong>Cliente:</strong> <span id="pdf_cliente"></span><br>
-            <strong>Ubicación:</strong> <span id="pdf_ubicacion"></span><br>
-            <strong>Detalle:</strong> Presupuesto formal de climatización y mano de obra especializada en aire acondicionado.
-        </div>
-
-        <div style="margin-top: 15px; margin-bottom: 20px; border-bottom: 1px dashed #ccc; padding-bottom: 15px;">
-            <h4 style="margin: 0 0 12px 0; font-size: 13px; text-transform: uppercase; color: #0ea5e9; border-bottom: 1px solid #0ea5e9; padding-bottom: 4px; font-family: Arial, sans-serif;">Detalle Técnico de los Trabajos (Mano de Obra)</h4>
-            <div id="pdf_items_body" style="font-size: 12px; line-height: 1.6; color: #222; font-family: Arial, sans-serif;">
-                <!-- Se inyecta dinámicamente -->
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px; margin-bottom: 20px; font-size: 12px; line-height: 1.6;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div><strong>Cliente:</strong> <span id="pdf_cliente"></span></div>
+                <div><strong>Contacto:</strong> <span id="pdf_telefono"></span></div>
+                <div><strong>Ubicación de Obra:</strong> <span id="pdf_ubicacion"></span></div>
+                <div><strong>Validez del Presupuesto:</strong> 15 días corridos</div>
             </div>
         </div>
 
-        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 15px; font-family: Arial, sans-serif;">
-            <div style="text-align: right; margin-bottom: 15px;">
-                <div style="font-size: 18px; font-weight: bold;">TOTAL SERVICIO: <span id="pdf_total">$ 0</span></div>
+        <div style="margin-bottom: 25px;">
+            <h3 style="font-size: 13px; text-transform: uppercase; color: #0284c7; border-bottom: 1px solid #0284c7; padding-bottom: 4px; margin-bottom: 12px;">
+                Detalle Técnico Especializado de los Trabajos
+            </h3>
+            <div id="pdf_items_body" style="font-size: 12px; line-height: 1.7; color: #222;">
+                <!-- Dinámico -->
             </div>
-            <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #333; border-top: 1px dashed #ccc; padding-top: 10px;">
-                <div><strong>Garantía:</strong> 1 año de garantía escrita en instalación.</div>
-                <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
-                <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 2px solid #000; padding-top: 15px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="font-size: 11px; color: #555;">
+                    * Condiciones: 60% al inicio de los trabajos y 40% contra entrega conforme y prueba de funcionamiento.
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 12px; color: #666; text-transform: uppercase;">Total Presupuestado:</div>
+                    <div style="font-size: 22px; font-weight: 800; color: #000;" id="pdf_total">$ 0</div>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #ccc; padding-top: 15px; font-size: 10px; color: #555;">
+                <div>
+                    <strong>Garantía Escrita:</strong> 12 meses en mano de obra e instalación bajo norma de fabricante.
+                </div>
+                <div>
+                    <strong>El Cóndor Climatización</strong> • Instalaciones y Servicios Especializados
+                </div>
             </div>
         </div>
     </div>
 
+    <div id="toast"></div>
+
     <script>
-        // Precios base oficiales (Electroinstalador / Cámara Climatización 2026)
+        // LISTA DE PRECIOS BASE VALORES DE REFERENCIA 2026 (VALOR MÁXIMO RECOMENDADO)
         const PRECIOS_BASE = {
-            ac_inst_split_2250: 90000,
-            ac_inst_split_3000: 105000,
-            ac_inst_split_4500: 125000,
-            ac_inst_split_6000: 160000,
-            ac_inst_split_9000: 230000,
-            ac_inst_pt_9000: 290000,
-            ac_inst_pt_15000: 390000,
-            ac_desinst_split_3000: 40000,
-            ac_desinst_split_6000: 55000,
-            ac_desinst_split_9000: 80000,
+            // Split (Mano de obra máxima)
+            ac_inst_split_2250: 200000,
+            ac_inst_split_3000: 240000,
+            ac_inst_split_6000: 260000,
+            ac_inst_split_9000: 280000,
+
+            // Industrial / Comercial
+            ac_inst_pt_9000: 300000,
+            ac_inst_pt_15000: 400000,
+            ac_inst_chillers: 500000,
+
+            // Materiales (Kits 3 metros e Insumos Top de Mercado)
+            mat_kit_3000: 135000,
+            mat_kit_4500: 165000,
+            mat_kit_6000: 195000,
+            mat_cablecanal_tira: 35000,
+            mat_cablecanal_curva: 9000,
+            mat_cablecanal_entrada: 9000,
+
+            // Service & Reparaciones
+            ac_srv_limpieza_sin: 140000,
+            ac_srv_limpieza_con: 200000,
+            ac_srv_fuga_gas: 200000,
+            ac_srv_placa_uni: 150000,
+            ac_srv_valvula: 290000,
+            ac_srv_capacitor: 150000,
+            ac_srv_compresor: 300000,
             ac_srv_diagnos: 50000,
-            ac_srv_limpieza: 65000,
-            ac_srv_carga_gas: 45000,
-            ac_srv_presuriz: 75000,
-            ac_srv_soldadura: 30000,
-            ac_srv_placa_uni: 60000,
-            ac_srv_compresor: 120000,
-            ac_srv_capacitor: 25000,
-            ac_srv_forzador: 45000,
-            ac_ad_cano_m: 20000,
-            ac_ad_pase_horm: 45000,
-            ac_ad_pase_mamp: 15000,
-            ac_ad_canaleta_m: 18000,
-            ac_ad_mensula: 25000
+
+            // Desinstalaciones
+            ac_desinst_split_6000: 160000,
+            ac_desinst_split_9000: 200000,
+
+            // Adicionales de Obra
+            ac_ad_cano_m: 35000,
+            ac_ad_pase_horm: 65000,
+            ac_ad_pase_mamp: 25000,
+            ac_ad_canaleta_m: 30000,
+            ac_ad_mensula: 40000,
+            ac_ad_electrica: 95000
         };
 
         window.onload = function () {
             const today = new Date();
             document.getElementById('presp_fecha').value = today.toLocaleDateString('es-AR');
             adjustMarketMultiplier();
+            calculateThermalLoad();
         };
 
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 3000);
+        }
+
         function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(btn => {
-                return btn.onclick.toString().includes(tabId);
-            });
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            const activeBtn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.onclick.toString().includes(tabId));
             if (activeBtn) activeBtn.classList.add('active');
 
-            document.querySelectorAll('.tab-content').forEach(content => {
-                content.classList.remove('active');
-            });
-            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            const target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
         }
 
         function adjustMarketMultiplier() {
-            const multiplier = parseFloat(document.getElementById('cfg_tipo_cliente').value);
+            const multiplier = parseFloat(document.getElementById('cfg_tipo_cliente').value) || 1.0;
             for (const key in PRECIOS_BASE) {
                 const prcInput = document.getElementById(`${key}_prc`);
                 if (prcInput) {
@@ -845,12 +1607,17 @@
         function toggleCalculationMode() {
             const mode = document.getElementById('cfg_metodo_mo').value;
             const groupJornadas = document.getElementById('group_mo_jornadas');
-            
-            if (mode === 'jornadas') {
-                groupJornadas.style.display = 'block';
-            } else {
-                groupJornadas.style.display = 'none';
-            }
+            groupJornadas.style.display = (mode === 'jornadas') ? 'block' : 'none';
+            calc();
+        }
+
+        function setViaticos(val) {
+            document.getElementById('cfg_viaticos').value = val;
+            calc();
+        }
+
+        function setMargen(val) {
+            document.getElementById('cfg_margen').value = val;
             calc();
         }
 
@@ -858,8 +1625,134 @@
             return new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(n);
         }
 
+        // --- CÁLCULO DE BALANCE TÉRMICO ---
+        let currentRecommendedEquipKey = "ac_inst_split_3000";
+
+        function calculateThermalLoad() {
+            const largo = parseFloat(document.getElementById('th_largo').value) || 0;
+            const ancho = parseFloat(document.getElementById('th_ancho').value) || 0;
+            const alto = parseFloat(document.getElementById('th_alto').value) || 0;
+            const coefAmbiente = parseFloat(document.getElementById('th_tipo_ambiente').value) || 50;
+
+            const sup = largo * ancho;
+            const vol = sup * alto;
+
+            const factorAsoleamiento = parseFloat(document.getElementById('th_asoleamiento').value) || 0;
+            const factorTecho = parseFloat(document.getElementById('th_techo').value) || 0;
+            const cargaVidrios = parseFloat(document.getElementById('th_vidrios').value) || 0;
+            const cargaPersonas = parseFloat(document.getElementById('th_personas').value) || 0;
+            const cargaEquipos = parseFloat(document.getElementById('th_equipos').value) || 0;
+
+            // Frigorías base por volumen
+            let frigBase = vol * coefAmbiente;
+            // Multiplicador de radiación
+            let frigAjustada = frigBase * (1 + factorAsoleamiento + factorTecho);
+            // Suma de cargas internas directas
+            let frigoriasTotales = Math.round(frigAjustada + cargaVidrios + cargaPersonas + cargaEquipos);
+
+            const btuTotales = Math.round(frigoriasTotales * 3.968);
+            const wattsTermicos = (frigoriasTotales * 1.163 / 1000).toFixed(2);
+
+            document.getElementById('th_res_volumen').innerText = `${vol.toFixed(1)} m³`;
+            document.getElementById('th_res_superficie').innerText = `${sup.toFixed(1)} m² de superficie`;
+            document.getElementById('th_res_frigorias').innerText = `${frigoriasTotales.toLocaleString('es-AR')} fg`;
+            document.getElementById('th_res_btu').innerText = `${btuTotales.toLocaleString('es-AR')} BTU`;
+            document.getElementById('th_res_watts').innerText = `≈ ${wattsTermicos} kW térmicos`;
+
+            // Determinación de equipo comercial y eléctrica
+            let equipoNombre = "";
+            let equipoKey = "";
+            let amperaje = "";
+            let termica = "";
+            let cable = "";
+            let toma = "";
+
+            if (frigoriasTotales <= 2500) {
+                equipoNombre = "2.250 kcal/h";
+                equipoKey = "ac_inst_split_2250";
+                amperaje = "≈ 3.8 a 4.2 A";
+                termica = "1x10A o 1x16A Curva C (TUE)";
+                cable = "1.5 mm² o 2.5 mm² + PE";
+                toma = "Ficha macho 10A IRAM 2071";
+            } else if (frigoriasTotales <= 4800) {
+                equipoNombre = "3.000 a 4.500 kcal/h";
+                equipoKey = "ac_inst_split_3000";
+                amperaje = "≈ 4.8 a 7.5 A";
+                termica = "1x16A Curva C (TUE)";
+                cable = "2.5 mm² + PE (Norma AEA 770)";
+                toma = "Ficha macho 10A / 20A";
+            } else if (frigoriasTotales <= 6500) {
+                equipoNombre = "6.000 kcal/h";
+                equipoKey = "ac_inst_split_6000";
+                amperaje = "≈ 10.5 a 11.8 A";
+                termica = "1x20A Curva C (Dedicada)";
+                cable = "4.0 mm² + PE exclusivo";
+                toma = "Tomacorriente 20A reforzado";
+            } else if (frigoriasTotales <= 8500) {
+                equipoNombre = "7.000 a 8.000 kcal/h";
+                equipoKey = "ac_inst_split_9000";
+                amperaje = "≈ 14.0 a 16.0 A";
+                termica = "1x25A Curva C";
+                cable = "4.0 mm² o 6.0 mm² + PE";
+                toma = "Conexión fija con bornera y seccionador";
+            } else if (frigoriasTotales <= 11000) {
+                equipoNombre = "Piso Techo 9.000 kcal/h";
+                equipoKey = "ac_inst_pt_9000";
+                amperaje = "≈ 16.0 a 18.0 A";
+                termica = "1x25A o 1x32A Curva C";
+                cable = "6.0 mm² + PE directo a tablero";
+                toma = "Seccionador bajo carga / Tablero";
+            } else {
+                equipoNombre = "Piso Techo 15.000 a 18.000 kcal/h (380V)";
+                equipoKey = "ac_inst_pt_15000";
+                amperaje = "≈ 3x 12 A (Trifásico)";
+                termica = "3x20A o 4x20A Tetrapolar";
+                cable = "4x 2.5 mm² + 2.5 mm² PE";
+                toma = "Tablero seccional trifásico con contactor";
+            }
+
+            currentRecommendedEquipKey = equipoKey;
+            document.getElementById('th_res_equipo').innerText = equipoNombre;
+            document.getElementById('rec_banner_title').innerText = `Recomendación: Equipo de ${equipoNombre} (${btuTotales.toLocaleString('es-AR')} BTU)`;
+            document.getElementById('rec_banner_desc').innerText = `Cálculo para ${vol.toFixed(1)} m³ con factores reales de asoleamiento y aislación. Brinda confort óptimo y eficiencia energética prolongando la vida útil del equipo.`;
+
+            document.getElementById('spec_amperaje').innerText = amperaje;
+            document.getElementById('spec_termica').innerText = termica;
+            document.getElementById('spec_cable').innerText = cable;
+            document.getElementById('spec_toma').innerText = toma;
+        }
+
+        function transferToQuote() {
+            const qtyInput = document.getElementById(`${currentRecommendedEquipKey}_qty`);
+            if (qtyInput) {
+                qtyInput.value = 1;
+            }
+
+            // Sugerimos el kit de materiales profesional correspondiente según frigorías
+            if (frigoriasTotales <= 3500) {
+                const kInput = document.getElementById("mat_kit_3000_qty");
+                if (kInput && parseInt(kInput.value) === 0) kInput.value = 1;
+            } else if (frigoriasTotales <= 4800) {
+                const kInput = document.getElementById("mat_kit_4500_qty");
+                if (kInput && parseInt(kInput.value) === 0) kInput.value = 1;
+            } else if (frigoriasTotales <= 7000) {
+                const kInput = document.getElementById("mat_kit_6000_qty");
+                if (kInput && parseInt(kInput.value) === 0) kInput.value = 1;
+            }
+
+            calc();
+
+            showToast("✅ Equipo y kit profesional sugeridos cargados al presupuesto");
+
+            if (currentRecommendedEquipKey.includes("split")) {
+                switchTab('tab_split');
+            } else {
+                switchTab('tab_industrial');
+            }
+        }
+
+        // --- CÁLCULO DE PRESUPUESTO GENERAL ---
         let lastTotal = 0;
-        let lastSubtotal = 0;
         let selectedTasks = [];
 
         function calc() {
@@ -869,76 +1762,100 @@
             for (const key in PRECIOS_BASE) {
                 const qtyInput = document.getElementById(`${key}_qty`);
                 const prcInput = document.getElementById(`${key}_prc`);
-                
+
                 if (qtyInput && prcInput) {
                     const qty = parseInt(qtyInput.value) || 0;
                     const prc = parseFloat(prcInput.value) || 0;
-                    
+
                     if (qty > 0) {
                         const totalItem = qty * prc;
                         subtotal += totalItem;
 
-                        const labelCell = qtyInput.closest('tr').firstElementChild.innerText;
+                        const row = qtyInput.closest('tr');
+                        const labelCell = row ? row.firstElementChild.innerText.trim() : key;
                         selectedTasks.push({
+                            key: key,
                             label: labelCell,
                             qty: qty,
+                            unitPrice: prc,
                             total: totalItem
                         });
                     }
                 }
             }
 
-            lastSubtotal = subtotal;
-
             const mode = document.getElementById('cfg_metodo_mo').value;
             let moBase = subtotal;
 
             if (mode === 'jornadas') {
-                const tecnicos = parseInt(document.getElementById('cfg_mo_tecnicos').value) || 2;
-                const dias = parseFloat(document.getElementById('cfg_mo_dias').value) || 1;
-                moBase = tecnicos * dias * 250000;
+                const tecnicosVal = parseInt(document.getElementById('cfg_mo_tecnicos').value) || 2;
+                const diasVal = parseFloat(document.getElementById('cfg_mo_dias').value) || 1;
+                let tarifaDia = (tecnicosVal === 1) ? 240000 : ((tecnicosVal === 2) ? 420000 : 580000);
+                moBase = diasVal * tarifaDia;
             }
 
+            // Trabajo en Altura (según categoría CCTV)
             const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
-            const moFinal = moBase * multAltura;
+            const moConAltura = moBase * multAltura;
+            const recargoAlturaMonto = moConAltura - moBase;
 
+            // Viáticos y Margen de Ganancia
             const viaticosPct = (parseFloat(document.getElementById('cfg_viaticos').value) || 0) / 100;
             const margenPct = (parseFloat(document.getElementById('cfg_margen').value) || 0) / 100;
 
-            const viaticos = moFinal * viaticosPct;
-            const margen = (moFinal + viaticos) * margenPct;
-            const total = moFinal + viaticos + margen;
-            
-            const ganancia = moFinal + margen; 
+            const viaticos = moConAltura * viaticosPct;
+            const margen = (moConAltura + viaticos) * margenPct;
+            const total = Math.round(moConAltura + viaticos + margen);
+
+            // Utilidad neta interna estimada
+            const gananciaNeta = Math.round(margen + (mode === 'jornadas' ? moBase * 0.4 : moBase * 0.35));
 
             document.getElementById('lbl_subtotal').innerText = fmt(subtotal);
             document.getElementById('res_final').innerText = fmt(total);
-            
+
+            // Desglose visible en el Sidebar
+            document.getElementById('side_mo_base').innerText = fmt(moBase);
+            document.getElementById('side_altura').innerText = (recargoAlturaMonto > 0) ? `+${fmt(recargoAlturaMonto)}` : "$ 0";
+            document.getElementById('side_viaticos').innerText = `+${fmt(viaticos)}`;
+            document.getElementById('side_viaticos_pct').innerText = `${Math.round(viaticosPct * 100)}%`;
+            document.getElementById('side_margen').innerText = `+${fmt(margen)}`;
+            document.getElementById('side_margen_pct').innerText = `${Math.round(margenPct * 100)}%`;
+
+            // Etiquetas de valores en inputs
+            document.getElementById('lbl_viaticos_val').innerText = `${Math.round(viaticosPct * 100)}%`;
+            document.getElementById('lbl_margen_val').innerText = `${Math.round(margenPct * 100)}%`;
+
+            // Dashboard interno privado
+            const clienteSelect = document.getElementById('cfg_tipo_cliente');
+            const clienteText = clienteSelect.options[clienteSelect.selectedIndex].text.split('(')[0].trim();
+            document.getElementById('dash_cliente').innerText = clienteText;
+
             const pctAltura = Math.round((multAltura - 1) * 100);
             document.getElementById('dash_altura').innerText = `x${multAltura.toFixed(2)} (+${pctAltura}%)`;
             document.getElementById('dash_viaticos').innerText = fmt(viaticos);
             document.getElementById('dash_margen').innerText = fmt(margen);
-            document.getElementById('dash_ganancia').innerText = fmt(ganancia);
+            document.getElementById('dash_ganancia').innerText = fmt(gananciaNeta);
 
             lastTotal = total;
 
-            document.getElementById('pdf_fecha').innerText = document.getElementById('presp_fecha').value;
-            document.getElementById('pdf_cliente').innerText = document.getElementById('presp_cliente').value || "A definir";
-            document.getElementById('pdf_ubicacion').innerText = document.getElementById('presp_ubicacion').value || "A definir";
-            
+            // Actualizar vista de impresión PDF
+            document.getElementById('pdf_fecha').innerText = document.getElementById('presp_fecha').value || new Date().toLocaleDateString('es-AR');
+            document.getElementById('pdf_cliente').innerText = document.getElementById('presp_cliente').value || "Cliente Particular";
+            document.getElementById('pdf_ubicacion').innerText = document.getElementById('presp_ubicacion').value || "A confirmar en obra";
+            document.getElementById('pdf_telefono').innerText = document.getElementById('presp_telefono').value || "No especificado";
+
             const pdfBody = document.getElementById('pdf_items_body');
             pdfBody.innerHTML = "";
-            
-            const descripcionesTecnicas = generarDescripcionTecnica();
-            
-            if (descripcionesTecnicas.length === 0) {
-                pdfBody.innerHTML = `<p style="text-align: center; color: #666; padding: 15px; font-style: italic;">No se seleccionaron tareas aún.</p>`;
+
+            const descripciones = generarDescripcionTecnica();
+            if (descripciones.length === 0) {
+                pdfBody.innerHTML = `<p style="text-align: center; color: #888; padding: 20px; font-style: italic;">No se han seleccionado tareas ni equipos para cotizar aún.</p>`;
             } else {
-                descripcionesTecnicas.forEach(desc => {
+                descripciones.forEach(desc => {
                     const p = document.createElement('p');
-                    p.style.marginBottom = "12px";
+                    p.style.marginBottom = "10px";
                     p.style.paddingLeft = "10px";
-                    p.style.borderLeft = "2px solid #0ea5e9";
+                    p.style.borderLeft = "3px solid #0284c7";
                     p.innerHTML = desc.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
                     pdfBody.appendChild(p);
                 });
@@ -950,173 +1867,140 @@
         function generarDescripcionTecnica() {
             let descriptions = [];
 
+            // Adicional trabajo en altura (Igual a CCTV)
             const multAltura = parseFloat(document.getElementById('cfg_nivel_altura').value) || 1.0;
             if (multAltura > 1.0) {
                 const selectEl = document.getElementById('cfg_nivel_altura');
                 const optText = selectEl.options[selectEl.selectedIndex].text;
-                descriptions.push(`**Servicio y Maniobra de Trabajo en Altura (${optText}):** Incluye el despliegue de arneses de seguridad, andamios/escaleras de elevación y cumplimiento estricto de normativas de trabajo seguro en altura.`);
+                descriptions.push(`**Servicio y Maniobra de Trabajo en Altura (${optText}):** Incluye el despliegue de arneses de seguridad certificados, andamios/escaleras de elevación y cumplimiento estricto de normativas de trabajo seguro.`);
             }
 
             // 1. Splits
             const spl_2250 = parseInt(document.getElementById('ac_inst_split_2250_qty').value) || 0;
             const spl_3000 = parseInt(document.getElementById('ac_inst_split_3000_qty').value) || 0;
-            const spl_4500 = parseInt(document.getElementById('ac_inst_split_4500_qty').value) || 0;
             const spl_6000 = parseInt(document.getElementById('ac_inst_split_6000_qty').value) || 0;
             const spl_9000 = parseInt(document.getElementById('ac_inst_split_9000_qty').value) || 0;
 
-            if (spl_2250 > 0) {
-                descriptions.push(`**Instalación técnica de ${spl_2250} equipo(s) Split de 2250 Frigorías (Hasta 2600W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
-            }
-            if (spl_3000 > 0) {
-                descriptions.push(`**Instalación técnica de ${spl_3000} equipo(s) Split de 3000 Frigorías (Hasta 3500W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
-            }
-            if (spl_4500 > 0) {
-                descriptions.push(`**Instalación técnica de ${spl_4500} equipo(s) Split de 4500 Frigorías (Hasta 5200W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
-            }
-            if (spl_6000 > 0) {
-                descriptions.push(`**Instalación técnica de ${spl_6000} equipo(s) Split de 6000 Frigorías (Hasta 7000W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
-            }
-            if (spl_9000 > 0) {
-                descriptions.push(`**Instalación técnica de ${spl_9000} equipo(s) Split de 9000 Frigorías (Hasta 10500W)**, incluyendo la fijación de la placa interior, perforación de mampostería, colocación de unidad exterior sobre ménsulas/piso, conexionado de líneas de cobre, vacío del circuito con bomba y control de presiones de arranque.`);
-            }
+            if (spl_2250 > 0) descriptions.push(`**Instalación técnica de ${spl_2250} equipo(s) de 2.250 kcal/h**: fijación de placa interior a nivel, perforación pasamuro, fijación exterior con fijaciones de seguridad, abocardado de tuberías, prueba de vacío profundo con vacuómetro digital y control de presiones.`);
+            if (spl_3000 > 0) descriptions.push(`**Instalación técnica de ${spl_3000} equipo(s) de 3.000 a 4.500 kcal/h**: colocación de evaporadora y condensadora, interconexión de cañerías, vacío con bomba de 2 etapas y verificación de salto térmico.`);
+            if (spl_6000 > 0) descriptions.push(`**Instalación técnica de ${spl_6000} equipo(s) de 6.000 kcal/h**: montaje y anclaje de unidad condensadora pesada, tendido y curvado de tuberías de 3/8" y 5/8", vacío prolongado y verificación de parámetros de consumo.`);
+            if (spl_9000 > 0) descriptions.push(`**Instalación técnica de ${spl_9000} equipo(s) de 7.000 a 8.000 kcal/h (Hasta 9.000 fg)**: montaje de gran capacidad, fijación reforzada, interconexión de gran porte y prueba de rendimiento.`);
 
             // 2. Industrial
             const pt_9000 = parseInt(document.getElementById('ac_inst_pt_9000_qty').value) || 0;
             const pt_15000 = parseInt(document.getElementById('ac_inst_pt_15000_qty').value) || 0;
+            const chillers = parseInt(document.getElementById('ac_inst_chillers_qty').value) || 0;
 
-            if (pt_9000 > 0) {
-                descriptions.push(`**Instalación comercial/industrial de ${pt_9000} equipo(s) Piso Techo / Cassette de 9000 Frigorías (10000 kcal/h)**, incluyendo el anclaje estructural suspendido en losa de la unidad evaporadora, montaje de unidad exterior, interconexión de tubería de cobre comercial, aislamiento térmico anticondensante, vacío del circuito y habilitación de refrigerante.`);
-            }
-            if (pt_15000 > 0) {
-                descriptions.push(`**Instalación comercial/industrial de ${pt_15000} equipo(s) Piso Techo / Cassette de 15000 Frigorías (Trifásico)**, incluyendo el anclaje estructural suspendido en losa de la unidad evaporadora, montaje de unidad exterior de alta capacidad, conexionado de energía trifásica y protección en tablero seccional, vacío de circuito comercial y habilitación.`);
-            }
+            if (pt_9000 > 0) descriptions.push(`**Montaje de ${pt_9000} equipo(s) Piso Techo de 9.000 kcal/h**: anclaje estructural suspendido en losa de hormigón con varillas roscadas, aislamiento anticondensación, presurización y habilitación.`);
+            if (pt_15000 > 0) descriptions.push(`**Montaje de ${pt_15000} equipo(s) Piso Techo de 15.000 a 18.000 kcal/h (Trifásico)**: sujeción estructural pesada, conexionado trifásico 380V en tablero seccional con protección térmica y habilitación con balanza digital.`);
+            if (chillers > 0) descriptions.push(`**Instalación y puesta en marcha de ${chillers} sistema(s) Central Chillers / VRF**: conexionado frigorífico industrial, prueba de estanqueidad y comisionamiento.`);
 
-            // 3. Service
-            const srv_diag = parseInt(document.getElementById('ac_srv_diagnos_qty').value) || 0;
-            const srv_limp = parseInt(document.getElementById('ac_srv_limpieza_qty').value) || 0;
-            const srv_gas = parseInt(document.getElementById('ac_srv_carga_gas_qty').value) || 0;
-            const srv_pres = parseInt(document.getElementById('ac_srv_presuriz_qty').value) || 0;
-            const srv_sold = parseInt(document.getElementById('ac_srv_soldadura_qty').value) || 0;
-            const srv_plac = parseInt(document.getElementById('ac_srv_placa_uni_qty').value) || 0;
-            const srv_comp = parseInt(document.getElementById('ac_srv_compresor_qty').value) || 0;
-            const srv_cap = parseInt(document.getElementById('ac_srv_capacitor_qty').value) || 0;
-            const srv_forz = parseInt(document.getElementById('ac_srv_forzador_qty').value) || 0;
+            // 3. Materiales (100% Primera Marca y Seguridad Ciudadana)
+            const k3 = parseInt(document.getElementById('mat_kit_3000_qty').value) || 0;
+            const k4 = parseInt(document.getElementById('mat_kit_4500_qty').value) || 0;
+            const k6 = parseInt(document.getElementById('mat_kit_6000_qty').value) || 0;
+            const cc_tira = parseInt(document.getElementById('mat_cablecanal_tira_qty').value) || 0;
+            const cc_curva = parseInt(document.getElementById('mat_cablecanal_curva_qty').value) || 0;
+            const cc_entrada = parseInt(document.getElementById('mat_cablecanal_entrada_qty').value) || 0;
 
-            if (srv_diag > 0) {
-                descriptions.push(`**Visita de diagnóstico técnico especializado** para mediciones eléctricas de consumo, control de presiones de gas refrigerante, inspección ocular de fugas y verificación de plaquetas lógicas.`);
-            }
-            if (srv_limp > 0) {
-                descriptions.push(`**Mantenimiento preventivo e higiene profunda de ${srv_limp} equipo(s)**: incluye desarme parcial, aplicación de químicos biodegradables para desincrustar hongos y suciedad en serpentina evaporadora/condensadora y limpieza profunda de turbina.`);
-            }
-            if (srv_gas > 0) {
-                descriptions.push(`**Mano de obra para recarga de gas refrigerante (R410a / R22) en ${srv_gas} equipo(s)**, nivelando presiones de trabajo hasta llegar a valores nominales ideales según temperatura ambiente.`);
-            }
-            if (srv_pres > 0) {
-                descriptions.push(`**Prueba de estanqueidad y presurización del sistema con Nitrógeno de alta presión en ${srv_pres} equipo(s)**, con el objetivo de forzar y localizar microfugas difíciles de detectar.`);
-            }
-            if (srv_sold > 0) {
-                descriptions.push(`**Reparación física y soldadura fuerte de caños de cobre / pestañas de acople tipo Flare en ${srv_sold} punto(s)**, eliminando pérdidas de gas refrigerante.`);
-            }
-            if (srv_plac > 0) {
-                descriptions.push(`**Reemplazo y adaptación de placa lógica electrónica quemada por plaqueta universal inteligente en ${srv_plac} equipo(s)**, incluyendo cableado de sensores de pozo/ambiente y receptor de control remoto.`);
-            }
-            if (srv_comp > 0) {
-                descriptions.push(`**Cambio de motor compresor dañado en ${srv_comp} equipo(s)**, realizando desoldado, limpieza del circuito con agente R141b para eliminar acidez, soldadura de nuevo motor, vacío profundo y recarga total de refrigerante.`);
-            }
-            if (srv_cap > 0) {
-                descriptions.push(`**Reemplazo de ${srv_cap} capacitor(es) de arranque** defectuosos para motores/compresores, normalizando los picos de arranque del equipo.`);
-            }
-            if (srv_forz > 0) {
-                descriptions.push(`**Reemplazo de ${srv_forz} motor(es) forzador(es) de ventilador**, devolviendo el correcto flujo de aire al equipo.`);
-            }
+            if (k3 > 0) descriptions.push(`**Provisión de ${k3} Kit(s) Profesional Certificado 3m (2.250 a 3.500 Frg)**: Cañería de cobre de primera marca ELUMA / HALCOR 0.8mm (norma ASTM B280), aislación elastomérica ARMACELL celular cerrada, juego de ménsulas epoxi 42cm D-CONTROL, cable tipo taller PRYSMIAN 5x1.5mm² IRAM 100% cobre virgen, cinta TACSA UV, tacos antivibratorios AMORTIGOMAS y anclajes FISCHER SX10.`);
+            if (k4 > 0) descriptions.push(`**Provisión de ${k4} Kit(s) Profesional Certificado 3m (4.500 Frg - Seguridad Reforzada)**: Cañerías de cobre pesado ELUMA / HALCOR 0.8mm de pared (1/4" y 1/2" apto alta presión 650 PSI R410A/R32), aislación térmica elastomérica ARMACELL ignífuga, juego de ménsulas REFORZADAS D-CONTROL de 50cm con pintura epoxi horneada, tacos antivibratorios AMORTIGOMAS, cable tipo taller PRYSMIAN 5x2.5mm² 100% cobre virgen IRAM, cinta de protección TACSA 120µ UV y anclajes estructurales de nylon virgen FISCHER SX10 con tirafondos de 1/4" (Seguridad estructural garantizada).`);
+            if (k6 > 0) descriptions.push(`**Provisión de ${k6} Kit(s) Profesional Certificado 3m (6.000 Frg - Extra Pesado)**: Cañerías de cobre ELUMA / HALCOR 0.8mm (3/8" y 5/8"), aislación ARMACELL alta densidad, ménsulas industriales pesadas de 55cm para unidad exterior pesada, cable taller PRYSMIAN 5x2.5mm², tacos caucho virgen AMORTIGOMAS, cinta TACSA UV y anclajes estructurales pesados FISCHER SX12.`);
+            if (cc_tira > 0) descriptions.push(`**Provisión e instalación de ${cc_tira} tira(s) de Cablecanal decorativo ZOLODA / CANAPLAST (2m)** en PVC rígido blanco de alto impacto con filtro UV.`);
+            if (cc_curva > 0) descriptions.push(`**Provisión e instalación de ${cc_curva} curva(s) plana(s) 90° con traba a presión para Cablecanal**.`);
+            if (cc_entrada > 0) descriptions.push(`**Provisión e instalación de ${cc_entrada} accesorio(s) de entrada pasamuro hermética para Cablecanal**.`);
 
-            // 4. Desinstalaciones
-            const des_3000 = parseInt(document.getElementById('ac_desinst_split_3000_qty').value) || 0;
-            const des_6000 = parseInt(document.getElementById('ac_desinst_split_6000_qty').value) || 0;
-            const des_9000 = parseInt(document.getElementById('ac_desinst_split_9000_qty').value) || 0;
+            // 4. Service Oficial
+            const limp_sin = parseInt(document.getElementById('ac_srv_limpieza_sin_qty').value) || 0;
+            const limp_con = parseInt(document.getElementById('ac_srv_limpieza_con_qty').value) || 0;
+            const fuga_gas = parseInt(document.getElementById('ac_srv_fuga_gas_qty').value) || 0;
+            const plac = parseInt(document.getElementById('ac_srv_placa_uni_qty').value) || 0;
+            const valv = parseInt(document.getElementById('ac_srv_valvula_qty').value) || 0;
+            const cap = parseInt(document.getElementById('ac_srv_capacitor_qty').value) || 0;
+            const comp = parseInt(document.getElementById('ac_srv_compresor_qty').value) || 0;
+            const diag = parseInt(document.getElementById('ac_srv_diagnos_qty').value) || 0;
 
-            if (des_3000 > 0) {
-                descriptions.push(`**Desinstalación técnica de ${des_3000} Split de hasta 3000 Frigorías**, encendiendo el equipo para recuperar y envasar el gas refrigerante en la unidad exterior, y procediendo al desmontaje ordenado de cañerías y cables.`);
-            }
-            if (des_6000 > 0) {
-                descriptions.push(`**Desinstalación técnica de ${des_6000} Split de 4500 a 6000 Frigorías**, encendiendo el equipo para recuperar y envasar el gas refrigerante en la unidad exterior, y procediendo al desmontaje ordenado de cañerías y cables.`);
-            }
-            if (des_9000 > 0) {
-                descriptions.push(`**Desinstalación técnica de ${des_9000} Split / Piso Techo de 9000 Frigorías**, con recuperación completa de gas refrigerante en condensadora y desmontaje de anclajes suspendidos.`);
-            }
+            if (limp_sin > 0) descriptions.push(`**Limpieza y mantenimiento sin desinstalación en ${limp_sin} equipo(s)**: desarme in situ con funda colectora, hidrolavado químico desincrustante de serpentina y turbina.`);
+            if (limp_con > 0) descriptions.push(`**Limpieza y mantenimiento con desinstalación en ${limp_con} equipo(s)**: desmontaje completo, limpieza integral química de evaporadora/condensadora y reinstalación con control de presiones.`);
+            if (fuga_gas > 0) descriptions.push(`**Detección de fuga y recarga total de gas en ${fuga_gas} equipo(s)**: presurización con nitrógeno para detección de pérdidas, reparación de acople y carga por peso.`);
+            if (plac > 0) descriptions.push(`**Sustitución de plaqueta universal en ${plac} equipo(s)**: adaptación de placa lógica electrónica, receptor y sensores de temperatura.`);
+            if (valv > 0) descriptions.push(`**Recambio de válvula inversora de 4 vías (bomba de calor) en ${valv} equipo(s)**: desoldado con nitrógeno, soldadura autógena y recarga.`);
+            if (cap > 0) descriptions.push(`**Recambio de ${cap} capacitor(es) de arranque/marcha** para normalizar el encendido del motocompresor.`);
+            if (comp > 0) descriptions.push(`**Recambio de motocompresor en ${comp} equipo(s)**: limpieza de circuito con R141b, soldadura, vacío profundo y habilitación.`);
+            if (diag > 0) descriptions.push(`**Visita de diagnóstico técnico especializado**: relevamiento de consumos eléctricos y presiones.`);
 
-            // 5. Adicionales
-            const ad_cano = parseInt(document.getElementById('ac_ad_cano_m_qty').value) || 0;
-            const ad_horm = parseInt(document.getElementById('ac_ad_pase_horm_qty').value) || 0;
-            const ad_mamp = parseInt(document.getElementById('ac_ad_pase_mamp_qty').value) || 0;
-            const ad_cana = parseInt(document.getElementById('ac_ad_canaleta_m_qty').value) || 0;
+            // 5. Desinstalaciones
+            const d6 = parseInt(document.getElementById('ac_desinst_split_6000_qty').value) || 0;
+            const d9 = parseInt(document.getElementById('ac_desinst_split_9000_qty').value) || 0;
+
+            if (d6 > 0) descriptions.push(`**Desinstalación técnica de ${d6} equipo(s) hasta 6.000 kcal/h**: recuperación y envasado hermético del gas refrigerante en unidad exterior.`);
+            if (d9 > 0) descriptions.push(`**Desinstalación de ${d9} equipo(s) Piso Techo / 9.000 a 18.000 kcal/h**: desanclaje suspendido y recuperación.`);
+
+            // 6. Adicionales
+            const ad_c = parseInt(document.getElementById('ac_ad_cano_m_qty').value) || 0;
+            const ad_h = parseInt(document.getElementById('ac_ad_pase_horm_qty').value) || 0;
+            const ad_m = parseInt(document.getElementById('ac_ad_pase_mamp_qty').value) || 0;
+            const ad_can = parseInt(document.getElementById('ac_ad_canaleta_m_qty').value) || 0;
             const ad_men = parseInt(document.getElementById('ac_ad_mensula_qty').value) || 0;
+            const ad_elec = parseInt(document.getElementById('ac_ad_electrica_qty').value) || 0;
 
-            if (ad_cano > 0) {
-                descriptions.push(`**Mano de obra para la colocación de ${ad_cano} metros excedentes de interconexión de cañería de cobre**, incluyendo aislamiento térmico individual (funda elastomérica) y cinta protectora exterior.`);
-            }
-            if (ad_horm > 0) {
-                descriptions.push(`**Realización de ${ad_horm} pase(s) especial(es) a través de losa, viga o muro de hormigón armado** mediante taladro percutor de alta potencia.`);
-            }
-            if (ad_mamp > 0) {
-                descriptions.push(`**Realización de ${ad_mamp} pase(s) en pared de mampostería estándar** (ladrillo común o hueco).`);
-            }
-            if (ad_cana > 0) {
-                descriptions.push(`**Calado e instalación de canaleta en mampostería de ${ad_cana} metros** para embutir y ocultar cañerías de climatización dentro de la pared.`);
-            }
-            if (ad_men > 0) {
-                descriptions.push(`**Instalación y fijación de ${ad_men} juego(s) de ménsulas reforzadas** con colocación de tacos antivibratorios para amortiguar el ruido del motor.`);
-            }
+            if (ad_c > 0) descriptions.push(`**Colocación de ${ad_c} metro(s) adicional(es) de cañería de cobre ELUMA 0.8mm** con fundas aislantes ARMACELL y cinta protectora TACSA.`);
+            if (ad_h > 0) descriptions.push(`**Ejecución de ${ad_h} pase(s) especial(es) en viga / losa de hormigón armado** con copa diamantada.`);
+            if (ad_m > 0) descriptions.push(`**Ejecución de ${ad_m} pase(s) en mampostería de ladrillo**.`);
+            if (ad_can > 0) descriptions.push(`**Calado y canaleteado en mampostería de ${ad_can} metro(s)** para embutir cañerías.`);
+            if (ad_men > 0) descriptions.push(`**Fijación de ${ad_men} juego(s) de ménsulas reforzadas D-CONTROL con tacos AMORTIGOMAS y anclajes FISCHER**.`);
+            if (ad_elec > 0) descriptions.push(`**Instalación de ${ad_elec} circuito(s) eléctrico(s) dedicado(s) TUE**: térmica bipolar, cable PRYSMIAN 2.5mm² y toma de 20A según norma AEA 770.`);
 
             return descriptions;
         }
 
         function copyWhatsApp() {
-            const cliente = document.getElementById('presp_cliente').value || "A definir";
-            const ubicacion = document.getElementById('presp_ubicacion').value || "A definir";
-            const fecha = document.getElementById('presp_fecha').value;
-            
-            let text = `❄️ *PRESUPUESTO DE CLIMATIZACIÓN - EL CÓNDOR*\n`;
-            text += `?? *Cliente:* ${cliente}\n`;
-            text += `📍 *Ubicación:* ${ubicacion}\n`;
-            text += `📅 *Fecha:* ${fecha}\n`;
-            text += `===============================\n\n`;
-            text += `*DETALLE DE MANO DE OBRA ESPECIALIZADA:*\n\n`;
+            const cliente = document.getElementById('presp_cliente').value || "Cliente";
+            const ubicacion = document.getElementById('presp_ubicacion').value || "A confirmar";
+            const fecha = document.getElementById('presp_fecha').value || new Date().toLocaleDateString('es-AR');
 
             const descripciones = generarDescripcionTecnica();
-
             if (descripciones.length === 0) {
-                alert("Por favor cargue al menos una tarea para generar el presupuesto.");
+                alert("Por favor seleccione al menos una tarea o equipo para generar el presupuesto.");
                 return;
             }
 
-            descripciones.forEach(desc => {
-                text += `• ${desc}\n\n`;
+            let text = `❄️ *PRESUPUESTO - EL CÓNDOR CLIMATIZACIÓN*\n`;
+            text += `👤 *Cliente:* ${cliente}\n`;
+            text += `📍 *Ubicación:* ${ubicacion}\n`;
+            text += `📅 *Fecha:* ${fecha}\n`;
+            text += `=================================\n\n`;
+            text += `*DETALLE DE TRABAJOS Y SERVICIOS:*\n\n`;
+
+            descripciones.forEach(d => {
+                text += `• ${d}\n\n`;
             });
 
-            text += `===============================\n`;
-            text += `💰 *TOTAL SERVICIO (M.O. Neto):* ${fmt(lastTotal)}\n\n`;
-            text += `📝 *Condiciones:* Pago 60% anticipado para iniciar obra, 40% al finalizar los trabajos.\n`;
-            text += `🔧 *Equipamiento:* El cliente provee los insumos y materiales correspondientes.\n`;
-            text += `_El Cóndor Climatización y Seguridad_`;
+            text += `=================================\n`;
+            text += `💰 *TOTAL PRESUPUESTADO:* ${fmt(lastTotal)}\n\n`;
+            text += `🛡️ *Compromiso y Seguridad El Cóndor:* 100% Insumos Certificados de Primera Marca (Cobre ELUMA/HALCOR 0.8mm ASTM B280, Aislación ARMACELL Ignífuga, Anclajes de Seguridad FISCHER, Ménsulas Epoxi Reforzadas 50cm y Cable PRYSMIAN IRAM). Cero genéricos finos ni riesgos de caídas hacia la vía pública.\n`;
+            text += `🛡️ *Garantía:* 12 meses escrita en mano de obra.\n`;
+            text += `📝 *Condiciones:* 60% anticipo al iniciar obra / 40% al finalizar contra prueba de marcha.\n`;
+            text += `_El Cóndor Climatización y Seguridad Integral_\n`;
+            text += `📞 11 2613-9527`;
 
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(text);
-                alert("¡Presupuesto copiado al portapapeles en formato WhatsApp!");
+                showToast("✅ ¡Presupuesto copiado para WhatsApp!");
             } else {
-                let textArea = document.createElement("textarea");
-                textArea.value = text;
-                textArea.style.position = "fixed";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
+                let ta = document.createElement("textarea");
+                ta.value = text;
+                ta.style.position = "fixed";
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
                 try {
                     document.execCommand('copy');
-                    alert("¡Presupuesto copiado al portapapeles en formato WhatsApp!");
-                } catch (err) {
-                    alert("No se pudo copiar automáticamente. Copie el texto de la pantalla.");
+                    showToast("✅ ¡Presupuesto copiado para WhatsApp!");
+                } catch (e) {
+                    alert("No se pudo copiar automáticamente. Por favor copie el texto en pantalla.");
                 }
-                document.body.removeChild(textArea);
+                document.body.removeChild(ta);
             }
         }
     </script>

@@ -865,15 +865,165 @@
             </div>
         </div>
 
-        <!-- MÓDULO 4: DIAGRAMA UNIFILAR Y ESQUEMA DE CONEXIÓN -->
+        <!-- MÓDULO 4: PUESTO DE RECARGA MODO 2 CON TOMA INDUSTRIAL REFORZADO (SIN WALLBOX) -->
         <div class="section-header">
             <div class="sec-num">04</div>
-            <div class="sec-title">ESQUEMA UNIFILAR NORMATIVO (AEA 90364-7-722)</div>
+            <div class="sec-title">PUESTO DE RECARGA MODO 2 CON TOMA INDUSTRIAL (ALTERNATIVA SIN WALLBOX)</div>
+        </div>
+
+        <div class="callout-box" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.08);">
+            <h3 style="color: #f59e0b;">⚠️ Advertencia de Seguridad: Prohibición de Tomacorrientes Domiciliarios de 10A</h3>
+            <p>
+                Muchos usuarios deciden no comprar una estación fija Wallbox de entrada y prefieren recargar con el <strong>cable portátil (EVSE Modo 2 con caja electrónica ICCB)</strong> que viene en el baúl del auto. <strong>Está estrictamente prohibido utilizar tomacorrientes comunes domiciliarios IRAM 2071 de 10A</strong>. Un enchufe común está dimensionado para consumos intermitentes; someterlo a 10A-16A continuos durante 8 a 10 horas seguidas fatiga las láminas de bronce por calor, generando arcos eléctricos, derretimiento del plástico e incendios. La normativa exige un <strong>puesto de recarga dedicado exclusivo</strong>.
+            </p>
+        </div>
+
+        <div class="grid-2">
+            <!-- Opción A: Toma Industrial CEE -->
+            <div class="card" style="border-color: rgba(0, 210, 255, 0.4);">
+                <h4><span>🔵</span> Opción A: Toma Industrial CEE Azul (Estándar Recomendado)</h4>
+                <p>La solución más segura y duradera a nivel internacional para recarga en cocheras, depósitos y exteriores.</p>
+                <ul class="card-spec-list">
+                    <li><strong>Norma:</strong> IEC 60309 / IRAM-IEC 60309-1/2 (2 Polos + Tierra - Color Azul 230V).</li>
+                    <li><strong>Capacidad:</strong> 16A continuo (3.7 kW) o 32A continuo (7.4 kW).</li>
+                    <li><strong>Base de Pared (Hembra):</strong> Base de sobreponer mural con tapa rebatible y resorte de acero inox.</li>
+                    <li><strong>Clavija Móvil (Macho):</strong> Ficha macho volante para armar en la punta del cable portátil si vino con ficha doméstica.</li>
+                    <li><strong>Grado de protección:</strong> IP44 (salpicaduras) o IP67 (inmersión/lluvia directa) con traba a bayoneta.</li>
+                    <li><strong>Ventaja técnica:</strong> Bornes con mordaza de apriete cilíndrico de 6mm. Cero fatiga elástica y cero recalentamiento tras 10 horas continuas.</li>
+                </ul>
+            </div>
+
+            <!-- Opción B: Toma IRAM 20A -->
+            <div class="card">
+                <h4><span>⚪</span> Opción B: Tomacorriente IRAM Reforzado de 20A</h4>
+                <p>Alternativa normalizada para cables portátiles que vienen de fábrica con ficha IRAM 20A de patas gruesas.</p>
+                <ul class="card-spec-list">
+                    <li><strong>Norma:</strong> IRAM 2071 (2 Polos + Tierra - 20 Amperes - Patas gruesas/inclinadas).</li>
+                    <li><strong>Capacidad:</strong> 20A intermitente / 16A continuo (Hasta 3.7 kW).</li>
+                    <li><strong>Montaje:</strong> Caja exterior estanca de sobreponer (tipo Roker/Cambre) o embutida dedicada.</li>
+                    <li><strong>Requisito normativo:</strong> Línea exclusiva con térmica de 20A y cable de 4 mm². No compartir con iluminación ni otros tomas.</li>
+                    <li><strong>Uso recomendado:</strong> Exclusivo para cocheras cubiertas libres de intemperie y agua directa.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- TABLA DE MARCAS DE FICHAS Y TOMAS INDUSTRIALES -->
+        <div style="font-weight: 700; color: #fff; font-size: 0.95rem; margin: 1.2rem 0 0.5rem; display: flex; align-items: center; gap: 8px;">
+            <span>📦</span> CATÁLOGO DE MARCAS Y CÓDIGOS DE FICHAS INDUSTRIALES EN ARGENTINA
+        </div>
+
+        <table class="tech-table">
+            <thead>
+                <tr>
+                    <th style="width: 18%;">Fabricante</th>
+                    <th style="width: 22%;">Línea / Serie</th>
+                    <th style="width: 30%;">Base Mural de Pared (Hembra)</th>
+                    <th style="width: 30%;">Clavija Móvil Cable (Macho)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong style="color: #fff;">SCAME Argentina</strong></td>
+                    <td>Serie OPTIMA / EUREKA</td>
+                    <td>
+                        <strong>Base Sobreponer 2P+T 16A IP44:</strong> Cód. <code>513.1653</code><br>
+                        <strong>Base Sobreponer 2P+T 32A IP44:</strong> Cód. <code>513.3253</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Opción estanqueidad IP67 con tapa roscada: Serie ADVANCE</span>
+                    </td>
+                    <td>
+                        <strong>Ficha Macho 2P+T 16A IP44:</strong> Cód. <code>213.1633</code><br>
+                        <strong>Ficha Macho 2P+T 32A IP44:</strong> Cód. <code>213.3233</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Prensacable cónico integrado antivibratorio</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color: #fff;">STECK Argentina</strong></td>
+                    <td>Serie NEW KON</td>
+                    <td>
+                        <strong>Base Sobreponer 2P+T 16A IP44:</strong> Cód. <code>S-3056</code><br>
+                        <strong>Base Sobreponer 2P+T 32A IP44:</strong> Cód. <code>S-4056</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Carcasa de poliamida 6 autoextinguible</span>
+                    </td>
+                    <td>
+                        <strong>Ficha Macho 2P+T 16A IP44:</strong> Cód. <code>S-3076</code><br>
+                        <strong>Ficha Macho 2P+T 32A IP44:</strong> Cód. <code>S-4076</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Contactos niquelados anticorrosión</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color: #fff;">SCHNEIDER ELECTRIC</strong></td>
+                    <td>Serie PRATIKA</td>
+                    <td>
+                        <strong>Base Sobreponer 2P+T 16A Fast IP44:</strong> Cód. <code>PKF16M423</code><br>
+                        <strong>Base Sobreponer 2P+T 32A Fast IP44:</strong> Cód. <code>PKF32M423</code>
+                    </td>
+                    <td>
+                        <strong>Clavija Móvil 2P+T 16A IP44:</strong> Cód. <code>PKX16M423</code><br>
+                        <strong>Clavija Móvil 2P+T 32A IP44:</strong> Cód. <code>PKX32M423</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong style="color: #fff;">CAMBRE (IRAM 20A)</strong></td>
+                    <td>Siglo XXI / Bauhaus</td>
+                    <td>
+                        <strong>Módulo Tomacorriente 20A 250V:</strong> Cód. <code>6920 / 6921</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Montado en caja exterior estanca IP55 Roker o Cambre Box</span>
+                    </td>
+                    <td>
+                        <strong>Ficha Macho 20A 3 Patas Planas:</strong> Cód. <code>6925</code><br>
+                        <span style="font-size: 0.72rem; color: #94a3b8;">Espigas reforzadas de latón macizo</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- CADENA FÍSICA DE CONEXIÓN MODO 2 -->
+        <div class="diagram-container">
+            <div style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">
+                CADENA FÍSICA DE CONEXIÓN EN PUESTO DE RECARGA MODO 2 (CON TOMA INDUSTRIAL)
+            </div>
+            <div class="unifilar-flow">
+                <div class="flow-step">
+                    <strong>1. Tablero Seccional</strong>
+                    <span>Térmica 20A + Disyuntor Tipo A + Protector V</span>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" style="border-color: var(--accent-cyan);">
+                    <strong style="color: var(--accent-cyan);">2. Línea 4 mm²</strong>
+                    <span>Prysmian Afumex en Caño Daisa 3/4"</span>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" style="border-color: #38bdf8;">
+                    <strong style="color: #38bdf8;">3. Base Mural CEE</strong>
+                    <span>Toma Hembra Azul 16A Scame/Steck IP44</span>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step">
+                    <strong>4. Ficha Macho CEE</strong>
+                    <span>Clavija volante azul acoplada al toma</span>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" style="background: rgba(2, 132, 199, 0.15);">
+                    <strong style="color: #fff;">5. Cable EVSE (ICCB)</strong>
+                    <span>Caja electrónica inteligente con luces LED</span>
+                </div>
+                <div class="flow-arrow">➔</div>
+                <div class="flow-step" style="border-color: #10b981;">
+                    <strong style="color: #34d399;">6. Ficha Tipo 2</strong>
+                    <span>Conector Mennekes bloqueado en el Auto</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 5: ESQUEMA UNIFILAR NORMATIVO GENERAL -->
+        <div class="section-header">
+            <div class="sec-num">05</div>
+            <div class="sec-title">ESQUEMA UNIFILAR NORMATIVO GENERAL (AEA 90364-7-722)</div>
         </div>
 
         <div class="diagram-container">
             <div style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">
-                LÍNEA DEDICADA DESDE ACOMETIDA HASTA ESTACIÓN WALLBOX
+                LÍNEA DEDICADA DESDE ACOMETIDA HASTA ESTACIÓN WALLBOX O PUESTO INDUSTRIAL
             </div>
             <div class="unifilar-flow">
                 <div class="flow-step">
@@ -888,12 +1038,12 @@
                 <div class="flow-arrow">➔</div>
                 <div class="flow-step" style="border-color: var(--accent-cyan);">
                     <strong style="color: var(--accent-cyan);">3. Térmica Dedicada</strong>
-                    <span>PIA 2x40A Curva C (Icn 6/10 kA)</span>
+                    <span>PIA 2x20A (Toma) o 2x40A (Wallbox)</span>
                 </div>
                 <div class="flow-arrow">➔</div>
                 <div class="flow-step" style="border-color: #ef4444;">
                     <strong style="color: #f87171;">4. Diferencial EV</strong>
-                    <span>Tipo A + RDC-DD o Tipo B (40A 30mA)</span>
+                    <span>Tipo A Superinmunizado o Tipo B (30mA)</span>
                 </div>
                 <div class="flow-arrow">➔</div>
                 <div class="flow-step">
@@ -902,8 +1052,8 @@
                 </div>
                 <div class="flow-arrow">➔</div>
                 <div class="flow-step" style="background: rgba(0, 210, 255, 0.1); border-color: var(--accent-cyan);">
-                    <strong style="color: #fff;">6. Wallbox EV</strong>
-                    <span>Control PWM + Jabalina PAT (&le; 10 &Omega;)</span>
+                    <strong style="color: #fff;">6. Puesto Carga</strong>
+                    <span>Wallbox 7.4kW o Toma Industrial CEE</span>
                 </div>
                 <div class="flow-arrow">➔</div>
                 <div class="flow-step">
@@ -913,15 +1063,15 @@
             </div>
         </div>
 
-        <!-- MÓDULO 5: MATRIZ DE 20 FALLAS TÉCNICAS Y SOLUCIÓN -->
+        <!-- MÓDULO 6: MATRIZ DE 20 FALLAS TÉCNICAS Y SOLUCIÓN -->
         <div class="section-header" id="modulo-fallas">
-            <div class="sec-num">05</div>
+            <div class="sec-num">06</div>
             <div class="sec-title">MATRIZ TÉCNICA DE 20 FALLAS Y SOLUCIONES EN OBRA</div>
         </div>
 
         <div class="search-box">
             <span class="search-icon">🔍</span>
-            <input type="text" id="filtro_fallas" placeholder="Buscar falla técnica por síntoma, código de error o causa (ej: tierra, disparo, temperatura, trifásico, wifi)..." oninput="filtrarFallas()">
+            <input type="text" id="filtro_fallas" placeholder="Buscar falla técnica por síntoma, código de error o causa (ej: tierra, disparo, temperatura, trifásico, wifi, toma)..." oninput="filtrarFallas()">
         </div>
 
         <table class="tech-table" id="tabla_fallas">
@@ -1057,9 +1207,9 @@
             </tbody>
         </table>
 
-        <!-- MÓDULO 6: DIRECTO DE PROVEEDORES EN ARGENTINA -->
+        <!-- MÓDULO 7: DIRECTORIO DE PROVEEDORES EN ARGENTINA -->
         <div class="section-header">
-            <div class="sec-num">06</div>
+            <div class="sec-num">07</div>
             <div class="sec-title">DIRECTORIO DE FABRICANTES Y PROVEEDORES MAYORISTAS EN ARGENTINA</div>
         </div>
 
@@ -1131,9 +1281,9 @@
             </div>
         </div>
 
-        <!-- MÓDULO 7: CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA -->
+        <!-- MÓDULO 8: CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA -->
         <div class="section-header">
-            <div class="sec-num">07</div>
+            <div class="sec-num">08</div>
             <div class="sec-title">CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA (AEA 772)</div>
         </div>
 

@@ -474,6 +474,7 @@
                     <button class="tab-btn" onclick="switchTab('tab_service')">🔧 SERVICE ELÉCTRICO</button>
                     <button class="tab-btn" onclick="switchTab('tab_porteria')">🎛️ PORTERÍA & DÉBILES</button>
                     <button class="tab-btn" onclick="switchTab('tab_bombas')">🚰 BOMBAS & TANQUES</button>
+                    <button class="tab-btn" onclick="switchTab('tab_cargadores_ev')">⚡ CARGADORES EV & WALLBOX</button>
                 </div>
 
                 <!-- TAB 1: ACOMETIDA Y TABLERO -->
@@ -886,6 +887,68 @@
                         </table>
                     </div>
                 </div>
+                <!-- TAB 8: CARGADORES DE AUTOS ELÉCTRICOS (EV) -->
+                <div id="tab_cargadores_ev" class="tab-content">
+                    <div class="module" style="border-color: #00d2ff; background: rgba(0, 210, 255, 0.02);">
+                        <div class="module-title" style="color: #00d2ff;">[08] ESTACIONES DE CARGA EV & PUESTOS MODO 2 (SOLO MANO DE OBRA)</div>
+                        <table class="items-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 55%;">Descripción de Tarea (Mano de obra sola)</th>
+                                    <th style="width: 20%; text-align: center;">Cantidad</th>
+                                    <th style="width: 25%; text-align: right;">Precio Unit. ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Instalación y conexionado Wallbox Fijo Monofásico 7.4 kW (Modo 3) M.O.</td>
+                                    <td><input type="number" id="ev_wallbox_mono_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_wallbox_mono_prc" class="cell-input-price" value="220000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación y conexionado Wallbox Fijo Trifásico 11/22 kW (Modo 3) M.O.</td>
+                                    <td><input type="number" id="ev_wallbox_tri_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_wallbox_tri_prc" class="cell-input-price" value="310000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación Puesto de Carga Modo 2 con Toma Industrial CEE Azul 16A/32A o IRAM 20A M.O.</td>
+                                    <td><input type="number" id="ev_toma_cee_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_toma_cee_prc" class="cell-input-price" value="95000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Armado y conexionado Tablero Seccional Dedicado para Cargador EV (Diferencial Tipo A/B + Térmica + DPS) M.O.</td>
+                                    <td><input type="number" id="ev_tab_dedicado_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_tab_dedicado_prc" class="cell-input-price" value="135000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Instalación y vinculación Sensor de Balanceo Dinámico de Carga (Power Boost / Modbus) M.O.</td>
+                                    <td><input type="number" id="ev_power_boost_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_power_boost_prc" class="cell-input-price" value="110000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Puesta a Tierra Especial Dedicada para EV (Perforación losa + Jabalina IRAM 2309 + Bentonita + Cámara + Rpat &le; 10&Omega;) M.O.</td>
+                                    <td><input type="number" id="ev_pat_dedicada_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_pat_dedicada_prc" class="cell-input-price" value="155000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Canalización a la vista en caño de acero cincado rígido Daisa 1" / PVC semipesado (Metro) M.O.</td>
+                                    <td><input type="number" id="ev_can_daisa_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_can_daisa_m_prc" class="cell-input-price" value="22000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Pasado y conexionado de conductores XLPE 90°C Afumex 6 a 10 mm² (Metro) M.O.</td>
+                                    <td><input type="number" id="ev_cable_afumex_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_cable_afumex_m_prc" class="cell-input-price" value="3800" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Comisionamiento, prueba de disparo rampa diferencial y Protocolo Certificado AEA 772 M.O.</td>
+                                    <td><input type="number" id="ev_cert_ensayo_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_cert_ensayo_prc" class="cell-input-price" value="75000" oninput="calc()"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- SIDEBAR TOTALES Y WHATSAPP (DER) -->
@@ -1028,7 +1091,16 @@
             el_flot_combo: 115000,
             el_tab_bomba: 145000,
             srv_flotante: 42000,
-            el_bomba_inst: 55000
+            el_bomba_inst: 55000,
+            ev_wallbox_mono: 220000,
+            ev_wallbox_tri: 310000,
+            ev_toma_cee: 95000,
+            ev_tab_dedicado: 135000,
+            ev_power_boost: 110000,
+            ev_pat_dedicada: 155000,
+            ev_can_daisa_m: 22000,
+            ev_cable_afumex_m: 3800,
+            ev_cert_ensayo: 75000
         };
 
         window.onload = function () {
@@ -1404,6 +1476,44 @@
                 descriptions.push(`**Conexión y puesta en marcha de Electrobomba Elevadora o Presurizadora (${bomba_inst} unidad/es)**: Conexión de alimentación eléctrica a bornera estanca, vinculación a la red de tierra de protección (PAT) y verificación de sentido de giro, consumo en amperes y correcto accionamiento.`);
             }
 
+            // 8. Cargadores de Vehículos Eléctricos (EV) y Wallbox
+            const ev_wb_m = parseInt(document.getElementById('ev_wallbox_mono_qty').value) || 0;
+            const ev_wb_t = parseInt(document.getElementById('ev_wallbox_tri_qty').value) || 0;
+            const ev_cee = parseInt(document.getElementById('ev_toma_cee_qty').value) || 0;
+            const ev_tab = parseInt(document.getElementById('ev_tab_dedicado_qty').value) || 0;
+            const ev_boost = parseInt(document.getElementById('ev_power_boost_qty').value) || 0;
+            const ev_pat = parseInt(document.getElementById('ev_pat_dedicada_qty').value) || 0;
+            const ev_can = parseInt(document.getElementById('ev_can_daisa_m_qty').value) || 0;
+            const ev_cable = parseInt(document.getElementById('ev_cable_afumex_m_qty').value) || 0;
+            const ev_cert = parseInt(document.getElementById('ev_cert_ensayo_qty').value) || 0;
+
+            if (ev_wb_m > 0) {
+                descriptions.push(`**Instalación y conexionado de Estación de Recarga Wallbox Monofásica Modo 3 (7.4 kW - 32A)**: Montaje mecánico mural con anclajes antivibratorios, cableado de potencia con punteras huecas DIN 46228 apretadas con torquímetro dinamométrico a 2.8 Nm, conexionado de señal piloto PWM y configuración de corriente máxima admisible.`);
+            }
+            if (ev_wb_t > 0) {
+                descriptions.push(`**Instalación y conexionado de Estación de Recarga Wallbox Trifásica Modo 3 (11 kW / 22 kW - 3x32A)**: Montaje mecánico reforzado en pared o pedestal, conexionado tetrapolar (3 Fases + Neutro + PE), verificación de secuencia de fases y balanceo de cargas.`);
+            }
+            if (ev_cee > 0) {
+                descriptions.push(`**Instalación de Puesto de Recarga Reforzado Modo 2 con Toma Industrial CEE Azul (IEC 60309 - 16A/32A o IRAM 20A)**: Montaje de base hembra mural estanca IP44/IP67 con contactos cilíndricos de alta presión elástica (>18 N), acometida inferior con prensacables IP68 y adaptación de ficha en cargador portátil.`);
+            }
+            if (ev_tab > 0) {
+                descriptions.push(`**Armado y montaje de Tablero Seccional Dedicado para Cargador EV (Norma AEA 90364-7-722)**: Montaje de gabinete estanco IP65, interruptor termomagnético Curva C de corte bipolar/tetrapolar, disyuntor diferencial superinmunizado Tipo A / Tipo B puro contra cegamiento por fuga en CC, y descargador de sobretensiones transitorias DPS Tipo 2 (40 kA) coordinado con relé de sobre/baja tensión.`);
+            }
+            if (ev_boost > 0) {
+                descriptions.push(`**Instalación y calibración de Sensor de Balanceo Dinámico de Carga (Power Boost / Modbus RS-485)**: Colocación de pinza amperimétrica (TC) o medidor Carlo Gavazzi en acometida principal, tendido de cable de datos apantallado UTP FTP Cat6 y programación del cargador para modulación automática de corriente sin disparar la térmica general.`);
+            }
+            if (ev_pat > 0) {
+                descriptions.push(`**Instalación de Sistema de Puesta a Tierra Dedicado para Vehículo Eléctrico (Certificación Rpat &le; 10 &Omega;)**: Perforación de piso de losa/hormigón en garaje con mecha copa de 110mm, hincado de jabalina de acero cobreado IRAM 2309 (250µ) con rotomartillo SDS Max, tratamiento higroscópico con bentonita sódica activada, caja de inspección reforzada al ras de piso, tomacable de bronce con grasa grafitada y puente seccionable.`);
+            }
+            if (ev_can > 0) {
+                descriptions.push(`**Canalización mecánica reforzada para línea de recarga EV (${ev_can} metros)**: Tendido de cañería de acero cincado rígido semipesado tipo Daisa de 1" o tubo rígido de PVC ignífugo con filtro UV fijado con grampas omega cincadas cada 60 cm y cajas condulet con tornillo de vinculación a tierra.`);
+            }
+            if (ev_cable > 0) {
+                descriptions.push(`**Tendido y pasado de conductores de potencia para EV (${ev_cable} metros)**: Pasado de conductores unipolares IRAM 62267 Prysmian Afumex Plus 90°C libre de halógenos (sección de 6 mm² a 10 mm²), garantizando caída de tensión &le; 1.5% bajo régimen continuo (Fs = 1.0).`);
+            }
+            if (ev_cert > 0) {
+                descriptions.push(`**Comisionamiento, Ensayos de Seguridad y Protocolo de Entrega Certificada (AEA 772)**: Medición de resistencia de puesta a tierra con telurímetro mediante método del 62%, ensayo de rampa de fuga y tiempo de corte del disyuntor Tipo A/B con instrumento calibrado, control de torque en bornes y entrega de acta técnica.`);
+            }
             return descriptions;
         }
 

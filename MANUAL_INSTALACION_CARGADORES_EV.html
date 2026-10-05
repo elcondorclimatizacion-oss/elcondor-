@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
-    <title>Manual Técnico de Instalación: Cargadores de Autos Eléctricos (Wallbox EV) - El Cóndor</title>
+    <title>Tratado Técnico de Ingeniería: Instalación de Cargadores de Autos Eléctricos (Wallbox & Puestos Modo 2) - El Cóndor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             padding: 1.5rem 1rem;
-            line-height: 1.6;
+            line-height: 1.7;
             background-image:
                 radial-gradient(ellipse at 85% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 50%),
                 radial-gradient(ellipse at 15% 100%, rgba(2, 132, 199, 0.06) 0%, transparent 50%),
@@ -53,33 +53,21 @@
             margin: 0 auto;
             border: 1px solid var(--border-color);
             background: var(--panel-bg);
-            padding: 2.2rem;
+            padding: 2.5rem;
             border-radius: 20px;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 40px rgba(0, 210, 255, 0.03);
         }
 
-        /* HEADER BANNER */
+        /* HEADER */
         .hero-banner {
             background: linear-gradient(135deg, #0c1833 0%, #082142 50%, #031428 100%);
-            border: 1px solid rgba(0, 210, 255, 0.3);
+            border: 1px solid rgba(0, 210, 255, 0.35);
             border-radius: 16px;
-            padding: 2rem 2.2rem;
-            margin-bottom: 2rem;
+            padding: 2.2rem 2.5rem;
+            margin-bottom: 2.2rem;
             position: relative;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .hero-banner::after {
-            content: '⚡ EV';
-            position: absolute;
-            right: 20px;
-            bottom: -15px;
-            font-size: 7rem;
-            font-weight: 900;
-            color: rgba(0, 210, 255, 0.04);
-            font-family: 'JetBrains Mono', monospace;
-            pointer-events: none;
         }
 
         .badge-norma {
@@ -101,10 +89,10 @@
 
         h1 {
             color: #fff;
-            font-size: 2.1rem;
+            font-size: 2.2rem;
             font-weight: 800;
             letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         h1 span {
@@ -115,13 +103,13 @@
 
         .hero-subtitle {
             color: #cbd5e1;
-            font-size: 1rem;
-            max-width: 880px;
-            line-height: 1.5;
+            font-size: 1.05rem;
+            max-width: 950px;
+            line-height: 1.6;
         }
 
         .hero-actions {
-            margin-top: 1.4rem;
+            margin-top: 1.5rem;
             display: flex;
             gap: 12px;
             flex-wrap: wrap;
@@ -131,7 +119,7 @@
             background: linear-gradient(135deg, #0284c7, #00d2ff);
             color: #04101e;
             font-weight: 700;
-            padding: 10px 20px;
+            padding: 10px 22px;
             border-radius: 10px;
             border: none;
             cursor: pointer;
@@ -160,131 +148,119 @@
             color: var(--accent-cyan);
         }
 
-        /* OBJETIVO BOX */
-        .callout-box {
-            background: rgba(2, 132, 199, 0.08);
-            border-left: 4px solid var(--accent-cyan);
-            border-radius: 0 12px 12px 0;
-            padding: 1.2rem 1.5rem;
-            margin-bottom: 2rem;
-            border-top: 1px solid rgba(0, 210, 255, 0.15);
-            border-right: 1px solid rgba(0, 210, 255, 0.15);
-            border-bottom: 1px solid rgba(0, 210, 255, 0.15);
+        /* SECCIONES Y TÍTULOS */
+        .chapter-box {
+            background: var(--panel-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .callout-box h3 {
-            color: #38bdf8;
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 6px;
+        .chapter-header {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .callout-box p {
-            color: #cbd5e1;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-
-        /* TÍTULOS DE SECCIÓN */
-        .section-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin: 2.5rem 0 1.2rem;
-            padding-bottom: 8px;
+            gap: 14px;
+            margin-bottom: 1.5rem;
             border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
         }
 
-        .sec-num {
-            background: var(--accent-cyan);
+        .chap-num {
+            background: linear-gradient(135deg, #0284c7, #00d2ff);
             color: #04101e;
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+            flex-shrink: 0;
+        }
+
+        .chap-title {
+            color: #fff;
+            font-size: 1.45rem;
             font-weight: 800;
-            font-size: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            box-shadow: 0 4px 12px rgba(0, 210, 255, 0.4);
+            letter-spacing: -0.4px;
         }
 
-        .sec-title {
-            color: #fff;
-            font-size: 1.35rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-        }
-
-        /* GRID Y TARJETAS */
-        .grid-2 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 1.3rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .card {
-            background: var(--panel-surface);
-            border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
-            padding: 1.4rem;
-            transition: all 0.25s ease;
-        }
-
-        .card:hover {
-            border-color: rgba(0, 210, 255, 0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-        }
-
-        .card h4 {
-            color: #fff;
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card p {
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            line-height: 1.5;
-            margin-bottom: 10px;
-        }
-
-        .card-spec-list {
-            list-style: none;
-            margin-top: 10px;
-            border-top: 1px dashed var(--border-color);
-            padding-top: 10px;
-        }
-
-        .card-spec-list li {
-            font-size: 0.82rem;
-            color: #cbd5e1;
-            padding: 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .card-spec-list li strong {
+        .chap-sub {
             color: var(--accent-cyan);
+            font-size: 0.85rem;
             font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+        }
+
+        /* TIPOGRAFÍA TÉCNICA */
+        h3.tech-sub {
+            color: #38bdf8;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 1.8rem 0 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid var(--accent-cyan);
+            padding-left: 10px;
+        }
+
+        h4.tech-sub-sub {
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 1.2rem 0 0.5rem;
+        }
+
+        p.tech-desc {
+            color: #cbd5e1;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        /* ALERTA Y RECUADROS */
+        .box-warning {
+            background: rgba(245, 158, 11, 0.08);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            border-left: 4px solid var(--sys-amber);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+            color: #fde68a;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .box-danger {
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-left: 4px solid var(--sys-danger);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+            color: #fca5a5;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .box-pro {
+            background: rgba(2, 132, 199, 0.08);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            border-left: 4px solid var(--accent-cyan);
+            border-radius: 10px;
+            padding: 1.2rem 1.4rem;
+            margin: 1.2rem 0;
+            color: #bae6fd;
+            font-size: 0.88rem;
+            line-height: 1.6;
         }
 
         /* TABLAS TÉCNICAS */
@@ -292,12 +268,12 @@
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            margin: 1rem 0 1.8rem;
-            background: var(--panel-surface);
+            margin: 1.2rem 0 1.8rem;
+            background: #091122;
             border: 1px solid var(--border-color);
-            border-radius: var(--card-radius);
+            border-radius: 12px;
             overflow: hidden;
-            font-size: 0.85rem;
+            font-size: 0.86rem;
         }
 
         .tech-table th {
@@ -307,16 +283,17 @@
             text-transform: uppercase;
             font-size: 0.76rem;
             letter-spacing: 0.6px;
-            padding: 12px 14px;
+            padding: 14px 16px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
 
         .tech-table td {
-            padding: 12px 14px;
+            padding: 14px 16px;
             border-bottom: 1px solid var(--border-color);
             color: #cbd5e1;
-            vertical-align: middle;
+            vertical-align: top;
+            line-height: 1.5;
         }
 
         .tech-table tr:last-child td {
@@ -324,87 +301,131 @@
         }
 
         .tech-table tr:hover td {
-            background: rgba(2, 132, 199, 0.07);
+            background: rgba(2, 132, 199, 0.08);
         }
 
-        .tag-pill {
-            display: inline-block;
-            padding: 3px 8px;
-            border-radius: 6px;
-            font-size: 0.72rem;
-            font-weight: 700;
+        code {
+            background: rgba(0, 210, 255, 0.12);
+            color: #38bdf8;
             font-family: 'JetBrains Mono', monospace;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            border: 1px solid rgba(0, 210, 255, 0.25);
         }
 
-        .tag-blue { background: rgba(2, 132, 199, 0.2); color: #38bdf8; border: 1px solid rgba(2, 132, 199, 0.4); }
-        .tag-green { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
-        .tag-amber { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
-        .tag-red { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
-
-        /* DIAGRAMA UNIFILAR */
-        .diagram-container {
-            background: #091122;
-            border: 1px solid var(--border-highlight);
-            border-radius: 14px;
-            padding: 1.5rem;
-            margin: 1.5rem 0;
-            overflow-x: auto;
+        /* LISTA PASO A PASO */
+        .step-list {
+            list-style: none;
+            counter-reset: step-counter;
+            margin: 1rem 0;
         }
 
-        .unifilar-flow {
+        .step-list li {
+            position: relative;
+            padding-left: 48px;
+            margin-bottom: 1.2rem;
+            font-size: 0.9rem;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        .step-list li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 2px;
+            background: linear-gradient(135deg, #0284c7, #00d2ff);
+            color: #04101e;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            min-width: 900px;
-            gap: 12px;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.95rem;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 4px 10px rgba(0, 210, 255, 0.3);
         }
 
-        .flow-step {
-            background: var(--panel-surface);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            padding: 12px 14px;
-            flex: 1;
-            text-align: center;
-            position: relative;
-        }
-
-        .flow-step strong {
-            display: block;
+        .step-list li strong {
             color: #fff;
-            font-size: 0.85rem;
+            font-size: 0.96rem;
+            display: block;
             margin-bottom: 4px;
         }
 
-        .flow-step span {
-            font-size: 0.72rem;
+        /* GRID CARDS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+            gap: 1.4rem;
+            margin: 1.2rem 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.2rem;
+            margin: 1.2rem 0;
+        }
+
+        .card-inner {
+            background: #091122;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.3rem;
+        }
+
+        .card-inner h4 {
+            color: #fff;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-inner p {
+            font-size: 0.85rem;
             color: var(--text-muted);
-            line-height: 1.2;
-            display: block;
+            margin-bottom: 10px;
         }
 
-        .flow-arrow {
+        .card-inner ul {
+            list-style: none;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 8px;
+        }
+
+        .card-inner ul li {
+            font-size: 0.82rem;
+            color: #cbd5e1;
+            padding: 4px 0;
+        }
+
+        .card-inner ul li strong {
             color: var(--accent-cyan);
-            font-size: 1.2rem;
-            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* BUSCADOR DE FALLAS */
+        /* BUSCADOR */
         .search-box {
             position: relative;
-            margin-bottom: 1.2rem;
+            margin: 1.2rem 0;
         }
 
         .search-box input {
             width: 100%;
-            background: var(--panel-surface);
+            background: #091122;
             border: 1px solid var(--border-highlight);
             border-radius: 10px;
             padding: 12px 16px 12px 42px;
             color: #fff;
             font-size: 0.92rem;
             outline: none;
-            transition: all 0.2s;
         }
 
         .search-box input:focus {
@@ -418,53 +439,15 @@
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 1.1rem;
-        }
-
-        /* CHECKLIST */
-        .check-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 10px 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-bottom: 8px;
-            transition: background 0.2s;
-        }
-
-        .check-item:hover {
-            background: rgba(2, 132, 199, 0.06);
-        }
-
-        .check-item input[type="checkbox"] {
-            margin-top: 3px;
-            accent-color: var(--accent-cyan);
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-        }
-
-        .check-text strong {
-            display: block;
-            font-size: 0.88rem;
-            color: #fff;
-        }
-
-        .check-text span {
-            font-size: 0.78rem;
-            color: var(--text-muted);
         }
 
         /* CALCULADOR RÁPIDO */
         .calc-tool {
-            background: linear-gradient(135deg, rgba(13, 21, 39, 0.9), rgba(17, 27, 48, 0.9));
+            background: #091122;
             border: 1px solid var(--accent-cyan);
             border-radius: 14px;
             padding: 1.5rem;
             margin: 1.5rem 0;
-            box-shadow: 0 8px 25px rgba(0, 210, 255, 0.08);
         }
 
         .calc-grid {
@@ -485,7 +468,7 @@
 
         .calc-field select, .calc-field input {
             width: 100%;
-            background: #091122;
+            background: #0d1527;
             border: 1px solid var(--border-color);
             border-radius: 8px;
             padding: 10px;
@@ -517,6 +500,38 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* CHECKLIST */
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            background: #091122;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .check-item input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: var(--accent-cyan);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .check-text strong {
+            display: block;
+            font-size: 0.9rem;
+            color: #fff;
+        }
+
+        .check-text span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
         /* TOAST */
         #toast {
             position: fixed;
@@ -533,41 +548,16 @@
             z-index: 1000;
         }
 
-        /* PRINT STYLES */
         @media print {
-            body {
-                background: #fff !important;
-                color: #000 !important;
-                padding: 0;
-            }
-            .container {
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                max-width: 100% !important;
-            }
-            .hero-banner, .btn-action, .search-box, .calc-tool, .hero-actions {
-                display: none !important;
-            }
-            .tech-table, .card, .callout-box {
-                border-color: #ccc !important;
-                background: #fff !important;
-                color: #000 !important;
-            }
-            .tech-table th {
-                background: #eee !important;
-                color: #000 !important;
-            }
-            .tech-table td {
-                color: #000 !important;
-            }
-            .sec-num {
-                background: #000 !important;
-                color: #fff !important;
-            }
-            .sec-title {
-                color: #000 !important;
-            }
+            body { background: #fff !important; color: #000 !important; padding: 0; }
+            .container { border: none !important; box-shadow: none !important; padding: 0 !important; max-width: 100% !important; background: #fff !important; }
+            .hero-banner, .btn-action, .search-box, .calc-tool, .hero-actions { display: none !important; }
+            .chapter-box, .card-inner, .tech-table, .box-pro, .box-warning, .box-danger { background: #fff !important; border-color: #ccc !important; color: #000 !important; box-shadow: none !important; }
+            .tech-table th { background: #f0f0f0 !important; color: #000 !important; }
+            .tech-table td, p.tech-desc, .step-list li { color: #000 !important; }
+            .chap-num { background: #000 !important; color: #fff !important; }
+            .chap-title, h3.tech-sub, h4.tech-sub-sub, strong { color: #000 !important; }
+            code { background: #eee !important; color: #000 !important; border-color: #ccc !important; }
         }
     </style>
 </head>
@@ -576,792 +566,975 @@
     <div class="container">
         <!-- HERO BANNER -->
         <div class="hero-banner">
-            <div class="badge-norma">⚡ GUÍA TÉCNICA OFICIAL • AEA 90364-7-722 / IEC 61851</div>
-            <h1>ESTACIONES DE CARGA EV <span>(WALLBOX)</span></h1>
+            <div class="badge-norma">⚡ TRATADO TÉCNICO DE CAMPO • REGLAMENTACIÓN AEA 90364-7-722 / IEC 61851</div>
+            <h1>MANUAL MAESTRO DE INSTALACIONES <span>EV & WALLBOX</span></h1>
             <p class="hero-subtitle">
-                Manual integral para proyección, dimensionamiento, montaje y resolución de fallas en instalaciones de recarga de vehículos eléctricos. Especificaciones de seguridad ciudadana, protección contra fugas de CC y cálculo de línea dedicada en Argentina.
+                Guía de ingeniería, dimensionamiento y resolución de fallas en obra para estaciones de recarga fija (Modo 3) y puestos reforzados con tomas industriales (Modo 2). Con fundamentos físicos, especificaciones de catálogo, paso a paso de hincado de jabalinas y protocolo de entrega para Argentina.
             </p>
             <div class="hero-actions">
                 <button class="btn-action" onclick="window.print()">
-                    <span>🖨️</span> Imprimir / Exportar a PDF
+                    <span>🖨️</span> Imprimir Manual / Guardar PDF
                 </button>
                 <button class="btn-action secondary" onclick="copiarChecklistWhatsApp()">
-                    <span>📲</span> Copiar Checklist para WhatsApp
+                    <span>📲</span> Copiar Protocolo para WhatsApp
                 </button>
                 <a href="#modulo-fallas" class="btn-action secondary">
-                    <span>🔍</span> Ir a Matriz de 20 Fallas
+                    <span>🔍</span> Matriz de 20 Fallas Reales
                 </a>
             </div>
         </div>
 
-        <!-- ALCANCE Y OBJETIVO -->
-        <div class="callout-box">
-            <h3>🛡️ Objetivo y Alcance Técnico (El Cóndor Climatización & Electromovilidad)</h3>
-            <p>
-                Este documento define los requisitos técnicos obligatorios para proyectar y ejecutar instalaciones de recarga Modo 3 en residencias particulares, cocheras de edificios, consorcios y estacionamientos comerciales en Argentina. La recarga de un vehículo no es una carga domiciliaria común: demanda <strong>corriente nominal continua durante 6 a 10 horas ininterrumpidas ($F_s = 1.0$)</strong>, lo que exige estricto dimensionamiento térmico, protecciones diferenciales no cegables ante CC y jabalina de puesta a tierra certificada para evitar incendios y riesgos mortales de electrocución.
-            </p>
-        </div>
-
-        <!-- CALCULADOR RÁPIDO DE LÍNEA ALIMENTADORA -->
+        <!-- CALCULADOR RÁPIDO DE CAÍDA DE TENSIÓN -->
         <div class="calc-tool">
-            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-                <div style="font-weight: 700; color: #fff; font-size: 0.95rem; display: flex; align-items: center; gap: 8px;">
-                    <span>⚡</span> CALCULADOR RÁPIDO DE CONDUCTORES Y CAÍDA DE TENSIÓN (AEA 772)
+            <div style="font-weight: 700; color: #fff; font-size: 0.95rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span>⚡</span> CALCULADOR DE SECCIÓN Y CAÍDA DE TENSIÓN CONTINUA (AEA 772 / Fs = 1.0)
                 </div>
-                <span class="tag-pill tag-blue">MÁXIMO 2% CAÍDA ADMISIBLE</span>
+                <span style="font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #38bdf8; background: rgba(2, 132, 199, 0.2); padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(0, 210, 255, 0.3);">LÍMITE MÁXIMO &le; 2.0%</span>
             </div>
             <div class="calc-grid">
                 <div class="calc-field">
-                    <label>Potencia Wallbox</label>
+                    <label>Potencia y Régimen</label>
                     <select id="calc_potencia" onchange="calcularLinea()">
-                        <option value="7400_mono">7.4 kW Monofásico (32A - 230V)</option>
-                        <option value="3700_mono">3.7 kW Monofásico (16A - 230V)</option>
-                        <option value="11000_tri">11 kW Trifásico (16A - 400V)</option>
-                        <option value="22000_tri">22 kW Trifásico (32A - 400V)</option>
+                        <option value="7400_mono">7.4 kW Monofásico (32A continuo - 230V)</option>
+                        <option value="3700_mono">3.7 kW Monofásico (16A continuo - 230V)</option>
+                        <option value="11000_tri">11 kW Trifásico (16A por fase - 400V)</option>
+                        <option value="22000_tri">22 kW Trifásico (32A por fase - 400V)</option>
                     </select>
                 </div>
                 <div class="calc-field">
-                    <label>Distancia desde Tablero (m)</label>
+                    <label>Longitud de Línea (Metros)</label>
                     <input type="number" id="calc_distancia" value="15" min="1" max="150" oninput="calcularLinea()">
                 </div>
                 <div class="calc-field">
-                    <label>Aislación del Cable</label>
+                    <label>Aislamiento del Conductor</label>
                     <select id="calc_aislacion" onchange="calcularLinea()">
-                        <option value="xlpe">XLPE / Libre Halógenos (Prysmian Afumex 90°C)</option>
-                        <option value="pvc">PVC Estándar (IRAM NM 247-3 70°C)</option>
+                        <option value="xlpe">XLPE Libre de Halógenos (Prysmian Afumex 90°C)</option>
+                        <option value="pvc">PVC Antillama (IRAM NM 247-3 70°C)</option>
                     </select>
                 </div>
                 <div class="calc-result">
-                    <div class="calc-result-title">Sección Mínima Sugerida</div>
+                    <div class="calc-result-title">Sección Mínima Requerida</div>
                     <div class="calc-result-val" id="res_seccion">6 mm²</div>
-                    <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 2px;" id="res_caida">Caída: 1.35% (OK)</div>
+                    <div style="font-size: 0.72rem; color: #94a3b8; margin-top: 3px;" id="res_caida">Caída: 1.35% (Admisible)</div>
                 </div>
             </div>
         </div>
 
-        <!-- MÓDULO 1: MODOS DE CARGA -->
-        <div class="section-header">
-            <div class="sec-num">01</div>
-            <div class="sec-title">MODOS DE CARGA SEGÚN NORMA IEC 61851-1</div>
-        </div>
-
-        <table class="tech-table">
-            <thead>
-                <tr>
-                    <th style="width: 15%;">Modo de Carga</th>
-                    <th style="width: 25%;">Conexión / Ficha</th>
-                    <th style="width: 20%;">Potencia y Corriente</th>
-                    <th style="width: 40%;">Aplicación y Grado de Seguridad</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong style="color: #fff;">Modo 1</strong></td>
-                    <td>Toma doméstica directa (IRAM 2071 / Schuko)</td>
-                    <td>1.4 kW a 2.3 kW (6A a 10A)</td>
-                    <td>
-                        <span class="tag-pill tag-red">DESACONSEJADO / PROHIBIDO</span> 
-                        Sin comunicación piloto entre vehículo y red. Riesgo de recalentamiento en tomacorrientes comunes domiciliarios no aptos para carga continua.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">Modo 2</strong></td>
-                    <td>Toma IRAM 20A / Industrial CEE con caja de control ICCB en el cable</td>
-                    <td>2.3 kW a 3.7 kW (10A a 16A)</td>
-                    <td>
-                        <span class="tag-pill tag-amber">CARGA OCASIONAL DE VIAJE</span> 
-                        Posee caja electrónica intermedia con protección diferencial y señal piloto. Es el cargador portátil de emergencia que traen los autos en el baúl.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">Modo 3</strong></td>
-                    <td><strong>Estación fija de pared (Wallbox)</strong> con cable o toma Tipo 2</td>
-                    <td><strong>7.4 kW a 22 kW (16A a 32A)</strong></td>
-                    <td>
-                        <span class="tag-pill tag-green">ESTÁNDAR RESIDENCIAL Y COMERCIAL</span> 
-                        Línea dedicada exclusiva. Control dinámico por señal PWM (Control Pilot). Bloqueo mecánico de la toma antes de energizar. Máxima velocidad y seguridad.
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">Modo 4</strong></td>
-                    <td>Estación de Carga Rápida en Corriente Continua (DC)</td>
-                    <td>50 kW a 350+ kW (Hasta 500A CC)</td>
-                    <td>
-                        <span class="tag-pill tag-blue">ELECTROLINERAS PÚBLICAS</span> 
-                        La conversión de CA a CC se realiza dentro de la estación externa mediante rectificadores de gran porte. Conector CCS2 (Combo 2). Carga del 20% al 80% en 20-30 min.
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- MÓDULO 2: CARGADORES MÁS COMUNES EN ARGENTINA -->
-        <div class="section-header">
-            <div class="sec-num">02</div>
-            <div class="sec-title">CARGADORES MÁS COMUNES EN EL MERCADO ARGENTINO</div>
-        </div>
-
-        <div class="grid-3">
-            <!-- Wallbox Pulsar Plus -->
-            <div class="card">
-                <h4><span>⚡</span> Wallbox Pulsar Plus / Max</h4>
-                <p>El equipo más instalado en residencias y countries de Argentina por su tamaño ultra compacto y robustez.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>7.4 kW (1F) / 22 kW (3F)</strong></li>
-                    <li>Conector: <strong>Manguera Tipo 2 integrada (5m/7m)</strong></li>
-                    <li>Protección: <strong>RDC-DD 6 mA CC integrado</strong></li>
-                    <li>Conectividad: <strong>WiFi, Bluetooth, App MyWallbox</strong></li>
-                    <li>Balanceo: <strong>Compatible Power Boost (Carlo Gavazzi)</strong></li>
-                    <li>Protección: <strong>IP54 / IK08 (Interior/Exterior)</strong></li>
-                </ul>
+        <!-- CAPÍTULO 1: LA FÍSICA DE LA RECARGA CONTINUA -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">01</div>
+                <div>
+                    <span class="chap-sub">Fundamentos de Ingeniería Eléctrica</span>
+                    <div class="chap-title">LA FÍSICA DE LA RECARGA CONTINUA (FACTOR DE SIMULTANEIDAD Fs = 1.0)</div>
+                </div>
             </div>
 
-            <!-- Vulletic Home -->
-            <div class="card">
-                <h4><span>🇦🇷</span> Vulletic Home / Business</h4>
-                <p>Cargador de <strong>fabricación nacional argentina</strong> con soporte oficial directo, software propio y repuestos inmediatos.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>7 kW (32A) a 22 kW (3x32A)</strong></li>
-                    <li>Conector: <strong>Tipo 2 Mennekes o Socket T2</strong></li>
-                    <li>Gabinete: <strong>Chapa electrocincada y pintura poliéster</strong></li>
-                    <li>Control: <strong>RFID / Tarjeta y App Cloud Vulletic</strong></li>
-                    <li>Protocolo: <strong>OCPP 1.6J nativo para consorcios</strong></li>
-                    <li>Garantía: <strong>Soporte y servicio técnico en Argentina</strong></li>
-                </ul>
+            <p class="tech-desc">
+                En una instalación eléctrica domiciliaria tradicional, las cargas son de carácter <strong>intermitente o cíclico</strong>. Un motor de heladera funciona 15 minutos y descansa 30; una plancha eléctrica de 2.000W corta por bimetal cada 3 minutos; un aire acondicionado modula por inverter al alcanzar el setpoint. Por este motivo, la reglamentación AEA 771 permite aplicar "factores de simultaneidad" del 0.5 al 0.7 para calcular tableros generales.
+            </p>
+
+            <div class="box-danger">
+                <strong>⚠️ EL ERROR COMÚN DEL ELECTRICISTA TRADICIONAL:</strong><br>
+                La recarga de un vehículo eléctrico opera bajo un régimen térmico totalmente distinto: <strong>carga continua ininterrumpida a potencia nominal durante 6, 8 o 10 horas consecutivas</strong>. La reglamentación AEA 90364-7-722 establece de forma taxativa que el factor de simultaneidad y utilización debe ser <strong>Fs = 1.0</strong>. Si se utiliza un conductor subdimensionado o un tomacorriente común, el calor acumulado no llega a disiparse al ambiente, produciendo un incremento térmico exponencial por Efecto Joule ($P = I^2 \cdot R$) que carboniza bornes y derrite canalizaciones plásticas.
             </div>
 
-            <!-- Schneider EVlink -->
-            <div class="card">
-                <h4><span>🛡️</span> Schneider EVlink Home / Smart</h4>
-                <p>Estándar de calidad internacional para edificios corporativos, estaciones de servicio y residencias premium.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>7.4 kW a 22 kW regulable</strong></li>
-                    <li>Seguridad: <strong>Desconexión por sobretensión integrada</strong></li>
-                    <li>Protección: <strong>RDC-DD integrado según IEC 62955</strong></li>
-                    <li>Balanceo: <strong>Módulo de balanceo dinámico Schneider</strong></li>
-                    <li>Gabinete: <strong>IP55 / IK10 (Antivandálico pesado)</strong></li>
-                    <li>Distribución: <strong>Distribuidores Schneider en todo el país</strong></li>
-                </ul>
-            </div>
-
-            <!-- Scame BE-W -->
-            <div class="card">
-                <h4><span>🇮🇹</span> Scame E-Mobility Serie BE-W</h4>
-                <p>Marca italiana con filial directa en CABA. Homologada por concesionarias oficiales de marcas europeas en Argentina.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>3.7 kW, 7.4 kW, 11 kW y 22 kW</strong></li>
-                    <li>Envolvente: <strong>Termoplástico libre de halógenos UV</strong></li>
-                    <li>Medición: <strong>Medidor de energía MID certificado</strong></li>
-                    <li>Gestión: <strong>Gestión maestro/esclavo para cocheras</strong></li>
-                    <li>Acceso: <strong>Llaveros RFID y pulsador de marcha</strong></li>
-                    <li>Protección: <strong>IP55 / IK08</strong></li>
-                </ul>
-            </div>
-
-            <!-- ABB Terra AC -->
-            <div class="card">
-                <h4><span>🏭</span> ABB Terra AC Wallbox</h4>
-                <p>Gama industrial con conectividad 4G opcional, ideal para cocheras de alquiler, flotas de logística y comercios.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>7.4 kW / 11 kW / 22 kW</strong></li>
-                    <li>Autenticación: <strong>RFID / App TerraConfig / OCPP</strong></li>
-                    <li>Comunicaciones: <strong>Ethernet RJ45, RS-485 Modbus, WiFi</strong></li>
-                    <li>Seguridad: <strong>Limitador de corriente configurable</strong></li>
-                    <li>Protección: <strong>IP54 / NEMA 4x / IK10</strong></li>
-                    <li>Certificación: <strong>CE, IRAM, UL</strong></li>
-                </ul>
-            </div>
-
-            <!-- EVSE Portátiles -->
-            <div class="card">
-                <h4><span>🚗</span> Cargadores Portátiles Tipo 2 (EVSE)</h4>
-                <p>Equipos portátiles para llevar en el vehículo, regulables para enchufar en industrias, obras o tomas reforzados.</p>
-                <ul class="card-spec-list">
-                    <li>Potencia: <strong>3.7 kW a 7.4 kW (Regulable 10/16/24/32A)</strong></li>
-                    <li>Enchufe de entrada: <strong>Ficha Industrial CEE 32A o IRAM 20A</strong></li>
-                    <li>Conector auto: <strong>Tipo 2 Mennekes</strong></li>
-                    <li>Pantalla: <strong>Display LCD con kWh, voltaje, amperaje y temp</strong></li>
-                    <li>Protección: <strong>Caja estanca IP66 para lluvia</strong></li>
-                    <li>Uso: <strong>Auxilio mecánico y carga de emergencia</strong></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- MÓDULO 3: REQUISITOS CRÍTICOS DE INSTALACIÓN -->
-        <div class="section-header">
-            <div class="sec-num">03</div>
-            <div class="sec-title">REQUISITOS CRÍTICOS DE INSTALACIÓN (AEA 90364-7-722)</div>
-        </div>
-
-        <div class="grid-2">
-            <!-- 1. Línea Alimentadora -->
-            <div class="card">
-                <h4><span>1.</span> Línea Alimentadora y Canalizaciones</h4>
-                <p>Régimen continuo a potencia nominal ($F_s = 1.0$). Caída de tensión admisible menor al 2%.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Conductores:</strong> Cobre virgen IRAM NM 247-3 o IRAM 62267 (Libre de halógenos 90°C).</li>
-                    <li><strong>Marcas certificadas:</strong> Prysmian (Afumex / Superastic), Imsat, Fonseca.</li>
-                    <li><strong>Sección Monofásica:</strong> Mínimo 6 mm² (hasta 15m) o 10 mm² (15m a 30m).</li>
-                    <li><strong>Sección Trifásica:</strong> Mínimo 4x6 mm² + PE 6 mm² (o 10 mm² si > 20m).</li>
-                    <li><strong>Cañería pesada:</strong> Acero cincado rígido tipo Daisa 1" o tubo PVC semipesado Tubomatic/Tigre de 25/32mm con prensacables IP68 Scame/Steck.</li>
-                </ul>
-            </div>
-
-            <!-- 2. Diferencial Especial -->
-            <div class="card" style="border-color: rgba(239, 68, 68, 0.4);">
-                <h4><span style="color: #ef4444;">2.</span> Protección Diferencial Anti-Cegamiento</h4>
-                <p><strong style="color: #f87171;">PROHIBIDO TIPO AC:</strong> Fugas en CC de la batería saturan el toroide y anulan el disparo ante electrocuciones mortales.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Opción A (Con RDC-DD en cargador):</strong> Disyuntor <strong>Tipo A Superinmunizado</strong> (30 mA AC) si el Wallbox tiene sensor 6 mA CC (IEC 62955).</li>
-                    <li><strong>Opción B (Sin sensor en cargador):</strong> Disyuntor <strong>Tipo B Puro</strong> (corta fuga senoidal, pulsante y continua pura hasta 1 kHz).</li>
-                    <li><strong>Marcas y Modelos:</strong> Schneider Acti9 iID Tipo A-SI o Tipo B-EV; ABB F202 A / F204 B; Chint NL210 Tipo A o Tipo B (40A 30mA).</li>
-                </ul>
-            </div>
-
-            <!-- 3. Termomagnética PIA -->
-            <div class="card">
-                <h4><span>3.</span> Termomagnética (PIA) al 125%</h4>
-                <p>El calibre debe soportar el calentamiento bimetálico continuo sin disparos en falso.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Calibre Monofásico 32A:</strong> Termomagnética 2x40A Curva C (Icn = 6 kA / 10 kA).</li>
-                    <li><strong>Calibre Trifásico 32A:</strong> Termomagnética 4x40A Curva C (Icn = 10 kA).</li>
-                    <li><strong>Poder de corte mínimo:</strong> 6.000 A en seccionales (10.000 A en cabecera según AEA 771).</li>
-                    <li><strong>Marcas aprobadas:</strong> Schneider Acti9 iC60N, ABB S200, Siemens 5SY4/5SL6, Chint NB1-63.</li>
-                </ul>
-            </div>
-
-            <!-- 4. Tablero Seccional -->
-            <div class="card">
-                <h4><span>4.</span> Tablero Seccional Dedicado (TSC)</h4>
-                <p>Gabinete independiente a la vista, a no más de 2 metros del punto de recarga.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Capacidad:</strong> Mínimo 8 a 12 módulos DIN para alojar PIA + Diferencial + DPS + Protector Tensión + Medidor.</li>
-                    <li><strong>Cocheras / Interiores:</strong> Roker PR90/PR92, Conextube Eurobox con cerradura.</li>
-                    <li><strong>Intemperie / Fachadas:</strong> Schneider Kaedra IP65, Roker Sintet IP65 o Gabexel chapa estampada electrostática IP65 con cerradura doble paleta.</li>
-                </ul>
-            </div>
-
-            <!-- 5. Puesta a Tierra y DPS -->
-            <div class="card">
-                <h4><span>5.</span> Puesta a Tierra (PAT) y Descargadores</h4>
-                <p>Monitoreo estricto del bucle PE. Si la jabalina no mide bien, el vehículo bloquea la carga.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Resistencia jabalina:</strong> Obligatorio <strong>Rpat &le; 10 &Omega;</strong> (medido con telurímetro).</li>
-                    <li><strong>Jabalina certificada:</strong> Acero cobreado 250 micrones IRAM 2309 (FacBSA / Liat / ERICO nVent) 5/8" x 1.5m o 3/4" x 2.0m.</li>
-                    <li><strong>Descargador DPS:</strong> Tipo 2 (20-40 kA) Schneider iPRD40r / ABB OVR T2 / Chint NU6-II.</li>
-                    <li><strong>Protector V-Max/Min:</strong> Relé de tensión permanente Baw RU220 / Finder 7P con retardo de 3 min.</li>
-                </ul>
-            </div>
-
-            <!-- 6. Balanceo Dinámico -->
-            <div class="card">
-                <h4><span>6.</span> Balanceo Dinámico de Carga (Power Boost)</h4>
-                <p>Modula la potencia del cargador en tiempo real para no sobrepasar la potencia contratada de la casa.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Principio:</strong> Pinza amperimétrica (TC) en acometida general mide consumo total de la vivienda.</li>
-                    <li><strong>Ajuste automático:</strong> Si se encienden aires y hornos, el cargador reduce de 32A a 10A en milisegundos; al apagarse, vuelve a 32A.</li>
-                    <li><strong>Medidores compatibles:</strong> Carlo Gavazzi EM112 / EM340, Chint DDSU666 Modbus, Schneider iEM3155.</li>
-                    <li><strong>Cable de comunicación:</strong> Par trenzado apantallado UTP FTP Cat6 o Belden 9841 (RS-485 Modbus).</li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- MÓDULO 4: PUESTO DE RECARGA MODO 2 CON TOMA INDUSTRIAL REFORZADO (SIN WALLBOX) -->
-        <div class="section-header">
-            <div class="sec-num">04</div>
-            <div class="sec-title">PUESTO DE RECARGA MODO 2 CON TOMA INDUSTRIAL (ALTERNATIVA SIN WALLBOX)</div>
-        </div>
-
-        <div class="callout-box" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.08);">
-            <h3 style="color: #f59e0b;">⚠️ Advertencia de Seguridad: Prohibición de Tomacorrientes Domiciliarios de 10A</h3>
-            <p>
-                Muchos usuarios deciden no comprar una estación fija Wallbox de entrada y prefieren recargar con el <strong>cable portátil (EVSE Modo 2 con caja electrónica ICCB)</strong> que viene en el baúl del auto. <strong>Está estrictamente prohibido utilizar tomacorrientes comunes domiciliarios IRAM 2071 de 10A</strong>. Un enchufe común está dimensionado para consumos intermitentes; someterlo a 10A-16A continuos durante 8 a 10 horas seguidas fatiga las láminas de bronce por calor, generando arcos eléctricos, derretimiento del plástico e incendios. La normativa exige un <strong>puesto de recarga dedicado exclusivo</strong>.
+            <h3 class="tech-sub">Las Dos Magnitudes que Mandan en Obra</h3>
+            <p class="tech-desc">
+                <strong>1. La Disipación Térmica en Bornes:</strong> La resistencia de contacto en cualquier borne flojo suele rondar $R = 0.05\ \Omega$. Con una carga hogareña de 5A, el calor generado es insignificante ($P = 5^2 \cdot 0.05 = 1.25\text{ W}$). Pero con 32A ininterrumpidos de un auto eléctrico, la potencia térmica en ese único punto salta a <strong>$P = 32^2 \cdot 0.05 = 51.2\text{ Watts}$</strong> continuos concentrados en una bornera de plástico. Ese punto se convierte en una resistencia de estufa que alcanza los 180°C y funde el tablero.
+            </p>
+            <p class="tech-desc">
+                <strong>2. La Sensibilidad del Cargador a Bordo (OBC):</strong> Los autos eléctricos modernos monitorean el voltaje en sus bornes milisegundo a milisegundo. Si por culpa de una línea larga y fina la tensión de red de 220V cae por debajo de 208V - 210V (caída $> 2\% - 3\%$), la computadora del auto bloquea la carga arrojando error de <em>"Under-Voltage Lockout"</em> o reduce automáticamente la velocidad a la mitad (pasa de 7.4 kW a 3.2 kW) para evitar recalentar la batería.
             </p>
         </div>
 
-        <div class="grid-2">
-            <!-- Opción A: Toma Industrial CEE -->
-            <div class="card" style="border-color: rgba(0, 210, 255, 0.4);">
-                <h4><span>🔵</span> Opción A: Toma Industrial CEE Azul (Estándar Recomendado)</h4>
-                <p>La solución más segura y duradera a nivel internacional para recarga en cocheras, depósitos y exteriores.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Norma:</strong> IEC 60309 / IRAM-IEC 60309-1/2 (2 Polos + Tierra - Color Azul 230V).</li>
-                    <li><strong>Capacidad:</strong> 16A continuo (3.7 kW) o 32A continuo (7.4 kW).</li>
-                    <li><strong>Base de Pared (Hembra):</strong> Base de sobreponer mural con tapa rebatible y resorte de acero inox.</li>
-                    <li><strong>Clavija Móvil (Macho):</strong> Ficha macho volante para armar en la punta del cable portátil si vino con ficha doméstica.</li>
-                    <li><strong>Grado de protección:</strong> IP44 (salpicaduras) o IP67 (inmersión/lluvia directa) con traba a bayoneta.</li>
-                    <li><strong>Ventaja técnica:</strong> Bornes con mordaza de apriete cilíndrico de 6mm. Cero fatiga elástica y cero recalentamiento tras 10 horas continuas.</li>
-                </ul>
+        <!-- CAPÍTULO 2: SELECCIÓN Y CÁLCULO DE CONDUCTORES Y CAÑERÍAS -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">02</div>
+                <div>
+                    <span class="chap-sub">Cálculo de Canalizaciones y Termodinámica del Cobre</span>
+                    <div class="chap-title">SELECCIÓN DE CONDUCTORES: POR QUÉ AFUMEX 90°C Y SECCIONES DE 6 A 10 mm²</div>
+                </div>
             </div>
 
-            <!-- Opción B: Toma IRAM 20A -->
-            <div class="card">
-                <h4><span>⚪</span> Opción B: Tomacorriente IRAM Reforzado de 20A</h4>
-                <p>Alternativa normalizada para cables portátiles que vienen de fábrica con ficha IRAM 20A de patas gruesas.</p>
-                <ul class="card-spec-list">
-                    <li><strong>Norma:</strong> IRAM 2071 (2 Polos + Tierra - 20 Amperes - Patas gruesas/inclinadas).</li>
-                    <li><strong>Capacidad:</strong> 20A intermitente / 16A continuo (Hasta 3.7 kW).</li>
-                    <li><strong>Montaje:</strong> Caja exterior estanca de sobreponer (tipo Roker/Cambre) o embutida dedicada.</li>
-                    <li><strong>Requisito normativo:</strong> Línea exclusiva con térmica de 20A y cable de 4 mm². No compartir con iluminación ni otros tomas.</li>
-                    <li><strong>Uso recomendado:</strong> Exclusivo para cocheras cubiertas libres de intemperie y agua directa.</li>
-                </ul>
+            <h3 class="tech-sub">Por qué se Elige Cable XLPE / Libre de Halógenos (Prysmian Afumex Plus)</h3>
+            <p class="tech-desc">
+                En el mercado eléctrico argentino existen dos grandes familias de cables unipolares: los tradicionales con aislación de <strong>PVC policloruro de vinilo (Norma IRAM NM 247-3)</strong> con temperatura máxima de trabajo admisible de <strong>70°C</strong> en el conductor, y los conductores con aislamiento de <strong>Polietileno Reticulado o Termoplástico Libre de Halógenos (Norma IRAM 62267 / IEC 60502-1)</strong> aptos para régimen permanente continuo de <strong>90°C</strong> y picos de sobrecarga de hasta 130°C:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>Resistencia a la Fatiga Térmica Continua y Fluencia del Aislamiento:</strong>
+                    Bajo un régimen ininterrumpido de 32 Amperes durante 8 a 10 horas dentro de una cañería embutida o a la vista, un conductor de PVC convencional opera a escasos grados de su límite de reblandecimiento térmico (70°C). Con el transcurso de las semanas, el plástico se torna elásticamente inestable; en cada curva del caño o en puntos de apoyo mecánico sobre grapas, el conductor de cobre caliente presiona contra la pared del aislante produciendo <em>migración radial del cobre</em>. El espesor dieléctrico se reduce milímetro a milímetro hasta perforarse, provocando una fuga a tierra o un cortocircuito franco. Por el contrario, el cable <strong>Prysmian Afumex Plus 90°C</strong> utiliza una matriz molecular reticulada termoestable que no fluye con la temperatura, manteniendo su rigidez dieléctrica inalterable a lo largo de décadas.
+                </li>
+                <li>
+                    <strong>Toxicidad Cero y Seguridad Antisinistro en Cocheras y Subsuelos:</strong>
+                    El PVC contiene cloro en su estructura molecular. En caso de cortocircuito o principio de incendio, un metro de cable de PVC emite densas nubes de ácido clorhídrico gaseoso ($HCl$). Al combinarse con la humedad del aire o de las mucosas pulmonares, el $HCl$ forma ácido líquido que destruye el aparato respiratorio de las personas en menos de 3 minutos, además de atacar químicamente la electrónica del vehículo y oxidar estructuras metálicas. El cable <strong>Prysmian Afumex Plus es LSOH (Low Smoke Zero Halogen)</strong>: es ignífugo, no propaga la llama, autoextinguible, con emisión nula de halógenos y humos transparentes que garantizan la visibilidad y evacuación en garajes cerrados.
+                </li>
+                <li>
+                    <strong>Terminantemente Prohibido el Uso de Aluminio:</strong>
+                    Queda estrictamente prohibido utilizar conductores de aluminio o aleaciones cobreadas (CCA). Las borneras de los cargadores Wallbox y de las térmicas modulares están dimensionadas para cobre electrolítico recocido IRAM NM 280 Clase 4 o Clase 5. El aluminio sufre corrosión galvánica por par bimetálico y posee un coeficiente de fluencia en frío elevado: bajo la presión del tornillo, el aluminio se deforma plásticamente ("escurre"), el borne pierde apriete con los ciclos térmicos y la resistencia de contacto se dispara hasta provocar incendio.
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">Factores de Corrección Térmica y Agrupamiento (AEA 90364-7-771 / 722)</h3>
+            <p class="tech-desc">
+                La corriente admisible tabular de un cable ($I_0$) está calculada para un único circuito al aire libre a 40°C. En una cochera real, el cable comparte cañería o atraviesa locales cerrados con temperaturas estivales de 45°C. La corriente admisible real ($I_{adm}$) se calcula mediante la fórmula:
+                <br><br>
+                <code style="display: block; padding: 12px; font-size: 0.95rem; text-align: center;">I_adm = I_0 &times; F_t &times; F_g</code>
+                <br>
+                Donde <strong>$F_t$</strong> es el factor por temperatura ambiente ($0.91$ para 40°C en PVC y $0.95$ para 45°C en XLPE) y <strong>$F_g$</strong> es el factor por agrupamiento de circuitos ($0.80$ para 2 circuitos en la misma canalización; $0.70$ para 3 circuitos). <strong>Por esta razón, una línea de 4 mm² que en catálogo dice admitir 28A queda reducida a menos de 20A en verano, resultando insuficiente y peligrosa para un cargador de 32A.</strong>
+            </p>
+
+            <h3 class="tech-sub">Tabla Maestra de Secciones, Caída de Tensión y Marcas de Plaza</h3>
+            <table class="tech-table">
+                <thead>
+                    <tr>
+                        <th style="width: 24%;">Régimen de Carga</th>
+                        <th style="width: 25%;">Hasta 15 Metros</th>
+                        <th style="width: 25%;">De 15 a 30 Metros</th>
+                        <th style="width: 26%;">De 30 a 50 Metros</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Monofásico 7.4 kW (32A)</strong><br>
+                            <span style="font-size: 0.75rem; color: #94a3b8;">Wallbox o Toma Ind. CEE 32A<br>U = 230V / Cos &phi; = 1.0</span>
+                        </td>
+                        <td>
+                            <code>2 x 6 mm² + PE 6 mm²</code><br>
+                            Caída de tensión: &asymp; 1.25% (2.87V)<br>
+                            <em>Prysmian Afumex / Imsat</em>
+                        </td>
+                        <td>
+                            <code>2 x 10 mm² + PE 10 mm²</code><br>
+                            Caída de tensión: &asymp; 1.30% (2.99V)<br>
+                            <span style="color: #38bdf8; font-weight: 700;">Obligatorio subir sección</span>
+                        </td>
+                        <td>
+                            <code>2 x 16 mm² + PE 16 mm²</code><br>
+                            Caída de tensión: &asymp; 1.45% (3.33V)<br>
+                            <em>Garantiza 220V reales en bornes</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Monofásico 3.7 kW (16A)</strong><br>
+                            <span style="font-size: 0.75rem; color: #94a3b8;">Toma CEE 16A / IRAM 20A<br>Cargador Portátil Modo 2</span>
+                        </td>
+                        <td>
+                            <code>2 x 4 mm² + PE 4 mm²</code><br>
+                            Caída de tensión: &asymp; 0.95% (2.18V)<br>
+                            <span style="color: #f87171; font-weight: 700;">Prohibido cable 2.5 mm²</span>
+                        </td>
+                        <td>
+                            <code>2 x 6 mm² + PE 6 mm²</code><br>
+                            Caída de tensión: &asymp; 1.15% (2.64V)<br>
+                            <em>Prysmian Superastic / Afumex</em>
+                        </td>
+                        <td>
+                            <code>2 x 10 mm² + PE 10 mm²</code><br>
+                            Caída de tensión: &asymp; 1.35% (3.10V)<br>
+                            <em>Tirada larga de estacionamiento</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Trifásico 11 kW (3x16A)</strong><br>
+                            <span style="font-size: 0.75rem; color: #94a3b8;">Wallbox Domicilio Trifásico<br>U = 400V entre fases</span>
+                        </td>
+                        <td>
+                            <code>4 x 4 mm² + PE 4 mm²</code><br>
+                            Caída de tensión: &asymp; 0.85% (3.4V)<br>
+                            <em>Tetrapolar en caño 1"</em>
+                        </td>
+                        <td>
+                            <code>4 x 6 mm² + PE 6 mm²</code><br>
+                            Caída de tensión: &asymp; 1.05% (4.2V)<br>
+                            <em>Prysmian Afumex Tetrapolar</em>
+                        </td>
+                        <td>
+                            <code>4 x 10 mm² + PE 10 mm²</code><br>
+                            Caída de tensión: &asymp; 1.20% (4.8V)<br>
+                            <em>Caño acero Daisa 1 1/4"</em>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Trifásico 22 kW (3x32A)</strong><br>
+                            <span style="font-size: 0.75rem; color: #94a3b8;">Wallbox Comercial / Flotas<br>U = 400V entre fases</span>
+                        </td>
+                        <td>
+                            <code>4 x 6 mm² + PE 6 mm²</code><br>
+                            Caída de tensión: &asymp; 1.10% (4.4V)<br>
+                            <em>Caño Daisa 1" o bandeja perforada</em>
+                        </td>
+                        <td>
+                            <code>4 x 10 mm² + PE 10 mm²</code><br>
+                            Caída de tensión: &asymp; 1.25% (5.0V)<br>
+                            <em>Conductores Afumex 90°C</em>
+                        </td>
+                        <td>
+                            <code>4 x 16 mm² + PE 16 mm²</code><br>
+                            Caída de tensión: &asymp; 1.40% (5.6V)<br>
+                            <em>Subterráneo Sintenax reticulado</em>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="tech-sub">Canalizaciones: Caño Rígido Daisa vs PVC Semipesado</h3>
+            <p class="tech-desc">
+                La canalización de la línea del cargador debe soportar el ambiente agresivo de un garaje o la intemperie:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>En Cocheras, Estacionamientos y Subsuelos (Obligatorio Caño Daisa):</strong>
+                    La norma AEA 722 exige protección mecánica contra impacto grado <strong>IK08 a IK10</strong> (resistencia al choque accidental de paragolpes, herramientas o carritos de supermercado). Se debe instalar <strong>caño de acero cincado rígido semipesado tipo DAISA</strong> de diámetro mínimo <strong>1 pulgada (25.4 mm)</strong> para monofásico o <strong>1 1/4 pulgada</strong> para trifásico. Las curvas deben ser estampadas a 90° de radio amplio (nunca codos vivos que dañan el cable al tirar). Las cajas de derivación deben ser tipo Condulet estancas con junta de neoprene y tornillo de puesta a tierra interior para vincular la continuidad de toda la cañería metálica al sistema equipotencial.
+                </li>
+                <li>
+                    <strong>En Fachadas Exteriores a la Intemperie (PVC Rígido Semipesado con Filtro UV):</strong>
+                    Se utiliza <strong>tubo rígido de PVC semipesado ignífugo (Tubomatic / Tigre) de 25 mm o 32 mm</strong> con protección anti-UV certificada, fijado a la pared con grampas omega cincadas cada 60 cm para evitar flechas por dilatación térmica solar. Las uniones se sellan con adhesivo para PVC para garantizar grado IP65.
+                </li>
+            </ul>
+        </div>
+
+        <!-- CAPÍTULO 3: PUESTO DE RECARGA MODO 2 (TOMAS INDUSTRIALES) -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">03</div>
+                <div>
+                    <span class="chap-sub">Carga Segura con Cable Portátil de Fábrica</span>
+                    <div class="chap-title">PUESTO MODO 2: POR QUÉ EL TOMA INDUSTRIAL CEE Y EL DESARME DEL CONTACTO</div>
+                </div>
+            </div>
+
+            <div class="box-danger">
+                <strong>🔥 LA AUTOPSIA DE UN ENCHUFE COMÚN DERRETIDO:</strong><br>
+                Un tomacorriente domiciliario común de 10A IRAM 2071 basa su contacto en <strong>dos finas láminas estampadas de latón de 0.4 mm de espesor dobladas en "V"</strong>. Al enchufar y desenchufar artefactos, el metal sufre fatiga elástica. Cuando un auto eléctrico demanda 10A a 16A continuos durante 8 o 10 horas seguidas, la temperatura del contacto supera los 80°C. A esa temperatura el latón pierde su temple elástico ("se destempla"), la presión sobre la pata de la ficha cae a cero y se forma un micro-arco voltaico continuo.<br>
+                La resistencia de contacto salta de $0.01\ \Omega$ a más de $0.5\ \Omega$, generando una potencia térmica concentrada de <strong>$P = I^2 \cdot R = 16^2 \cdot 0.5 = 128\text{ Watts}$</strong> en un volumen de apenas dos centímetros cúbicos. <strong>El plástico del enchufe se carboniza, la caja embutida se incendia y el enchufe del cargador del auto queda soldado y arruinado.</strong>
+            </div>
+
+            <h3 class="tech-sub">La Mecánica de un Tomacorriente Industrial CEE Azul (IEC 60309)</h3>
+            <p class="tech-desc">
+                El tomacorriente industrial CEE (norma internacional IEC 60309, vulgarmente conocido como "toma azul de 2P+Tierra") fue diseñado para servicio pesado en astilleros, frigoríficos y obradores industriales:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>Contacto de Buje Cilíndrico con Resorte de Acero Inoxidable:</strong>
+                    A diferencia del enchufe común, la base hembra industrial posee un buje cilíndrico de latón macizo mecanizado de 6 mm de diámetro interior, abrazado perimetralmente por un <strong>resorte helicoidal de compresión de acero inoxidable</strong>. Al ingresar la espiga macho, el resorte ejerce una presión mecánica constante de más de <strong>18 Newtons</strong> sobre los 360° de la superficie del pin. Cero resistencia de contacto, cero calentamiento acumulado.
+                </li>
+                <li>
+                    <strong>Espigas Macizas de Gran Sección:</strong>
+                    Las espigas de la ficha macho son de latón macizo niquelado de 6 mm de diámetro (versión 16A) u 8 mm (versión 32A), con capacidad térmica suficiente para disipar cualquier calor hacia el cuerpo de la ficha.
+                </li>
+                <li>
+                    <strong>Traba Mecánica Antidesconexión y Tapa Hermética IP44/IP67:</strong>
+                    La base hembra cuenta con una tapa frontal rebatible con resorte y traba mecánica que se engancha en la uña de la ficha macho. Es imposible que el cable se desconecte por tirones accidentales o tropiezos mientras el auto está cargando.
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">Por qué el Modo 2 con Toma Industrial es la Solución Ideal para el 80% de los Clientes</h3>
+            <p class="tech-desc">
+                El cliente promedio en Argentina recorre entre 30 y 50 kilómetros diarios en ciudad. Esto representa un consumo energético de apenas <strong>6 a 9 kWh por día</strong>. Con un puesto Modo 2 equipado con toma industrial CEE de 16A (3.7 kW), el vehículo recupera toda la energía gastada en <strong>menos de 2 horas y media de carga nocturna</strong>, utilizando el cargador portátil que ya vino gratis en el baúl del auto. El cliente ahorra más de $1.200.000 pesos en la compra de un Wallbox, conservando una instalación eléctrica 100% segura, robusta y certificada.
+            </p>
+
+            <h3 class="tech-sub">Paso a Paso de Armado y Montaje de un Puesto Modo 2 en Obra</h3>
+            <ul class="step-list">
+                <li>
+                    <strong>1. Selección y Ubicación de la Base Mural:</strong>
+                    Instalar una base hembra mural de pared inclinada (marcas Scame Optima, Steck New Kon o Schneider PratiKa) fijada a la pared a una altura de <strong>1.20 metros a 1.40 metros</strong> del piso, en el lateral del garaje correspondiente al puerto de carga del auto. Fijar con 4 tarugos de nylon Fischer SX8 y tornillos de acero inoxidable de 5x50 mm.
+                </li>
+                <li>
+                    <strong>2. Desforrado y Preparación del Conductor de 4 mm² o 6 mm²:</strong>
+                    Pelar la cubierta exterior del cable con pelacables longitudinal sin mellar los aislantes internos. Desforrar exactamente <strong>15 mm</strong> de cobre en cada polo (Fase, Neutro y Tierra).
+                </li>
+                <li>
+                    <strong>3. Colocación de Terminales Tubulares (Punteras Huecas):</strong>
+                    Está terminantemente prohibido apretar los hilos finos de cobre directamente con el tornillo del borne. Colocar terminales tubulares de cobre estañado normalizados <strong>DIN 46228</strong> y crimpar con pinza hexagonal autorregulable. Esto evita que hilos sueltos queden fuera del borne y asegura un contacto cilíndrico perfecto.
+                </li>
+                <li>
+                    <strong>4. Prensado en Bornes con Torquímetro Calibrado:</strong>
+                    Acometer por la parte inferior de la base a través de un prensacables estanco M20 o M25 con O-ring de neoprene. Conectar Fase en L, Neutro en N y Tierra en el borne verde con símbolo de PE. Ajustar los tornillos de los bornes a un <strong>par de apriete de 2.0 Nm</strong> utilizando un destornillador dinamométrico.
+                </li>
+                <li>
+                    <strong>5. Reemplazo de Ficha en el Cargador Portátil (Si vino con Schuko o 10A):</strong>
+                    Si el cargador portátil del auto trajo ficha Schuko europea o ficha común de 10A, cortar el extremo a 10 cm, desforrar con cuidado la malla de tierra y los conductores de potencia, crimpar punteras huecas y montar una <strong>ficha macho móvil CEE azul de 16A (Scame Cód. 213.1633 o Steck Cód. S-3076)</strong> ajustando el prensacables cónico trasero hasta morder firmemente la cubierta exterior del cable.
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">Catálogo de Fichas y Tomas de Plaza en Argentina</h3>
+            <table class="tech-table">
+                <thead>
+                    <tr>
+                        <th>Marca</th>
+                        <th>Modelo / Serie</th>
+                        <th>Base Hembra Mural de Pared</th>
+                        <th>Ficha Macho Móvil (Al Cable)</th>
+                        <th>Especificaciones de Catálogo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>SCAME (Italia/Arg)</strong></td>
+                        <td>Serie OPTIMA / EUREKA</td>
+                        <td>
+                            <strong>16A 2P+T IP44:</strong> Cód. <code>513.1653</code><br>
+                            <strong>32A 2P+T IP44:</strong> Cód. <code>513.3253</code><br>
+                            <em>(Opción IP67 roscada: 518.1653)</em>
+                        </td>
+                        <td>
+                            <strong>16A 2P+T IP44:</strong> Cód. <code>213.1633</code><br>
+                            <strong>32A 2P+T IP44:</strong> Cód. <code>213.3233</code>
+                        </td>
+                        <td>
+                            Carcasa en tecnopolímero autoextinguible libre de halógenos. Prensacables cónico trasero antivibratorio integrado. Bornes con tornillos imperdibles cautivos.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>STECK Argentina</strong></td>
+                        <td>Serie NEW KON</td>
+                        <td>
+                            <strong>16A 2P+T IP44:</strong> Cód. <code>S-3056</code><br>
+                            <strong>32A 2P+T IP44:</strong> Cód. <code>S-4056</code>
+                        </td>
+                        <td>
+                            <strong>16A 2P+T IP44:</strong> Cód. <code>S-3076</code><br>
+                            <strong>32A 2P+T IP44:</strong> Cód. <code>S-4076</code>
+                        </td>
+                        <td>
+                            Poliamida 6 de alta resistencia al impacto mecánico (IK08). Contactos de aleación de cobre autolimpiantes con baño electrolítico de níquel contra sulfato.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>SCHNEIDER ELECTRIC</strong></td>
+                        <td>Serie PRATIKA Fast</td>
+                        <td>
+                            <strong>16A 2P+T Fast IP44:</strong> Cód. <code>PKF16M423</code><br>
+                            <strong>32A 2P+T Fast IP44:</strong> Cód. <code>PKF32M423</code>
+                        </td>
+                        <td>
+                            <strong>16A 2P+T IP44:</strong> Cód. <code>PKX16M423</code><br>
+                            <strong>32A 2P+T IP44:</strong> Cód. <code>PKX32M423</code>
+                        </td>
+                        <td>
+                            Tecnología de inserción rápida por resorte sin tornillos ("Fast"). Máxima velocidad de montaje y apriete antivibratorio permanente de por vida.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>CAMBRE (IRAM 20A)</strong></td>
+                        <td>Línea Siglo XXI / Bauhaus</td>
+                        <td>
+                            <strong>Módulo Toma 20A 250V:</strong> Cód. <code>6920 / 6921</code><br>
+                            <em>(Montado en caja exterior estanca Roker IP55)</em>
+                        </td>
+                        <td>
+                            <strong>Ficha Macho 20A 3 Patas Planas:</strong> Cód. <code>6925</code>
+                        </td>
+                        <td>
+                            Espigas planas de 20A sobredimensionadas. Solo apto para cables que vienen de fábrica con ficha IRAM 20A y exclusivamente en cocheras cubiertas.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CAPÍTULO 4: PUESTA A TIERRA (PAT) AL DETALLE -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">04</div>
+                <div>
+                    <span class="chap-sub">Tratado Profundo de Seguridad de Vida y Electrónica</span>
+                    <div class="chap-title">PUESTA A TIERRA (PAT): LA FÍSICA DEL LAZO, RESISTIVIDAD DE SUELOS Y MONTAJE EN OBRA</div>
+                </div>
+            </div>
+
+            <h3 class="tech-sub">1. La Física del Rechazo de Tierra: Por qué el Auto Bloquea la Carga si Rpat &gt; 10 &Omega;</h3>
+            <p class="tech-desc">
+                En cualquier electrodoméstico convencional (una heladera, un lavarropas o un motor), el conductor de protección (PE) cumple una función pasiva: permanece inactivo y solo interviene si un cable con tensión toca el chasis metálico para drenar la corriente y hacer saltar el disyuntor diferencial. Un electrodoméstico funciona normalmente aun si la tierra está cortada.
+            </p>
+            <p class="tech-desc">
+                <strong>En un vehículo eléctrico, la puesta a tierra es un componente ACTIVO del protocolo de comunicación y seguridad:</strong>
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>La Prueba Electrónica de Impedancia de Lazo (PE Pre-Check):</strong>
+                    Antes de cerrar los contactores principales de potencia (400V de corriente continua), la computadora del Wallbox y el Cargador de a Bordo (*On-Board Charger - OBC*) del vehículo realizan un ensayo de seguridad milimétrico. El circuito de control inyecta una micro-onda de señal de alta frecuencia entre Fase y Tierra ($L\text{-}PE$) y entre Neutro y Tierra ($N\text{-}PE$), midiendo la impedancia total del bucle de retorno de falla ($Z_{loop}$). Si la electrónica detecta que la resistencia de puesta a tierra es superior a <strong>$10.0\ \Omega$</strong> (en modelos exigentes como Renault Zoe, Nissan Leaf, Porsche Taycan, Audi e-tron y BYD), el procesador aborta la secuencia de arranque, bloquea los contactores y destella luz roja con el error: <em>"Ground Connection Lost / PE Resistance High"</em>.
+                </li>
+                <li>
+                    <strong>Tensión de Contacto en Garajes y Cocheras Húmedas (Límite 24 Volts):</strong>
+                    La reglamentación AEA 90364-7-722 clasifica a los puntos de recarga de vehículos como <em>locales especiales con riesgo incrementado</em>. En una habitación seca, la tensión de seguridad sin riesgo vital es de 50V; pero en una cochera, donde el piso puede estar mojado por lluvia, lavados o humedad freática, <strong>la tensión de contacto máxima admisible se reduce a solo $U_L \le 24\text{ Volts}$</strong>. Con un disyuntor diferencial de sensibilidad $I_{\Delta n} = 30\text{ mA}$, la Ley de Ohm impone que la resistencia máxima de tierra sea:
+                    <br><br>
+                    <code style="display: block; padding: 12px; font-size: 0.95rem; text-align: center;">R_{pat\_max} = \frac{U_L}{I_{\Delta n}} = \frac{24\text{ V}}{0.030\text{ A}} = 800\ \Omega\text{ (Límite teórico de disparo)}</code>
+                    <br>
+                    Sin embargo, para garantizar la evacuación de las corrientes de fuga parásitas de alta frecuencia de los filtros EMI del inversor (que suman entre 5 y 12 mA permanentes sin falla) y evitar que la tensión Neutro-Tierra supere los 2V, <strong>el estándar internacional de electromovilidad y las automotrices exigen de forma terminante $R_{pat} \le 10\ \Omega$</strong>.
+                </li>
+                <li>
+                    <strong>La Tensión Neutro-Tierra ($V_{N-PE}$):</strong>
+                    En la red eléctrica argentina de baja tensión, el Neutro de la distribuidora (Edenor / Edesur) sufre desbalances por cargas asimétricas en el transformador de manzana. Si la puesta a tierra del domicilio es deficiente o de alto valor óhmico, se produce una diferencia de potencial entre el Neutro y la Tierra local. <strong>Si $V_{N-PE}$ supera los $2.5\text{V} - 3.0\text{V}$, los filtros de modo común del auto se saturan y la computadora del auto cancela la carga</strong>.
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">2. Los Regímenes de Tierra: Por qué TT es Obligatorio y TN-C Está Prohibido</h3>
+            <p class="tech-desc">
+                * <strong>Esquema TT (Tierra de Servicio Separada de Tierra de Protección):</strong> Es el régimen mandatorio en Argentina para toda instalación conectada a la red pública de baja tensión según AEA 90364. La distribuidora clava sus jabalinas en el transformador de media/baja tensión (Tierra de servicio), y el usuario final DEBE clavar su propia jabalina independiente en su inmueble (Tierra de protección PE). La protección contra contactos indirectos descansa exclusivamente en el interruptor diferencial.<br>
+                * <strong>Esquema TN-S:</strong> Solo admisible en plantas industriales con transformador MT/BT propio y personal de mantenimiento calificado, donde el conductor neutro (N) y el conductor de protección (PE) viajan separados en toda la instalación.<br>
+                * <strong>Esquema TN-C (PELIGRO MORTAL - ESTRICTAMENTE PROHIBIDO):</strong> En este esquema se unifica el Neutro y la Tierra en un único conductor PEN. <strong>En Argentina está terminantemente prohibido por la AEA</strong>: si en la calle se produce el corte accidental del conductor neutro de la distribuidora, <strong>la carrocería completa del auto eléctrico y las masas metálicas de la vivienda quedan energizadas a 220 Volts de corriente alterna</strong>, convirtiendo al auto en una trampa mortal al momento de tocar la manija o la chapa.
+            </p>
+
+            <h3 class="tech-sub">3. Resistividad de Suelos en Argentina y Fórmula Teórica de Resistencia</h3>
+            <p class="tech-desc">
+                La resistencia de una jabalina enterrada depende directamente de la <strong>resistividad geoeléctrica del terreno ($\rho$, expresada en $\Omega\cdot\text{m}$)</strong>. La fórmula clásica de Dwight / Laurent para una jabalina vertical cilíndrica es:
+                <br><br>
+                <code style="display: block; padding: 12px; font-size: 0.95rem; text-align: center;">R_{pat} = \frac{\rho}{2 \cdot \pi \cdot L} \cdot \left[ \ln\left(\frac{4 \cdot L}{d}\right) - 1 \right]</code>
+                <br>
+                Donde $L$ es la longitud de la jabalina en metros (ej: $1.50\text{ m}$), $d$ es el diámetro exterior ($0.0158\text{ m}$ para $5/8"$), y $\rho$ es la resistividad del terreno.
+            </p>
+
+            <table class="tech-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Zona Geográfica Argentina</th>
+                        <th style="width: 25%;">Naturaleza del Suelo</th>
+                        <th style="width: 25%;">Resistividad Típica (&rho;)</th>
+                        <th style="width: 25%;">Resistencia con 1 Jabalina 5/8" x 1.5m</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Pampa Húmeda / Bs. As. Interior</strong></td>
+                        <td>Tierra negra vegetal, humus profundo, alta retención hídrica</td>
+                        <td><code>20 a 40 &Omega;&middot;m</code></td>
+                        <td><strong>$12\ \Omega\text{ a }24\ \Omega$</strong><br><span style="color: #34d399;">Fácil de llevar a &le; 10 &Omega; con hincado a 2m o bentonita</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>CABA y Gran Buenos Aires (Conurbano)</strong></td>
+                        <td>Tosca arcillosa compacta, arcilla limo-arenosa pampeana</td>
+                        <td><code>40 a 80 &Omega;&middot;m</code></td>
+                        <td><strong>$24\ \Omega\text{ a }48\ \Omega$</strong><br><span style="color: #38bdf8;">Requiere jabalina de 2.0m o doble jabalina</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Urbanizaciones Nuevas / Barrios Cerrados</strong></td>
+                        <td>Suelos de relleno, tosca compactada con escombros de obra</td>
+                        <td><code>90 a 180 &Omega;&middot;m</code></td>
+                        <td><strong>$55\ \Omega\text{ a }110\ \Omega$</strong><br><span style="color: #f59e0b;">Obligatorio 2 jabalinas en paralelo + bentonita</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Costa Atlántica (Mar del Plata a Pinamar)</strong></td>
+                        <td>Arena de médano seca, grava permeable sin retención de sales</td>
+                        <td><code>400 a 1.200 &Omega;&middot;m</code></td>
+                        <td><strong>$240\ \Omega\text{ a }720\ \Omega$</strong><br><span style="color: #f87171;">Imposible con 1 jabalina; requiere malla y geles químicos</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cuyo / Sierras de Córdoba / Patagonia</strong></td>
+                        <td>Suelos rocosos, graníticos, pedregosos y áridos</td>
+                        <td><code>800 a 3.000 &Omega;&middot;m</code></td>
+                        <td><strong>$480\ \Omega\text{ a }1.800\ \Omega$</strong><br><span style="color: #f87171;">Requiere pozo perforado con camisa de bentonita</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="tech-sub">4. Configuración de Múltiples Jabalinas en Paralelo: La Regla de los Dos Radios</h3>
+            <p class="tech-desc">
+                Cuando una sola jabalina no alcanza para lograr los $\le 10\ \Omega$ exigidos, se debe hincar una segunda (o tercera) jabalina conectada en paralelo mediante un conductor de cobre desnudo de $25\text{ mm}^2$ o cable aislado verde/amarillo de $16\text{ mm}^2$ enterrado en zanja a 50 cm de profundidad.
+            </p>
+            <div class="box-pro">
+                <strong>📐 LA REGLA INQUEBRANTABLE DE LA SEPARACIÓN MECÁNICA ($d \ge 2L$):</strong><br>
+                Toda jabalina disipa la corriente en la tierra a través de un bulbo equipotencial hemisférico cuyo radio de influencia efectivo es igual a su longitud clavada ($L$).<br>
+                Si se clavan dos jabalinas de 1.50 metros de largo separadas por solo 1 metro, <strong>sus bulbos de dispersión se solapan geométricamente y la resistencia no baja más de un 10%</strong> (dinero tirado a la basura).<br>
+                <strong>La separación mínima entre jabalinas debe ser como mínimo el doble de su longitud: $d \ge 2 \cdot L = 2 \times 1.50\text{ m} = 3.00\text{ metros}$</strong> (idealmente 3.5 a 4 metros). A esa distancia, la resistencia equivalente del conjunto cae prácticamente al 50%:
+                <br><br>
+                <code style="display: block; padding: 10px; font-size: 0.95rem; text-align: center;">R_{eq} = \frac{R_1 \times R_2}{R_1 + R_2} \times \eta \quad (\text{con factor de acoplamiento } \eta \approx 1.15)</code>
+            </div>
+
+            <h3 class="tech-sub">5. Procedimiento Operativo de Obra: Perforación en Garaje y Hincado Paso a Paso</h3>
+            <p class="tech-desc">
+                En el 90% de las casas residenciales o edificios, el cargador se monta dentro de un garaje con <strong>piso de losa de hormigón armado, cerámicos o contrapiso reforzado</strong> sin canteros de tierra a la vista. El procedimiento profesional de ejecución es el siguiente:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>Paso 1: Detección de Interferencias Ocultas:</strong>
+                    Pasar un detector magnético y de cañerías (Bosch D-tect 120 o similar) en el punto elegido del suelo del garaje para verificar que no pasen caños de gas, agua caliente, desagües pluviales ni las barras de la malla sima de la losa.
+                </li>
+                <li>
+                    <strong>Paso 2: Perforación del Piso con Mecha Copa Diamantada:</strong>
+                    Montar en un rotomartillo una <strong>mecha copa diamantada o de widia de 110 mm o 125 mm de diámetro</strong> con refrigeración por agua. Perforar el cerámico y la losa de hormigón hasta alcanzar el terreno natural de tierra. Retirar el cilindro testigo de concreto.
+                </li>
+                <li>
+                    <strong>Paso 3: Excavación Piloto Exploratoria:</strong>
+                    Con una pala pocera o barretín, excavar a mano los primeros 30 cm de tierra para asegurar visualmente que no existan interferencias mecánicas subterráneas.
+                </li>
+                <li>
+                    <strong>Paso 4: Hincado de la Jabalina con Rotomartillo SDS Max:</strong>
+                    Utilizar exclusivamente jabalinas de acero cobreado bajo <strong>Norma IRAM 2309 con capa electrolítica de cobre de 250 micrones</strong> (marcas <strong>FacBSA, Liat o ERICO nVent</strong>). Dimensión recomendada: <strong>$5/8" \times 1.50\text{ m}$ o $3/4" \times 2.00\text{ m}$</strong>.<br>
+                    <em>Técnica de penetración:</em> Para no machacar la cabeza de cobre a martillazos (lo cual destruye el baño de cobre e impide colocar el tomacable), enroscar una <strong>sufridera de bronce roscada</strong> en la cabeza o acoplar al rotomartillo SDS Max un <strong>vástago extractor/hincador de jabalinas</strong> con encastre cilíndrico hembra. El rotomartillo en modo solo percusión introduce la jabalina de 1.5m en menos de 2 minutos sin ningún esfuerzo físico.
+                </li>
+                <li>
+                    <strong>Paso 5: Tratamiento Químico con Bentonita Sódica (Si el suelo es de alta resistencia):</strong>
+                    Si al medir la resistencia se obtienen $> 10\ \Omega$, verter alrededor de la jabalina un lodo compuesto por <strong>Bentonita sódica micronizada activada</strong> mezclada en proporción 1:3 con agua (preparada en un balde de albañil). La bentonita es una arcilla mineral higroscópica coloidal que absorbe hasta 5 veces su peso en agua, se expande sellando el espacio anular entre el metal y la tierra, y reduce la resistencia de contacto del electrodo entre un 40% y un 60% de forma indefinida en el tiempo.
+                </li>
+                <li>
+                    <strong>Paso 6: Montaje de la Caja de Inspección enrasada a Piso:</strong>
+                    Amurar en el orificio de 110mm una <strong>caja de inspección de fundición de aluminio o PVC de alto impacto de $15 \times 15\text{ cm}$ o $20 \times 20\text{ cm}$</strong> con tapa abulonada de fundición antideslizante nivelada al ras del piso del garaje (capaz de soportar el peso de las ruedas del auto). La cabeza de la jabalina debe emerger exactamente 10 cm del fondo para trabajar con comodidad.
+                </li>
+                <li>
+                    <strong>Paso 7: Tomacable de Bronce y Grasa Conductiva Grafitada:</strong>
+                    Fijar el cable de bajada unipolar verde/amarillo de <strong>$10\text{ mm}^2$ o $16\text{ mm}^2$ (IRAM NM 247-3 / IRAM 62267)</strong> a la jabalina utilizando un <strong>tomacable de bronce forjado de alta resistencia mecánica con bulón de acero inoxidable</strong>. Apretar con llave estriada de 13mm. Untar generosamente toda la unión con <strong>grasa grafitada conductiva anti-sulfato</strong> para bloquear la humedad e impedir la corrosión galvánica entre el cobre del cable y el bronce del tomacable.
+                </li>
+                <li>
+                    <strong>Paso 8: Puente Seccionable de Medición (IRAM 2281):</strong>
+                    Intercalar dentro de la caja de inspección (o en la base del tablero seccional) una <strong>barra seccionable de cobre con tornillos de desconexión rápida</strong>. Este puente permite aislar la jabalina del resto de la casa al momento de realizar la verificación periódica con el telurímetro sin tener que cortar cables.
+                </li>
+                <li>
+                    <strong>Paso 9: Canalización Mecánica Protegida hasta el Tablero:</strong>
+                    El cable de tierra de 10 mm² o 16 mm² debe subir desde la caja de inspección hasta el tablero seccional dentro de un <strong>caño de acero cincado Daisa de 3/4" o 1"</strong> amurado rígidamente a la pared para que jamás pueda ser cortado accidentalmente por una bordeadora, un golpe o una herramienta.
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">6. Protocolo de Medición Rigurosa con Telurímetro (Método de la Caída de Potencial al 62%)</h3>
+            <p class="tech-desc">
+                Para certificar legalmente el valor de $R_{pat} \le 10\ \Omega$ ante el cliente y la distribuidora según norma <strong>IRAM 2281-2 / IEEE 81</strong>:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>Paso A - Desconexión del Puente Seccionador:</strong>
+                    Abrir el puente de cobre de la caja de inspección. Es crítico que la jabalina quede totalmente desconectada de la instalación de la casa. Si se mide con la jabalina conectada, la corriente de prueba se fuga por el Neutro de la distribuidora o cañerías de agua de la calle y el telurímetro marca un valor falsamente bajo de 1 o 2 Ohms que no es real.
+                </li>
+                <li>
+                    <strong>Paso B - Conexión de Bornes del Instrumento:</strong>
+                    * Conectar el borne <strong>E (Tierra / Verde)</strong> a la cabeza de la jabalina bajo ensayo.<br>
+                    * Conectar el borne <strong>H / C (Corriente / Rojo)</strong> a la pica auxiliar de corriente hincada a una distancia fija de <strong>$d = 20\text{ metros}$</strong> en línea recta sobre terreno natural.<br>
+                    * Conectar el borne <strong>S / P (Potencial / Amarillo)</strong> a la pica auxiliar de potencial hincada exactamente al <strong>62% de la distancia total: $x = 0.62 \times 20\text{ m} = 12.4\text{ metros}$</strong> en la misma línea recta entre la jabalina y la pica de corriente.
+                </li>
+                <li>
+                    <strong>Paso C - Validación de la Meseta de Potencial (Comprobación de Incertidumbre):</strong>
+                    Presionar el pulsador TEST en la escala de $20\ \Omega$. Registrar el valor (ej: $6.8\ \Omega$).<br>
+                    Para validar que no hay interferencias subterráneas, desplazar la pica de potencial un metro hacia atrás (a 11.4 m) y medir; luego un metro hacia adelante (a 13.4 m) y medir. Si las tres lecturas coinciden con una variación menor al 5%, <strong>la medición es matemáticamente exacta y se encuentra dentro de la meseta plana del potencial cero</strong>. Anotar el valor exacto en el protocolo de entrega.
+                </li>
+            </ul>
+        </div>
+        <!-- CAPÍTULO 5: PROTECCIONES ELÉCTRICAS ESPECIALES -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">05</div>
+                <div>
+                    <span class="chap-sub">Protección Diferencial y Sobretensiones</span>
+                    <div class="chap-title">PROTECCIONES ESPECIALES: EL CEGAMIENTO EN CC Y PROTECTORES DE TENSIÓN</div>
+                </div>
+            </div>
+
+            <h3 class="tech-sub">La Física del "Cegamiento" (Blinding) del Disyuntor Diferencial</h3>
+            <p class="tech-desc">
+                Un disyuntor diferencial común (Tipo AC) funciona mediante un <strong>toroide ferromagnético</strong> por el que pasan la Fase y el Neutro. En condiciones normales, las corrientes son iguales y opuestas ($\vec{I}_F + \vec{I}_N = 0$), por lo que el flujo magnético en el núcleo es cero. Si una persona toca un cable, la corriente de fuga desbalancea el flujo e induce un voltaje en el bobinado secundario que dispara el relé mecánico.
+            </p>
+            <div class="box-danger">
+                <strong>⚡ POR QUÉ EL AUTO ANULA EL DISYUNTOR COMÚN TIPO AC:</strong><br>
+                Los vehículos eléctricos cargan mediante rectificadores conmutados en alta frecuencia vinculados a una batería de tracción de 400V o 800V de corriente continua. Ante una microfuga de corriente continua hacia tierra superior a <strong>$6\text{ mA CC}$</strong>, esa componente continua genera un flujo unidireccional constante que <strong>satura magnéticamente el núcleo de hierro del toroide (lo lleva al extremo de la curva de saturación B-H)</strong>.<br>
+                Al quedar saturado, el núcleo pierde su permeabilidad magnética y <strong>SE "CEGA"</strong>: si en ese momento una persona recibe una descarga de 220V de corriente alterna mortal, <strong>EL DISYUNTOR NO PUEDE INDUCIR VOLTAJE Y NO DISPARA JAMÁS</strong>.
+            </div>
+
+            <h3 class="tech-sub">Las Opciones Reglamentarias (AEA 772 / IEC 62955)</h3>
+            <ul class="step-list">
+                <li>
+                    <strong>Opción A (La más usada): Disyuntor Tipo A Superinmunizado + RDC-DD en Cargador:</strong>
+                    Se instala un disyuntor diferencial <strong>Tipo A Superinmunizado (30 mA AC)</strong> en el tablero. Es obligatorio que el cargador Wallbox certifique internamente un dispositivo <strong>RDC-DD (Residual Direct Current Detecting Device)</strong> bajo norma IEC 62955 que corta electrónicamente la carga si la fuga en continua alcanza los 6 mA CC antes de que el disyuntor se ciegue.<br>
+                    <em>Marcas: Schneider Acti9 iID Tipo A (Cód. A9R11240 / A9R14240), ABB F202 A-40/0.03, Chint NL210 Tipo A.</em>
+                </li>
+                <li>
+                    <strong>Opción B: Disyuntor Tipo B Puro (Para tomas industriales o cargadores sin RDC-DD):</strong>
+                    Si se instala un puesto Modo 2 con toma industrial azul o un cargador genérico importado que no trae sensor RDC-DD de 6mA, es <strong>obligatorio por norma instalar un Interruptor Diferencial Tipo B Puro</strong>. El Tipo B posee dos toroides independientes con sensores de efecto Hall que detectan fugas de CA, CA pulsante y CC pura hasta 1.000 Hz.<br>
+                    <em>Marcas: Chint NL210 Tipo B (40A 30mA), Schneider Acti9 iID B-EV, Doepke DFS 4 EV.</em>
+                </li>
+            </ul>
+
+            <h3 class="tech-sub">Protección contra Sobretensiones (DPS y Relé Permanente)</h3>
+            <p class="tech-desc">
+                En la red eléctrica argentina de Edenor, Edesur y cooperativas del interior, las fluctuaciones de voltaje son moneda corriente. Se deben montar en el tablero seccional dos protecciones coordinadas:
+            </p>
+            <ul class="step-list">
+                <li>
+                    <strong>Descargador de Sobretensiones Transitorias (DPS / SPD Tipo 2):</strong>
+                    Protege contra picos inducidos por rayos y maniobras de media tensión de la distribuidora. Debe tener varistores de óxido metálico con corriente nominal de descarga $I_n = 20\text{ kA}$, máxima $I_{max} = 40\text{ kA}$ y nivel de protección $U_p \le 1.5\text{ kV}$.<br>
+                    <em>Marcas: Schneider iPRD40r (con contacto de alarma), ABB OVR T2, Chint NU6-II 40kA.</em>
+                </li>
+                <li>
+                    <strong>Protector de Tensión Permanente Digital (Corte V-Max / V-Min):</strong>
+                    Desconecta el circuito si la tensión de línea supera los 248V o cae por debajo de 185V. Posee retardo de reconexión de 3 minutos para permitir que la red se estabilice antes de reanudar la carga.<br>
+                    <em>Marcas: Baw RU220-40A (montaje DIN directo para 40A), Finder Serie 7P, RBC Sitel.</em>
+                </li>
+            </ul>
+        </div>
+
+        <!-- CAPÍTULO 6: GUÍA DE MONTAJE EN OBRA PASO A PASO -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">06</div>
+                <div>
+                    <span class="chap-sub">Procedimiento Operativo de Campo</span>
+                    <div class="chap-title">GUÍA DE INSTALACIÓN Y MONTAJE EN TERRENO PASO A PASO</div>
+                </div>
+            </div>
+
+            <ul class="step-list">
+                <li>
+                    <strong>Relevamiento y Ubicación del Punto de Carga:</strong>
+                    Verificar de qué lado tiene el puerto de carga el vehículo del cliente (delantero, trasero izquierdo o derecho) para que la manguera de 5 metros no quede tirante ni en el aire donde pueda ser pisada por las ruedas. La altura reglamentaria de fijación del Wallbox o del toma industrial es de <strong>1.20 m a 1.40 m del nivel de piso terminado</strong>.
+                </li>
+                <li>
+                    <strong>Montaje del Tablero Seccional Dedicado (TSC):</strong>
+                    Fijar un gabinete estanco IP65 (Roker PR92 con cerradura o Gabexel chapa estampada) a no más de 2 metros del cargador, a una altura de 1.50m. Cablear internamente con peines de conexión aislados bipolares/tetrapolares de 63A y puentes de cable de 6 mm² o 10 mm² con punteras huecas estañadas.
+                </li>
+                <li>
+                    <strong>Tendido de Canalización Mecánica Daisa / Tubomatic:</strong>
+                    Trazar la cañería a nivel desde el tablero principal o seccional. Utilizar caño de acero cincado Daisa de 1" o tubo rígido PVC Tubomatic de 25/32mm fijado con grampas omega cada 60 cm. Acometer al cargador **exclusivamente por la base inferior** utilizando prensacables de nylon poliamida IP68 con tuerca y arandela de neoprene. <em>Nunca perforar por el techo ni los costados para evitar filtraciones por lluvia.</em>
+                </li>
+                <li>
+                    <strong>Cableado y Prensado con Torquímetro Dinamométrico:</strong>
+                    Pasar los conductores Prysmian Afumex ($6\text{ mm}^2$ o $10\text{ mm}^2$). Colocar terminales tubulares de cobre estañado (punteras huecas según DIN 46228) prensados con pinza hexagonal. Apretar los bornes de las térmicas, disyuntores y cargador utilizando un <strong>destornillador dinamométrico calibrado al torque de fabricante (2.8 Nm a 3.0 Nm)</strong>.
+                </li>
+                <li>
+                    <strong>Conexión de la Puesta a Tierra y Medición:</strong>
+                    Conectar el conductor PE de 6 mm² o 10 mm² directamente desde la barra de tierra del tablero a la bornera PE del Wallbox/Toma industrial. Realizar la medición de la jabalina con telurímetro y certificar $R_{pat} \le 10\ \Omega$.
+                </li>
+                <li>
+                    <strong>Instalación del Sensor de Balanceo Dinámico (Power Boost):</strong>
+                    En el tablero principal, abrazar la Fase de entrada con la pinza amperimétrica (TC) o intercalar el medidor Modbus Carlo Gavazzi EM112. Tirar el cable de datos apantallado UTP FTP Cat6 por cañería independiente hasta el cargador y conectar bornes A (+), B (-) y resistencia de terminación de 120 &Omega;.
+                </li>
+                <li>
+                    <strong>Comisionamiento y Ensayo en Vacío:</strong>
+                    Subir la térmica principal, comprobar tensiones con multímetro TrueRMS (Fase-Neutro: 220V &plusmn; 5%, Fase-Tierra: 220V, Neutro-Tierra &le; 2V). Verificar el encendido de los LEDs del cargador en color verde (modo reposo). Probar el botón TEST manual del disyuntor diferencial.
+                </li>
+                <li>
+                    <strong>Prueba con el Vehículo Eléctrico:</strong>
+                    Enchufar el conector Tipo 2 en el vehículo. Escuchar el "clic" audible del solenoide de traba mecánica del conector. Verificar que el LED del Wallbox pase a color azul (cargando) y comprobar en la pantalla del auto que la corriente suba a la potencia contratada sin caídas de tensión ni ruidos extraños.
+                </li>
+            </ul>
+        </div>
+
+        <!-- CAPÍTULO 7: MATRIZ DE 20 FALLAS TÉCNICAS EN TERRENO -->
+        <div class="chapter-box" id="modulo-fallas">
+            <div class="chapter-header">
+                <div class="chap-num">07</div>
+                <div>
+                    <span class="chap-sub">Diagnóstico Avanzado de Averías</span>
+                    <div class="chap-title">MATRIZ TÉCNICA DE 20 FALLAS REALES EN TERRENO Y PROCEDIMIENTO DE SOLUCIÓN</div>
+                </div>
+            </div>
+
+            <p class="tech-desc">
+                Buscador rápido para el técnico en obra. Escribí el síntoma, código de error o componente sospechoso para filtrar la solución exacta al instante:
+            </p>
+
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="filtro_fallas" placeholder="Buscar falla técnica (ej: tierra, disyuntor, calor, trifásico, wifi, toma, modbus, trabado)..." oninput="filtrarFallas()">
+            </div>
+
+            <table class="tech-table" id="tabla_fallas">
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">#</th>
+                        <th style="width: 25%;">Falla / Código de Error</th>
+                        <th style="width: 35%;">Causa Raíz Técnica</th>
+                        <th style="width: 35%;">Procedimiento de Solución en Obra</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>01</strong></td>
+                        <td><strong style="color: #fff;">Ground Fault / PE Open (Luz roja o destello)</strong></td>
+                        <td>Resistencia de puesta a tierra superior a 10-20 &Omega;, cable de tierra desconectado o sulfatado. El cargador mide impedancia de lazo antes de habilitar el contactor y bloquea por seguridad del chasis.</td>
+                        <td>Clavar jabalina de refuerzo FacBSA IRAM 2309 (5/8" x 1.5m), tratar con bentonita si el suelo es seco, limpiar tomacable de bronce y medir con telurímetro hasta certificar Rpat &le; 10 &Omega;. Ajustar bornera PE con torquímetro.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>02</strong></td>
+                        <td><strong style="color: #fff;">Disparo del disyuntor diferencial al iniciar la carga</strong></td>
+                        <td>Se instaló un disyuntor común Tipo AC. El inversor del cargador de a bordo (OBC) del auto genera microfugas de corriente continua en alta frecuencia que saturan o disparan erráticamente el toroide.</td>
+                        <td>Reemplazar inmediatamente por disyuntor <strong>Tipo A Superinmunizado</strong> (si el Wallbox tiene RDC-DD 6mA CC según IEC 62955) o <strong>Tipo B Puro</strong> (Chint NL210 Tipo B / Schneider Acti9 iID B-EV).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>03</strong></td>
+                        <td><strong style="color: #fff;">Salto de la térmica principal tras 30-45 minutos de carga</strong></td>
+                        <td>La vivienda no tiene potencia simultánea suficiente. Al sumarse los 32A continuos del auto a hornos eléctricos o aires acondicionados, la térmica general de la calle actúa por sobrecarga térmica acumulada.</td>
+                        <td>Instalar medidor de <strong>Balanceo Dinámico de Carga (Power Boost Carlo Gavazzi EM112 / Chint)</strong> en la entrada, o bajar transitoriamente el límite de corriente del cargador a 16A o 20A desde los dip-switches internos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>04</strong></td>
+                        <td><strong style="color: #fff;">Sobrecalentamiento excesivo en bornes o cable derretido</strong></td>
+                        <td>Falta de punteras huecas prensadas en los cables de cobre de 6mm² o torque flojo en borneras sometidas a dilatación térmica por 32A ininterrumpidos.</td>
+                        <td>Cortar tramo de cable quemado, pelar a 12mm, colocar terminal tubular estañado DIN 46228 prensado con prensa hexagonal y apretar con destornillador dinamométrico a 2.8 - 3.0 Nm.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>05</strong></td>
+                        <td><strong style="color: #fff;">Velocidad de carga reducida a la mitad (ej: 3 kW en vez de 7.4 kW)</strong></td>
+                        <td>Caída de tensión en línea superior al 2.5% - 3.5% por conductores de sección insuficiente (4 mm²) en tiradas largas. El auto detecta voltaje inferior a 210V y autolimita la corriente para proteger la batería.</td>
+                        <td>Reemplazar conductores de potencia por sección de <strong>6 mm² o 10 mm²</strong> libre de halógenos Prysmian para mantener la tensión de entrada por encima de 220V bajo plena carga de 32A.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>06</strong></td>
+                        <td><strong style="color: #fff;">Falla de comunicación Control Pilot (CP Error / Señal PWM)</strong></td>
+                        <td>Señal PWM de 1 kHz y &plusmn;12V distorsionada, pin CP sulfatado en la ficha Tipo 2 o ruido electromagnético inducido por tirar el cable de señal junto a conductores de potencia de gran calibre.</td>
+                        <td>Limpiar contactos con spray dieléctrico limpia-contactos, medir tensión en vacío de 12V en pin CP y verificar que el cable de control/datos no comparta cañería con líneas de fuerza motriz.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>07</strong></td>
+                        <td><strong style="color: #fff;">El cargador no reconoce la conexión (Plug-in no detectado)</strong></td>
+                        <td>Resistencia Proximity Pilot (PP) abierta en el conector, suciedad acumulada que impide el encastre hasta el tope mecánico o uña de traba trabada.</td>
+                        <td>Medir con multímetro la resistencia entre pin PP y Tierra PE en la ficha (debe marcar 220 &Omega; para cables de 32A o 680 &Omega; para 16A). Empujar con firmeza hasta escuchar el clic de traba mecánica.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>08</strong></td>
+                        <td><strong style="color: #fff;">Error de polaridad Fase y Neutro invertidos</strong></td>
+                        <td>La acometida monofásica entró cruzada (Fase conectada en borne N y Neutro en borne L). El cargador inteligente mide tensión N-PE y se bloquea si detecta 220V entre Neutro y Tierra.</td>
+                        <td>Comprobar con buscapolo o multímetro la Fase viva y conectar Fase en el borne L1 y Neutro en el borne N tanto en el tablero seccional como en el Wallbox.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>09</strong></td>
+                        <td><strong style="color: #fff;">Tensión Neutro-Tierra elevada (> 3V a 5V)</strong></td>
+                        <td>Desbalance de fases severo en la red pública de distribución de la calle o neutro con alta resistencia en la acometida del distribuidor (Edenor/Edesur).</td>
+                        <td>Hincar jabalina de refuerzo local de baja resistencia ($< 5\ \Omega$) conectada a la barra equipotencial principal; si el problema persiste, asentar reclamo a la empresa distribuidora por neutro flotante.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>10</strong></td>
+                        <td><strong style="color: #fff;">Cargador bloqueado por sobretensión de red</strong></td>
+                        <td>Picos de tensión en la red eléctrica de la calle superando los 245V - 253V en horarios nocturnos de bajo consumo. Los varistores del cargador cortan para no dañar los semiconductores.</td>
+                        <td>Verificar estado del protector de sobretensión permanente, comprobar descargadores DPS y calibrar el umbral V-Max del relé de protección en 248V con tiempo de retardo de reconexión de 3 minutos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>11</strong></td>
+                        <td><strong style="color: #fff;">El cargador no libera energía tras enchufar el conector</strong></td>
+                        <td>Bloqueo de seguridad activado por tarjeta RFID o autenticación requerida por aplicación móvil no autorizada o desincronizada.</td>
+                        <td>Pasar la tarjeta RFID maestra por el lector frontal del Wallbox o ingresar a la app de instalador por Bluetooth para configurar el modo de carga en "Plug & Play" (Acceso libre sin autenticación).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>12</strong></td>
+                        <td><strong style="color: #fff;">Estado "En Pausa / Esperando Vehículo" permanente</strong></td>
+                        <td>El auto tiene programado un temporizador de carga nocturna (horario valle) en su propia computadora de a bordo y mantiene el contactor interno abierto.</td>
+                        <td>Desactivar el temporizador en la pantalla multimedia del auto o forzar la carga inmediata presionando el botón de bypass en la toma del vehículo o app del fabricante.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>13</strong></td>
+                        <td><strong style="color: #fff;">Corte por sobrecalentamiento interno del Wallbox</strong></td>
+                        <td>Equipo instalado en pared exterior orientado al norte o al oeste, recibiendo sol directo en verano (> 45°C en la carcasa).</td>
+                        <td>Instalar una visera o alero deflector de chapa/policarbonato para sombra y verificar que las rejillas de disipación térmica inferiores no estén tapadas de polvo.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>14</strong></td>
+                        <td><strong style="color: #fff;">Cargador trifásico (22 kW) no carga vehículo monofásico</strong></td>
+                        <td>El cargador está configurado rígidamente para habilitar contactor trifásico y el auto espera conmutación monofásica (fase única en L1).</td>
+                        <td>Configurar los microinterruptores (dip-switches) internos del cargador o la app de instalador para habilitar el modo "Monofásico / Trifásico Automático".</td>
+                    </tr>
+                    <tr>
+                        <td><strong>15</strong></td>
+                        <td><strong style="color: #fff;">Error de secuencia de fases (L1 - L2 - L3)</strong></td>
+                        <td>En cargadores trifásicos industriales con medidor MID integrado, el sentido de giro de fases entró invertido desde el tablero.</td>
+                        <td>Intercambiar dos fases entre sí (L1 y L2) en la bornera de entrada del interruptor termomagnético en el tablero seccional.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>16</strong></td>
+                        <td><strong style="color: #fff;">Disparo de protección por fuga de CC (> 6 mA CC)</strong></td>
+                        <td>Pérdida momentánea de aislamiento en el inversor del cargador de a bordo (OBC) del vehículo por suciedad o condensación en la toma del auto.</td>
+                        <td>Desconectar el vehículo, esperar 5 minutos para que se descarguen capacitores, limpiar con aire seco la toma del auto y reiniciar el Wallbox desde su térmica.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>17</strong></td>
+                        <td><strong style="color: #fff;">Presencia de humedad o agua dentro del cargador</strong></td>
+                        <td>Acometida de cañería realizada por la parte superior o lateral del gabinete sin prensacables estancos o sin curva de goteo exterior.</td>
+                        <td>Rehacer la entrada exclusivamente por la base inferior del cargador, colocar prensacables IP68 con junta tórica y sellar pasamuro con sellador de poliuretano.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>18</strong></td>
+                        <td><strong style="color: #fff;">Pérdida de lectura del sensor Power Boost (Falla Modbus)</strong></td>
+                        <td>Cable de datos RS-485 desconectado, polaridad A/B invertida o falta de resistencia terminal de 120 &Omega; en tiradas superiores a 20 metros.</td>
+                        <td>Verificar par trenzado blindado FTP Cat6, conectar pin A con A y pin B con B, y colocar resistencia de fin de línea de 120 &Omega; entre bornes A y B.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>19</strong></td>
+                        <td><strong style="color: #fff;">Conector Tipo 2 trabado en la toma del auto y no sale</strong></td>
+                        <td>El servomotor del puerto de carga del auto quedó bloqueado o la sesión de carga finalizó de forma forzada sin desconectar contactores.</td>
+                        <td>Destrabar el auto desde el control remoto (botón de apertura 2 veces) o tirar del cable manual de destrabe de emergencia ubicado en el tapizado interior del baúl del auto.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>20</strong></td>
+                        <td><strong style="color: #fff;">Microcortes y reinicios cíclicos de la sesión de carga</strong></td>
+                        <td>Ruido electromagnético o caída de tensión repentina al arrancar motores pesados de la vivienda (bombas de agua presurizadoras o compresores).</td>
+                        <td>Verificar que la línea del cargador nazca directamente desde la cabecera principal y colocar un filtro supresor de transitorios o bobina de choque si hay cargas inductivas cercanas.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CAPÍTULO 8: DIRECTORIO DE PROVEEDORES OFICIALES EN ARGENTINA -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">08</div>
+                <div>
+                    <span class="chap-sub">Cadena de Suministro y Distribuidores</span>
+                    <div class="chap-title">DIRECTORIO DE FABRICANTES Y PROVEEDORES MAYORISTAS EN ARGENTINA</div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card-inner">
+                    <h4><span>🏭</span> Vulletic Argentina</h4>
+                    <p>Fabricante argentino de cargadores EV residenciales y comerciales con soporte directo en fábrica.</p>
+                    <ul>
+                        <li>Modelos: <strong>Vulletic Home 7kW / Business 22kW</strong></li>
+                        <li>Soporte: <strong>Garantía local y repuestos en 24h</strong></li>
+                        <li>Sede: <strong>Córdoba / CABA / GBA</strong></li>
+                        <li>Contacto: <strong>Venta directa a instaladores matriculados</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card-inner">
+                    <h4><span>🏢</span> Scame E-Mobility Argentina</h4>
+                    <p>Filial directa de Scame Italia en Argentina. Estaciones BE-W y tomas industriales IEC 60309.</p>
+                    <ul>
+                        <li>Modelos: <strong>Wallbox Serie BE-W / Fichas CEE Serie Optima</strong></li>
+                        <li>Protecciones: <strong>Bases murales estancas IP44/IP67</strong></li>
+                        <li>Sede: <strong>CABA / San Martín, Buenos Aires</strong></li>
+                        <li>Canal: <strong>Red oficial de distribuidores mayoristas</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card-inner">
+                    <h4><span>⚡</span> Schneider Electric Argentina</h4>
+                    <p>Líder internacional en cargadores EVlink y protecciones Acti9 Tipo A-SI y Tipo B-EV.</p>
+                    <ul>
+                        <li>Distribuidores: <strong>Electro Tucumán / Mayo / Coelba / Gaer</strong></li>
+                        <li>Protecciones: <strong>Disyuntor iID B-EV / Térmicas iC60N 10kA</strong></li>
+                        <li>DPS: <strong>Descargadores iPRD40r</strong></li>
+                        <li>Stock: <strong>Inmediato en casas de electricidad industrial</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card-inner">
+                    <h4><span>🔌</span> Chint Argentina & ABB</h4>
+                    <p>Máxima relación costo-calidad en disyuntores Tipo B certificados y medidores Modbus.</p>
+                    <ul>
+                        <li>Diferenciales: <strong>Chint NL210 Tipo B / ABB F204 B</strong></li>
+                        <li>Medidores: <strong>Chint DDSU666 / Carlo Gavazzi EM112</strong></li>
+                        <li>Térmicas: <strong>Chint NB1-63 10kA / ABB S200</strong></li>
+                        <li>Disponibilidad: <strong>Distribuidores eléctricos en todo el país</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card-inner">
+                    <h4><span>📦</span> Roker & Gabexel (Tableros)</h4>
+                    <p>Fabricantes nacionales de envolventes estancas IP65 de máxima rigidez dieléctrica.</p>
+                    <ul>
+                        <li>Gabinete PVC: <strong>Roker PR92 IP65 con cerradura a llave</strong></li>
+                        <li>Gabinete Chapa: <strong>Gabexel Chapa Estampada IP65 Epoxi</strong></li>
+                        <li>Resistencia: <strong>Tratamiento UV para intemperie total (IK08/IK10)</strong></li>
+                    </ul>
+                </div>
+
+                <div class="card-inner">
+                    <h4><span>🌱</span> FacBSA / Liat (Jabalinas)</h4>
+                    <p>Fabricantes de jabalinas de acero cobreado bajo estricto sello IRAM 2309.</p>
+                    <ul>
+                        <li>Jabalinas: <strong>5/8" x 1.50m y 3/4" x 2.00m (Cobre 250µ)</strong></li>
+                        <li>Accesorios: <strong>Tomacables bronce forjado / Cajas inspección</strong></li>
+                        <li>Certificación: <strong>Sello IRAM grabado a fuego en el cuerpo</strong></li>
+                    </ul>
+                </div>
             </div>
         </div>
 
-        <!-- TABLA DE MARCAS DE FICHAS Y TOMAS INDUSTRIALES -->
-        <div style="font-weight: 700; color: #fff; font-size: 0.95rem; margin: 1.2rem 0 0.5rem; display: flex; align-items: center; gap: 8px;">
-            <span>📦</span> CATÁLOGO DE MARCAS Y CÓDIGOS DE FICHAS INDUSTRIALES EN ARGENTINA
-        </div>
-
-        <table class="tech-table">
-            <thead>
-                <tr>
-                    <th style="width: 18%;">Fabricante</th>
-                    <th style="width: 22%;">Línea / Serie</th>
-                    <th style="width: 30%;">Base Mural de Pared (Hembra)</th>
-                    <th style="width: 30%;">Clavija Móvil Cable (Macho)</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong style="color: #fff;">SCAME Argentina</strong></td>
-                    <td>Serie OPTIMA / EUREKA</td>
-                    <td>
-                        <strong>Base Sobreponer 2P+T 16A IP44:</strong> Cód. <code>513.1653</code><br>
-                        <strong>Base Sobreponer 2P+T 32A IP44:</strong> Cód. <code>513.3253</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Opción estanqueidad IP67 con tapa roscada: Serie ADVANCE</span>
-                    </td>
-                    <td>
-                        <strong>Ficha Macho 2P+T 16A IP44:</strong> Cód. <code>213.1633</code><br>
-                        <strong>Ficha Macho 2P+T 32A IP44:</strong> Cód. <code>213.3233</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Prensacable cónico integrado antivibratorio</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">STECK Argentina</strong></td>
-                    <td>Serie NEW KON</td>
-                    <td>
-                        <strong>Base Sobreponer 2P+T 16A IP44:</strong> Cód. <code>S-3056</code><br>
-                        <strong>Base Sobreponer 2P+T 32A IP44:</strong> Cód. <code>S-4056</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Carcasa de poliamida 6 autoextinguible</span>
-                    </td>
-                    <td>
-                        <strong>Ficha Macho 2P+T 16A IP44:</strong> Cód. <code>S-3076</code><br>
-                        <strong>Ficha Macho 2P+T 32A IP44:</strong> Cód. <code>S-4076</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Contactos niquelados anticorrosión</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">SCHNEIDER ELECTRIC</strong></td>
-                    <td>Serie PRATIKA</td>
-                    <td>
-                        <strong>Base Sobreponer 2P+T 16A Fast IP44:</strong> Cód. <code>PKF16M423</code><br>
-                        <strong>Base Sobreponer 2P+T 32A Fast IP44:</strong> Cód. <code>PKF32M423</code>
-                    </td>
-                    <td>
-                        <strong>Clavija Móvil 2P+T 16A IP44:</strong> Cód. <code>PKX16M423</code><br>
-                        <strong>Clavija Móvil 2P+T 32A IP44:</strong> Cód. <code>PKX32M423</code>
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong style="color: #fff;">CAMBRE (IRAM 20A)</strong></td>
-                    <td>Siglo XXI / Bauhaus</td>
-                    <td>
-                        <strong>Módulo Tomacorriente 20A 250V:</strong> Cód. <code>6920 / 6921</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Montado en caja exterior estanca IP55 Roker o Cambre Box</span>
-                    </td>
-                    <td>
-                        <strong>Ficha Macho 20A 3 Patas Planas:</strong> Cód. <code>6925</code><br>
-                        <span style="font-size: 0.72rem; color: #94a3b8;">Espigas reforzadas de latón macizo</span>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- CADENA FÍSICA DE CONEXIÓN MODO 2 -->
-        <div class="diagram-container">
-            <div style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">
-                CADENA FÍSICA DE CONEXIÓN EN PUESTO DE RECARGA MODO 2 (CON TOMA INDUSTRIAL)
-            </div>
-            <div class="unifilar-flow">
-                <div class="flow-step">
-                    <strong>1. Tablero Seccional</strong>
-                    <span>Térmica 20A + Disyuntor Tipo A + Protector V</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="border-color: var(--accent-cyan);">
-                    <strong style="color: var(--accent-cyan);">2. Línea 4 mm²</strong>
-                    <span>Prysmian Afumex en Caño Daisa 3/4"</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="border-color: #38bdf8;">
-                    <strong style="color: #38bdf8;">3. Base Mural CEE</strong>
-                    <span>Toma Hembra Azul 16A Scame/Steck IP44</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">
-                    <strong>4. Ficha Macho CEE</strong>
-                    <span>Clavija volante azul acoplada al toma</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="background: rgba(2, 132, 199, 0.15);">
-                    <strong style="color: #fff;">5. Cable EVSE (ICCB)</strong>
-                    <span>Caja electrónica inteligente con luces LED</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="border-color: #10b981;">
-                    <strong style="color: #34d399;">6. Ficha Tipo 2</strong>
-                    <span>Conector Mennekes bloqueado en el Auto</span>
+        <!-- CAPÍTULO 9: PROTOCOLO DE ENTREGA CERTIFICADA (AEA 772) -->
+        <div class="chapter-box">
+            <div class="chapter-header">
+                <div class="chap-num">09</div>
+                <div>
+                    <span class="chap-sub">Cierre de Obra y Garantía Escrita</span>
+                    <div class="chap-title">CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA (AEA 90364-7-722)</div>
                 </div>
             </div>
-        </div>
 
-        <!-- MÓDULO 5: ESQUEMA UNIFILAR NORMATIVO GENERAL -->
-        <div class="section-header">
-            <div class="sec-num">05</div>
-            <div class="sec-title">ESQUEMA UNIFILAR NORMATIVO GENERAL (AEA 90364-7-722)</div>
-        </div>
+            <p class="tech-desc">
+                Marcar cada punto en obra junto al cliente antes de habilitar el suministro. Este protocolo garantiza la calidad de El Cóndor y protege la responsabilidad legal del técnico:
+            </p>
 
-        <div class="diagram-container">
-            <div style="font-size: 0.8rem; color: #38bdf8; font-weight: 700; margin-bottom: 12px; text-transform: uppercase;">
-                LÍNEA DEDICADA DESDE ACOMETIDA HASTA ESTACIÓN WALLBOX O PUESTO INDUSTRIAL
-            </div>
-            <div class="unifilar-flow">
-                <div class="flow-step">
-                    <strong>1. Acometida</strong>
-                    <span>Medidor Distribuidora + Pinza TC Balanceo</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">
-                    <strong>2. Tablero Gral</strong>
-                    <span>Térmica de cabecera de la vivienda</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="border-color: var(--accent-cyan);">
-                    <strong style="color: var(--accent-cyan);">3. Térmica Dedicada</strong>
-                    <span>PIA 2x20A (Toma) o 2x40A (Wallbox)</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="border-color: #ef4444;">
-                    <strong style="color: #f87171;">4. Diferencial EV</strong>
-                    <span>Tipo A Superinmunizado o Tipo B (30mA)</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">
-                    <strong>5. Protector DPS</strong>
-                    <span>Descargador Tipo 2 (40 kA) + V-Max/Min</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step" style="background: rgba(0, 210, 255, 0.1); border-color: var(--accent-cyan);">
-                    <strong style="color: #fff;">6. Puesto Carga</strong>
-                    <span>Wallbox 7.4kW o Toma Industrial CEE</span>
-                </div>
-                <div class="flow-arrow">➔</div>
-                <div class="flow-step">
-                    <strong>7. Conector T2</strong>
-                    <span>Ficha Mennekes al Auto Eléctrico</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- MÓDULO 6: MATRIZ DE 20 FALLAS TÉCNICAS Y SOLUCIÓN -->
-        <div class="section-header" id="modulo-fallas">
-            <div class="sec-num">06</div>
-            <div class="sec-title">MATRIZ TÉCNICA DE 20 FALLAS Y SOLUCIONES EN OBRA</div>
-        </div>
-
-        <div class="search-box">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="filtro_fallas" placeholder="Buscar falla técnica por síntoma, código de error o causa (ej: tierra, disparo, temperatura, trifásico, wifi, toma)..." oninput="filtrarFallas()">
-        </div>
-
-        <table class="tech-table" id="tabla_fallas">
-            <thead>
-                <tr>
-                    <th style="width: 5%;">#</th>
-                    <th style="width: 25%;">Falla / Código de Error</th>
-                    <th style="width: 35%;">Causa Raíz Técnica</th>
-                    <th style="width: 35%;">Solución Práctica en Terreno</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>01</strong></td>
-                    <td><strong style="color: #fff;">Ground Fault / PE Open (Luz roja o parpadeo)</strong></td>
-                    <td>Resistencia de puesta a tierra superior a 10-25 &Omega;, conductor de tierra flojo o falso contacto en bornera. El cargador mide impedancia de lazo antes de cerrar contactor y bloquea por seguridad.</td>
-                    <td>Clavar jabalina de refuerzo IRAM 2309 (5/8" x 1.5m), verificar apriete del tomacable de bronce, medir con telurímetro hasta certificar Rpat &le; 10 &Omega; y ajustar bornera PE del cargador.</td>
-                </tr>
-                <tr>
-                    <td><strong>02</strong></td>
-                    <td><strong style="color: #fff;">Disparo del disyuntor al enchufar o iniciar carga</strong></td>
-                    <td>Se instaló un disyuntor estándar Tipo AC. Los rectificadores del cargador a bordo (OBC) inyectan fuga de componente continua en alta frecuencia que satura o dispara el diferencial.</td>
-                    <td>Reemplazar de inmediato por disyuntor <strong>Tipo A Superinmunizado</strong> (si el Wallbox tiene RDC-DD 6mA CC) o <strong>Tipo B Puro</strong> (Schneider Acti9 iID / Chint NL210).</td>
-                </tr>
-                <tr>
-                    <td><strong>03</strong></td>
-                    <td><strong style="color: #fff;">Salto de la térmica principal tras 30-45 minutos</strong></td>
-                    <td>La potencia simultánea de la vivienda supera la contratada con EDENOR/EDESUR al sumar los 32A continuos del auto a hornos, bombas o aires acondicionados.</td>
-                    <td>Instalar medidor de <strong>Balanceo Dinámico de Carga (Power Boost)</strong> en acometida, o reducir transitoriamente la corriente máxima del Wallbox a 16A/20A desde la app/dip-switches.</td>
-                </tr>
-                <tr>
-                    <td><strong>04</strong></td>
-                    <td><strong style="color: #fff;">Sobrecalentamiento en bornes o cable derretido</strong></td>
-                    <td>Falta de terminales de cobre tubulares prensados (punteras huecas) o torque de apriete flojo en borneras plásticas sometidas a 32A ininterrumpidos durante 8 horas.</td>
-                    <td>Sanear conductores, colocar punteras huecas estañadas bajo norma DIN 46228 y apretar con destornillador dinamométrico al torque especificado por fabricante (2.5 a 3.0 Nm).</td>
-                </tr>
-                <tr>
-                    <td><strong>05</strong></td>
-                    <td><strong style="color: #fff;">Velocidad de carga reducida a la mitad (3 kW en vez de 7.4 kW)</strong></td>
-                    <td>Caída de tensión en línea superior al 2.5% - 3.5% por conductores de sección insuficiente (4 mm²) en tiradas largas. El auto detecta bajo voltaje (< 210V) y autolimita la corriente.</td>
-                    <td>Reemplazar conductores por sección de <strong>6 mm² o 10 mm²</strong> libre de halógenos para mantener la tensión de entrada por encima de 220V bajo plena carga de 32A.</td>
-                </tr>
-                <tr>
-                    <td><strong>06</strong></td>
-                    <td><strong style="color: #fff;">Error de comunicación Control Pilot (CP Error)</strong></td>
-                    <td>Señal PWM de 1 kHz distorsionada, pin CP sulfatado/doblado en la ficha Tipo 2 o ruido electromagnético inducido por tirar cable de potencia junto a señales de control.</td>
-                    <td>Limpiar contactos con spray limpia-contactos dieléctrico, medir tensión en vacío de 12V en pin CP y asegurar canalización separada de potencia y datos.</td>
-                </tr>
-                <tr>
-                    <td><strong>07</strong></td>
-                    <td><strong style="color: #fff;">No detecta conexión del vehículo (Plug In no reconocido)</strong></td>
-                    <td>Resistencia de Proximity Pilot (PP) abierta dentro del conector, suciedad acumulada que impide el encastre hasta el fondo o traba mecánica trabada.</td>
-                    <td>Revisar con multímetro la resistencia PP en el conector (debe medir 220 &Omega; para 32A o 680 &Omega; para 16A) y asegurar que el conector haga el "clic" mecánico completo.</td>
-                </tr>
-                <tr>
-                    <td><strong>08</strong></td>
-                    <td><strong style="color: #fff;">Error de polaridad Fase y Neutro invertidos</strong></td>
-                    <td>La acometida monofásica entró invertida (Fase en borne N y Neutro en borne L). Cargadores inteligentes miden tensión entre Neutro y Tierra y se bloquean si N-PE = 220V.</td>
-                    <td>Identificar la Fase con buscapolo o multímetro y conectar Fase en el borne L1 y Neutro en el borne N en el tablero seccional.</td>
-                </tr>
-                <tr>
-                    <td><strong>09</strong></td>
-                    <td><strong style="color: #fff;">Tensión Neutro-Tierra elevada (> 5V a 10V)</strong></td>
-                    <td>Desbalance severo de cargas en la red de distribución de la calle o neutro con alta resistencia en acometida de la empresa eléctrica.</td>
-                    <td>Clavar jabalina de refuerzo local en el tablero seccional y vincularla a la barra equipotencial principal; si persiste, reclamar a EDENOR/EDESUR por neutro flotante.</td>
-                </tr>
-                <tr>
-                    <td><strong>10</strong></td>
-                    <td><strong style="color: #fff;">Cargador bloqueado por sobretensión de red</strong></td>
-                    <td>Picos en la red eléctrica de la calle superando los 245V - 253V en horarios de baja demanda. Los protectores internos del Wallbox cortan para no quemar el inversor.</td>
-                    <td>Verificar actuación del protector de tensión permanente, verificar descargadores DPS y configurar el rango V-Max del relé de protección en 248V con reconexión retardada.</td>
-                </tr>
-                <tr>
-                    <td><strong>11</strong></td>
-                    <td><strong style="color: #fff;">El cargador no libera energía tras enchufar el conector</strong></td>
-                    <td>Bloqueo activo por tarjeta RFID o autenticación requerida por aplicación móvil que no fue autorizada o falta de sincronización de usuario.</td>
-                    <td>Acercar la tarjeta RFID maestra suministrada por el fabricante a la zona del lector frontal o configurar el cargador en modo "Plug & Play" (Carga libre) desde la App.</td>
-                </tr>
-                <tr>
-                    <td><strong>12</strong></td>
-                    <td><strong style="color: #fff;">Estado "En Pausa / Esperando Vehículo" permanente</strong></td>
-                    <td>El auto tiene programado un temporizador de carga nocturna (horario valle) en su propia computadora de a bordo y mantiene el contactor interno abierto.</td>
-                    <td>Desactivar la carga programada en la pantalla multimedia del auto o forzar la carga inmediata presionando el botón de bypass en la toma del vehículo o app del fabricante.</td>
-                </tr>
-                <tr>
-                    <td><strong>13</strong></td>
-                    <td><strong style="color: #fff;">Corte por sobrecalentamiento interno del Wallbox</strong></td>
-                    <td>Equipo instalado en pared exterior orientado al norte o al oeste, recibiendo sol directo en verano (> 45°C en la carcasa).</td>
-                    <td>Instalar una visera o alero deflector de chapa/policarbonato para sombra y verificar que las rejillas de disipación térmica inferiores no estén tapadas de polvo.</td>
-                </tr>
-                <tr>
-                    <td><strong>14</strong></td>
-                    <td><strong style="color: #fff;">Cargador trifásico (22 kW) no carga vehículo monofásico</strong></td>
-                    <td>El cargador está configurado rígidamente para habilitar contactor trifásico y el auto espera conmutación monofásica (fase única en L1).</td>
-                    <td>Configurar los microinterruptores (dip-switches) internos del cargador o la app de instalador para habilitar el modo "Monofásico / Trifásico Automático".</td>
-                </tr>
-                <tr>
-                    <td><strong>15</strong></td>
-                    <td><strong style="color: #fff;">Error de secuencia de fases (L1 - L2 - L3)</strong></td>
-                    <td>En cargadores trifásicos industriales con medidor MID integrado, el sentido de giro de fases entró invertido desde el tablero.</td>
-                    <td>Intercambiar dos fases entre sí (L1 y L2) en la bornera de entrada del interruptor termomagnético en el tablero seccional.</td>
-                </tr>
-                <tr>
-                    <td><strong>16</strong></td>
-                    <td><strong style="color: #fff;">Disparo de protección por fuga de CC (> 6 mA CC)</strong></td>
-                    <td>Pérdida momentánea de aislamiento en el inversor del cargador de a bordo (OBC) del vehículo por suciedad o condensación en la toma del auto.</td>
-                    <td>Desconectar el vehículo, esperar 5 minutos para que se descarguen capacitores, limpiar con aire seco la toma del auto y reiniciar el Wallbox desde su térmica.</td>
-                </tr>
-                <tr>
-                    <td><strong>17</strong></td>
-                    <td><strong style="color: #fff;">Presencia de humedad o agua dentro del cargador</strong></td>
-                    <td>Acometida de cañería realizada por la parte superior o lateral del gabinete sin prensacables estancos o sin curva de goteo exterior.</td>
-                    <td>Rehacer la entrada exclusivamente por la base inferior del cargador, colocar prensacables IP68 con junta tórica y sellar pasamuro con sellador de poliuretano.</td>
-                </tr>
-                <tr>
-                    <td><strong>18</strong></td>
-                    <td><strong style="color: #fff;">Pérdida de lectura del sensor Power Boost (Falla Modbus)</strong></td>
-                    <td>Cable de datos RS-485 desconectado, polaridad A/B invertida o falta de resistencia terminal de 120 &Omega; en tiradas superiores a 20 metros.</td>
-                    <td>Verificar par trenzado blindado FTP Cat6, conectar pin A con A y pin B con B, y colocar resistencia de fin de línea de 120 &Omega; entre bornes A y B.</td>
-                </tr>
-                <tr>
-                    <td><strong>19</strong></td>
-                    <td><strong style="color: #fff;">Conector Tipo 2 trabado en la toma del auto y no sale</strong></td>
-                    <td>El servomotor del puerto de carga del auto quedó bloqueado o la sesión de carga finalizó de forma forzada sin desconectar contactores.</td>
-                    <td>Destrabar el auto desde el control remoto (botón de apertura 2 veces) o tirar del cable manual de destrabe de emergencia ubicado en el tapizado interior del baúl del auto.</td>
-                </tr>
-                <tr>
-                    <td><strong>20</strong></td>
-                    <td><strong style="color: #fff;">Microcortes y reinicios cíclicos de la sesión de carga</strong></td>
-                    <td>Ruido electromagnético o caída de tensión repentina al arrancar motores pesados de la vivienda (bombas de agua presurizadoras o compresores).</td>
-                    <td>Verificar que la línea del cargador nazca directamente desde la cabecera principal y colocar un filtro supresor de transitorios o bobina de choque si hay cargas inductivas cercanas.</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <!-- MÓDULO 7: DIRECTORIO DE PROVEEDORES EN ARGENTINA -->
-        <div class="section-header">
-            <div class="sec-num">07</div>
-            <div class="sec-title">DIRECTORIO DE FABRICANTES Y PROVEEDORES MAYORISTAS EN ARGENTINA</div>
-        </div>
-
-        <div class="grid-3">
-            <div class="card">
-                <h4><span>🏭</span> Vulletic Argentina</h4>
-                <p>Fabricante nacional de cargadores EV, pedestales y plataformas de software de gestión.</p>
-                <ul class="card-spec-list">
-                    <li>Equipos: <strong>Wallbox 7kW y 22kW / Tótems</strong></li>
-                    <li>Plataforma: <strong>OCPP 1.6J / App Vulletic</strong></li>
-                    <li>Sede: <strong>Córdoba / Buenos Aires</strong></li>
-                    <li>Atención: <strong>Directa a instaladores certificados</strong></li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4><span>🏢</span> Scame E-Mobility Argentina</h4>
-                <p>Filial directa en Argentina. Gama completa de estaciones de recarga, fichas y accesorios.</p>
-                <ul class="card-spec-list">
-                    <li>Equipos: <strong>Serie BE-W / BE-T / Conectores T2</strong></li>
-                    <li>Protecciones: <strong>Prensacables IP68 y gabinetes</strong></li>
-                    <li>Ubicación: <strong>CABA / Gran Buenos Aires</strong></li>
-                    <li>Canal: <strong>Distribuidores eléctricos oficiales</strong></li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4><span>⚡</span> Distribuidores Schneider Electric</h4>
-                <p>Red mayorista oficial para adquisición de cargadores EVlink y protecciones Acti9 Tipo A/B.</p>
-                <ul class="card-spec-list">
-                    <li>Mayoristas: <strong>Electro Tucumán / Mayo / Coelba</strong></li>
-                    <li>Equipos: <strong>EVlink Home / Smart Wallbox</strong></li>
-                    <li>Protecciones: <strong>Disyuntores Acti9 iID B-EV</strong></li>
-                    <li>Stock: <strong>Inmediato en CABA y GBA</strong></li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4><span>🔌</span> Chint Argentina & ABB</h4>
-                <p>Marcas líderes en térmicas de 10 kA, disyuntores Tipo B para electromovilidad y medidores Modbus.</p>
-                <ul class="card-spec-list">
-                    <li>Equipos: <strong>ABB Terra AC / Medidores Chint</strong></li>
-                    <li>Diferenciales: <strong>Chint NL210 Tipo B / ABB F204 B</strong></li>
-                    <li>Descargadores: <strong>DPS Tipo 2 (20-40 kA)</strong></li>
-                    <li>Canal: <strong>Casas de electricidad industrial</strong></li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4><span>📦</span> Roker & Gabexel (Gabinetes)</h4>
-                <p>Fabricantes nacionales de tableros seccionales estancos para intemperie.</p>
-                <ul class="card-spec-list">
-                    <li>Modelos: <strong>Roker PR92 IP65 / Sintet con llave</strong></li>
-                    <li>Chapa: <strong>Gabexel chapa estampada IP65</strong></li>
-                    <li>Resistencia: <strong>Protección UV e impacto IK08/IK10</strong></li>
-                    <li>Disponibilidad: <strong>Todas las casas de electricidad</strong></li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h4><span>🌱</span> FacBSA / Liat (Puesta a Tierra)</h4>
-                <p>Fabricantes de jabalinas de acero cobreado bajo estricta norma IRAM 2309.</p>
-                <ul class="card-spec-list">
-                    <li>Jabalinas: <strong>5/8" x 1.5m / 3/4" x 2.0m (250µ)</strong></li>
-                    <li>Accesorios: <strong>Tomacables bronce forjado</strong></li>
-                    <li>Cajas: <strong>Cajas de inspección PVC y fundición</strong></li>
-                    <li>Certificado: <strong>Sello IRAM obligatorio para habilitación</strong></li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- MÓDULO 8: CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA -->
-        <div class="section-header">
-            <div class="sec-num">08</div>
-            <div class="sec-title">CHECKLIST Y PROTOCOLO DE ENTREGA CERTIFICADA (AEA 772)</div>
-        </div>
-
-        <div class="card" style="margin-bottom: 2rem;">
-            <p style="margin-bottom: 15px; color: #cbd5e1;">Marcar cada punto en obra antes de habilitar el servicio y entregar la instalación conforme al cliente:</p>
-            
             <div class="check-item">
                 <input type="checkbox" id="chk_1">
                 <div class="check-text">
-                    <strong>1. Verificación de Resistencia de Puesta a Tierra (Rpat &le; 10 &Omega;)</strong>
-                    <span>Medición certificada con telurímetro en caja de inspección de jabalina. Valor anotado en protocolo.</span>
+                    <strong>1. Medición de Resistencia de Puesta a Tierra Certificada (Rpat &le; 10 &Omega;)</strong>
+                    <span>Medición efectuada con telurímetro desconectando el puente seccionador. Valor registrado en acta.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_2">
                 <div class="check-text">
-                    <strong>2. Verificación de Polaridad y Tensión Neutro-Tierra (N-PE &le; 3V)</strong>
-                    <span>Fase en borne L1, Neutro en borne N. Tensión N-PE no superior a 3V en vacío y bajo carga.</span>
+                    <strong>2. Verificación de Polaridad y Tensión Neutro-Tierra (N-PE &le; 2V)</strong>
+                    <span>Fase en L1, Neutro en N. Tensión Neutro-Tierra verificada con multímetro TrueRMS en vacío y con carga.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_3">
                 <div class="check-text">
-                    <strong>3. Prueba de Disparo de Protección Diferencial Tipo A/B</strong>
-                    <span>Disparo verificado con botón de TEST manual y rampa de fuga con instrumento de ensayo diferencial (< 30 mA / < 300 ms).</span>
+                    <strong>3. Ensayo de Disparo del Diferencial Tipo A/B con Rampa de Fuga</strong>
+                    <span>Disparo verificado con botón TEST manual y con instrumento de prueba diferencial (&le; 30 mA / &le; 300 ms).</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_4">
                 <div class="check-text">
-                    <strong>4. Control de Torquímetros en Borneras del Tablero Seccional</strong>
-                    <span>Punteras huecas prensadas en cables de 6mm² / 10mm² y apriete a 2.8 Nm para evitar puntos calientes por vibración.</span>
+                    <strong>4. Control de Torquímetros en Borneras de Tablero y Cargador</strong>
+                    <span>Punteras huecas estañadas en cables de 6 mm² / 10 mm² y apriete verificado a 2.8 Nm para evitar puntos calientes.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_5">
                 <div class="check-text">
-                    <strong>5. Comprobación de Estanqueidad IP e Ingreso de Cañerías</strong>
-                    <span>Prensacables IP68 ajustados en base inferior. Sin perforaciones superiores expuestas a filtraciones pluviales.</span>
+                    <strong>5. Comprobación de Estanqueidad IP y Acometida Inferior</strong>
+                    <span>Prensacables IP68 ajustados en la base inferior. Sin perforaciones superiores expuestas al agua de lluvia.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_6">
                 <div class="check-text">
-                    <strong>6. Ensayo de Traba Mecánica y Señal Piloto PWM</strong>
-                    <span>El conector Tipo 2 bloquea mecánicamente al enchufar y solo energiza tras negociación exitosa con el vehículo.</span>
+                    <strong>6. Ensayo de Traba Mecánica y Señal Piloto PWM Tipo 2</strong>
+                    <span>El conector bloquea mecánicamente al enchufar y solo energiza tras negociación exitosa con el vehículo.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_7">
                 <div class="check-text">
-                    <strong>7. Verificación del Sensor de Balanceo Dinámico (Power Boost)</strong>
-                    <span>Encender cargas de la casa y verificar en la app del cargador que la potencia modulada disminuye automáticamente.</span>
+                    <strong>7. Testeo del Sensor de Balanceo Dinámico (Power Boost)</strong>
+                    <span>Encender cargas de la casa y verificar en la app del cargador que la corriente entregada modula automáticamente.</span>
                 </div>
             </div>
 
             <div class="check-item">
                 <input type="checkbox" id="chk_8">
                 <div class="check-text">
-                    <strong>8. Instrucción de Uso al Usuario y Entrega de Llaves / Tarjetas RFID</strong>
-                    <span>Capacitación en destrabe de emergencia, cuidado del cable sin pisar con ruedas y entrega de tarjetas de usuario.</span>
+                    <strong>8. Capacitación del Usuario y Entrega de Llaves / Tarjetas RFID</strong>
+                    <span>Instrucción al cliente sobre cómo destrabar manualmente en caso de emergencia, cuidado del cable sin pisar con neumáticos y entrega de tarjetas.</span>
                 </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; text-align: center;">
+                <button class="btn-action" onclick="copiarChecklistWhatsApp()">
+                    <span>📲</span> Copiar Acta de Entrega para WhatsApp
+                </button>
             </div>
         </div>
 
         <!-- FOOTER CORPORATIVO -->
         <footer style="border-top: 1px solid var(--border-color); padding-top: 1.5rem; text-align: center; color: var(--text-muted); font-size: 0.8rem;">
             <div style="font-weight: 700; color: #fff; margin-bottom: 4px;">
-                🦅 EL CÓNDOR SERVICIOS INTEGRALES • DIVISIÓN ELECTROMOVILIDAD Y CLIMATIZACIÓN
+                🦅 EL CÓNDOR SERVICIOS INTEGRALES • DIVISIÓN ELECTROMOVILIDAD & CLIMATIZACIÓN
             </div>
             <div>
-                Normativas vigentes: AEA 90364-7-722 • IEC 61851-1 • IEC 62196-2 • IRAM 2309 / 62267 • Buenos Aires, Argentina
+                Normativas vigentes: AEA 90364-7-722 • IEC 61851-1 • IEC 62196-2 • IEC 60309 • IRAM 2309 / 62267 • Buenos Aires, Argentina
             </div>
         </footer>
     </div>
@@ -1391,15 +1564,13 @@
             else if (tipo === '11000_tri') { corriente = 16; esTrifasico = true; voltaje = 400; }
             else if (tipo === '22000_tri') { corriente = 32; esTrifasico = true; voltaje = 400; }
 
-            // Resistividad del cobre en caliente (0.021 ohm*mm²/m)
-            const rho = 0.021;
+            const rho = 0.021; // Cobre caliente
             const secciones = [2.5, 4, 6, 10, 16, 25, 35];
 
             let seccionSugerida = 6;
             let caidaPct = 0;
 
             for (let s of secciones) {
-                // Cálculo de caída de tensión
                 let deltaV = 0;
                 if (!esTrifasico) {
                     deltaV = (2 * rho * dist * corriente) / s;
@@ -1409,9 +1580,8 @@
 
                 caidaPct = (deltaV / voltaje) * 100;
 
-                // Verificamos corriente admisible básica
                 let iMax = (s === 2.5) ? 21 : (s === 4) ? 28 : (s === 6) ? 36 : (s === 10) ? 50 : 66;
-                if (aislacion === 'xlpe') iMax *= 1.2;
+                if (aislacion === 'xlpe') iMax *= 1.25;
 
                 if (caidaPct <= 2.0 && iMax >= corriente) {
                     seccionSugerida = s;
@@ -1421,7 +1591,7 @@
 
             document.getElementById('res_seccion').innerText = `${seccionSugerida} mm²`;
             const colorCaida = (caidaPct <= 2.0) ? '#34d399' : '#f87171';
-            const estado = (caidaPct <= 2.0) ? 'OK' : 'EXCESIVA';
+            const estado = (caidaPct <= 2.0) ? 'Admisible' : 'Excesiva';
             document.getElementById('res_caida').innerHTML = `Caída de tensión: <strong style="color: ${colorCaida};">${caidaPct.toFixed(2)}% (${estado})</strong>`;
         }
 
@@ -1439,30 +1609,31 @@
         // Copiar Checklist para WhatsApp
         function copiarChecklistWhatsApp() {
             const checklist = `⚡ *PROTOCOLO DE ENTREGA CERTIFICADA - CARGADOR EV (AEA 772)*
-🦅 *El Cóndor Servicios Integrales*
+🦅 *El Cóndor Servicios Integrales • Electromovilidad*
 =================================
 Cliente:
-Ubicación:
-Modelo Wallbox:
-Potencia / Corriente:
+Ubicación de Obra:
+Tipo de Instalación: [Wallbox Modo 3 / Toma Industrial CEE Modo 2]
+Potencia Nominal:
 
-*PUNTOS DE CONTROL EN OBRA:*
-[X] 1. Puesta a Tierra certificada: Rpat <= 10 Ohms con telurímetro.
-[X] 2. Polaridad L1-N verificada y tensión Neutro-Tierra <= 3V.
-[X] 3. Disyuntor Diferencial Tipo A/B con RDC-DD ensayado con TEST.
-[X] 4. Línea dedicada exclusiva con conductores Prysmian y terminales a 2.8 Nm.
-[X] 5. Descargador de sobretensiones DPS Tipo 2 + protector de tensión conectado.
-[X] 6. Envolvente estanca con prensacables IP68 por base inferior.
-[X] 7. Comunicación PWM y traba mecánica del conector Tipo 2 verificada.
-[X] 8. Sensor de balanceo dinámico (Power Boost) testeado con cargas del hogar.
+*PUNTOS DE VERIFICACIÓN NORMATIVA:*
+[X] 1. Puesta a Tierra certificada con Telurímetro: Rpat <= 10 Ohms (Jabalina IRAM 2309 250µ).
+[X] 2. Polaridad L1-N verificada y tensión Neutro-Tierra <= 2V en carga.
+[X] 3. Disyuntor Diferencial Tipo A Superinmunizado o Tipo B testeado con rampa de fuga.
+[X] 4. Línea dedicada continua (Fs = 1.0) con cable Prysmian Afumex y terminales a 2.8 Nm.
+[X] 5. Descargador de sobretensiones transitorias DPS Tipo 2 (40 kA) + protector de tensión permanente.
+[X] 6. Envolvente estanca con prensacables IP68 por base inferior (cero ingreso de agua).
+[X] 7. Comunicación PWM y bloqueo mecánico de conector verificado en vehículo.
+[X] 8. Sensor de balanceo dinámico (Power Boost) modulando según consumo del hogar.
 
-✅ *Instalación Habilitada bajo Norma AEA 90364-7-722*
-Garantía escrita: 12 meses.
-El Cóndor Climatización y Electromovilidad • 📞 11 2613-9527`;
+✅ *Instalación Habilitada y Conforme según AEA 90364-7-722*
+Garantía escrita: 12 meses en mano de obra y conexionado.
+_El Cóndor Climatización y Electromovilidad_
+📞 11 2613-9527`;
 
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(checklist);
-                showToast("✅ ¡Protocolo copiado para WhatsApp!");
+                showToast("✅ ¡Acta de entrega copiada para WhatsApp!");
             } else {
                 let ta = document.createElement("textarea");
                 ta.value = checklist;
@@ -1471,7 +1642,7 @@ El Cóndor Climatización y Electromovilidad • 📞 11 2613-9527`;
                 ta.select();
                 document.execCommand('copy');
                 document.body.removeChild(ta);
-                showToast("✅ ¡Protocolo copiado para WhatsApp!");
+                showToast("✅ ¡Acta de entrega copiada para WhatsApp!");
             }
         }
 

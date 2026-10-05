@@ -931,9 +931,19 @@
                                     <td><input type="number" id="ev_pat_dedicada_prc" class="cell-input-price" value="155000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
-                                    <td>Canalización a la vista en caño de acero cincado rígido Daisa 1" / PVC semipesado (Metro) M.O.</td>
+                                    <td>Canalización a la vista en Caño de PVC Rígido Semipesado Tubomatic/Genrod 25/32mm (Metro) M.O.</td>
+                                    <td><input type="number" id="ev_can_pvc_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_can_pvc_m_prc" class="cell-input-price" value="14500" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Canalización a la vista en Caño de Acero Cincado Rígido Daisa 1" (Metro) M.O.</td>
                                     <td><input type="number" id="ev_can_daisa_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
                                     <td><input type="number" id="ev_can_daisa_m_prc" class="cell-input-price" value="22000" oninput="calc()"></td>
+                                </tr>
+                                <tr>
+                                    <td>Canalización Embutida en Mampostería (Picado de canaleta, caño PVC y tapado) (Metro) M.O.</td>
+                                    <td><input type="number" id="ev_can_embutida_m_qty" class="cell-input-qty" value="0" min="0" oninput="calc()"></td>
+                                    <td><input type="number" id="ev_can_embutida_m_prc" class="cell-input-price" value="26000" oninput="calc()"></td>
                                 </tr>
                                 <tr>
                                     <td>Pasado y conexionado de conductores XLPE 90°C Afumex 6 a 10 mm² (Metro) M.O.</td>
@@ -1098,7 +1108,9 @@
             ev_tab_dedicado: 135000,
             ev_power_boost: 110000,
             ev_pat_dedicada: 155000,
+            ev_can_pvc_m: 14500,
             ev_can_daisa_m: 22000,
+            ev_can_embutida_m: 26000,
             ev_cable_afumex_m: 3800,
             ev_cert_ensayo: 75000
         };
@@ -1483,7 +1495,9 @@
             const ev_tab = parseInt(document.getElementById('ev_tab_dedicado_qty').value) || 0;
             const ev_boost = parseInt(document.getElementById('ev_power_boost_qty').value) || 0;
             const ev_pat = parseInt(document.getElementById('ev_pat_dedicada_qty').value) || 0;
-            const ev_can = parseInt(document.getElementById('ev_can_daisa_m_qty').value) || 0;
+            const ev_can_pvc = parseInt(document.getElementById('ev_can_pvc_m_qty').value) || 0;
+            const ev_can_daisa = parseInt(document.getElementById('ev_can_daisa_m_qty').value) || 0;
+            const ev_can_emb = parseInt(document.getElementById('ev_can_embutida_m_qty').value) || 0;
             const ev_cable = parseInt(document.getElementById('ev_cable_afumex_m_qty').value) || 0;
             const ev_cert = parseInt(document.getElementById('ev_cert_ensayo_qty').value) || 0;
 
@@ -1505,8 +1519,14 @@
             if (ev_pat > 0) {
                 descriptions.push(`**Instalación de Sistema de Puesta a Tierra Dedicado para Vehículo Eléctrico (Certificación Rpat &le; 10 &Omega;)**: Perforación de piso de losa/hormigón en garaje con mecha copa de 110mm, hincado de jabalina de acero cobreado IRAM 2309 (250µ) con rotomartillo SDS Max, tratamiento higroscópico con bentonita sódica activada, caja de inspección reforzada al ras de piso, tomacable de bronce con grasa grafitada y puente seccionable.`);
             }
-            if (ev_can > 0) {
-                descriptions.push(`**Canalización mecánica reforzada para línea de recarga EV (${ev_can} metros)**: Tendido de cañería de acero cincado rígido semipesado tipo Daisa de 1" o tubo rígido de PVC ignífugo con filtro UV fijado con grampas omega cincadas cada 60 cm y cajas condulet con tornillo de vinculación a tierra.`);
+            if (ev_can_pvc > 0) {
+                descriptions.push(`**Canalización a la vista en caño rígido de PVC semipesado Tubomatic/Genrod (${ev_can_pvc} metros)**: Tendido con caño rígido ignífugo de 25/32mm fijado a muro o cielorraso con grampas omega cincadas cada 60 cm, uniones estancas y curvas de radio amplio.`);
+            }
+            if (ev_can_daisa > 0) {
+                descriptions.push(`**Canalización reforzada en caño de acero cincado rígido Daisa de 1" (${ev_can_daisa} metros)**: Tendido de máxima protección mecánica antivandálica contra choque de paragolpes (grado IK10), curvas estampadas y cajas condulet con puesta a tierra.`);
+            }
+            if (ev_can_emb > 0) {
+                descriptions.push(`**Canalización embutida en mampostería (${ev_can_emb} metros)**: Picado de canaleta en pared de ladrillo, colocación y amurado de cañería de PVC semipesado ignífugo y posterior tapado con mortero a nivel de revoque.`);
             }
             if (ev_cable > 0) {
                 descriptions.push(`**Tendido y pasado de conductores de potencia para EV (${ev_cable} metros)**: Pasado de conductores unipolares IRAM 62267 Prysmian Afumex Plus 90°C libre de halógenos (sección de 6 mm² a 10 mm²), garantizando caída de tensión &le; 1.5% bajo régimen continuo (Fs = 1.0).`);

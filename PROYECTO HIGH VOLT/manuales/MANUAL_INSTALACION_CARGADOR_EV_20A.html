@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual Técnico - Instalación de Cargador EV 20A - AEA 90364-7-722</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 12mm 15mm 15mm 15mm;
+    @bottom-right {
+      content: "Página " counter(page);
+      font-size: 9pt;
+      color: #64748b;
+    }
+  }
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #0f172a;
+    background-color: #ffffff;
+    line-height: 1.5;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+  .header-box {
+    border-bottom: 3px solid #0b254a;
+    padding-bottom: 12px;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header-title-box {
+    max-width: 80%;
+  }
+  .doc-category {
+    font-size: 8.5pt;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #f59e0b;
+    margin-bottom: 3px;
+  }
+  h1 {
+    font-size: 17pt;
+    font-weight: 900;
+    color: #0b254a;
+    line-height: 1.15;
+    margin: 0 0 5px 0;
+    text-transform: uppercase;
+  }
+  .doc-subtitle {
+    font-size: 9.5pt;
+    color: #475569;
+    font-weight: 600;
+  }
+  .badge-norm {
+    background: #0b254a;
+    color: #ffffff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 8pt;
+    font-weight: 800;
+    text-align: right;
+    line-height: 1.3;
+  }
+
+  h2 {
+    font-size: 12.5pt;
+    font-weight: 850;
+    color: #0b254a;
+    border-left: 5px solid #f59e0b;
+    padding-left: 10px;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  h3 {
+    font-size: 10.5pt;
+    font-weight: 800;
+    color: #1e3a8a;
+    margin-top: 12px;
+    margin-bottom: 5px;
+  }
+  p {
+    margin: 0 0 8px 0;
+    text-align: justify;
+  }
+  strong {
+    color: #0b254a;
+  }
+
+  .alert-box {
+    background-color: #fef2f2;
+    border-left: 4.5px solid #ef4444;
+    border-radius: 4px;
+    padding: 9px 12px;
+    margin: 10px 0;
+    font-size: 9pt;
+  }
+  .alert-title {
+    font-weight: 900;
+    color: #991b1b;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .formula-box {
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 10px 0;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 9pt;
+    color: #0b254a;
+  }
+  .formula-title {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 8.5pt;
+    font-weight: 800;
+    color: #64748b;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .formula-main {
+    font-size: 11pt;
+    font-weight: bold;
+    color: #1e3a8a;
+    margin: 3px 0;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0 14px 0;
+    font-size: 8.8pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #0b254a;
+    color: #ffffff;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 8pt;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  .step-num {
+    display: inline-block;
+    background: #0b254a;
+    color: #ffffff;
+    font-weight: 900;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: 8pt;
+    margin-right: 6px;
+  }
+
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .diagram-container {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+  }
+  .diagram-container svg {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- ENCABEZADO OFICIAL -->
+<div class="header-box">
+  <div class="header-title-box">
+    <div class="doc-category">C&Oacute;NDOR SERVICIOS &bull; INGENIER&Iacute;A EL&Eacute;CTRICA APLICADA &bull; AMBA - ARGENTINA</div>
+    <h1>DICTAMEN T&Eacute;CNICO Y GU&Iacute;A EXHAUSTIVA DE OBRA: INSTALACI&Oacute;N DE CARGADOR EV MODO 2 (20A)</h1>
+    <div class="doc-subtitle">Respuesta formal y protocolo de ingeniería según <strong>AEA 90364-7-722</strong>, <strong>IRAM 2071</strong>, <strong>IRAM-IEC 60309</strong> e <strong>IEC 62752</strong>.</div>
+  </div>
+  <div class="badge-norm">
+    NORMATIVA VIGENTE<br>
+    <strong>AEA 90364-7-722</strong><br>
+    <strong>IRAM 2178-1 / NM 247-3</strong><br>
+    <strong>EDICI&Oacute;N OFICIAL</strong>
+  </div>
+</div>
+
+<!-- SECCIÓN 1: DIAGNÓSTICO DEL EQUIPO Y LA FÍSICA -->
+<h2>1. Diagn&oacute;stico del Equipo y la F&iacute;sica del Fen&oacute;meno (Modo 2 IC-CPD)</h2>
+<p>
+  El equipo presentado por el cliente corresponde a un <strong>cargador port&aacute;til para veh&iacute;culos el&eacute;ctricos en Modo 2 (seg&uacute;n norma IEC 61851-1)</strong>, com&uacute;nmente denominado <em>IC-CPD (In-Cable Control and Protection Device)</em>. Cuenta con caja de control electr&oacute;nica con l&oacute;gica de se&ntilde;al piloto (Control Pilot / Proximity Pilot) y leds de estado (<em>Power</em>, <em>Charging</em>, <em>Failure</em>).
+</p>
+
+<div class="alert-box">
+  <div class="alert-title">&#9888; ADVERTENCIA CR&Iacute;TICA DE CAMPO: EL PELIGRO DEL TOMA DOM&Eacute;STICO TRADICIONAL DE 20A</div>
+  <p style="margin-bottom: 0;">
+    Muchos usuarios conectan este equipo a un tomacorriente IRAM 2071 de 20A com&uacute;n (el de patas planas gruesas de $4.8 \times 1.5\text{ mm}$ usado en acondicionadores de aire grandes). <strong>Esto constituye una no conformidad grave frente a la norma AEA 90364-7-722 y un severo riesgo de incendio</strong>. Un aire acondicionado cicla por termostato (arranca y para), mientras que el cargador de un auto el&eacute;ctrico opera en <strong>r&eacute;gimen t&eacute;rmico continuo permanente al 100% de la carga durante 8 a 10 horas ininterrumpidas</strong>.
+  </p>
+</div>
+
+<h3>1.1. F&iacute;sica del Efecto Joule y la Avalancha T&eacute;rmica ($P = I^2 \cdot R_{contacto}$)</h3>
+<p>
+  En los tomacorrientes convencionales, la presi&oacute;n de contacto de los alv&eacute;olos depende de l&aacute;minas el&aacute;sticas de bronce fosforoso. Ante una corriente continua de carga $I = 16\text{ A}$ a $20\text{ A}$, si la resistencia en la uni&oacute;n clavija-alv&eacute;olo o en el borne a tornillo aumenta ligeramente por fatiga o micro-vibraci&oacute;n a $R_{contacto} = 0.1\ \Omega$, la potencia cal&oacute;rica disipada exclusivamente en ese punto de contacto es:
+</p>
+
+<div class="formula-box">
+  <div class="formula-title">Potencia Disipada por Efecto Joule en el Contacto</div>
+  <div class="formula-main">P_{disipada} = I^2 \cdot R_{contacto} = (20\text{ A})^2 \cdot 0.1\ \Omega = 40.0\text{ Watts}</div>
+  <div style="font-size: 8.5pt; color: #475569; margin-top: 4px;">
+    Calor acumulado: $Q = P \cdot t = 40\text{ W} \cdot (8\text{ h} \cdot 3600\text{ s}) = 1.152.000\text{ Joules} \approx 275\text{ kcal}$.
+  </div>
+</div>
+
+<p>
+  Disipar 40 Watts de calor constante encerrado en una caja rectangular de $10 \times 5\text{ cm}$ eleva la temperatura por encima de los $95^\circ\text{C}$. Esto supera la temperatura de transici&oacute;n v&iacute;trea de los pl&aacute;sticos comunes, <strong>destempla el resorte del alv&eacute;olo met&aacute;lico</strong>, reduce la fuerza normal de apriete, aumenta a&uacute;n m&aacute;s la resistencia de contacto $R_{contacto}$, acelerando una <strong>avalancha t&eacute;rmica irreversible</strong> que culmina con la fusi&oacute;n de la ficha y el principio de ignici&oacute;n.
+</p>
+
+<h3>1.2. Exigencia Normativa del Tomacorriente (AEA 722.55 vs IRAM-IEC 60309)</h3>
+<p>
+  La reglamentaci&oacute;n <strong>AEA 90364-7-722.55</strong> estipula que para Modo 2 residencial:
+</p>
+<ul>
+  <li><strong>Soluci&oacute;n Primaria Obligatoria (Recomendada):</strong> Sustituir la ficha macho del cargador por una clavija industrial normalizada <strong>IRAM-IEC 60309-2 (2P+T 16A o 32A, 230V, espigas cil&iacute;ndricas macizas de lat&oacute;n, color azul)</strong>, conectada a una base de pared estanca industrial (ej. <strong>Scame serie Omnia / Protecta c&oacute;d. 413.1663</strong> o <strong>Steck serie New Kon c&oacute;d. S-3076</strong>). Esta conexi&oacute;n garantiza superficie de contacto circular completa, presi&oacute;n mec&aacute;nica indeformable y bornes con capacidad de apriete para cables de hasta $6\text{ mm}^2$ o $10\text{ mm}^2$.</li>
+  <li><strong>Soluci&oacute;n Secundaria (Si el cliente exige mantener la ficha de 20A):</strong> Debe instalarse &uacute;nicamente un tomacorriente IRAM 2071 de 20A <em>de grado industrial pesado</em> (ej. <strong>Scame Protecta IP66 con m&oacute;dulo IRAM 20A c&oacute;d. 137.4011</strong> o <strong>Cambre Siglo XXI / Richi reforzado con borne prisionero y mordaza met&aacute;lica</strong>), montado en caja exterior met&aacute;lica o de policarbonato autoextinguible seg&uacute;n IRAM 62670. <em>Jam&aacute;s colocar tomas de bastidor gen&eacute;ricos de 10A ni adaptadores</em>.</li>
+</ul>
+
+<!-- SECCIÓN 2: DIMENSIONAMIENTO DEL CONDUCTOR -->
+<h2>2. Dimensionamiento del Conductor y C&aacute;lculos El&eacute;ctricos de Ingenier&iacute;a</h2>
+<p>
+  A tu consulta puntual sobre <strong>&iquest;qu&eacute; calibre de cable utilizar?</strong>, la respuesta de ingenier&iacute;a surge del an&aacute;lisis conjunto de tres criterios normativos obligatorios:
+</p>
+
+<h3>2.1. Criterio 1: Capacidad de Corriente Admisible ($I_Z$) con Factor de Servicio Continuo</h3>
+<p>
+  Para una carga con ficha de 20A, la corriente nominal m&aacute;xima de dise&ntilde;o es $I_B = 20\text{ A}$ (o $16\text{ A}$ nominal si el cargador limita por software). La norma AEA 722 establece que los circuitos dedicados a VE deben dise&ntilde;arse considerando un factor de operaci&oacute;n continuo de $1.25$ ($125\%$ de la carga nominal):
+</p>
+<div class="formula-box">
+  <div class="formula-title">Corriente de C&aacute;lculo Continua de Dise&ntilde;o</div>
+  <div class="formula-main">I_{dise\tilde{n}o} = 1.25 \times I_B = 1.25 \times 20\text{ A} = 25.0\text{ A}</div>
+</div>
+
+<p>
+  <strong>&iquest;Por qu&eacute; el cable com&uacute;n de $2.5\text{ mm}^2$ est&aacute; estrictamente prohibido?</strong><br>
+  Un conductor unipolar de cobre IRAM NM 247-3 (tipo <strong>Prysmian Superastic BWF</strong> o <strong>Kalop Flex</strong>) de $2.5\text{ mm}^2$ instalado en ca&ntilde;er&iacute;a a la vista o embutida (M&eacute;todo de instalaci&oacute;n B1/B2) tiene una corriente admisible m&aacute;xima corregida por temperatura ($40^\circ\text{C}$ ambiente en verano) de apenas $I_Z \approx 20\text{ A} - 21\text{ A}$. Suministrar 20A continuos har&iacute;a que el cable trabaje al $95\% - 100\%$ de su capacidad l&iacute;mite durante horas, degradando la aislaci&oacute;n de PVC a m&aacute;s de $70^\circ\text{C}$ y disparando t&eacute;rmicas por calentamiento ambiental dentro del tablero.
+</p>
+
+<p>
+  <strong>Secci&oacute;n M&iacute;nima Reglamentaria:</strong>
+</p>
+<ul>
+  <li><strong>Distancia hasta 15 metros:</strong> Conductor de cobre de <strong>$4.0\text{ mm}^2$</strong> ($I_Z \approx 28\text{ A}$ en ca&ntilde;er&iacute;a IRAM NM 247-3; $I_Z \approx 36\text{ A}$ para cable multipolar subterr&aacute;neo IRAM 2178-1 tipo Sintenax).</li>
+  <li><strong>Distancia mayor a 15 metros (hasta 35 m):</strong> Conductor de cobre de <strong>$6.0\text{ mm}^2$</strong> ($I_Z \approx 36\text{ A}$ en ca&ntilde;er&iacute;a / $46\text{ A}$ en Sintenax).</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECCIÓN 2.2: CAÍDA DE TENSIÓN -->
+<h3>2.2. Criterio 2: C&aacute;lculo Riguroso de Ca&iacute;da de Tensi&oacute;n ($\Delta V$)</h3>
+<p>
+  La reglamentaci&oacute;n AEA 90364-7-722.52 exige que la ca&iacute;da de tensi&oacute;n en bornes del tomacorriente de carga del VE <strong>no supere el $1.5\%$</strong> calculada desde el Tablero Seccional del que deriva el circuito (o el $3.0\%$ acumulada desde el punto de suministro de la distribuidora). Para tensi&oacute;n nominal monof&aacute;sica de $V_n = 230\text{ V}$, el l&iacute;mite admisible es:
+</p>
+
+<div class="formula-box">
+  <div class="formula-title">L&iacute;mite M&aacute;ximo Admisible de Ca&iacute;da de Tensi&oacute;n</div>
+  <div class="formula-main">\Delta V_{adm} = 1.5\% \times 230\text{ V} = 3.45\text{ Volts} \quad (V_{m\acute{i}n} = 226.55\text{ V})</div>
+</div>
+
+<p>
+  La f&oacute;rmula de ca&iacute;da de tensi&oacute;n para l&iacute;nea monof&aacute;sica considerando la resistividad del cobre a temperatura de r&eacute;gimen ($70^\circ\text{C}$, $\rho_{70^\circ\text{C}} = 0.021\ \Omega\cdot\text{mm}^2/\text{m}$) y factor de potencia t&iacute;pico del rectificador del VE ($\cos\varphi \approx 0.98$):
+</p>
+
+<div class="formula-box">
+  <div class="formula-title">F&oacute;rmula Monof&aacute;sica de Ca&iacute;da de Tensi&oacute;n</div>
+  <div class="formula-main">\Delta V = \frac{2 \cdot I_B \cdot L \cdot \rho_{70^\circ\text{C}} \cdot \cos\varphi}{S} = \frac{2 \cdot (20\text{ A}) \cdot L \cdot 0.021 \cdot 0.98}{S} \approx \frac{0.823 \cdot L}{S} \quad [\text{Volts}]</div>
+  <div class="formula-main">\Delta V\% = \left(\frac{\Delta V}{230}\right) \times 100</div>
+</div>
+
+<p><strong>Tabla de Verificaci&oacute;n de Ingenier&iacute;a para Carga a 20A Continuos:</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Distancia de L&iacute;nea ($L$)</th>
+      <th>Secci&oacute;n ($S$)</th>
+      <th>Tipo de Cable Recomendado</th>
+      <th>$\Delta V$ Calculada</th>
+      <th>$\Delta V\%$</th>
+      <th>Estado Normativo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$10\text{ metros}$</td>
+      <td>$2.5\text{ mm}^2$</td>
+      <td>IRAM NM 247-3</td>
+      <td>$3.29\text{ V}$</td>
+      <td>$1.43\%$</td>
+      <td><span style="color: #d97706; font-weight: bold;">CR&Iacute;TICO (Al l&iacute;mite t&eacute;rmico)</span></td>
+    </tr>
+    <tr>
+      <td>$10\text{ metros}$</td>
+      <td><strong>$4.0\text{ mm}^2$</strong></td>
+      <td>IRAM NM 247-3 / IRAM 2178</td>
+      <td><strong>$2.06\text{ V}$</strong></td>
+      <td><strong>$0.89\%$</strong></td>
+      <td><span style="color: #16a34a; font-weight: bold;">&check; CONFORME (Recomendado)</span></td>
+    </tr>
+    <tr>
+      <td>$20\text{ metros}$</td>
+      <td>$4.0\text{ mm}^2$</td>
+      <td>IRAM NM 247-3 / IRAM 2178</td>
+      <td>$4.12\text{ V}$</td>
+      <td>$1.79\%$</td>
+      <td><span style="color: #dc2626; font-weight: bold;">&cross; NO CUMPLE ($\Delta V > 1.5\%$)</span></td>
+    </tr>
+    <tr>
+      <td>$20\text{ metros}$</td>
+      <td><strong>$6.0\text{ mm}^2$</strong></td>
+      <td>IRAM NM 247-3 / IRAM 2178</td>
+      <td><strong>$2.74\text{ V}$</strong></td>
+      <td><strong>$1.19\%$</strong></td>
+      <td><span style="color: #16a34a; font-weight: bold;">&check; CONFORME (Obligatorio)</span></td>
+    </tr>
+    <tr>
+      <td>$30\text{ metros}$</td>
+      <td><strong>$6.0\text{ mm}^2$</strong></td>
+      <td>IRAM NM 247-3 / IRAM 2178</td>
+      <td>$4.11\text{ V}$</td>
+      <td>$1.78\%$</td>
+      <td><span style="color: #dc2626; font-weight: bold;">&cross; NO CUMPLE (Pasar a $10\text{ mm}^2$)</span></td>
+    </tr>
+    <tr>
+      <td>$30\text{ metros}$</td>
+      <td><strong>$10.0\text{ mm}^2$</strong></td>
+      <td>Prysmian Sintenax / Retenax</td>
+      <td><strong>$2.47\text{ V}$</strong></td>
+      <td><strong>$1.07\%$</strong></td>
+      <td><span style="color: #16a34a; font-weight: bold;">&check; CONFORME (Excelente)</span></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>2.3. Secci&oacute;n del Conductor de Protecci&oacute;n (PE - Tierra)</h3>
+<p>
+  Seg&uacute;n la tabla 771.18.I de la AEA 90364-7-771 y la Secci&oacute;n 722, cuando la secci&oacute;n de los conductores de fase es menor o igual a $16\text{ mm}^2$, la secci&oacute;n del conductor de protecci&oacute;n (verde/amarillo) debe ser <strong>id&eacute;ntica a la secci&oacute;n de la fase</strong>:
+</p>
+<div class="formula-box">
+  <div class="formula-title">Secci&oacute;n del Conductor de Tierra PE</div>
+  <div class="formula-main">S_{PE} = S_{Fase} = 4.0\text{ mm}^2 \quad (\text{o } 6.0\text{ mm}^2 \text{ seg&uacute;n corresponda})</div>
+</div>
+<p>
+  <em>Est&aacute; expresamente prohibido colocar conductor de tierra de $2.5\text{ mm}^2$ junto con l&iacute;neas de fase y neutro de $4\text{ mm}^2$ o $6\text{ mm}^2$.</em>
+</p>
+
+<!-- SECCIÓN 3: PUESTA A TIERRA -->
+<h2>3. Sistema de Puesta a Tierra y la F&iacute;sica del Terreno (AEA 722 vs $R_{PAT} \le 10\ \Omega$)</h2>
+<p>
+  Preguntaste: <em>"&iquest;solo tengo que hacer la instalaci&oacute;n con jabalina desde el tablero principal?"</em>. Aqu&iacute; est&aacute; el nudo cr&iacute;tico de las instalaciones de autos el&eacute;ctricos en Argentina:
+</p>
+
+<h3>3.1. Por qu&eacute; el Cargador Entra en "FAILURE" si la Tierra no es de Ingenier&iacute;a</h3>
+<p>
+  Los cargadores port&aacute;tiles de VE (y el m&oacute;dulo On-Board Charger del propio veh&iacute;culo) realizan un <strong>test de seguridad de auto-diagn&oacute;stico</strong> previo al inicio de la carga:
+</p>
+<ol>
+  <li>Inyectan una micro-corriente de alta frecuencia hacia el conductor de protecci&oacute;n (PE) para medir la impedancia del lazo de tierra ($Z_{lazo}$). Si la resistencia detectada es superior a un umbral (generalmente entre $10\ \Omega$ y $20\ \Omega$ seg&uacute;n el fabricante del auto), el cargador <strong>aborta inmediatamente el proceso y enciende el led rojo de "FAILURE"</strong>.</li>
+  <li>Miden la diferencia de potencial entre Neutro y Tierra ($V_{N-PE}$). Si la red de la distribuidora (Edenor/Edesur) tiene neutro sobrecargado o desbalanceado y la tensi&oacute;n supera $V_{N-PE} > 3\text{ V} - 5\text{ V}$, el cargador bloquea la carga por interpretar un riesgo de neutro flotante.</li>
+</ol>
+
+<h3>3.2. F&iacute;sica de la Resistencia de Tierra y Dimensionamiento de la Jabalina</h3>
+<p>
+  La resistencia de puesta a tierra de una jabalina vertical se rige por la f&oacute;rmula electrost&aacute;tica de Dwight:
+</p>
+
+<div class="formula-box">
+  <div class="formula-title">F&oacute;rmula de Dwight para Jabalina Cil&iacute;ndrica Vertical</div>
+  <div class="formula-main">R_{PAT} = \frac{\rho_{suelo}}{2\pi L} \cdot \left[ \ln\left(\frac{4L}{d}\right) - 1 \right]</div>
+  <div style="font-size: 8.5pt; color: #475569; margin-top: 4px;">
+    Donde $\rho_{suelo}$ es la resistividad aparente del terreno ($\Omega\cdot\text{m}$), $L$ la longitud enterrada (m) y $d$ el di&aacute;metro de la jabalina (m).
+  </div>
+</div>
+
+<p>
+  En el &Aacute;rea Metropolitana de Buenos Aires y pampas h&uacute;medas, la tierra negra vegetal con arcilla limosa presenta una resistividad de $\rho_{suelo} \approx 40\ \Omega\cdot\text{m}$ a $80\ \Omega\cdot\text{m}$. En suelos arenosos o con escombros urbanos, puede superar los $150\ \Omega\cdot\text{m}$.
+</p>
+<p>
+  Si se instala una jabalina convencional corta de $1.5\text{ m} \times 1/2''$, el valor resultante t&iacute;pico es de $R_{PAT} \approx 18\ \Omega - 28\ \Omega$. Si bien esto cumple el l&iacute;mite gen&eacute;rico de la AEA 771 ($40\ \Omega$), <strong>NO es suficiente para garantizar la carga continua de un VE seg&uacute;n AEA 722</strong>, la cual exige:
+</p>
+
+<div class="formula-box">
+  <div class="formula-title">Exigencia de Resistencia de Puesta a Tierra para VE</div>
+  <div class="formula-main">R_{PAT} \le 10.0\ \Omega \quad (\text{Valor &Oacute;ptimo Recomendado: } R_{PAT} \le 5.0\ \Omega)</div>
+</div>
+
+<p><strong>Configuraci&oacute;n F&iacute;sica de la Puesta a Tierra:</strong></p>
+<ul>
+  <li>Utilizar jabalina de acero-cobre con recubrimiento m&iacute;nimo de $254\ \mu\text{m}$ bajo norma <strong>IRAM 2309</strong> (marca l&iacute;der <strong>FacBSA</strong> c&oacute;d. <em>J16-3000</em> de $3.0\text{ m} \times 5/8''$, o acoplar dos jabalinas de $1.5\text{ m}$ con manguito roscado de bronce FacBSA c&oacute;d. <em>M16</em>).</li>
+  <li>Si el terreno es resistente, instalar dos jabalinas separadas por una distancia no menor al doble de su longitud ($D \ge 2 \cdot L \approx 3.0\text{ m}$ a $4.0\text{ m}$) para evitar la superposici&oacute;n de sus conos de equipotencialidad.</li>
+  <li>C&aacute;mara de inspecci&oacute;n reglamentaria de $15 \times 15\text{ cm}$ o circular de $160\text{ mm}$ con tapa seg&uacute;n IRAM 2281-2 y morseto de bronce reforzado tipo FacBSA c&oacute;d. <em>TOM-16</em>.</li>
+  <li>Conductor de bajada a tierra (PE principal): Cable unipolar verde/amarillo de cobre electrol&iacute;tico de <strong>$10\text{ mm}^2$ IRAM NM 247-3</strong> protegido contra da&ntilde;os mec&aacute;nicos hasta la barra principal de tierra del Tablero.</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECCIÓN 4: ESQUEMA UNIFILAR Y PROTECCIONES -->
+<h2>4. Configuraci&oacute;n del Tablero y Protecciones Reglamentarias (AEA 722)</h2>
+<p>
+  La l&iacute;nea que alimenta el tomacorriente del cargador <strong>debe ser un circuito terminal independiente y exclusivo</strong>. Est&aacute; estrictamente prohibido derivar este toma desde tomas existentes de iluminaci&oacute;n o usos generales.
+</p>
+
+<h3>4.1. Esquema El&eacute;ctrico Unifilar de la Instalaci&oacute;n</h3>
+
+<div class="diagram-container">
+  <svg viewBox="0 0 740 330" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Fondo blanco -->
+    <rect width="740" height="330" fill="#ffffff" rx="6"/>
+    
+    <!-- Red Distribuidora -->
+    <rect x="20" y="30" width="130" height="85" fill="#f1f5f9" stroke="#0b254a" stroke-width="2" rx="4"/>
+    <text x="85" y="55" font-family="Segoe UI" font-size="10" font-weight="900" fill="#0b254a" text-anchor="middle">ACOMETIDA RED</text>
+    <text x="85" y="72" font-family="Segoe UI" font-size="9" fill="#475569" text-anchor="middle">230V Monof&aacute;sico</text>
+    <text x="85" y="88" font-family="Segoe UI" font-size="8.5" fill="#0b254a" text-anchor="middle">Fusible / Medidor</text>
+    <text x="85" y="103" font-family="Segoe UI" font-size="8" fill="#64748b" text-anchor="middle">Edenor / Edesur</text>
+
+    <!-- Flecha 1 -->
+    <path d="M 150 72 L 180 72" stroke="#0b254a" stroke-width="2.5" marker-end="url(#arrow)"/>
+    
+    <!-- Tablero Principal (TP) -->
+    <rect x="180" y="20" width="165" height="135" fill="#ffffff" stroke="#1e3a8a" stroke-width="2" rx="4"/>
+    <rect x="180" y="20" width="165" height="24" fill="#0b254a"/>
+    <text x="262" y="36" font-family="Segoe UI" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">TABLERO PRINCIPAL (TP)</text>
+    <text x="262" y="60" font-family="Segoe UI" font-size="8.5" font-weight="700" fill="#0b254a" text-anchor="middle">Termomagn&eacute;tica General</text>
+    <text x="262" y="75" font-family="Segoe UI" font-size="8" fill="#475569" text-anchor="middle">2x32A Curva C (6kA)</text>
+    <text x="262" y="93" font-family="Segoe UI" font-size="8.5" font-weight="700" fill="#b45309" text-anchor="middle">Descargador DPS Clase II</text>
+    <text x="262" y="108" font-family="Segoe UI" font-size="8" fill="#475569" text-anchor="middle">Schneider iPRD (20kA)</text>
+    <text x="262" y="125" font-family="Segoe UI" font-size="8" fill="#16a34a" text-anchor="middle">Bornera Principal Tierra (PE)</text>
+
+    <!-- Jabalina PAT Principal -->
+    <path d="M 262 155 L 262 195" stroke="#16a34a" stroke-width="3"/>
+    <rect x="237" y="195" width="50" height="20" fill="#f8fafc" stroke="#16a34a" stroke-width="1.5" rx="2"/>
+    <text x="262" y="208" font-family="Segoe UI" font-size="7.5" font-weight="800" fill="#16a34a" text-anchor="middle">Jabalina 3m</text>
+    <line x1="262" y1="215" x2="262" y2="235" stroke="#16a34a" stroke-width="3"/>
+    <line x1="252" y1="235" x2="272" y2="235" stroke="#16a34a" stroke-width="3"/>
+    <line x1="256" y1="240" x2="268" y2="240" stroke="#16a34a" stroke-width="2"/>
+    <line x1="259" y1="245" x2="265" y2="245" stroke="#16a34a" stroke-width="1.5"/>
+    <text x="262" y="260" font-family="Segoe UI" font-size="8" font-weight="900" fill="#0b254a" text-anchor="middle">R &le; 10 &Omega;</text>
+
+    <!-- Flecha 2 Lnea Seccional -->
+    <path d="M 345 72 L 380 72" stroke="#0b254a" stroke-width="2.5"/>
+    <text x="362" y="65" font-family="Segoe UI" font-size="7.5" fill="#64748b" text-anchor="middle">6mm&sup2;</text>
+
+    <!-- Tablero Seccional / Tablero Dedicado VE -->
+    <rect x="380" y="15" width="190" height="275" fill="#ffffff" stroke="#b45309" stroke-width="2" rx="4"/>
+    <rect x="380" y="15" width="190" height="24" fill="#b45309"/>
+    <text x="475" y="31" font-family="Segoe UI" font-size="9" font-weight="900" fill="#ffffff" text-anchor="middle">TABLERO DEDICADO VE (TS)</text>
+    
+    <!-- Disyuntor Clase A -->
+    <rect x="395" y="50" width="160" height="65" fill="#f8fafc" stroke="#0b254a" stroke-width="1.5" rx="3"/>
+    <text x="475" y="68" font-family="Segoe UI" font-size="8.5" font-weight="900" fill="#0b254a" text-anchor="middle">DIFERENCIAL CLASE A</text>
+    <text x="475" y="83" font-family="Segoe UI" font-size="8" fill="#1e3a8a" text-anchor="middle">2x25A &bull; 30mA &bull; Tipo A / Si</text>
+    <text x="475" y="98" font-family="Segoe UI" font-size="7.5" fill="#475569" text-anchor="middle">Schneider Acti9 iID / Chint NL1</text>
+    <text x="475" y="110" font-family="Segoe UI" font-size="7" font-weight="800" fill="#b91c1c" text-anchor="middle">Inmune a saturaci&oacute;n por fugas DC</text>
+
+    <!-- Flecha interna -->
+    <path d="M 475 115 L 475 135" stroke="#0b254a" stroke-width="2"/>
+
+    <!-- Térmica Curva C -->
+    <rect x="395" y="135" width="160" height="55" fill="#f8fafc" stroke="#0b254a" stroke-width="1.5" rx="3"/>
+    <text x="475" y="152" font-family="Segoe UI" font-size="8.5" font-weight="900" fill="#0b254a" text-anchor="middle">TERMOMAGN&Eacute;TICA (PIA)</text>
+    <text x="475" y="167" font-family="Segoe UI" font-size="8" fill="#1e3a8a" text-anchor="middle">2x20A o 2x25A &bull; Curva C &bull; 4.5kA</text>
+    <text x="475" y="182" font-family="Segoe UI" font-size="7.5" fill="#475569" text-anchor="middle">Schneider Easy9 / Chint DZ47</text>
+
+    <!-- Protector Tensión -->
+    <rect x="395" y="200" width="160" height="45" fill="#f8fafc" stroke="#0b254a" stroke-width="1" rx="3"/>
+    <text x="475" y="217" font-family="Segoe UI" font-size="8" font-weight="800" fill="#0b254a" text-anchor="middle">PROTECTOR SOBRE/SUB TENSI&Oacute;N</text>
+    <text x="475" y="232" font-family="Segoe UI" font-size="7.5" fill="#475569" text-anchor="middle">Baw RU220 / Sica Microprocesado</text>
+
+    <!-- Flecha al Toma -->
+    <path d="M 570 162 L 610 162" stroke="#0b254a" stroke-width="2.5"/>
+    <text x="590" y="154" font-family="Segoe UI" font-size="7.5" fill="#64748b" text-anchor="middle">3x4mm&sup2;</text>
+
+    <!-- Tomacorriente 20A / Industrial -->
+    <rect x="610" y="120" width="115" height="85" fill="#f1f5f9" stroke="#0b254a" stroke-width="2" rx="4"/>
+    <text x="667" y="142" font-family="Segoe UI" font-size="9" font-weight="900" fill="#0b254a" text-anchor="middle">TOMACORRIENTE</text>
+    <text x="667" y="158" font-family="Segoe UI" font-size="8.5" font-weight="800" fill="#b45309" text-anchor="middle">20A Reforzado</text>
+    <text x="667" y="172" font-family="Segoe UI" font-size="7.5" fill="#475569" text-anchor="middle">Scame Protecta IP66</text>
+    <text x="667" y="185" font-family="Segoe UI" font-size="7.5" fill="#1e3a8a" text-anchor="middle">o CEE Azul 16A/32A</text>
+    <text x="667" y="198" font-family="Segoe UI" font-size="7" font-weight="800" fill="#16a34a" text-anchor="middle">Borna PE Dedicada</text>
+  </svg>
+</div>
+
+<h3>4.2. F&iacute;sica de la Saturaci&oacute;n Magn&eacute;tica del Disyuntor (Por qu&eacute; el Clase AC es Peligroso)</h3>
+<p>
+  En una instalaci&oacute;n domiciliaria convencional, el 99% de los interruptores diferenciales instalados son <strong>Clase AC</strong> (sensibles &uacute;nicamente a fugas senoidales alternas puras).
+</p>
+<p>
+  El veh&iacute;culo el&eacute;ctrico posee a bordo un rectificador conmutado de potencia (convertidor AC/DC con semiconductores IGBT / SiC). Ante un defecto de aislaci&oacute;n en los filtros de entrada o en la etapa de potencia, se generan <strong>corrientes de fuga a tierra con componente de corriente continua (DC)</strong>.
+</p>
+<p>
+  <strong>El fen&oacute;meno f&iacute;sico de la ceguera magn&eacute;tica:</strong> El transformador toroidal del disyuntor Clase AC tiene un n&uacute;cleo de ferrita con una curva de hist&eacute;resis estrecha. Una corriente de fuga en corriente continua de tan solo $I_{fuga,DC} \ge 6\text{ mA}$ satura magn&eacute;ticamente el n&uacute;cleo ($\vec{B} \rightarrow \vec{B}_{sat}$). Al entrar en saturaci&oacute;n, la permeabilidad diferencial se anula ($\mu_r = \frac{dB}{dH} \approx 0$), impidiendo que el n&uacute;cleo detecte variaciones de flujo ($\frac{d\Phi}{dt} = 0$). Como consecuencia:
+</p>
+<div class="alert-box">
+  <div class="alert-title">&#9888; RIESGO DE ELECTROCUCI&Oacute;N</div>
+  <p style="margin-bottom: 0;">
+    <strong>El disyuntor com&uacute;n Clase AC queda completamente bloqueado e inoperante ("ciego")</strong>, no disparando ni siquiera ante un contacto directo de una persona con la fase de 220V, dejando sin protecci&oacute;n a toda la vivienda.
+  </p>
+</div>
+
+<p>
+  <strong>Exigencia Reglamentaria (AEA 722.53):</strong>
+</p>
+<ul>
+  <li>Se debe instalar obligatoriamente un <strong>Interruptor Diferencial Clase A</strong> (marca <strong>Schneider Acti9 iID c&oacute;d. A9R71225</strong> de $2 \times 25\text{ A}\ 30\text{ mA}$, o <strong>Chint NL1-63 c&oacute;d. NL1-25-230-A</strong>) si el cargador port&aacute;til posee internamente dispositivo detector de fugas en continua de 6mA (RDC-DD seg&uacute;n IEC 62752, caracter&iacute;stica habitual en cargadores EV modernos).</li>
+  <li>Si el cargador no cuenta con RDC-DD certificado, la norma exige instalar un <strong>Interruptor Diferencial Clase B</strong> (sensible a corrientes alternas, pulsantes y continuas puras hasta 1 kHz).</li>
+</ul>
+
+<h3>4.3. Termomagn&eacute;tica de Protecci&oacute;n (PIA)</h3>
+<p>
+  Interruptor termomagn&eacute;tico bipolar ($2\text{P}$ con corte de fase y neutro), <strong>Curva C</strong>, capacidad de ruptura m&iacute;nima $I_{cn} = 4.5\text{ kA}$ (o $6\text{ kA}$ si se ubica en el Tablero Principal cercano al transformador de distribuci&oacute;n).
+</p>
+<ul>
+  <li>Para cable de <strong>$4.0\text{ mm}^2$</strong> ($I_Z \approx 28\text{ A}$): Colocar termomagn&eacute;tica de <strong>$2 \times 20\text{ A}$</strong> (ej. <strong>Schneider Easy9 c&oacute;d. EZ9F34220</strong> o <strong>Chint DZ47-60 2P 20A</strong>).</li>
+  <li>Para cable de <strong>$6.0\text{ mm}^2$</strong> ($I_Z \approx 36\text{ A}$): Colocar termomagn&eacute;tica de <strong>$2 \times 25\text{ A}$</strong> (ej. <strong>Schneider Easy9 c&oacute;d. EZ9F34225</strong>).</li>
+</ul>
+
+<div class="page-break"></div>
+
+<!-- SECCIÓN 5: PROCEDIMIENTO EN OBRA PASO A PASO -->
+<h2>5. Procedimiento de Obra Paso a Paso (Herramientas y Terreno)</h2>
+
+<h3>Paso 1: Relevamiento El&eacute;ctrico Previo en Sitio</h3>
+<p>
+  <span class="step-num">1</span> Medir con pinza amperom&eacute;trica True RMS (marca <strong>Klein Tools CL800</strong> o <strong>Uni-T UT204R</strong>) y mult&iacute;metro la tensi&oacute;n de l&iacute;nea ($V_{L-N}$) y la tensi&oacute;n neutro-tierra ($V_{N-PE}$). Si $V_{N-PE} > 3\text{ V}$, verificar el apriete del neutro en el medidor y la conexi&oacute;n de la jabalina existente.
+</p>
+<p>
+  <span class="step-num">2</span> Verificar la potencia simult&aacute;nea de la casa frente a la contratada con Edenor/Edesur (tarifa T1R t&iacute;pica de 3.3 kW o 5.5 kW). Si la vivienda tiene un consumo base de 10A (aires, heladera, iluminaci&oacute;n) y se suman 20A del cargador ($4.4\text{ kW}$), la corriente total alcanzar&aacute; los $30\text{ A}$, requiriendo acometida general m&iacute;nima de $6\text{ mm}^2$ y t&eacute;rmica de cabecera de $32\text{ A}$.
+</p>
+
+<h3>Paso 2: Instalaci&oacute;n y Medici&oacute;n de la Puesta a Tierra</h3>
+<p>
+  <span class="step-num">3</span> Hincar la jabalina de acero-cobre IRAM 2309 (<strong>FacBSA $3\text{ m} \times 5/8''$</strong>) en el terreno mediante rotopercutor con percutor adaptador para jabalina o masa de golpe de 5 kg con sufridera de protecci&oacute;n de rosca.
+</p>
+<p>
+  <span class="step-num">4</span> <strong>Medici&oacute;n con Telur&iacute;metro al 62% (M&eacute;todo de Fall-of-Potential):</strong>
+</p>
+<ul>
+  <li>Colocar el electrodo de corriente ($C_2$) a $25\text{ metros}$ de la jabalina en l&iacute;nea recta.</li>
+  <li>Colocar el electrodo de potencial ($P_2$) al $62\%$ de la distancia ($15.5\text{ metros}$).</li>
+  <li>Medir con telur&iacute;metro digital (ej. <strong>Uni-T UT521</strong> o <strong>Megabras MTD-20KWe</strong>). La lectura debe ser estrictamente <strong>$R_{PAT} \le 10\ \Omega$</strong>.</li>
+  <li>Realizar mediciones de control desplazando la pica de potencial al $52\%$ y al $72\%$. Si la variaci&oacute;n es menor al $5\%$, la medici&oacute;n es v&aacute;lida y no est&aacute; afectada por objetos met&aacute;licos enterrados.</li>
+</ul>
+
+<h3>Paso 3: Canalizaci&oacute;n y Tendido del Conductor</h3>
+<p>
+  <span class="step-num">5</span> <strong>Canalizaci&oacute;n R&iacute;gida Conforme a Norma:</strong>
+</p>
+<ul>
+  <li><strong>Garaje cubierto o intemperie:</strong> Utilizar ca&ntilde;er&iacute;a met&aacute;lica de acero semipesado curvado en fr&iacute;o con uniones y conectores estancos de fundici&oacute;n/aluminio con o-ring, O ca&ntilde;er&iacute;a de <strong>PVC r&iacute;gido curvable en fr&iacute;o semipesado/pesado normalizado IRAM 62386-21</strong> (marca <strong>Tubhier</strong> o <strong>Tigre</strong> de $\text{diametro } 25\text{ mm} \approx 1''$). Fijar con grampas omega cadenciadas cada $80\text{ cm}$. <em>Prohibido corrugado a la vista</em>.</li>
+  <li><strong>Tendido enterrado en jard&iacute;n/cochera exterior:</strong> Cable multipolar <strong>Prysmian Sintenax IRAM 2178-1 de $3 \times 4\text{ mm}^2$ o $3 \times 6\text{ mm}^2$</strong> enterrado a $70\text{ cm}$ de profundidad con cama de arena de $10\text{ cm}$, protecci&oacute;n mec&aacute;nica con ladrillos comunes colocados transversalmente y cinta pl&aacute;stica de advertencia de color rojo a $20\text{ cm}$ de la superficie.</li>
+</ul>
+
+<h3>Paso 4: Conexionado del Tablero y el Tomacorriente con Torqu&iacute;metro</h3>
+<p>
+  <span class="step-num">6</span> Montar en caja estanca IP65 en el garaje (marca <strong>Roker serie PR o Conextube</strong>) el tablero seccional dedicado con el disyuntor Clase A de $25\text{ A}$, la t&eacute;rmica de $20\text{ A}/25\text{ A}$ y el protector de tensi&oacute;n.
+</p>
+<p>
+  <span class="step-num">7</span> <strong>Apriete Calibrado con Torqu&iacute;metro en $\text{Nm}$ (Crucial para evitar puntos calientes):</strong>
+</p>
+<ul>
+  <li>Bornes de interruptores termomagn&eacute;ticos y diferenciales Schneider/Chint: Ajustar a <strong>$2.5\text{ Nm}$</strong> utilizando destornillador dinamom&eacute;trico aislado a 1000V con punta Pozidriv PZ2 / Slotted.</li>
+  <li>Bornes del tomacorriente de 20A: Ajustar a <strong>$1.2\text{ Nm}$</strong>. Colocar terminales tipo puntera tubular aislada (marca <strong>Zoloda</strong>) crimpeados en cada punta de conductor para evitar que los filamentos de cobre se dispersen o corten con el tornillo prisionero.</li>
+</ul>
+
+<!-- SECCIÓN 6: RESOLUCIÓN DE IMPREVISTOS EN TERRENO -->
+<h2>6. Gu&iacute;a R&aacute;pida de Resoluci&oacute;n de Imprevistos en Terreno</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>S&iacute;ntoma en Obra</th>
+      <th>Causa F&iacute;sica / T&eacute;cnica</th>
+      <th>Procedimiento Correctivo de Ingenier&iacute;a</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>El cargador enciende el LED rojo de "FAILURE" y no inicia la carga.</strong></td>
+      <td>Resistencia de tierra $R_{PAT} > 15\ \Omega$ o tensi&oacute;n $V_{N-PE} > 4\text{ V}$.</td>
+      <td>Medir con telur&iacute;metro. Hincar segunda jabalina acoplada en profundidad (hasta 4.5m) o hincar jabalina en paralelo a 3m de distancia. Si persiste por neutro flotante de la distribuidora, exigir reclamo t&eacute;cnico a la compa&ntilde;&iacute;a el&eacute;ctrica.</td>
+    </tr>
+    <tr>
+      <td><strong>El tomacorriente o la ficha est&aacute;n muy calientes al tacto luego de 2 horas.</strong></td>
+      <td>Resistencia de contacto elevada en alv&eacute;olos IRAM 20A o conexi&oacute;n floja.</td>
+      <td>Ajustar tornillos a torque nominal ($1.2\text{ Nm}$). Si el calentamiento es en la uni&oacute;n de la ficha, cambiar inmediatamente a <strong>toma y clavija industrial IRAM-IEC 60309 azul 16A/32A (Scame/Steck)</strong>.</td>
+    </tr>
+    <tr>
+      <td><strong>El disyuntor general de la casa dispara aleatoriamente al conectar el auto.</strong></td>
+      <td>El disyuntor general es Clase AC y se satura con las fugas de alta frecuencia del cargador.</td>
+      <td>Reemplazar el disyuntor de cabecera por un <strong>Clase A Inmunizado / Superinmunizado (Schneider Si o Chint Clase A)</strong> y asegurar que el circuito del VE derive aguas arriba o en cascada selectiva coordinada.</td>
+    </tr>
+    <tr>
+      <td><strong>Disparo de la t&eacute;rmica de la casa despu&eacute;s de 30 minutos de carga.</strong></td>
+      <td>Sobrecarga de la l&iacute;nea general por suma del VE y acondicionadores de aire.</td>
+      <td>Medir corriente total en el TP. Readecuar la l&iacute;nea seccional a $6\text{ mm}^2$ o $10\text{ mm}^2$ y t&eacute;rmica de $32\text{ A}/40\text{ A}$, o asesorar al cliente para instalar un cargador con balanceo din&aacute;mico (Power Boost).</td>
+    </tr>
+  </tbody>
+</table>
+
+<div style="margin-top: 25px; border-top: 2px solid #0b254a; padding-top: 8px; font-size: 8.5pt; color: #64748b; display: flex; justify-content: space-between;">
+  <span>C&Oacute;NDOR SERVICIOS &bull; SOLUCIONES T&Eacute;CNICAS INTEGRALES</span>
+  <span>INGENIERO ELECTRICISTA MATRICULADO &bull; DICTAMEN OFICIAL</span>
+</div>
+
+</body>
+</html>

@@ -19,16 +19,17 @@
             --text-muted: #94a3b8;
             --text-dim: #64748b;
             
-            --clima: #06b6d4;
-            --clima-glow: rgba(6, 182, 212, 0.25);
-            --elec: #f59e0b;
-            --elec-glow: rgba(245, 158, 11, 0.25);
-            --cctv: #10b981;
-            --cctv-glow: rgba(16, 185, 129, 0.25);
+            --cerco: #e11d48;
+            --cerco-glow: rgba(225, 29, 72, 0.25);
             --alarma: #8b5cf6;
             --alarma-glow: rgba(139, 92, 246, 0.25);
+            --elec: #f59e0b;
+            --elec-glow: rgba(245, 158, 11, 0.25);
+            --clima: #06b6d4;
+            --clima-glow: rgba(6, 182, 212, 0.25);
+            --cctv: #10b981;
+            --cctv-glow: rgba(16, 185, 129, 0.25);
             --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.3);
             
             --success: #22c55e;
             --danger: #ef4444;
@@ -49,7 +50,7 @@
             background-color: var(--bg-main);
             background-image: 
                 radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(225, 29, 72, 0.12) 0px, transparent 50%),
                 radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
@@ -60,7 +61,7 @@
         }
 
         .container {
-            max-width: 1440px;
+            max-width: 1480px;
             margin: 0 auto;
             width: 100%;
             display: flex;
@@ -207,6 +208,13 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
 
+        .tab-btn.active[data-tab="cerco"] {
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.25), rgba(225, 29, 72, 0.05));
+            color: #fb7185;
+            border-color: rgba(225, 29, 72, 0.5);
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.2);
+        }
+
         .tab-btn.active[data-tab="alarma"] {
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
             color: #a78bfa;
@@ -248,7 +256,7 @@
         /* Layout Grid */
         .workspace {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 420px;
             gap: 20px;
             align-items: start;
         }
@@ -311,7 +319,7 @@
         /* Presets Grid for Cómputo Rápido */
         .presets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 16px;
         }
 
@@ -332,6 +340,12 @@
             transform: translateY(-2px);
         }
 
+        .preset-card.cerco-special {
+            border-left: 5px solid #e11d48;
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.1), rgba(11, 17, 32, 0.85));
+            border-color: rgba(225, 29, 72, 0.4);
+        }
+
         .preset-card.alarma-special {
             border-left: 5px solid #8b5cf6;
             background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(11, 17, 32, 0.85));
@@ -346,7 +360,6 @@
 
         .preset-card.clima-border { border-left: 4px solid var(--clima); }
         .preset-card.elec-border { border-left: 4px solid var(--elec); }
-        .preset-card.cctv-border { border-left: 4px solid var(--cctv); }
 
         .preset-header {
             display: flex;
@@ -360,44 +373,9 @@
             color: #ffffff;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .form-field {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-field label {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 600;
-        }
-
-        .form-field input, .form-field select {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 8px 10px;
-            border-radius: var(--radius-sm);
-            font-size: 0.85rem;
-            outline: none;
-            transition: border 0.2s;
-        }
-
-        .form-field input:focus, .form-field select:focus {
-            border-color: var(--accent);
-        }
-
         .btn-calc-preset {
             margin-top: 6px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(59, 130, 246, 0.1));
-            border: 1px solid rgba(59, 130, 246, 0.4);
-            color: #93c5fd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 9px 14px;
             border-radius: var(--radius-sm);
             font-size: 0.85rem;
@@ -411,9 +389,17 @@
         }
 
         .btn-calc-preset:hover {
-            background: rgba(59, 130, 246, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .btn-calc-preset.cerco-btn {
+            background: linear-gradient(135deg, rgba(225, 29, 72, 0.35), rgba(190, 18, 60, 0.2));
+            border-color: rgba(225, 29, 72, 0.6);
+            color: #fecdd3;
+        }
+        .btn-calc-preset.cerco-btn:hover {
+            background: rgba(225, 29, 72, 0.5);
             color: #ffffff;
-            border-color: rgba(59, 130, 246, 0.6);
         }
 
         .btn-calc-preset.alarma-btn {
@@ -498,10 +484,11 @@
             white-space: nowrap;
         }
 
-        .tag-clima { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
-        .tag-elec { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
-        .tag-cctv { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .tag-cerco { background: rgba(225, 29, 72, 0.2); color: #fb7185; border: 1px solid rgba(225, 29, 72, 0.4); }
         .tag-alarma { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.4); }
+        .tag-elec { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .tag-clima { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .tag-cctv { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
 
         .mat-sub {
             font-size: 0.75rem;
@@ -637,7 +624,7 @@
         }
 
         .order-items-list {
-            max-height: 400px;
+            max-height: 420px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -892,7 +879,7 @@
                 <div class="brand-icon">📦</div>
                 <div class="brand-text">
                     <h1>EL CÓNDOR <span>Materiales Mostrador v2.0</span></h1>
-                    <p>Cómputo Técnico y Órdenes de Compra en Pesos Argentinos (ARS) • Clima • High Volt • EV • Alarmas • CCTV</p>
+                    <p>Cómputo Técnico y Órdenes de Compra en Pesos Argentinos (ARS) • Cerco Eléctrico • Alarmas • EV • Clima • CCTV</p>
                 </div>
             </div>
 
@@ -903,16 +890,17 @@
                 </div>
                 <div class="input-group-top">
                     <label>Obra / Referencia</label>
-                    <input type="text" id="order-ref" placeholder="Ej: Obra Alarma Intelbras / Dpto 4B">
+                    <input type="text" id="order-ref" placeholder="Ej: Obra Cerco Eléctrico / Dpto 4B">
                 </div>
                 <div class="input-group-top">
                     <label>Distribuidor / Destino</label>
                     <select id="order-supplier-target">
                         <option value="todos">Todos los Proveedores</option>
-                        <option value="alarma">Mayorista de Seguridad (Alarmas Intelbras)</option>
+                        <option value="cerco">Mayorista Seguridad (Cercos Eléctricos)</option>
+                        <option value="alarma">Mayorista Seguridad (Alarmas Intelbras)</option>
                         <option value="electrica">Distribuidora Eléctrica (High Volt / EV)</option>
                         <option value="refrigeracion">Casa de Refrigeración (Clima)</option>
-                        <option value="seguridad">Mayorista de Seguridad (CCTV / Redes)</option>
+                        <option value="seguridad">Mayorista CCTV & Redes</option>
                     </select>
                 </div>
             </div>
@@ -923,8 +911,12 @@
             <button class="tab-btn active" data-tab="computo" onclick="switchTab('computo')">
                 <span>⚡ Cómputo Rápido de Obra</span>
             </button>
+            <button class="tab-btn" data-tab="cerco" onclick="switchTab('cerco')">
+                <span>⚡ Cerco Eléctrico Perimetral</span>
+                <span class="badge-count" id="count-cerco">0</span>
+            </button>
             <button class="tab-btn" data-tab="alarma" onclick="switchTab('alarma')">
-                <span>🚨 Centrales de Alarma Intelbras</span>
+                <span>🚨 Centrales de Alarma</span>
                 <span class="badge-count" id="count-alarma">0</span>
             </button>
             <button class="tab-btn" data-tab="elec" onclick="switchTab('elec')">
@@ -958,26 +950,48 @@
 
                         <div class="presets-grid">
                             
-                            <!-- PRESET ESTRELLA: KIT CENTRAL DE ALARMA INTELBRAS AMT 8000 PRO -->
-                            <div class="preset-card alarma-special">
+                            <!-- PRESET ESTRELLA 1: KIT CERCO ELÉCTRICO PERIMETRAL COMPLETO -->
+                            <div class="preset-card cerco-special">
                                 <div class="preset-header">
-                                    <span class="preset-name" style="color: #ddd6fe;">🚨 Kit Alarma Intelbras AMT 8000 PRO</span>
-                                    <span class="mat-tag" style="background: rgba(139, 92, 246, 0.25); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.5);">Pesos Argentinos</span>
+                                    <span class="preset-name" style="color: #fecdd3;">⚡ Cerco Eléctrico Seguridad Perimetral</span>
+                                    <span class="mat-tag tag-cerco">Presupuesto Real</span>
                                 </div>
                                 <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
-                                    Carga exactamente el <b>presupuesto oficial del distribuidor</b> en Pesos Argentinos (T.C. $1.545):
-                                    <br>• <b>1x AMT 8000 PRO:</b> Central Inalámbrica 64 Zonas Wi-Fi ($213.256,35)
-                                    <br>• <b>4x XAS 8000:</b> Sensores Magnéticos Inalámbricos con baterías ($142.819,80)
-                                    <br>• <b>2x IVP 8000 EX:</b> Sensores Doble PIR Inalámbricos Exterior 110° ($213.580,80)
-                                    <br>• <b>2x XAC 8000:</b> Controles Remotos Anti-Bloqueo ($61.985,40)
-                                    <br><b style="color: #fbbf24;">Subtotal Neto: $631.642,35 • Con IVA (21%): $764.287,24</b>
+                                    Carga exactamente los <b>10 ítems reales</b> de distribuidor en Pesos Argentinos (T.C. $1.545):
+                                    <br>• <b>1x ELC6012 NET:</b> Central Cerco Wi-Fi hasta 7 km ($107.995,50)
+                                    <br>• <b>60x DOBLE PIN LOCK:</b> Aisladores doble pin pared/ángulo ($18.540,00)
+                                    <br>• <b>60x AG0360:</b> Resortes N°2 Acero Inox ($74.160,00)
+                                    <br>• <b>2x EC-B300:</b> Bobinas Alambre 300m Ditin ($140.595,00)
+                                    <br>• <b>2x ALTA50:</b> Cable Alta Tensión 50m ($47.277,00)
+                                    <br>• <b>10x PARANTE6H:</b> Parantes 6 hilos ($77.250,00)
+                                    <br>• <b>7x CARTELP:</b> Carteles Peligro + Jabalina 3/8" + Prensa + Sirena Flash
+                                    <br><b style="color: #fbbf24;">Subtotal Neto: $509.695,50 • Total con IVA: $616.731,56 ARS</b>
                                 </p>
-                                <button class="btn-calc-preset alarma-btn" onclick="computarKitRealAlarma()">
-                                    <span>🚨 Cargar Kit Alarma Intelbras Completo (ARS $764.287,24)</span>
+                                <button class="btn-calc-preset cerco-btn" onclick="computarKitRealCerco()">
+                                    <span>⚡ Cargar Kit Cerco Eléctrico Completo ($616.731,56 ARS)</span>
                                 </button>
                             </div>
 
-                            <!-- PRESET ESTRELLA 2: KIT EXACTO CARGADOR EV 20A CON CÓDIGOS DE DISTRIBUIDOR -->
+                            <!-- PRESET ESTRELLA 2: KIT CENTRAL DE ALARMA INTELBRAS AMT 8000 PRO -->
+                            <div class="preset-card alarma-special">
+                                <div class="preset-header">
+                                    <span class="preset-name" style="color: #ddd6fe;">🚨 Kit Alarma Intelbras AMT 8000 PRO</span>
+                                    <span class="mat-tag tag-alarma">Pesos Argentinos</span>
+                                </div>
+                                <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                                    Presupuesto oficial Intelbras en Pesos Argentinos:
+                                    <br>• 1x Central AMT 8000 PRO 64 Zonas Wi-Fi ($213.256,35)
+                                    <br>• 4x Sensores Magnéticos XAS 8000 ($142.819,80)
+                                    <br>• 2x Sensores Doble PIR Exterior IVP 8000 EX ($213.580,80)
+                                    <br>• 2x Controles Remotos Anti-Bloqueo XAC 8000 ($61.985,40)
+                                    <br><b style="color: #fbbf24;">Subtotal: $631.642,35 • Total con IVA: $764.287,24 ARS</b>
+                                </p>
+                                <button class="btn-calc-preset alarma-btn" onclick="computarKitRealAlarma()">
+                                    <span>🚨 Cargar Kit Alarma Intelbras ($764.287,24 ARS)</span>
+                                </button>
+                            </div>
+
+                            <!-- PRESET ESTRELLA 3: KIT EXACTO CARGADOR EV 20A CON CÓDIGOS DE DISTRIBUIDOR -->
                             <div class="preset-card ev-special">
                                 <div class="preset-header">
                                     <span class="preset-name" style="color: #fca5a5;">🚗⚡ Kit Cargador EV 20A Completo</span>
@@ -988,47 +1002,10 @@
                                     <br>• 20m Sintenax 2x6mm² + Caño Kalop semipesado 20mm + Conectores + Curvas
                                     <br>• Térmica Chint 2x25A + Disyuntor Chint NL210 40A 30mA Clase B
                                     <br>• Módulo Toma Cambre 20A + Caja Siglo XXII + 2x Jabalinas 1/2" x 1.5m
-                                    <br><b style="color: #fbbf24;">Total con IVA: $624.948,12</b>
+                                    <br><b style="color: #fbbf24;">Total con IVA: $624.948,12 ARS</b>
                                 </p>
                                 <button class="btn-calc-preset ev-btn" onclick="computarKitRealEV20A()">
                                     <span>🔥 Cargar Presupuesto Completo EV 20A (18 Ítems)</span>
-                                </button>
-                            </div>
-
-                            <!-- Preset Electricidad Residencial Estándar -->
-                            <div class="preset-card elec-border">
-                                <div class="preset-header">
-                                    <span class="preset-name">⚡ Instalación Eléctrica General</span>
-                                    <span class="mat-tag tag-elec">High Volt</span>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Bocas / Puntos</label>
-                                        <input type="number" id="preset-elec-bocas" value="12" min="0" max="100">
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Metros p/Boca</label>
-                                        <input type="number" id="preset-elec-m-boca" value="6" min="3" max="20">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Puesta a Tierra (PAT)</label>
-                                        <select id="preset-elec-pat">
-                                            <option value="si">Jabalina + Caja</option>
-                                            <option value="no">No incluir</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Canalización</label>
-                                        <select id="preset-elec-canaliz">
-                                            <option value="corrugado">Corrugado ignífugo 3/4"</option>
-                                            <option value="kalop">Caño rígido Kalop 20mm</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button class="btn-calc-preset" onclick="computarElecPreset()">
-                                    <span>➕ Cargar Materiales Eléctrica</span>
                                 </button>
                             </div>
 
@@ -1052,20 +1029,7 @@
                                         <input type="number" id="preset-clima-qty" value="1" min="1" max="20">
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Metros Cañería</label>
-                                        <input type="number" id="preset-clima-m" value="4" min="3" max="30">
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Ménsulas & Tacos</label>
-                                        <select id="preset-clima-mensulas">
-                                            <option value="si">Sí, incluir</option>
-                                            <option value="no">No requiere</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button class="btn-calc-preset" onclick="computarClimaPreset()">
+                                <button class="btn-calc-preset" style="background: rgba(6, 182, 212, 0.25); color: #67e8f9; border-color: rgba(6, 182, 212, 0.5);" onclick="computarClimaPreset()">
                                     <span>➕ Cargar Materiales Clima</span>
                                 </button>
                             </div>
@@ -1074,7 +1038,20 @@
                     </div>
                 </div>
 
-                <!-- TAB 1: ALARMAS INTELBRAS -->
+                <!-- TAB 1: CERCO ELÉCTRICO -->
+                <div class="tab-content" id="tab-cerco">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">⚡</span> Cerco Eléctrico de Seguridad Perimetral</h2>
+                                <p class="card-subtitle">Central electrificadora Wi-Fi, aisladores doble pin lock, resortes inox, alambre Ditin, cable alta tensión y parantes.</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-cerco"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ALARMAS INTELBRAS -->
                 <div class="tab-content" id="tab-alarma">
                     <div class="card">
                         <div class="card-header">
@@ -1087,12 +1064,12 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: ELECTRICIDAD & KALOP & EV -->
+                <!-- TAB 3: ELECTRICIDAD & KALOP & EV -->
                 <div class="tab-content" id="tab-elec">
                     <div class="card">
                         <div class="card-header">
                             <div>
-                                <h2 class="card-title"><span class="icon">⚡</span> Electricidad, Cañería Rígida Kalop & Terminales EV</h2>
+                                <h2 class="card-title"><span class="icon">🔌</span> Electricidad, Cañería Rígida Kalop & Terminales EV</h2>
                                 <p class="card-subtitle">Conductores Sintenax, caños semipesados Kalop, cajas Forli, disyuntores Chint Clase B/A y tomas Cambre 20A con códigos reales de distribuidor.</p>
                             </div>
                         </div>
@@ -1100,7 +1077,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: CLIMATIZACIÓN -->
+                <!-- TAB 4: CLIMATIZACIÓN -->
                 <div class="tab-content" id="tab-clima">
                     <div class="card">
                         <div class="card-header">
@@ -1113,7 +1090,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 4: CCTV & SEGURIDAD -->
+                <!-- TAB 5: CCTV & SEGURIDAD -->
                 <div class="tab-content" id="tab-cctv">
                     <div class="card">
                         <div class="card-header">
@@ -1138,8 +1115,9 @@
 
                     <div class="summary-filters">
                         <button class="filter-btn active" onclick="filterOrderList('todos', this)">Todos</button>
-                        <button class="filter-btn" onclick="filterOrderList('alarma', this)">🚨 Alarmas</button>
-                        <button class="filter-btn" onclick="filterOrderList('elec', this)">⚡ Elec/EV</button>
+                        <button class="filter-btn" onclick="filterOrderList('cerco', this)">⚡ Cerco</button>
+                        <button class="filter-btn" onclick="filterOrderList('alarma', this)">🚨 Alarma</button>
+                        <button class="filter-btn" onclick="filterOrderList('elec', this)">🔌 Elec/EV</button>
                         <button class="filter-btn" onclick="filterOrderList('clima', this)">❄️ Clima</button>
                         <button class="filter-btn" onclick="filterOrderList('cctv', this)">📹 CCTV</button>
                     </div>
@@ -1186,26 +1164,26 @@
     <div id="printable-order">
         <div class="print-header">
             <div>
-                <h1 style="font-size: 18pt; margin: 0; color: #111;">EL CÓNDOR • SERVICIOS TÉCNICOS INTEGRALES</h1>
-                <p style="margin: 2px 0; font-size: 10pt; color: #555;">Alarmas Inalámbricas Intelbras • Seguridad CCTV • Climatización • Alta Tensión (High Volt & EV)</p>
-                <p style="margin: 2px 0; font-size: 9pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
+                <h1 style="font-size: 17pt; margin: 0; color: #111;">EL CÓNDOR • SERVICIOS TÉCNICOS INTEGRALES</h1>
+                <p style="margin: 2px 0; font-size: 9.5pt; color: #555;">Cercos Eléctricos Perimetrales • Alarmas Inalámbricas • Seguridad CCTV • Climatización • High Volt & EV</p>
+                <p style="margin: 2px 0; font-size: 8.5pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
             </div>
             <div style="text-align: right;">
-                <h2 style="font-size: 13pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / COTIZACIÓN MOSTRADOR (ARS)</h2>
-                <p style="margin: 2px 0; font-size: 9pt;"><b>Fecha:</b> <span id="p-date"></span></p>
-                <p style="margin: 2px 0; font-size: 9pt;"><b>Obra / Ref:</b> <span id="p-ref"></span></p>
-                <p style="margin: 2px 0; font-size: 9pt;"><b>Destino:</b> <span id="p-supplier"></span></p>
+                <h2 style="font-size: 12pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / COTIZACIÓN MOSTRADOR (ARS)</h2>
+                <p style="margin: 2px 0; font-size: 8.5pt;"><b>Fecha:</b> <span id="p-date"></span></p>
+                <p style="margin: 2px 0; font-size: 8.5pt;"><b>Obra / Ref:</b> <span id="p-ref"></span></p>
+                <p style="margin: 2px 0; font-size: 8.5pt;"><b>Destino:</b> <span id="p-supplier"></span></p>
             </div>
         </div>
 
         <table class="print-table">
             <thead>
                 <tr>
-                    <th style="width: 5%; text-align: center;">#</th>
+                    <th style="width: 4%; text-align: center;">#</th>
                     <th style="width: 14%;">Cód. Art.</th>
-                    <th style="width: 45%;">Descripción Técnica Normalizada / Marca</th>
-                    <th style="width: 11%; text-align: center;">Cantidad</th>
-                    <th style="width: 12%; text-align: right;">P. Unit. (ARS)</th>
+                    <th style="width: 46%;">Descripción Técnica Normalizada / Marca</th>
+                    <th style="width: 10%; text-align: center;">Cantidad</th>
+                    <th style="width: 13%; text-align: right;">P. Unit. (ARS)</th>
                     <th style="width: 13%; text-align: right;">Subtotal (ARS)</th>
                 </tr>
             </thead>
@@ -1228,12 +1206,12 @@
             </tfoot>
         </table>
 
-        <div style="margin-top: 35px; display: flex; justify-content: space-between;">
-            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 9pt;">
+        <div style="margin-top: 30px; display: flex; justify-content: space-between;">
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 8.5pt;">
                 <b>Responsable de Compra / Técnico Instalador</b><br>
                 El Cóndor Servicios Técnicos
             </div>
-            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 9pt;">
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 8.5pt;">
                 <b>Recepción Mostrador / Distribuidora</b><br>
                 Firma, Sello y Plazo de Entrega
             </div>
@@ -1252,6 +1230,108 @@
     <script>
         // --- BASE DE DATOS DE MATERIALES CON CÓDIGOS REALES EN PESOS ARGENTINOS (ARS) ---
         const CATALOGO_MATERIALES = [
+            // === CERCO ELÉCTRICO PERIMETRAL ===
+            { 
+                id: 'ELC6012_NET', 
+                code: 'ELC6012 NET', 
+                cat: 'cerco', 
+                name: 'Central de Cerca Eléctrica Wi-Fi hasta 7 km lineales (Intelbras/Linseg)', 
+                unit: 'Unidades', 
+                sub: 'Energizador con módulo Wi-Fi para monitoreo por aplicación móvil', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 107995.50 // USD 69.90 * 1545
+            },
+            { 
+                id: 'DOBLE_PIN_LOCK', 
+                code: 'DOBLE PIN LOCK', 
+                cat: 'cerco', 
+                name: 'Aislador Doble Pin Lock para pared con pitón o en ángulo L', 
+                unit: 'Unidades', 
+                sub: 'Aislador de polipropileno virgen con protección anti-UV', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 309.00 // USD 0.20 * 1545
+            },
+            { 
+                id: 'AG0360', 
+                code: 'AG0360', 
+                cat: 'cerco', 
+                name: 'Resorte N°2 de Acero Inoxidable para tensión de hilos', 
+                unit: 'Unidades', 
+                sub: 'Compensador de dilatación térmica y mantenimiento de tensión', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 1236.00 // USD 0.80 * 1545
+            },
+            { 
+                id: 'EC_B300', 
+                code: 'EC-B300', 
+                cat: 'cerco', 
+                name: 'Bobina de Alambre x 300 metros Ditin para cerco eléctrico', 
+                unit: 'Bobinas (300m)', 
+                sub: 'Alambre de aleación de aluminio / galvanizado de alta conductividad', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 70297.50 // USD 45.50 * 1545
+            },
+            { 
+                id: 'ALTA50', 
+                code: 'ALTA50', 
+                cat: 'cerco', 
+                name: 'Cable de Alta Tensión multifilar x 50 metros con doble aislación', 
+                unit: 'Rollos (50m)', 
+                sub: 'Aislación hasta 20.000V para retorno de pulso desde cerco a central', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 23638.50 // USD 15.30 * 1545
+            },
+            { 
+                id: 'PARANTE6H', 
+                code: 'PARANTE-6H', 
+                cat: 'cerco', 
+                name: 'Parante de hierro / aluminio para 6 hilos perimetral', 
+                unit: 'Unidades', 
+                sub: 'Poste soporte para aisladores pin lock con regatón plástico', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 7725.00 // USD 5.00 * 1545
+            },
+            { 
+                id: 'CARTELP', 
+                code: 'CARTELP', 
+                cat: 'cerco', 
+                name: 'Cartel de Peligro Cerco Eléctrico reglamentario amarillo', 
+                unit: 'Unidades', 
+                sub: 'Cumple normativa de señalización obligatoria cada 10 metros', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 2008.50 // USD 1.30 * 1545
+            },
+            { 
+                id: 'JABALINA_38', 
+                code: 'JABALINA 3/8', 
+                cat: 'cerco', 
+                name: 'Jabalina 3/8" x 1,00m con Morseto bronce para cerco', 
+                unit: 'Unidades', 
+                sub: 'Puesta a tierra exclusiva para retorno del energizador', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 9270.00 // USD 6.00 * 1545
+            },
+            { 
+                id: 'PRENSA_ALU', 
+                code: 'PRENSA ALU x100', 
+                cat: 'cerco', 
+                name: 'Prensa cable de aluminio en U x 100 Unidades', 
+                unit: 'Bolsas (x100)', 
+                sub: 'Para empalmes mecánicos y fijación de alambre en resortes', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 7725.00 // USD 5.00 * 1545
+            },
+            { 
+                id: 'SL_350L', 
+                code: 'SL-350L', 
+                cat: 'cerco', 
+                name: 'Sirena Exterior con Flash Plástica Alimentación 12V', 
+                unit: 'Unidades', 
+                sub: 'Alarma acústica y lumínica estanca para disparo de cerco', 
+                supplier: 'Mayorista de Seguridad (Cercos)',
+                price: 12823.50 // USD 8.30 * 1545
+            },
+
             // === ALARMAS & INTRUSIÓN (INTELBRAS) ===
             { 
                 id: 'AMT_8000_PRO', 
@@ -1261,7 +1341,7 @@
                 unit: 'Unidades', 
                 sub: 'Supervisada con reporte a app móvil, batería interna recargable', 
                 supplier: 'Mayorista de Seguridad (Intelbras)',
-                price: 213256.35 // USD 138.03 * 1545
+                price: 213256.35 
             },
             { 
                 id: 'XAS_8000', 
@@ -1271,7 +1351,7 @@
                 unit: 'Unidades', 
                 sub: 'Baterías de larga duración incluidas, supervisión continua', 
                 supplier: 'Mayorista de Seguridad (Intelbras)',
-                price: 35704.95 // USD 23.11 * 1545
+                price: 35704.95 
             },
             { 
                 id: 'IVP_8000_EX', 
@@ -1281,7 +1361,7 @@
                 unit: 'Unidades', 
                 sub: 'Inmunidad a mascotas (Pet Immunity), apto intemperie IPX4', 
                 supplier: 'Mayorista de Seguridad (Intelbras)',
-                price: 106790.40 // USD 69.12 * 1545
+                price: 106790.40 
             },
             { 
                 id: 'XAC_8000', 
@@ -1291,10 +1371,10 @@
                 unit: 'Unidades', 
                 sub: 'Tecnología anti-clonación y anti-bloqueo de señal', 
                 supplier: 'Mayorista de Seguridad (Intelbras)',
-                price: 30992.70 // USD 20.06 * 1545
+                price: 30992.70 
             },
 
-            // === ELECTRICIDAD (HIGH VOLT) & CAÑERÍA KALOP & EV WALLBOX ===
+            // === ELECTRICIDAD (HIGH VOLT) & KALOP & EV WALLBOX ===
             { 
                 id: 'MVS26', 
                 code: 'MVS26', 
@@ -1483,26 +1563,18 @@
             { id: 'clima_cu_58', code: 'CU58-08', cat: 'clima', name: 'Caño de cobre 5/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 Split 6000 Fg', supplier: 'Casa de Refrigeración', price: 18500.00 },
             { id: 'clima_aisl_14', code: 'AISL14', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/4"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 2100.00 },
             { id: 'clima_aisl_38', code: 'AISL38', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 3/8"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 2450.00 },
-            { id: 'clima_aisl_12', code: 'AISL12', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/2"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 3100.00 },
             { id: 'clima_tacsa_sin', code: 'TACSA-SR', cat: 'clima', name: 'Cinta Tacsa para refrigeración (sin adhesivo)', unit: 'Rollos', sub: 'Protección UV blanca 20m', supplier: 'Casa de Refrigeración', price: 3200.00 },
-            { id: 'clima_tacsa_con', code: 'TACSA-CR', cat: 'clima', name: 'Cinta Tacsa aisladora para cañerías (con adhesivo)', unit: 'Rollos', sub: 'Fijación de aislaciones', supplier: 'Casa de Refrigeración', price: 4100.00 },
             { id: 'clima_mensulas_42', code: 'MEN42', cat: 'clima', name: 'Ménsulas de chapa 42cm reforzadas (hasta 3000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería de 10mm', supplier: 'Casa de Refrigeración', price: 16500.00 },
-            { id: 'clima_tacos_goma', code: 'TAC-GOM', cat: 'clima', name: 'Tacos antivibratorios de goma cónicos + tuercas', unit: 'Juegos (x4)', sub: 'Amortiguación de condensadora', supplier: 'Casa de Refrigeración', price: 4800.00 },
             { id: 'clima_cable_taller_515', code: 'TALL515', cat: 'clima', name: 'Cable tipo Taller 5x1.5mm² para interconexión', unit: 'Metros', sub: 'Norma IRAM 2178/247 con vaina negra', supplier: 'Distribuidora Eléctrica', price: 2950.00 },
-            { id: 'clima_manguera_drenaje', code: 'MANG58', cat: 'clima', name: 'Manguera cristal reforzada drenaje 5/8"', unit: 'Metros', sub: 'Descarga de condensado evaporadora', supplier: 'Casa de Refrigeración', price: 950.00 },
             { id: 'clima_gas_r410a', code: 'GAS-R410A', cat: 'clima', name: 'Garrafa Gas Refrigerante R410A descartable', unit: 'Garrafas (kg)', sub: 'Ecológico HFC refrigeración', supplier: 'Casa de Refrigeración', price: 42000.00 },
 
             // === CCTV & SEGURIDAD ===
             { id: 'cctv_utp_ext_cat5e', code: 'UTP-EXT-CU', cat: 'cctv', name: 'Cable UTP exterior Cat5e 100% Cobre (Doble vaina negra)', unit: 'Metros', sub: 'Apto intemperie UV para videovigilancia HD / IP', supplier: 'Mayorista de Seguridad', price: 820.00 },
             { id: 'cctv_bobina_utp_305', code: 'BOB-UTP-305', cat: 'cctv', name: 'Bobina cerrada cable UTP exterior 305m 100% cobre', unit: 'Bobinas (305m)', sub: 'Homologado CCTV HD / IP exterior', supplier: 'Mayorista de Seguridad', price: 215000.00 },
             { id: 'cctv_baluns_hd', code: 'BALUN-HD', cat: 'cctv', name: 'Balun pasivo de video HD hasta 5MP (Par)', unit: 'Pares', sub: 'CVI / TVI / AHD con filtro ESD', supplier: 'Mayorista de Seguridad', price: 3400.00 },
-            { id: 'cctv_plug_macho', code: 'PLUG-M-12V', cat: 'cctv', name: 'Conector Plug macho 12V con bornera a tornillo', unit: 'Unidades', sub: 'Alimentación de cámara', supplier: 'Mayorista de Seguridad', price: 750.00 },
-            { id: 'cctv_plug_hembra', code: 'PLUG-H-12V', cat: 'cctv', name: 'Conector Plug hembra 12V con bornera a tornillo', unit: 'Unidades', sub: 'Acople de fuente', supplier: 'Mayorista de Seguridad', price: 750.00 },
             { id: 'cctv_fuente_12v_2a', code: 'FTE-12V-2A', cat: 'cctv', name: 'Fuente switching individual 12V 2A real', unit: 'Unidades', sub: 'Para 1 o 2 cámaras', supplier: 'Mayorista de Seguridad', price: 8900.00 },
-            { id: 'cctv_fuente_central_5a', code: 'FTE-MET-5A', cat: 'cctv', name: 'Fuente metálica conmutada 12V 5A con bornera', unit: 'Unidades', sub: 'Para hasta 4 cámaras con filtro térmico', supplier: 'Mayorista de Seguridad', price: 22500.00 },
             { id: 'cctv_caja_estanca_10x10', code: 'CAJA-EST-1010', cat: 'cctv', name: 'Caja estanca IP65 10x10x7cm con conos de goma', unit: 'Unidades', sub: 'Protección conexiones de cámara intemperie', supplier: 'Mayorista de Seguridad', price: 3100.00 },
-            { id: 'cctv_hdd_1tb_purple', code: 'WD10PURZ', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 92000.00 },
-            { id: 'cctv_precintos_uv', code: 'PREC-UV-200', cat: 'cctv', name: 'Precintos plásticos negros UV 200mm (x100)', unit: 'Paquetes (x100)', sub: 'Sujeción de cables exterior', supplier: 'Mayorista de Seguridad', price: 3800.00 }
+            { id: 'cctv_hdd_1tb_purple', code: 'WD10PURZ', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 92000.00 }
         ];
 
         let selectedItems = {};
@@ -1533,11 +1605,13 @@
         }
 
         function renderCatalogos() {
+            const gridCerco = document.getElementById('grid-cerco');
             const gridAlarma = document.getElementById('grid-alarma');
             const gridElec = document.getElementById('grid-elec');
             const gridClima = document.getElementById('grid-clima');
             const gridCctv = document.getElementById('grid-cctv');
 
+            gridCerco.innerHTML = '';
             gridAlarma.innerHTML = '';
             gridElec.innerHTML = '';
             gridClima.innerHTML = '';
@@ -1552,7 +1626,8 @@
                 card.id = `card-item-${item.id}`;
 
                 let tagClass = 'tag-elec';
-                if (item.cat === 'alarma') tagClass = 'tag-alarma';
+                if (item.cat === 'cerco') tagClass = 'tag-cerco';
+                else if (item.cat === 'alarma') tagClass = 'tag-alarma';
                 else if (item.cat === 'clima') tagClass = 'tag-clima';
                 else if (item.cat === 'cctv') tagClass = 'tag-cctv';
 
@@ -1579,7 +1654,8 @@
                     </div>
                 `;
 
-                if (item.cat === 'alarma') gridAlarma.appendChild(card);
+                if (item.cat === 'cerco') gridCerco.appendChild(card);
+                else if (item.cat === 'alarma') gridAlarma.appendChild(card);
                 else if (item.cat === 'elec') gridElec.appendChild(card);
                 else if (item.cat === 'clima') gridClima.appendChild(card);
                 else if (item.cat === 'cctv') gridCctv.appendChild(card);
@@ -1619,6 +1695,7 @@
 
         function actualizarResumen() {
             let totalCount = 0;
+            let cCerco = 0;
             let cAlarma = 0;
             let cClima = 0;
             let cElec = 0;
@@ -1638,6 +1715,7 @@
                 if (!item) return;
 
                 totalCount++;
+                if (item.cat === 'cerco') cCerco++;
                 if (item.cat === 'alarma') cAlarma++;
                 if (item.cat === 'clima') cClima++;
                 if (item.cat === 'elec') cElec++;
@@ -1683,6 +1761,7 @@
             }
 
             document.getElementById('total-selected-items').innerText = `${totalCount} ítems`;
+            document.getElementById('count-cerco').innerText = cCerco;
             document.getElementById('count-alarma').innerText = cAlarma;
             document.getElementById('count-elec').innerText = cElec;
             document.getElementById('count-clima').innerText = cClima;
@@ -1696,82 +1775,69 @@
             actualizarResumen();
         }
 
+        // --- CÓMPUTO RÁPIDO: KIT CERCO ELÉCTRICO PERIMETRAL ---
+        function computarKitRealCerco() {
+            setQty('ELC6012_NET', 1);     // 1x Central Wi-Fi
+            setQty('DOBLE_PIN_LOCK', 60); // 60x Aisladores doble pin
+            setQty('AG0360', 60);         // 60x Resortes inox
+            setQty('EC_B300', 2);         // 2x Bobinas 300m Ditin
+            setQty('ALTA50', 2);          // 2x Cable alta tensión 50m
+            setQty('PARANTE6H', 10);      // 10x Parantes 6 hilos
+            setQty('CARTELP', 7);         // 7x Carteles peligro
+            setQty('JABALINA_38', 1);     // 1x Jabalina 3/8"
+            setQty('PRENSA_ALU', 1);      // 1x Prensa cable aluminio x100
+            setQty('SL_350L', 1);         // 1x Sirena con flash
+
+            document.getElementById('order-ref').value = 'Instalación Cerco Eléctrico Perimetral 6 Hilos';
+            const supSelect = document.getElementById('order-supplier-target');
+            if (supSelect) supSelect.value = 'cerco';
+
+            mostrarToast("⚡ ¡Cargado Kit Cerco Eléctrico Completo ($616.731,56 ARS)!");
+        }
+
         // --- CÓMPUTO RÁPIDO: KIT ALARMA INTELBRAS AMT 8000 PRO ---
         function computarKitRealAlarma() {
-            setQty('AMT_8000_PRO', 1); // 1x Central AMT 8000 PRO
-            setQty('XAS_8000', 4);     // 4x Sensores magnéticos
-            setQty('IVP_8000_EX', 2);   // 2x Sensores exterior
-            setQty('XAC_8000', 2);     // 2x Controles remotos
+            setQty('AMT_8000_PRO', 1);
+            setQty('XAS_8000', 4);
+            setQty('IVP_8000_EX', 2);
+            setQty('XAC_8000', 2);
 
             document.getElementById('order-ref').value = 'Sistema de Alarma Inalámbrica Intelbras AMT 8000';
             const supSelect = document.getElementById('order-supplier-target');
             if (supSelect) supSelect.value = 'alarma';
 
-            mostrarToast("🚨 ¡Cargado Kit Alarma Intelbras Completo en Pesos Argentinos!");
+            mostrarToast("🚨 ¡Cargado Kit Alarma Intelbras Completo ($764.287,24 ARS)!");
         }
 
         // --- CÓMPUTO RÁPIDO: KIT EXACTO DISTRIBUIDOR CARGADOR EV 20A ---
         function computarKitRealEV20A() {
-            setQty('MVS26', 20);      // 20m Cable Subterráneo 2x6mm
-            setQty('FRAG1234', 20);   // 20x Grampas Omega 3/4"
-            setQty('PP173G', 2);      // 2x Prensacable 3/4" nylon gris
-            setQty('FORLIPL37', 2);   // 2x Cajas de derivación Forli 90x90x75
-            setQty('KC05001', 2);     // 2x Tiras Caño Kalop D:20mm semipesado
-            setQty('KC05401', 6);     // 6x Conectores Kalop D:20mm
-            setQty('KC05601', 15);    // 15x Grampas Kalop D:20mm
-            setQty('KC05201', 2);     // 2x Curvas Kalop D:20mm
-            setQty('FORLIPL45', 1);   // 1x Caja plástica 4 bocas DIN Forli
-            setQty('COR2781', 1);     // 1x Disyuntor Chint NL210 40A 30mA Clase B
-            setQty('CORCH1019', 1);   // 1x Térmica Chint 2x25A NXB-63
-            setQty('MVU14R', 3);      // 3m Unipolar 4mm Rojo
-            setQty('MVU14C', 3);      // 3m Unipolar 4mm Celeste
-            setQty('MVU14VA', 10);    // 10m Unipolar 4mm Verde/Amarillo
-            setQty('CA6915', 1);      // 1x Módulo Toma Cambre 20A
-            setQty('CA4262', 1);      // 1x Caja Ext. Cambre Siglo XXII
-            setQty('GC520', 2);       // 2x Barras cobreadas 1/2" x 1,50m con tomacable
-            setQty('654', 2);         // 2x Cajas de inspección PVC de jabalina
+            setQty('MVS26', 20);
+            setQty('FRAG1234', 20);
+            setQty('PP173G', 2);
+            setQty('FORLIPL37', 2);
+            setQty('KC05001', 2);
+            setQty('KC05401', 6);
+            setQty('KC05601', 15);
+            setQty('KC05201', 2);
+            setQty('FORLIPL45', 1);
+            setQty('COR2781', 1);
+            setQty('CORCH1019', 1);
+            setQty('MVU14R', 3);
+            setQty('MVU14C', 3);
+            setQty('MVU14VA', 10);
+            setQty('CA6915', 1);
+            setQty('CA4262', 1);
+            setQty('GC520', 2);
+            setQty('654', 2);
 
             document.getElementById('order-ref').value = 'Instalación Cargador EV 20A (Sintenax 2x6 + Caño Kalop)';
             mostrarToast("🔥 ¡Cargados los 18 ítems del Presupuesto Real de Distribuidor!");
         }
 
-        function computarElecPreset() {
-            const bocas = parseInt(document.getElementById('preset-elec-bocas').value) || 0;
-            const mBoca = parseInt(document.getElementById('preset-elec-m-boca').value) || 6;
-            const incPat = document.getElementById('preset-elec-pat').value === 'si';
-            const canaliz = document.getElementById('preset-elec-canaliz').value;
-
-            if (bocas > 0) {
-                const totalCable = Math.round(bocas * mBoca * 1.15);
-                sumarItem('MVU14R', Math.round(totalCable * 0.4));
-                sumarItem('MVU14C', Math.round(totalCable * 0.4));
-                sumarItem('MVU14VA', Math.round(totalCable * 0.4));
-                
-                if (canaliz === 'kalop') {
-                    const tiras = Math.ceil((bocas * mBoca) / 3);
-                    sumarItem('KC05001', tiras);
-                    sumarItem('KC05401', bocas * 2);
-                    sumarItem('KC05601', tiras * 3);
-                    sumarItem('KC05201', Math.ceil(bocas / 2));
-                }
-            }
-
-            if (incPat) {
-                sumarItem('GC520', 1);
-                sumarItem('654', 1);
-                sumarItem('MVU14VA', 10);
-            }
-
-            mostrarToast(`¡Cómputo Eléctrico cargado para ${bocas} bocas!`);
-        }
-
         function computarClimaPreset() {
             const cap = document.getElementById('preset-clima-cap').value;
             const nEq = parseInt(document.getElementById('preset-clima-qty').value) || 1;
-            const mPerEq = parseInt(document.getElementById('preset-clima-m').value) || 4;
-            const incMensulas = document.getElementById('preset-clima-mensulas').value === 'si';
-
-            const totalM = nEq * mPerEq;
+            const totalM = nEq * 4;
             const tirasAisl = Math.ceil(totalM / 2);
 
             if (cap === '3000') {
@@ -1779,26 +1845,10 @@
                 sumarItem('clima_cu_38', totalM);
                 sumarItem('clima_aisl_14', tirasAisl);
                 sumarItem('clima_aisl_38', tirasAisl);
-                if (incMensulas) {
-                    sumarItem('clima_mensulas_42', nEq);
-                    sumarItem('clima_tacos_goma', nEq);
-                }
-            } else if (cap === '4500') {
-                sumarItem('clima_cu_14', totalM);
-                sumarItem('clima_cu_12', totalM);
-                sumarItem('clima_aisl_14', tirasAisl);
-                sumarItem('clima_aisl_12', tirasAisl);
-            } else if (cap === '6000') {
-                sumarItem('clima_cu_14', totalM);
-                sumarItem('clima_cu_58', totalM);
-                sumarItem('clima_aisl_14', tirasAisl);
-                sumarItem('clima_aisl_58', tirasAisl);
+                sumarItem('clima_mensulas_42', nEq);
             }
-
             sumarItem('clima_tacsa_sin', Math.ceil(totalM / 5));
-            sumarItem('clima_tacsa_con', nEq);
-            sumarItem('clima_cable_taller_515', totalM + (nEq * 2));
-            sumarItem('clima_manguera_drenaje', totalM);
+            sumarItem('clima_cable_taller_515', totalM + 2);
 
             mostrarToast(`¡Cómputo Clima cargado para ${nEq} equipo(s)!`);
         }

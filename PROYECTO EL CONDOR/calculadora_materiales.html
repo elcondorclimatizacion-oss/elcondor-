@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora y Cómputo de Materiales - El Cóndor</title>
+    <title>Calculadora y Cómputo de Materiales Mostrador - El Cóndor</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-main: #090d16;
-            --bg-card: rgba(17, 24, 39, 0.85);
-            --bg-card-hover: rgba(26, 36, 56, 0.95);
+            --bg-card: rgba(17, 24, 39, 0.9);
+            --bg-card-hover: rgba(26, 36, 56, 0.98);
             --bg-input: #0b1120;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.2);
+            --border: rgba(255, 255, 255, 0.1);
+            --border-hover: rgba(255, 255, 255, 0.25);
             --text-main: #f3f4f6;
             --text-muted: #94a3b8;
             --text-dim: #64748b;
@@ -58,7 +58,7 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
             width: 100%;
             display: flex;
@@ -180,14 +180,14 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             color: var(--text-muted);
-            padding: 12px 20px;
+            padding: 12px 18px;
             border-radius: var(--radius-md);
             font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             white-space: nowrap;
         }
@@ -205,18 +205,18 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
 
-        .tab-btn.active[data-tab="clima"] {
-            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
-            color: #22d3ee;
-            border-color: rgba(6, 182, 212, 0.5);
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
-        }
-
         .tab-btn.active[data-tab="elec"] {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
             color: #fbbf24;
             border-color: rgba(245, 158, 11, 0.5);
             box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .tab-btn.active[data-tab="clima"] {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
         }
 
         .tab-btn.active[data-tab="cctv"] {
@@ -239,12 +239,12 @@
         /* Layout Grid */
         .workspace {
             display: grid;
-            grid-template-columns: 1fr 380px;
+            grid-template-columns: 1fr 400px;
             gap: 20px;
             align-items: start;
         }
 
-        @media (max-width: 1080px) {
+        @media (max-width: 1100px) {
             .workspace {
                 grid-template-columns: 1fr;
             }
@@ -281,8 +281,8 @@
         }
 
         .card-title {
-            font-size: 1.1rem;
-            font-weight: 700;
+            font-size: 1.15rem;
+            font-weight: 800;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -290,7 +290,7 @@
         }
 
         .card-title .icon {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
         }
 
         .card-subtitle {
@@ -302,12 +302,12 @@
         /* Presets Grid for Cómputo Rápido */
         .presets-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
             gap: 16px;
         }
 
         .preset-card {
-            background: rgba(11, 17, 32, 0.7);
+            background: rgba(11, 17, 32, 0.75);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 18px;
@@ -319,8 +319,14 @@
 
         .preset-card:hover {
             border-color: var(--border-hover);
-            background: rgba(17, 24, 39, 0.9);
+            background: rgba(17, 24, 39, 0.95);
             transform: translateY(-2px);
+        }
+
+        .preset-card.ev-special {
+            border-left: 5px solid #ef4444;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(11, 17, 32, 0.85));
+            border-color: rgba(239, 68, 68, 0.3);
         }
 
         .preset-card.clima-border { border-left: 4px solid var(--clima); }
@@ -377,7 +383,7 @@
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(59, 130, 246, 0.1));
             border: 1px solid rgba(59, 130, 246, 0.4);
             color: #93c5fd;
-            padding: 8px 14px;
+            padding: 9px 14px;
             border-radius: var(--radius-sm);
             font-size: 0.85rem;
             font-weight: 700;
@@ -395,15 +401,25 @@
             border-color: rgba(59, 130, 246, 0.6);
         }
 
+        .btn-calc-preset.ev-btn {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.15));
+            border-color: rgba(239, 68, 68, 0.6);
+            color: #fca5a5;
+        }
+        .btn-calc-preset.ev-btn:hover {
+            background: rgba(239, 68, 68, 0.45);
+            color: #ffffff;
+        }
+
         /* Material Items Table */
         .materials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
             gap: 14px;
         }
 
         .mat-item {
-            background: rgba(11, 17, 32, 0.65);
+            background: rgba(11, 17, 32, 0.7);
             border: 1px solid var(--border);
             border-radius: var(--radius-md);
             padding: 14px 16px;
@@ -420,8 +436,8 @@
         }
 
         .mat-item.selected {
-            border-color: rgba(245, 158, 11, 0.4);
-            background: rgba(245, 158, 11, 0.04);
+            border-color: rgba(245, 158, 11, 0.45);
+            background: rgba(245, 158, 11, 0.05);
         }
 
         .mat-header {
@@ -432,10 +448,20 @@
         }
 
         .mat-name {
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
             color: #f1f5f9;
             line-height: 1.3;
+        }
+
+        .mat-code {
+            font-size: 0.7rem;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: #93c5fd;
+            font-weight: bold;
         }
 
         .mat-tag {
@@ -455,8 +481,15 @@
             font-size: 0.75rem;
             color: var(--text-dim);
             display: flex;
-            align-items: center;
-            gap: 6px;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .mat-price-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #10b981;
+            font-weight: 700;
         }
 
         .mat-controls {
@@ -503,7 +536,7 @@
         }
 
         .qty-input {
-            width: 48px;
+            width: 52px;
             background: transparent;
             border: none;
             color: #fff;
@@ -578,7 +611,7 @@
         }
 
         .order-items-list {
-            max-height: 420px;
+            max-height: 400px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
@@ -610,16 +643,20 @@
             display: flex;
             flex-direction: column;
             gap: 2px;
+            flex: 1;
         }
 
         .order-item-title {
             font-weight: 600;
             color: #f1f5f9;
+            font-size: 0.85rem;
         }
 
-        .order-item-supplier {
+        .order-item-meta {
             font-size: 0.7rem;
             color: var(--text-dim);
+            display: flex;
+            gap: 8px;
         }
 
         .order-item-qty {
@@ -645,6 +682,33 @@
 
         .btn-remove-item:hover {
             color: var(--danger);
+        }
+
+        .order-totals-box {
+            background: rgba(11, 17, 32, 0.85);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.85rem;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+        }
+
+        .totals-row.final {
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 800;
+            border-top: 1px dashed var(--border);
+            padding-top: 6px;
+            margin-top: 2px;
         }
 
         .empty-state {
@@ -751,14 +815,14 @@
             #printable-order {
                 display: block !important;
                 width: 100% !important;
-                padding: 20px !important;
+                padding: 15px !important;
                 color: #000 !important;
-                font-size: 11pt !important;
+                font-size: 10pt !important;
             }
             .print-header {
                 border-bottom: 2px solid #000;
-                padding-bottom: 12px;
-                margin-bottom: 16px;
+                padding-bottom: 10px;
+                margin-bottom: 12px;
                 display: flex;
                 justify-content: space-between;
                 align-items: flex-end;
@@ -766,23 +830,23 @@
             .print-table {
                 width: 100%;
                 border-collapse: collapse;
-                margin-top: 15px;
+                margin-top: 10px;
             }
             .print-table th, .print-table td {
                 border: 1px solid #333;
-                padding: 6px 10px;
+                padding: 5px 8px;
                 text-align: left;
-                font-size: 10pt;
+                font-size: 9pt;
             }
             .print-table th {
                 background-color: #f2f2f2 !important;
                 font-weight: bold;
             }
             .print-footer {
-                margin-top: 30px;
+                margin-top: 25px;
                 border-top: 1px solid #777;
-                padding-top: 10px;
-                font-size: 9pt;
+                padding-top: 8px;
+                font-size: 8pt;
                 text-align: center;
                 color: #444;
             }
@@ -801,8 +865,8 @@
             <div class="header-brand">
                 <div class="brand-icon">📦</div>
                 <div class="brand-text">
-                    <h1>EL CÓNDOR <span>Materiales & Cómputo</span></h1>
-                    <p>Calculadora y Generador de Órdenes de Compra para Mostrador / Mayoristas</p>
+                    <h1>EL CÓNDOR <span>Materiales Mostrador v2.0</span></h1>
+                    <p>Cómputo Técnico y Órdenes de Compra con Códigos de Distribuidor (Clima • High Volt • EV • CCTV)</p>
                 </div>
             </div>
 
@@ -813,14 +877,14 @@
                 </div>
                 <div class="input-group-top">
                     <label>Obra / Referencia</label>
-                    <input type="text" id="order-ref" placeholder="Ej: Obra Quilmes / Dpto 4B">
+                    <input type="text" id="order-ref" placeholder="Ej: Obra EV 20A / Dpto 4B">
                 </div>
                 <div class="input-group-top">
-                    <label>Proveedor Destino</label>
+                    <label>Distribuidor / Destino</label>
                     <select id="order-supplier-target">
                         <option value="todos">Todos los Proveedores</option>
+                        <option value="electrica">Distribuidora Eléctrica (High Volt / EV)</option>
                         <option value="refrigeracion">Casa de Refrigeración (Clima)</option>
-                        <option value="electrica">Distribuidora Eléctrica (High Volt)</option>
                         <option value="seguridad">Mayorista de Seguridad (CCTV / Redes)</option>
                     </select>
                 </div>
@@ -832,13 +896,13 @@
             <button class="tab-btn active" data-tab="computo" onclick="switchTab('computo')">
                 <span>⚡ Cómputo Rápido de Obra</span>
             </button>
+            <button class="tab-btn" data-tab="elec" onclick="switchTab('elec')">
+                <span>🔌 Electricidad, Kalop & EV</span>
+                <span class="badge-count" id="count-elec">0</span>
+            </button>
             <button class="tab-btn" data-tab="clima" onclick="switchTab('clima')">
                 <span>❄️ Climatización & Cobre</span>
                 <span class="badge-count" id="count-clima">0</span>
-            </button>
-            <button class="tab-btn" data-tab="elec" onclick="switchTab('elec')">
-                <span>🔌 Electricidad & EV Wallbox</span>
-                <span class="badge-count" id="count-elec">0</span>
             </button>
             <button class="tab-btn" data-tab="cctv" onclick="switchTab('cctv')">
                 <span>📹 CCTV, Redes & Almacenamiento</span>
@@ -856,12 +920,70 @@
                     <div class="card">
                         <div class="card-header">
                             <div>
-                                <h2 class="card-title"><span class="icon">🚀</span> Asistente de Cómputo Rápido por Parámetros</h2>
-                                <p class="card-subtitle">Ingresá los datos globales del proyecto y el calculador cargará automáticamente todos los materiales normalizados con margen de obra.</p>
+                                <h2 class="card-title"><span class="icon">🚀</span> Asistente de Cómputo y Kits Preconfigurados</h2>
+                                <p class="card-subtitle">Elegí el kit de obra o presupuesto y cargá al instante los materiales con códigos exactos de distribuidor.</p>
                             </div>
                         </div>
 
                         <div class="presets-grid">
+                            
+                            <!-- PRESET ESTRELLA: KIT EXACTO CARGADOR EV 20A CON CÓDIGOS DE DISTRIBUIDOR -->
+                            <div class="preset-card ev-special">
+                                <div class="preset-header">
+                                    <span class="preset-name" style="color: #fca5a5;">🚗⚡ Kit Cargador EV 20A Completo</span>
+                                    <span class="mat-tag" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">Presupuesto Real</span>
+                                </div>
+                                <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                                    Carga exactamente los <b>18 ítems reales</b> de distribuidor eléctrico para instalación de cargador vehicular portátil / wallbox 20A:
+                                    <br>• 20m Sintenax 2x6mm² 1.1kV
+                                    <br>• Caños PVC Kalop semipesado 20mm + Conectores + Grampas + Curvas
+                                    <br>• Térmica Chint 2x25A 6kA + Disyuntor Chint NL210 40A 30mA Clase B
+                                    <br>• Prensacables 3/4" + Cajas Forli 90x90 y Tablero DIN 4 bocas
+                                    <br>• Módulo Toma Cambre 20A con tierra + Caja exterior Siglo XXII
+                                    <br>• 2x Barras cobreadas 1/2" x 1.50m con tomacable + 2 Cajas de inspección PVC
+                                </p>
+                                <button class="btn-calc-preset ev-btn" onclick="computarKitRealEV20A()">
+                                    <span>🔥 Cargar Presupuesto Completo EV 20A (18 Ítems)</span>
+                                </button>
+                            </div>
+
+                            <!-- Preset Electricidad Residencial Estándar -->
+                            <div class="preset-card elec-border">
+                                <div class="preset-header">
+                                    <span class="preset-name">⚡ Instalación Eléctrica General</span>
+                                    <span class="mat-tag tag-elec">High Volt</span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Bocas / Puntos</label>
+                                        <input type="number" id="preset-elec-bocas" value="12" min="0" max="100">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Metros p/Boca</label>
+                                        <input type="number" id="preset-elec-m-boca" value="6" min="3" max="20">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Puesta a Tierra (PAT)</label>
+                                        <select id="preset-elec-pat">
+                                            <option value="si">Jabalina 5/8 + Caja</option>
+                                            <option value="no">No incluir</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Canalización</label>
+                                        <select id="preset-elec-canaliz">
+                                            <option value="corrugado">Corrugado ignífugo 3/4"</option>
+                                            <option value="kalop">Caño rígido Kalop 20mm</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn-calc-preset" onclick="computarElecPreset()">
+                                    <span>➕ Cargar Materiales Eléctrica</span>
+                                </button>
+                            </div>
+
                             <!-- Preset Clima -->
                             <div class="preset-card clima-border">
                                 <div class="preset-header">
@@ -884,7 +1006,7 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-field">
-                                        <label>Metros Cañería / Eq.</label>
+                                        <label>Metros Cañería</label>
                                         <input type="number" id="preset-clima-m" value="4" min="3" max="30">
                                     </div>
                                     <div class="form-field">
@@ -900,44 +1022,6 @@
                                 </button>
                             </div>
 
-                            <!-- Preset Electricidad & EV -->
-                            <div class="preset-card elec-border">
-                                <div class="preset-header">
-                                    <span class="preset-name">⚡ Instalación Eléctrica / EV</span>
-                                    <span class="mat-tag tag-elec">High Volt</span>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Bocas / Puntos</label>
-                                        <input type="number" id="preset-elec-bocas" value="10" min="0" max="100">
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Metros Prom. p/Boca</label>
-                                        <input type="number" id="preset-elec-m-boca" value="6" min="3" max="20">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Puesta a Tierra (PAT)</label>
-                                        <select id="preset-elec-pat">
-                                            <option value="si">Jabalina 5/8 + Caja</option>
-                                            <option value="no">No incluir</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Cargador EV 20A</label>
-                                        <select id="preset-elec-ev">
-                                            <option value="no">No</option>
-                                            <option value="4mm">Sí (4mm² hasta 15m)</option>
-                                            <option value="6mm">Sí (6mm² > 15m)</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button class="btn-calc-preset" onclick="computarElecPreset()">
-                                    <span>➕ Cargar Materiales Eléctrica</span>
-                                </button>
-                            </div>
-
                             <!-- Preset CCTV -->
                             <div class="preset-card cctv-border">
                                 <div class="preset-header">
@@ -950,7 +1034,7 @@
                                         <input type="number" id="preset-cctv-cams" value="4" min="1" max="32">
                                     </div>
                                     <div class="form-field">
-                                        <label>Metros UTP p/Cámara</label>
+                                        <label>Metros UTP p/Cám.</label>
                                         <input type="number" id="preset-cctv-m" value="25" min="5" max="150">
                                     </div>
                                 </div>
@@ -963,7 +1047,7 @@
                                         </select>
                                     </div>
                                     <div class="form-field">
-                                        <label>Almacenamiento (HDD)</label>
+                                        <label>Disco (HDD)</label>
                                         <select id="preset-cctv-hdd">
                                             <option value="1tb">WD Purple 1TB</option>
                                             <option value="2tb">WD Purple 2TB</option>
@@ -976,33 +1060,34 @@
                                     <span>➕ Cargar Materiales CCTV</span>
                                 </button>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB 1: CLIMATIZACIÓN -->
+                <!-- TAB 1: ELECTRICIDAD & KALOP & EV -->
+                <div class="tab-content" id="tab-elec">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">⚡</span> Electricidad, Cañería Rígida Kalop & Terminales EV</h2>
+                                <p class="card-subtitle">Conductores Sintenax, caños semipesados Kalop, cajas Forli, disyuntores Chint Clase B/A y tomas Cambre 20A con códigos reales de distribuidor.</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-elec"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: CLIMATIZACIÓN -->
                 <div class="tab-content" id="tab-clima">
                     <div class="card">
                         <div class="card-header">
                             <div>
                                 <h2 class="card-title"><span class="icon">❄️</span> Insumos de Climatización & Refrigeración</h2>
-                                <p class="card-subtitle">Caños de cobre calidad frigorífica, aislaciones Armaflex, ménsulas, cintas y refrigerantes.</p>
+                                <p class="card-subtitle">Caños de cobre calidad frigorífica ASTM B280, aislaciones Armaflex, ménsulas epoxi, cintas Tacsa y refrigerantes.</p>
                             </div>
                         </div>
                         <div class="materials-grid" id="grid-clima"></div>
-                    </div>
-                </div>
-
-                <!-- TAB 2: ELECTRICIDAD -->
-                <div class="tab-content" id="tab-elec">
-                    <div class="card">
-                        <div class="card-header">
-                            <div>
-                                <h2 class="card-title"><span class="icon">⚡</span> Insumos de Electricidad & Terminales EV</h2>
-                                <p class="card-subtitle">Conductores IRAM NM 247-3 por color, protecciones Schneider/Chint, Sintenax y tomas industriales.</p>
-                            </div>
-                        </div>
-                        <div class="materials-grid" id="grid-elec"></div>
                     </div>
                 </div>
 
@@ -1012,7 +1097,7 @@
                         <div class="card-header">
                             <div>
                                 <h2 class="card-title"><span class="icon">📹</span> Insumos de CCTV, Redes & Conectividad</h2>
-                                <p class="card-subtitle">Cable UTP 100% cobre exterior, baluns HD, conectores, fuentes conmutadas y discos de videovigilancia.</p>
+                                <p class="card-subtitle">Cable UTP exterior 100% cobre, baluns HD con filtro, fuentes switching conmutadas y discos de videovigilancia WD Purple.</p>
                             </div>
                         </div>
                         <div class="materials-grid" id="grid-cctv"></div>
@@ -1031,14 +1116,30 @@
 
                     <div class="summary-filters">
                         <button class="filter-btn active" onclick="filterOrderList('todos', this)">Todos</button>
+                        <button class="filter-btn" onclick="filterOrderList('elec', this)">⚡ Elec/EV</button>
                         <button class="filter-btn" onclick="filterOrderList('clima', this)">❄️ Clima</button>
-                        <button class="filter-btn" onclick="filterOrderList('elec', this)">⚡ Elec</button>
                         <button class="filter-btn" onclick="filterOrderList('cctv', this)">📹 CCTV</button>
                     </div>
 
                     <div class="order-items-list" id="order-list">
                         <div class="empty-state">
                             No hay materiales seleccionados aún.<br>Usá el cómputo rápido o sumá ítems desde los catálogos.
+                        </div>
+                    </div>
+
+                    <!-- Totals Box -->
+                    <div class="order-totals-box" id="order-totals-box" style="display: none;">
+                        <div class="totals-row">
+                            <span>Subtotal estimado (Neto):</span>
+                            <span id="tot-neto" style="font-family: 'JetBrains Mono', monospace; font-weight: bold;">$ 0,00</span>
+                        </div>
+                        <div class="totals-row">
+                            <span>IVA estimado (21%):</span>
+                            <span id="tot-iva" style="font-family: 'JetBrains Mono', monospace;">$ 0,00</span>
+                        </div>
+                        <div class="totals-row final">
+                            <span>TOTAL PRESUPUESTO:</span>
+                            <span id="tot-final" style="color: #fbbf24; font-family: 'JetBrains Mono', monospace;">$ 0,00</span>
                         </div>
                     </div>
 
@@ -1062,44 +1163,61 @@
     <div id="printable-order">
         <div class="print-header">
             <div>
-                <h1 style="font-size: 20pt; margin: 0; color: #111;">EL CÓNDOR - SERVICIOS TÉCNICOS INTEGRALES</h1>
-                <p style="margin: 3px 0; font-size: 11pt; color: #555;">Climatización • Alta Tensión (High Volt) • Seguridad Electrónica & CCTV</p>
-                <p style="margin: 3px 0; font-size: 10pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
+                <h1 style="font-size: 18pt; margin: 0; color: #111;">EL CÓNDOR - SERVICIOS TÉCNICOS INTEGRALES</h1>
+                <p style="margin: 2px 0; font-size: 10pt; color: #555;">Climatización • Alta Tensión (High Volt) • Instalación Wallbox & EV • Seguridad CCTV</p>
+                <p style="margin: 2px 0; font-size: 9pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
             </div>
             <div style="text-align: right;">
-                <h2 style="font-size: 14pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / PRESUPUESTO MOSTRADOR</h2>
-                <p style="margin: 3px 0; font-size: 10pt;"><b>Fecha:</b> <span id="p-date"></span></p>
-                <p style="margin: 3px 0; font-size: 10pt;"><b>Referencia Obra:</b> <span id="p-ref"></span></p>
-                <p style="margin: 3px 0; font-size: 10pt;"><b>Rubro / Destino:</b> <span id="p-supplier"></span></p>
+                <h2 style="font-size: 13pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / SOLICITUD DE MOSTRADOR</h2>
+                <p style="margin: 2px 0; font-size: 9pt;"><b>Fecha:</b> <span id="p-date"></span></p>
+                <p style="margin: 2px 0; font-size: 9pt;"><b>Obra / Ref:</b> <span id="p-ref"></span></p>
+                <p style="margin: 2px 0; font-size: 9pt;"><b>Destino:</b> <span id="p-supplier"></span></p>
             </div>
         </div>
 
         <table class="print-table">
             <thead>
                 <tr>
-                    <th style="width: 8%;">Ítem</th>
-                    <th style="width: 15%;">Rubro</th>
-                    <th style="width: 50%;">Descripción Técnica Normalizada / Marca</th>
+                    <th style="width: 5%; text-align: center;">#</th>
+                    <th style="width: 12%;">Cód. Art.</th>
+                    <th style="width: 48%;">Descripción Técnica Normalizada / Marca</th>
                     <th style="width: 12%; text-align: center;">Cantidad</th>
-                    <th style="width: 15%; text-align: right;">Precio Unit. (Cotizar)</th>
+                    <th style="width: 11%; text-align: right;">P. Unit. Estim.</th>
+                    <th style="width: 12%; text-align: right;">Subtotal</th>
                 </tr>
             </thead>
             <tbody id="p-table-body">
                 <!-- Rows injected dynamically -->
             </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4" style="text-align: right; font-weight: bold;">SUBTOTAL NETO ESTIMADO:</td>
+                    <td colspan="2" id="p-foot-subtotal" style="text-align: right; font-weight: bold; font-family: monospace;">$ 0,00</td>
+                </tr>
+                <tr>
+                    <td colspan="4" style="text-align: right; font-weight: bold;">TOTAL IVA (21%):</td>
+                    <td colspan="2" id="p-foot-iva" style="text-align: right; font-family: monospace;">$ 0,00</td>
+                </tr>
+                <tr style="background: #f1f5f9; font-size: 10pt;">
+                    <td colspan="4" style="text-align: right; font-weight: 800;">TOTAL ESTIMADO DE COMPRA:</td>
+                    <td colspan="2" id="p-foot-total" style="text-align: right; font-weight: 800; font-family: monospace; color: #000;">$ 0,00</td>
+                </tr>
+            </tfoot>
         </table>
 
-        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
-            <div style="width: 45%; border-top: 1px solid #000; padding-top: 8px; text-align: center;">
-                <b>Firma y Aclaración (Técnico / Responsable de Compra)</b>
+        <div style="margin-top: 35px; display: flex; justify-content: space-between;">
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 9pt;">
+                <b>Responsable de Compra / Técnico Instalador</b><br>
+                El Cóndor Servicios Técnicos
             </div>
-            <div style="width: 45%; border-top: 1px solid #000; padding-top: 8px; text-align: center;">
-                <b>Recepción y Validez de Cotización (Mostrador / Proveedor)</b>
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 6px; text-align: center; font-size: 9pt;">
+                <b>Recepción Mostrador / Distribuidora</b><br>
+                Firma, Sello y Plazo de Entrega
             </div>
         </div>
 
         <div class="print-footer">
-            Documento emitido mediante el Sistema de Cómputo de Materiales El Cóndor. Todos los materiales eléctricos y de refrigeración deben cumplir estrictamente con normas IRAM / IEC / CACAAV.
+            Documento emitido mediante el Sistema de Cómputo de Materiales El Cóndor. Todos los materiales eléctricos y de refrigeración deben contar con sello IRAM / certificación eléctrica argentina según Res. 169/2018.
         </div>
     </div>
 
@@ -1109,99 +1227,284 @@
     </div>
 
     <script>
-        // --- BASE DE DATOS DE MATERIALES NORMALIZADOS ---
+        // --- BASE DE DATOS DE MATERIALES CON CÓDIGOS REALES DE DISTRIBUIDOR Y PRECIOS ---
         const CATALOGO_MATERIALES = [
+            // === ELECTRICIDAD (HIGH VOLT) & CAÑERÍA KALOP & EV WALLBOX ===
+            { 
+                id: 'MVS26', 
+                code: 'MVS26', 
+                cat: 'elec', 
+                name: 'Cable Subterráneo 2x6mm² 1,1 kV (IRAM 2178-1)', 
+                unit: 'Metros', 
+                sub: 'Sintenax 100% Cobre doble aislación violeta/negro', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 5362.69 
+            },
+            { 
+                id: 'FRAG1234', 
+                code: 'FRAG1234', 
+                cat: 'elec', 
+                name: 'Grampas Framax 1/2" Omega 3/4" (21)', 
+                unit: 'Unidades', 
+                sub: 'Chapa galvanizada fijación cañería', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 159.72 
+            },
+            { 
+                id: 'PP173G', 
+                code: 'P.P173 G', 
+                cat: 'elec', 
+                name: 'Prensacable 3/4" Nylon Gris con Contratuerca (173 G)', 
+                unit: 'Unidades', 
+                sub: 'Estanco IP68 para entrada de cables a cajas/tablero', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 627.96 
+            },
+            { 
+                id: 'FORLIPL37', 
+                code: 'FORLIPL37', 
+                cat: 'elec', 
+                name: 'Caja plástica de derivación blanca 90x90x75mm Forli', 
+                unit: 'Unidades', 
+                sub: 'BOS-909075B estanca de paso y empalmes', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 2306.58 
+            },
+            { 
+                id: 'KC05001', 
+                code: 'KC05001', 
+                cat: 'elec', 
+                name: 'Caño Kalop D:20mm Semipesado PVC rígido (Tira 3m)', 
+                unit: 'Tiras (3m)', 
+                sub: 'Autoextinguible IRAM 62386 p/instalación a la vista', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 2399.94 
+            },
+            { 
+                id: 'KC05401', 
+                code: 'KC05401', 
+                cat: 'elec', 
+                name: 'Conector Kalop D:20mm para caño eléctrico rígido', 
+                unit: 'Unidades', 
+                sub: 'Acople a caja de paso y tableros (KC05401)', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 230.93 
+            },
+            { 
+                id: 'KC05601', 
+                code: 'KC05601', 
+                cat: 'elec', 
+                name: 'Grampa Kalop D:20mm para caño eléctrico rígido', 
+                unit: 'Unidades', 
+                sub: 'Fijación rápida tipo clip (KC05601)', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 162.90 
+            },
+            { 
+                id: 'KC05201', 
+                code: 'KC05201', 
+                cat: 'elec', 
+                name: 'Curva Kalop 90° D:20mm para caño eléctrico rígido', 
+                unit: 'Unidades', 
+                sub: 'Curva preformada inyectada (KC05201)', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 397.65 
+            },
+            { 
+                id: 'FORLIPL45', 
+                code: 'FORLIPL45', 
+                cat: 'elec', 
+                name: 'Caja plástica 4 bocas DIN de superficie Forli (PRA-04S)', 
+                unit: 'Unidades', 
+                sub: 'Tablero seccional exclusivo para cargador EV', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 7984.87 
+            },
+            { 
+                id: 'COR2781', 
+                code: 'COR2781', 
+                cat: 'elec', 
+                name: 'Disyuntor Diferencial Chint NL210 2x40A 30mA CLASE B (10kA)', 
+                unit: 'Unidades', 
+                sub: 'Inmunizado para cargadores de vehículos eléctricos (Detección DC)', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 327590.40 
+            },
+            { 
+                id: 'CORCH1019', 
+                code: 'CORCH1019', 
+                cat: 'elec', 
+                name: 'Térmica bipolar Chint 2x25A NXB-63 6kA Curva C', 
+                unit: 'Unidades', 
+                sub: 'Interruptor termomagnético DIN 2 polos 25A', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 8320.48 
+            },
+            { 
+                id: 'MVU14R', 
+                code: 'MVU14R', 
+                cat: 'elec', 
+                name: 'Cable unipolar flexible 1x4mm² ROJO (IRAM NM 247-3)', 
+                unit: 'Metros', 
+                sub: 'Fase para interconexión interior seccional y tomas', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 1386.84 
+            },
+            { 
+                id: 'MVU14C', 
+                code: 'MVU14C', 
+                cat: 'elec', 
+                name: 'Cable unipolar flexible 1x4mm² CELESTE (IRAM NM 247-3)', 
+                unit: 'Metros', 
+                sub: 'Neutro para interconexión interior seccional y tomas', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 1386.84 
+            },
+            { 
+                id: 'MVU14VA', 
+                code: 'MVU14V/A', 
+                cat: 'elec', 
+                name: 'Cable unipolar flexible 1x4mm² VERDE/AMARILLO (PAT)', 
+                unit: 'Metros', 
+                sub: 'Puesta a tierra reglamentaria de protección', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 1386.84 
+            },
+            { 
+                id: 'CA6915', 
+                code: 'CA6915', 
+                cat: 'elec', 
+                name: 'Módulo Toma con Tierra 20A Cambre Siglo XXII', 
+                unit: 'Unidades', 
+                sub: '3 patas planas reforzadas 20A para cargador EV', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 4731.08 
+            },
+            { 
+                id: 'CA4262', 
+                code: 'CA4262', 
+                cat: 'elec', 
+                name: 'Caja Exterior de Superficie Cambre Siglo XXII 2 Módulos', 
+                unit: 'Unidades', 
+                sub: 'Caja de montaje exterior reforzada para toma 20A', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 4683.76 
+            },
+            { 
+                id: 'GC520', 
+                code: 'GC520', 
+                cat: 'elec', 
+                name: 'Barra Cobreada / Jabalina 1/2" x 1,50m con Tomacable GC', 
+                unit: 'Unidades', 
+                sub: 'Puesta a tierra de acero cobreado homologado (712150)', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 12795.85 
+            },
+            { 
+                id: '654', 
+                code: '654 / JAB029', 
+                cat: 'elec', 
+                name: 'Caja de inspección PVC de jabalina con tapa reforzada', 
+                unit: 'Unidades', 
+                sub: 'Acceso a morceto de puesta a tierra a nivel de piso', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 1207.05 
+            },
+            // Otros ítems eléctricos habituales
+            { 
+                id: 'elec_unip_25_marron', 
+                code: 'MVU125M', 
+                cat: 'elec', 
+                name: 'Cable unipolar 2.5mm² MARRÓN (IRAM NM 247-3)', 
+                unit: 'Metros', 
+                sub: 'Fase TUG tomas corrientes 10A', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 895.00 
+            },
+            { 
+                id: 'elec_unip_25_celeste', 
+                code: 'MVU125C', 
+                cat: 'elec', 
+                name: 'Cable unipolar 2.5mm² CELESTE (IRAM NM 247-3)', 
+                unit: 'Metros', 
+                sub: 'Neutro TUG tomas corrientes 10A', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 895.00 
+            },
+            { 
+                id: 'elec_unip_25_va', 
+                code: 'MVU125VA', 
+                cat: 'elec', 
+                name: 'Cable unipolar 2.5mm² VERDE/AMARILLO (IRAM NM 247-3)', 
+                unit: 'Metros', 
+                sub: 'Tierra PAT para circuito TUG', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 895.00 
+            },
+            { 
+                id: 'elec_toma_scame_20a', 
+                code: 'SCM1375123', 
+                cat: 'elec', 
+                name: 'Tomacorriente Scame Protecta IP66 2P+T 20A / CEE', 
+                unit: 'Unidades', 
+                sub: 'Estanco industrial con traba para intemperie', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 28500.00 
+            },
+            { 
+                id: 'elec_corrugado_34', 
+                code: 'CORR34B', 
+                cat: 'elec', 
+                name: 'Caño corrugado ignífugo blanco 3/4" (Rollo 25m)', 
+                unit: 'Rollos', 
+                sub: 'IRAM 62386 no propagante de llama', 
+                supplier: 'Distribuidora Eléctrica',
+                price: 14200.00 
+            },
+
             // === CLIMATIZACIÓN ===
-            { id: 'clima_cu_14', cat: 'clima', name: 'Caño de cobre 1/4" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
-            { id: 'clima_cu_38', cat: 'clima', name: 'Caño de cobre 3/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
-            { id: 'clima_cu_12', cat: 'clima', name: 'Caño de cobre 1/2" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
-            { id: 'clima_cu_58', cat: 'clima', name: 'Caño de cobre 5/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
-            { id: 'clima_aisl_14', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/4"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
-            { id: 'clima_aisl_38', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 3/8"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
-            { id: 'clima_aisl_12', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/2"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
-            { id: 'clima_aisl_58', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 5/8"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
-            { id: 'clima_tacsa_sin', cat: 'clima', name: 'Cinta Tacsa para refrigeración (sin adhesivo)', unit: 'Rollos', sub: 'Protección UV 20m', supplier: 'Refrigeración' },
-            { id: 'clima_tacsa_con', cat: 'clima', name: 'Cinta Tacsa aisladora para cañerías (con adhesivo)', unit: 'Rollos', sub: 'Fijación de aislaciones', supplier: 'Refrigeración' },
-            { id: 'clima_mensulas_42', cat: 'clima', name: 'Ménsulas de chapa 42cm reforzadas (hasta 3000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería', supplier: 'Refrigeración' },
-            { id: 'clima_mensulas_52', cat: 'clima', name: 'Ménsulas de chapa 52cm reforzadas (4500/6000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería', supplier: 'Refrigeración' },
-            { id: 'clima_tacos_goma', cat: 'clima', name: 'Tacos antivibratorios de goma cónicos + tuercas', unit: 'Juegos (x4)', sub: 'Amortiguación de compresor', supplier: 'Refrigeración' },
-            { id: 'clima_cable_taller_515', cat: 'clima', name: 'Cable tipo Taller 5x1.5mm² para interconexión', unit: 'Metros', sub: 'Norma IRAM 2178/247', supplier: 'Eléctrica' },
-            { id: 'clima_manguera_drenaje', cat: 'clima', name: 'Manguera cristal reforzada / corrugado drenaje 5/8"', unit: 'Metros', sub: 'Descarga de condensado', supplier: 'Refrigeración' },
-            { id: 'clima_canaleta_kit', cat: 'clima', name: 'Canaleta estética para aire 60x100mm + codos y tapas', unit: 'Tiras 2m', sub: 'PVC rígido blanco', supplier: 'Refrigeración' },
-            { id: 'clima_gas_r410a', cat: 'clima', name: 'Garrafa Gas Refrigerante R410A (descartable)', unit: 'Garrafas (kg)', sub: 'Ecológico HFC', supplier: 'Refrigeración' },
-            { id: 'clima_gas_r32', cat: 'clima', name: 'Garrafa Gas Refrigerante R32', unit: 'Garrafas (kg)', sub: 'Nueva generación Inverter', supplier: 'Refrigeración' },
-
-            // === ELECTRICIDAD (HIGH VOLT) ===
-            { id: 'elec_unip_15_negro', cat: 'elec', name: 'Cable unipolar 1.5mm² NEGRO (Fase Retorno)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_15_marron', cat: 'elec', name: 'Cable unipolar 1.5mm² MARRÓN (Fase Retorno)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_15_celeste', cat: 'elec', name: 'Cable unipolar 1.5mm² CELESTE (Neutro)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_15_va', cat: 'elec', name: 'Cable unipolar 1.5mm² VERDE/AMARILLO (Tierra)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_25_marron', cat: 'elec', name: 'Cable unipolar 2.5mm² MARRÓN / ROJO (Fase TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_25_celeste', cat: 'elec', name: 'Cable unipolar 2.5mm² CELESTE (Neutro TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_25_va', cat: 'elec', name: 'Cable unipolar 2.5mm² VERDE/AMARILLO (Tierra TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_40_marron', cat: 'elec', name: 'Cable unipolar 4.0mm² MARRÓN / ROJO (Fase TUE / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_40_celeste', cat: 'elec', name: 'Cable unipolar 4.0mm² CELESTE (Neutro TUE / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_40_va', cat: 'elec', name: 'Cable unipolar 4.0mm² VERDE/AMARILLO (Tierra 4mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_60_marron', cat: 'elec', name: 'Cable unipolar 6.0mm² MARRÓN / ROJO (Alimentador / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_60_celeste', cat: 'elec', name: 'Cable unipolar 6.0mm² CELESTE (Neutro 6mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            { id: 'elec_unip_60_va', cat: 'elec', name: 'Cable unipolar 6.0mm² VERDE/AMARILLO (Tierra 6mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
-            
-            { id: 'elec_sint_2x4', cat: 'elec', name: 'Cable subterráneo Sintenax 2x4mm² cobre', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
-            { id: 'elec_sint_4x4', cat: 'elec', name: 'Cable subterráneo Sintenax 4x4mm² trifásico', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
-            { id: 'elec_sint_4x6', cat: 'elec', name: 'Cable subterráneo Sintenax 4x6mm² trifásico', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
-
-            { id: 'elec_term_2x16', cat: 'elec', name: 'Térmica bipolar 2x16A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito IUG iluminación', supplier: 'Eléctrica' },
-            { id: 'elec_term_2x20', cat: 'elec', name: 'Térmica bipolar 2x20A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito TUG tomas / EV 4mm²', supplier: 'Eléctrica' },
-            { id: 'elec_term_2x25', cat: 'elec', name: 'Térmica bipolar 2x25A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito TUE tomas / EV 6mm²', supplier: 'Eléctrica' },
-            { id: 'elec_term_2x32', cat: 'elec', name: 'Térmica bipolar 2x32A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Corte general seccional', supplier: 'Eléctrica' },
-            { id: 'elec_disy_2x25_clase_a', cat: 'elec', name: 'Disyuntor Diferencial 2x25A 30mA CLASE A (EV / Electrónica)', unit: 'Unidades', sub: 'Schneider iID / Chint (Inmunizado DC)', supplier: 'Eléctrica' },
-            { id: 'elec_disy_2x40_ac', cat: 'elec', name: 'Disyuntor Diferencial 2x40A 30mA Clase AC (Estándar)', unit: 'Unidades', sub: 'Protección personas residencial', supplier: 'Eléctrica' },
-
-            { id: 'elec_jabalina_58_15m', cat: 'elec', name: 'Jabalina acero-cobre 5/8" x 1.50m IRAM 2309', unit: 'Unidades', sub: 'FacBSA / Grampas / Tomacable', supplier: 'Eléctrica' },
-            { id: 'elec_jabalina_58_3m', cat: 'elec', name: 'Jabalina acero-cobre 5/8" x 3.00m IRAM 2309', unit: 'Unidades', sub: 'Para PAT dedicada <10 Ohms', supplier: 'Eléctrica' },
-            { id: 'elec_caja_pat_inspec', cat: 'elec', name: 'Caja de inspección de puesta a tierra 15x15cm con tapa', unit: 'Unidades', sub: 'PVC de piso / vereda', supplier: 'Eléctrica' },
-            { id: 'elec_toma_scame_20a', cat: 'elec', name: 'Tomacorriente Scame Protecta IP66 2P+T 20A / CEE', unit: 'Unidades', sub: 'Macho/Hembra p/Cargador EV', supplier: 'Eléctrica' },
-            { id: 'elec_corrugado_34', cat: 'elec', name: 'Caño corrugado ignífugo blanco 3/4" (Rollo 25m)', unit: 'Rollos', sub: 'IRAM 62386', supplier: 'Eléctrica' },
-            { id: 'elec_caja_rectangular', cat: 'elec', name: 'Caja de chapa / PVC rectangular 10x5cm', unit: 'Unidades', sub: 'Para llaves y tomas', supplier: 'Eléctrica' },
-            { id: 'elec_caja_octogonal', cat: 'elec', name: 'Caja de chapa / PVC octogonal chica/grande', unit: 'Unidades', sub: 'Para centros de iluminación', supplier: 'Eléctrica' },
+            { id: 'clima_cu_14', code: 'CU14-08', cat: 'clima', name: 'Caño de cobre 1/4" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 para R410A / R32', supplier: 'Casa de Refrigeración', price: 6200.00 },
+            { id: 'clima_cu_38', code: 'CU38-08', cat: 'clima', name: 'Caño de cobre 3/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 Split 2250/3000 Fg', supplier: 'Casa de Refrigeración', price: 9400.00 },
+            { id: 'clima_cu_12', code: 'CU12-08', cat: 'clima', name: 'Caño de cobre 1/2" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 Split 4500 Fg', supplier: 'Casa de Refrigeración', price: 13800.00 },
+            { id: 'clima_cu_58', code: 'CU58-08', cat: 'clima', name: 'Caño de cobre 5/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 Split 6000 Fg', supplier: 'Casa de Refrigeración', price: 18500.00 },
+            { id: 'clima_aisl_14', code: 'AISL14', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/4"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 2100.00 },
+            { id: 'clima_aisl_38', code: 'AISL38', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 3/8"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 2450.00 },
+            { id: 'clima_aisl_12', code: 'AISL12', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/2"', unit: 'Tiras 2m', sub: 'Espuma elastomérica ignífuga Clase 1', supplier: 'Casa de Refrigeración', price: 3100.00 },
+            { id: 'clima_tacsa_sin', code: 'TACSA-SR', cat: 'clima', name: 'Cinta Tacsa para refrigeración (sin adhesivo)', unit: 'Rollos', sub: 'Protección UV blanca 20m', supplier: 'Casa de Refrigeración', price: 3200.00 },
+            { id: 'clima_tacsa_con', code: 'TACSA-CR', cat: 'clima', name: 'Cinta Tacsa aisladora para cañerías (con adhesivo)', unit: 'Rollos', sub: 'Fijación de aislaciones', supplier: 'Casa de Refrigeración', price: 4100.00 },
+            { id: 'clima_mensulas_42', code: 'MEN42', cat: 'clima', name: 'Ménsulas de chapa 42cm reforzadas (hasta 3000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería de 10mm', supplier: 'Casa de Refrigeración', price: 16500.00 },
+            { id: 'clima_tacos_goma', code: 'TAC-GOM', cat: 'clima', name: 'Tacos antivibratorios de goma cónicos + tuercas', unit: 'Juegos (x4)', sub: 'Amortiguación de condensadora', supplier: 'Casa de Refrigeración', price: 4800.00 },
+            { id: 'clima_cable_taller_515', code: 'TALL515', cat: 'clima', name: 'Cable tipo Taller 5x1.5mm² para interconexión', unit: 'Metros', sub: 'Norma IRAM 2178/247 con vaina negra', supplier: 'Distribuidora Eléctrica', price: 2950.00 },
+            { id: 'clima_manguera_drenaje', code: 'MANG58', cat: 'clima', name: 'Manguera cristal reforzada drenaje 5/8"', unit: 'Metros', sub: 'Descarga de condensado evaporadora', supplier: 'Casa de Refrigeración', price: 950.00 },
+            { id: 'clima_gas_r410a', code: 'GAS-R410A', cat: 'clima', name: 'Garrafa Gas Refrigerante R410A descartable', unit: 'Garrafas (kg)', sub: 'Ecológico HFC refrigeración', supplier: 'Casa de Refrigeración', price: 42000.00 },
 
             // === CCTV & SEGURIDAD ===
-            { id: 'cctv_utp_ext_cat5e', cat: 'cctv', name: 'Cable UTP exterior Cat5e 100% Cobre (Doble vaina negra)', unit: 'Metros / Bobina', sub: 'Para cámaras de seguridad', supplier: 'Seguridad' },
-            { id: 'cctv_bobina_utp_305', cat: 'cctv', name: 'Bobina cerrada cable UTP exterior 305m 100% cobre', unit: 'Bobinas (305m)', sub: 'Homologado CCTV HD / IP', supplier: 'Seguridad' },
-            { id: 'cctv_baluns_hd', cat: 'cctv', name: 'Balun pasivo de video HD hasta 5MP (Par)', unit: 'Pares', sub: 'Para transmisión por UTP', supplier: 'Seguridad' },
-            { id: 'cctv_plug_macho', cat: 'cctv', name: 'Conector Plug macho 12V con bornera a tornillo', unit: 'Unidades', sub: 'Alimentación de cámara', supplier: 'Seguridad' },
-            { id: 'cctv_plug_hembra', cat: 'cctv', name: 'Conector Plug hembra 12V con bornera a tornillo', unit: 'Unidades', sub: 'Acople de fuente', supplier: 'Seguridad' },
-            { id: 'cctv_fuente_12v_2a', cat: 'cctv', name: 'Fuente switching individual 12V 2A real', unit: 'Unidades', sub: 'Para 1 o 2 cámaras', supplier: 'Seguridad' },
-            { id: 'cctv_fuente_central_5a', cat: 'cctv', name: 'Fuente metálica switching conmutada 12V 5A', unit: 'Unidades', sub: 'Para hasta 4 cámaras con bornera', supplier: 'Seguridad' },
-            { id: 'cctv_fuente_central_10a', cat: 'cctv', name: 'Fuente metálica switching conmutada 12V 10A', unit: 'Unidades', sub: 'Para 8 cámaras con fusible térmico', supplier: 'Seguridad' },
-            { id: 'cctv_caja_estanca_10x10', cat: 'cctv', name: 'Caja estanca IP65 10x10x7cm con conos de goma', unit: 'Unidades', sub: 'Protección conexiones de cámara', supplier: 'Seguridad' },
-            { id: 'cctv_reja_proteccion', cat: 'cctv', name: 'Reja de protección metálica antivandálica con candado', unit: 'Unidades', sub: 'Hierro desplegado para bullet', supplier: 'Seguridad' },
-            { id: 'cctv_soporte_poste', cat: 'cctv', name: 'Soporte abrazadera metálica para poste / columna', unit: 'Unidades', sub: 'Montaje de domos y cámaras', supplier: 'Seguridad' },
-            { id: 'cctv_hdd_1tb_purple', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
-            { id: 'cctv_hdd_2tb_purple', cat: 'cctv', name: 'Disco Rígido 2TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
-            { id: 'cctv_hdd_4tb_purple', cat: 'cctv', name: 'Disco Rígido 4TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
-            { id: 'cctv_tarugos_tornillos', cat: 'cctv', name: 'Bolsa tarugos del 6/8 con tope + tornillos fixx (x100)', unit: 'Bolsas (x100)', sub: 'Fijaciones para cajas y cámaras', supplier: 'Seguridad' },
-            { id: 'cctv_precintos_uv', cat: 'cctv', name: 'Precintos plásticos negros con protección UV 200mm (x100)', unit: 'Paquetes (x100)', sub: 'Sujeción de cables exterior', supplier: 'Seguridad' }
+            { id: 'cctv_utp_ext_cat5e', code: 'UTP-EXT-CU', cat: 'cctv', name: 'Cable UTP exterior Cat5e 100% Cobre (Doble vaina negra)', unit: 'Metros', sub: 'Apto intemperie UV para videovigilancia HD / IP', supplier: 'Mayorista de Seguridad', price: 820.00 },
+            { id: 'cctv_bobina_utp_305', code: 'BOB-UTP-305', cat: 'cctv', name: 'Bobina cerrada cable UTP exterior 305m 100% cobre', unit: 'Bobinas (305m)', sub: 'Homologado CCTV HD / IP exterior', supplier: 'Mayorista de Seguridad', price: 215000.00 },
+            { id: 'cctv_baluns_hd', code: 'BALUN-HD', cat: 'cctv', name: 'Balun pasivo de video HD hasta 5MP (Par)', unit: 'Pares', sub: 'CVI / TVI / AHD con filtro ESD', supplier: 'Mayorista de Seguridad', price: 3400.00 },
+            { id: 'cctv_plug_macho', code: 'PLUG-M-12V', cat: 'cctv', name: 'Conector Plug macho 12V con bornera a tornillo', unit: 'Unidades', sub: 'Alimentación de cámara', supplier: 'Mayorista de Seguridad', price: 750.00 },
+            { id: 'cctv_plug_hembra', code: 'PLUG-H-12V', cat: 'cctv', name: 'Conector Plug hembra 12V con bornera a tornillo', unit: 'Unidades', sub: 'Acople de fuente', supplier: 'Mayorista de Seguridad', price: 750.00 },
+            { id: 'cctv_fuente_12v_2a', code: 'FTE-12V-2A', cat: 'cctv', name: 'Fuente switching individual 12V 2A real', unit: 'Unidades', sub: 'Para 1 o 2 cámaras', supplier: 'Mayorista de Seguridad', price: 8900.00 },
+            { id: 'cctv_fuente_central_5a', code: 'FTE-MET-5A', cat: 'cctv', name: 'Fuente metálica conmutada 12V 5A con bornera', unit: 'Unidades', sub: 'Para hasta 4 cámaras con filtro térmico', supplier: 'Mayorista de Seguridad', price: 22500.00 },
+            { id: 'cctv_caja_estanca_10x10', code: 'CAJA-EST-1010', cat: 'cctv', name: 'Caja estanca IP65 10x10x7cm con conos de goma', unit: 'Unidades', sub: 'Protección conexiones de cámara intemperie', supplier: 'Mayorista de Seguridad', price: 3100.00 },
+            { id: 'cctv_hdd_1tb_purple', code: 'WD10PURZ', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 92000.00 },
+            { id: 'cctv_hdd_2tb_purple', code: 'WD20PURZ', cat: 'cctv', name: 'Disco Rígido 2TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 125000.00 },
+            { id: 'cctv_precintos_uv', code: 'PREC-UV-200', cat: 'cctv', name: 'Precintos plásticos negros UV 200mm (x100)', unit: 'Paquetes (x100)', sub: 'Sujeción de cables exterior', supplier: 'Mayorista de Seguridad', price: 3800.00 }
         ];
 
         // Estado de materiales seleccionados: { id: cantidad }
         let selectedItems = {};
         let activeFilter = 'todos';
 
-        // Inicializar fecha
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('order-date').value = today;
             
-            // Cargar de LocalStorage si existe
             cargarEstadoLocal();
-            
-            // Renderizar catálogos
             renderCatalogos();
             actualizarResumen();
         });
 
-        // Cambio de pestañas
         function switchTab(tabId) {
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -1213,7 +1516,10 @@
             if (content) content.classList.add('active');
         }
 
-        // Renderizar los grids de materiales
+        function fmt(n) {
+            return '$ ' + Number(n).toLocaleString('es-AR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
         function renderCatalogos() {
             const gridClima = document.getElementById('grid-clima');
             const gridElec = document.getElementById('grid-elec');
@@ -1235,12 +1541,16 @@
 
                 card.innerHTML = `
                     <div class="mat-header">
-                        <div class="mat-name">${item.name}</div>
+                        <div>
+                            <div class="mat-name">${item.name}</div>
+                            <span class="mat-code">CÓD: ${item.code}</span>
+                        </div>
                         <span class="mat-tag ${tagClass}">${item.cat.toUpperCase()}</span>
                     </div>
                     <div class="mat-sub">
                         <span>🏷️ ${item.sub}</span>
-                        <span>• 🏢 ${item.supplier}</span>
+                        <span>🏢 ${item.supplier}</span>
+                        <span class="mat-price-tag">Precio unit. aprox: ${fmt(item.price)}</span>
                     </div>
                     <div class="mat-controls">
                         <span class="unit-label">${item.unit}</span>
@@ -1258,7 +1568,6 @@
             });
         }
 
-        // Modificar cantidad con stepper
         function changeQty(itemId, delta) {
             const current = selectedItems[itemId] || 0;
             const next = Math.max(0, current + delta);
@@ -1277,7 +1586,6 @@
                 delete selectedItems[itemId];
             }
 
-            // Actualizar input y estilo
             const input = document.getElementById(`input-${itemId}`);
             if (input) input.value = qty;
 
@@ -1291,12 +1599,12 @@
             actualizarResumen();
         }
 
-        // Actualizar resumen lateral y badges
         function actualizarResumen() {
             let totalCount = 0;
             let cClima = 0;
             let cElec = 0;
             let cCctv = 0;
+            let subtotalEstimado = 0;
 
             const orderList = document.getElementById('order-list');
             orderList.innerHTML = '';
@@ -1315,7 +1623,8 @@
                 if (item.cat === 'elec') cElec++;
                 if (item.cat === 'cctv') cCctv++;
 
-                // Verificar filtro
+                subtotalEstimado += (item.price * qty);
+
                 if (activeFilter !== 'todos' && item.cat !== activeFilter) return;
 
                 const row = document.createElement('div');
@@ -1323,7 +1632,10 @@
                 row.innerHTML = `
                     <div class="order-item-info">
                         <span class="order-item-title">${item.name}</span>
-                        <span class="order-item-supplier">${item.supplier} • ${item.unit}</span>
+                        <div class="order-item-meta">
+                            <span>Cód: ${item.code}</span>
+                            <span>• ${fmt(item.price * qty)}</span>
+                        </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <span class="order-item-qty">${qty} ${item.unit.split(' ')[0]}</span>
@@ -1333,15 +1645,23 @@
                 orderList.appendChild(row);
             });
 
-            if (orderList.children.length === 0) {
+            const totalsBox = document.getElementById('order-totals-box');
+            if (totalCount > 0) {
+                totalsBox.style.display = 'flex';
+                const iva = subtotalEstimado * 0.21;
+                const totalFinal = subtotalEstimado + iva;
+                document.getElementById('tot-neto').innerText = fmt(subtotalEstimado);
+                document.getElementById('tot-iva').innerText = fmt(iva);
+                document.getElementById('tot-final').innerText = fmt(totalFinal);
+            } else {
+                totalsBox.style.display = 'none';
                 orderList.innerHTML = `
                     <div class="empty-state">
-                        ${keys.length === 0 ? 'No hay materiales seleccionados aún.<br>Usá el cómputo rápido o sumá ítems desde los catálogos.' : 'No hay ítems seleccionados para este filtro.'}
+                        No hay materiales seleccionados aún.<br>Usá el cómputo rápido o sumá ítems desde los catálogos.
                     </div>
                 `;
             }
 
-            // Actualizar badges
             document.getElementById('total-selected-items').innerText = `${totalCount} ítems`;
             document.getElementById('count-clima').innerText = cClima;
             document.getElementById('count-elec').innerText = cElec;
@@ -1355,7 +1675,64 @@
             actualizarResumen();
         }
 
-        // --- PRESETS AUTOMÁTICOS DE CÓMPUTO ---
+        // --- CÓMPUTO RÁPIDO: KIT EXACTO DISTRIBUIDOR CARGADOR EV 20A ---
+        function computarKitRealEV20A() {
+            // Cargar con las cantidades exactas de la factura de distribuidora
+            setQty('MVS26', 20);      // 20m Cable Subterráneo 2x6mm
+            setQty('FRAG1234', 20);   // 20x Grampas Omega 3/4"
+            setQty('PP173G', 2);      // 2x Prensacable 3/4" nylon gris
+            setQty('FORLIPL37', 2);   // 2x Cajas de derivación Forli 90x90x75
+            setQty('KC05001', 2);     // 2x Tiras Caño Kalop D:20mm semipesado
+            setQty('KC05401', 6);     // 6x Conectores Kalop D:20mm
+            setQty('KC05601', 15);    // 15x Grampas Kalop D:20mm
+            setQty('KC05201', 2);     // 2x Curvas Kalop D:20mm
+            setQty('FORLIPL45', 1);   // 1x Caja plástica 4 bocas DIN Forli
+            setQty('COR2781', 1);     // 1x Disyuntor Chint NL210 40A 30mA Clase B
+            setQty('CORCH1019', 1);   // 1x Térmica Chint 2x25A NXB-63
+            setQty('MVU14R', 3);      // 3m Unipolar 4mm Rojo
+            setQty('MVU14C', 3);      // 3m Unipolar 4mm Celeste
+            setQty('MVU14VA', 10);    // 10m Unipolar 4mm Verde/Amarillo
+            setQty('CA6915', 1);      // 1x Módulo Toma Cambre 20A
+            setQty('CA4262', 1);      // 1x Caja Ext. Cambre Siglo XXII
+            setQty('GC520', 2);       // 2x Barras cobreadas 1/2" x 1,50m con tomacable
+            setQty('654', 2);         // 2x Cajas de inspección PVC de jabalina
+
+            document.getElementById('order-ref').value = 'Instalación Cargador EV 20A (Sintenax 2x6 + Caño Kalop)';
+            mostrarToast("🔥 ¡Cargados los 18 ítems del Presupuesto Real de Distribuidor!");
+        }
+
+        function computarElecPreset() {
+            const bocas = parseInt(document.getElementById('preset-elec-bocas').value) || 0;
+            const mBoca = parseInt(document.getElementById('preset-elec-m-boca').value) || 6;
+            const incPat = document.getElementById('preset-elec-pat').value === 'si';
+            const canaliz = document.getElementById('preset-elec-canaliz').value;
+
+            if (bocas > 0) {
+                const totalCable = Math.round(bocas * mBoca * 1.15);
+                sumarItem('elec_unip_25_marron', totalCable);
+                sumarItem('elec_unip_25_celeste', totalCable);
+                sumarItem('elec_unip_25_va', totalCable);
+                
+                if (canaliz === 'kalop') {
+                    const tiras = Math.ceil((bocas * mBoca) / 3);
+                    sumarItem('KC05001', tiras);
+                    sumarItem('KC05401', bocas * 2);
+                    sumarItem('KC05601', tiras * 3);
+                    sumarItem('KC05201', Math.ceil(bocas / 2));
+                } else {
+                    sumarItem('elec_corrugado_34', Math.ceil((bocas * mBoca) / 25));
+                }
+            }
+
+            if (incPat) {
+                sumarItem('GC520', 1);
+                sumarItem('654', 1);
+                sumarItem('MVU14VA', 10);
+            }
+
+            mostrarToast(`¡Cómputo Eléctrico cargado para ${bocas} bocas!`);
+        }
+
         function computarClimaPreset() {
             const cap = document.getElementById('preset-clima-cap').value;
             const nEq = parseInt(document.getElementById('preset-clima-qty').value) || 1;
@@ -1365,7 +1742,6 @@
             const totalM = nEq * mPerEq;
             const tirasAisl = Math.ceil(totalM / 2);
 
-            // Caños según capacidad
             if (cap === '3000') {
                 sumarItem('clima_cu_14', totalM);
                 sumarItem('clima_cu_38', totalM);
@@ -1380,74 +1756,19 @@
                 sumarItem('clima_cu_12', totalM);
                 sumarItem('clima_aisl_14', tirasAisl);
                 sumarItem('clima_aisl_12', tirasAisl);
-                if (incMensulas) {
-                    sumarItem('clima_mensulas_52', nEq);
-                    sumarItem('clima_tacos_goma', nEq);
-                }
             } else if (cap === '6000') {
                 sumarItem('clima_cu_14', totalM);
                 sumarItem('clima_cu_58', totalM);
                 sumarItem('clima_aisl_14', tirasAisl);
                 sumarItem('clima_aisl_58', tirasAisl);
-                if (incMensulas) {
-                    sumarItem('clima_mensulas_52', nEq);
-                    sumarItem('clima_tacos_goma', nEq);
-                }
             }
 
             sumarItem('clima_tacsa_sin', Math.ceil(totalM / 5));
             sumarItem('clima_tacsa_con', nEq);
-            sumarItem('clima_cable_taller_515', totalM + (nEq * 2)); // 2m extra por equipo
+            sumarItem('clima_cable_taller_515', totalM + (nEq * 2));
             sumarItem('clima_manguera_drenaje', totalM);
 
             mostrarToast(`¡Cómputo Clima cargado para ${nEq} equipo(s)!`);
-        }
-
-        function computarElecPreset() {
-            const bocas = parseInt(document.getElementById('preset-elec-bocas').value) || 0;
-            const mBoca = parseInt(document.getElementById('preset-elec-m-boca').value) || 6;
-            const incPat = document.getElementById('preset-elec-pat').value === 'si';
-            const evOption = document.getElementById('preset-elec-ev').value;
-
-            if (bocas > 0) {
-                const totalCable = Math.round(bocas * mBoca * 1.15); // +15% desperdicio/curvas
-                sumarItem('elec_unip_25_marron', totalCable);
-                sumarItem('elec_unip_25_celeste', totalCable);
-                sumarItem('elec_unip_25_va', totalCable);
-                sumarItem('elec_caja_rectangular', Math.ceil(bocas * 0.7));
-                sumarItem('elec_caja_octogonal', Math.ceil(bocas * 0.3));
-                sumarItem('elec_corrugado_34', Math.ceil((bocas * mBoca) / 25));
-                sumarItem('elec_term_2x20', Math.max(1, Math.ceil(bocas / 12)));
-                sumarItem('elec_disy_2x40_ac', 1);
-            }
-
-            if (incPat) {
-                sumarItem('elec_jabalina_58_15m', 1);
-                sumarItem('elec_caja_pat_inspec', 1);
-                sumarItem('elec_unip_40_va', 10); // puente hasta tablero
-            }
-
-            if (evOption === '4mm') {
-                sumarItem('elec_unip_40_marron', 18);
-                sumarItem('elec_unip_40_celeste', 18);
-                sumarItem('elec_unip_40_va', 18);
-                sumarItem('elec_term_2x20', 1);
-                sumarItem('elec_disy_2x25_clase_a', 1);
-                sumarItem('elec_toma_scame_20a', 1);
-                sumarItem('elec_jabalina_58_3m', 1);
-                sumarItem('elec_caja_pat_inspec', 1);
-            } else if (evOption === '6mm') {
-                sumarItem('elec_unip_60_marron', 25);
-                sumarItem('elec_unip_60_celeste', 25);
-                sumarItem('elec_unip_60_va', 25);
-                sumarItem('elec_term_2x25', 1);
-                sumarItem('elec_disy_2x25_clase_a', 1);
-                sumarItem('elec_toma_scame_20a', 1);
-                sumarItem('elec_jabalina_58_3m', 1);
-                sumarItem('elec_caja_pat_inspec', 1);
-            }
-
-            mostrarToast(`¡Cómputo Eléctrico y protecciones cargado!`);
         }
 
         function computarCctvPreset() {
@@ -1468,17 +1789,10 @@
             sumarItem('cctv_plug_hembra', nCams);
 
             if (incCajas) sumarItem('cctv_caja_estanca_10x10', nCams);
-            sumarItem('cctv_tarugos_tornillos', 1);
             sumarItem('cctv_precintos_uv', 1);
 
-            // Fuente según cantidad
-            if (nCams <= 2) {
-                sumarItem('cctv_fuente_12v_2a', nCams);
-            } else if (nCams <= 4) {
-                sumarItem('cctv_fuente_central_5a', 1);
-            } else {
-                sumarItem('cctv_fuente_central_10a', 1);
-            }
+            if (nCams <= 2) sumarItem('cctv_fuente_12v_2a', nCams);
+            else sumarItem('cctv_fuente_central_5a', 1);
 
             if (hddOption === '1tb') sumarItem('cctv_hdd_1tb_purple', 1);
             else if (hddOption === '2tb') sumarItem('cctv_hdd_2tb_purple', 1);
@@ -1508,37 +1822,31 @@
             text += `📍 *Obra / Ref:* ${ref}\n`;
             text += `━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-            // Agrupar por categoría
-            const categorias = {
-                clima: { title: '❄️ *CLIMATIZACIÓN & REFRIGERACIÓN:*', items: [] },
-                elec: { title: '⚡ *ELECTRICIDAD & TABLEROS:*', items: [] },
-                cctv: { title: '📹 *CCTV & SEGURIDAD ELECTRÓNICA:*', items: [] }
-            };
+            let subtotalEstimado = 0;
 
             keys.forEach(id => {
                 const qty = selectedItems[id];
                 if (qty <= 0) return;
                 const m = CATALOGO_MATERIALES.find(item => item.id === id);
                 if (m) {
-                    categorias[m.cat].items.push(`▫️ *${qty} ${m.unit}* - ${m.name} _(${m.sub})_`);
+                    const st = m.price * qty;
+                    subtotalEstimado += st;
+                    text += `▫️ *[${m.code}]* ${qty} ${m.unit} • ${m.name}\n`;
+                    text += `   ↳ _(${m.sub})_ ~ ${fmt(st)}\n`;
                 }
             });
 
-            for (const c in categorias) {
-                if (categorias[c].items.length > 0) {
-                    text += `${categorias[c].title}\n`;
-                    text += categorias[c].items.join('\n') + `\n\n`;
-                }
-            }
+            const iva = subtotalEstimado * 0.21;
+            const total = subtotalEstimado + iva;
 
-            text += `━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `*Por favor confirmar disponibilidad y cotización a la brevedad. Gracias!*`;
+            text += `\n━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `💵 *Subtotal Neto Aprox:* ${fmt(subtotalEstimado)}\n`;
+            text += `🧾 *Total con IVA Estimado:* ${fmt(total)}\n`;
+            text += `*Por favor confirmar disponibilidad y cotización final de mostrador. ¡Muchas gracias!*`;
 
-            // Copiar al portapapeles
             navigator.clipboard.writeText(text).then(() => {
-                mostrarToast("📋 ¡Pedido copiado en formato WhatsApp!");
+                mostrarToast("📋 ¡Pedido copiado con códigos de artículo para WhatsApp!");
             }).catch(() => {
-                // Fallback prompt
                 prompt("Copia el texto del pedido:", text);
             });
         }
@@ -1550,7 +1858,6 @@
                 return;
             }
 
-            // Preparar datos imprimibles
             document.getElementById('p-date').innerText = document.getElementById('order-date').value || new Date().toISOString().split('T')[0];
             document.getElementById('p-ref').innerText = document.getElementById('order-ref').value || 'Obra General';
             
@@ -1561,27 +1868,39 @@
             tbody.innerHTML = '';
 
             let itemNum = 1;
+            let subtotal = 0;
+
             keys.forEach(id => {
                 const qty = selectedItems[id];
                 if (qty <= 0) return;
                 const m = CATALOGO_MATERIALES.find(item => item.id === id);
                 if (!m) return;
 
+                const st = m.price * qty;
+                subtotal += st;
+
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td style="text-align: center; font-weight: bold;">${itemNum++}</td>
-                    <td><span style="font-size: 8pt; text-transform: uppercase; font-weight: bold;">${m.supplier}</span></td>
+                    <td style="font-family: monospace; font-weight: bold; font-size: 8.5pt;">${m.code}</td>
                     <td>
                         <b>${m.name}</b><br>
                         <span style="font-size: 8pt; color: #555;">${m.sub}</span>
                     </td>
-                    <td style="text-align: center; font-weight: bold;">${qty} ${m.unit}</td>
-                    <td style="text-align: right; color: #777;">$ ...................</td>
+                    <td style="text-align: center; font-weight: bold; font-family: monospace;">${qty} ${m.unit.split(' ')[0]}</td>
+                    <td style="text-align: right; font-family: monospace; font-size: 8.5pt;">${fmt(m.price)}</td>
+                    <td style="text-align: right; font-weight: bold; font-family: monospace; font-size: 8.5pt;">${fmt(st)}</td>
                 `;
                 tbody.appendChild(tr);
             });
 
-            // Disparar diálogo de impresión
+            const iva = subtotal * 0.21;
+            const total = subtotal + iva;
+
+            document.getElementById('p-foot-subtotal').innerText = fmt(subtotal);
+            document.getElementById('p-foot-iva').innerText = fmt(iva);
+            document.getElementById('p-foot-total').innerText = fmt(total);
+
             window.print();
         }
 
@@ -1604,7 +1923,6 @@
             }, 3000);
         }
 
-        // LocalStorage
         function guardarEstadoLocal() {
             try {
                 localStorage.setItem('elcondor_mat_calc_items', JSON.stringify(selectedItems));

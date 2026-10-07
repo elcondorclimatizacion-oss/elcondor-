@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora y Cómputo de Materiales - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(26, 36, 56, 0.95);
+            --bg-input: #0b1120;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --text-main: #f3f4f6;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+            
+            --clima: #06b6d4;
+            --clima-glow: rgba(6, 182, 212, 0.25);
+            --elec: #f59e0b;
+            --elec-glow: rgba(245, 158, 11, 0.25);
+            --cctv: #10b981;
+            --cctv-glow: rgba(16, 185, 129, 0.25);
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            
+            --success: #22c55e;
+            --danger: #ef4444;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --radius-sm: 6px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Top Header */
+        header {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-lg);
+            padding: 20px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.35);
+        }
+
+        .brand-text h1 {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-text h1 span {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 20px;
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--elec);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .brand-text p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-top: 2px;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .input-group-top {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .input-group-top label {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-group-top input, .input-group-top select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .input-group-top input:focus, .input-group-top select:focus {
+            border-color: var(--elec);
+            box-shadow: 0 0 0 2px var(--elec-glow);
+        }
+
+        /* Navigation Tabs */
+        .tabs-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+            scrollbar-width: none;
+        }
+
+        .tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--text-main);
+            border-color: var(--border-hover);
+            transform: translateY(-1px);
+        }
+
+        .tab-btn.active[data-tab="computo"] {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.05));
+            color: #60a5fa;
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .tab-btn.active[data-tab="clima"] {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            color: #22d3ee;
+            border-color: rgba(6, 182, 212, 0.5);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.2);
+        }
+
+        .tab-btn.active[data-tab="elec"] {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
+            color: #fbbf24;
+            border-color: rgba(245, 158, 11, 0.5);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.2);
+        }
+
+        .tab-btn.active[data-tab="cctv"] {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.05));
+            color: #34d399;
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);
+        }
+
+        .badge-count {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            font-size: 0.75rem;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+        }
+
+        /* Layout Grid */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        @media (max-width: 1080px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Content Area */
+        .tab-content {
+            display: none;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .tab-content.active {
+            display: flex;
+        }
+
+        /* Cards & Section Boxes */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #ffffff;
+        }
+
+        .card-title .icon {
+            font-size: 1.25rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Presets Grid for Cómputo Rápido */
+        .presets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .preset-card {
+            background: rgba(11, 17, 32, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 18px;
+            transition: all 0.25s;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .preset-card:hover {
+            border-color: var(--border-hover);
+            background: rgba(17, 24, 39, 0.9);
+            transform: translateY(-2px);
+        }
+
+        .preset-card.clima-border { border-left: 4px solid var(--clima); }
+        .preset-card.elec-border { border-left: 4px solid var(--elec); }
+        .preset-card.cctv-border { border-left: 4px solid var(--cctv); }
+
+        .preset-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preset-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #ffffff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .form-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .form-field label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .form-field input, .form-field select {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 8px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        .form-field input:focus, .form-field select:focus {
+            border-color: var(--accent);
+        }
+
+        .btn-calc-preset {
+            margin-top: 6px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(59, 130, 246, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-calc-preset:hover {
+            background: rgba(59, 130, 246, 0.35);
+            color: #ffffff;
+            border-color: rgba(59, 130, 246, 0.6);
+        }
+
+        /* Material Items Table */
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 14px;
+        }
+
+        .mat-item {
+            background: rgba(11, 17, 32, 0.65);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .mat-item:hover {
+            background: rgba(17, 24, 39, 0.95);
+            border-color: var(--border-hover);
+        }
+
+        .mat-item.selected {
+            border-color: rgba(245, 158, 11, 0.4);
+            background: rgba(245, 158, 11, 0.04);
+        }
+
+        .mat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .mat-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #f1f5f9;
+            line-height: 1.3;
+        }
+
+        .mat-tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        .tag-clima { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .tag-elec { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+        .tag-cctv { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .mat-sub {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .mat-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 8px;
+        }
+
+        .unit-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .qty-stepper {
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .btn-step {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            width: 30px;
+            height: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .btn-step:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+        }
+
+        .qty-input {
+            width: 48px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            outline: none;
+        }
+
+        /* Order Summary Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .summary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .summary-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .summary-filters {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+            background: var(--elec);
+            color: #000;
+            border-color: var(--elec);
+            font-weight: 700;
+        }
+
+        .order-items-list {
+            max-height: 420px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+            scrollbar-width: thin;
+            scrollbar-color: var(--border) transparent;
+        }
+
+        .order-item-row {
+            background: rgba(11, 17, 32, 0.7);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            animation: fadeIn 0.2s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .order-item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .order-item-title {
+            font-weight: 600;
+            color: #f1f5f9;
+        }
+
+        .order-item-supplier {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+        }
+
+        .order-item-qty {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--elec);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .btn-remove-item {
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 2px 4px;
+            transition: color 0.15s;
+        }
+
+        .btn-remove-item:hover {
+            color: var(--danger);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 10px;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-action {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-whatsapp {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.35);
+        }
+
+        .btn-whatsapp:hover {
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.45);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.35);
+        }
+
+        .btn-pdf:hover {
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.45);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Toast Alert */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #111827;
+            border: 1px solid var(--success);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Printable Purchase Order Template */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+            }
+            .container, .tabs-nav, .presets-grid, .mat-controls, .btn-action, .filter-btn, .sidebar, header, .toast {
+                display: none !important;
+            }
+            #printable-order {
+                display: block !important;
+                width: 100% !important;
+                padding: 20px !important;
+                color: #000 !important;
+                font-size: 11pt !important;
+            }
+            .print-header {
+                border-bottom: 2px solid #000;
+                padding-bottom: 12px;
+                margin-bottom: 16px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+            .print-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 15px;
+            }
+            .print-table th, .print-table td {
+                border: 1px solid #333;
+                padding: 6px 10px;
+                text-align: left;
+                font-size: 10pt;
+            }
+            .print-table th {
+                background-color: #f2f2f2 !important;
+                font-weight: bold;
+            }
+            .print-footer {
+                margin-top: 30px;
+                border-top: 1px solid #777;
+                padding-top: 10px;
+                font-size: 9pt;
+                text-align: center;
+                color: #444;
+            }
+        }
+
+        #printable-order {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Main Header -->
+        <header>
+            <div class="header-brand">
+                <div class="brand-icon">📦</div>
+                <div class="brand-text">
+                    <h1>EL CÓNDOR <span>Materiales & Cómputo</span></h1>
+                    <p>Calculadora y Generador de Órdenes de Compra para Mostrador / Mayoristas</p>
+                </div>
+            </div>
+
+            <div class="header-meta">
+                <div class="input-group-top">
+                    <label>Fecha de Pedido</label>
+                    <input type="date" id="order-date">
+                </div>
+                <div class="input-group-top">
+                    <label>Obra / Referencia</label>
+                    <input type="text" id="order-ref" placeholder="Ej: Obra Quilmes / Dpto 4B">
+                </div>
+                <div class="input-group-top">
+                    <label>Proveedor Destino</label>
+                    <select id="order-supplier-target">
+                        <option value="todos">Todos los Proveedores</option>
+                        <option value="refrigeracion">Casa de Refrigeración (Clima)</option>
+                        <option value="electrica">Distribuidora Eléctrica (High Volt)</option>
+                        <option value="seguridad">Mayorista de Seguridad (CCTV / Redes)</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" data-tab="computo" onclick="switchTab('computo')">
+                <span>⚡ Cómputo Rápido de Obra</span>
+            </button>
+            <button class="tab-btn" data-tab="clima" onclick="switchTab('clima')">
+                <span>❄️ Climatización & Cobre</span>
+                <span class="badge-count" id="count-clima">0</span>
+            </button>
+            <button class="tab-btn" data-tab="elec" onclick="switchTab('elec')">
+                <span>🔌 Electricidad & EV Wallbox</span>
+                <span class="badge-count" id="count-elec">0</span>
+            </button>
+            <button class="tab-btn" data-tab="cctv" onclick="switchTab('cctv')">
+                <span>📹 CCTV, Redes & Almacenamiento</span>
+                <span class="badge-count" id="count-cctv">0</span>
+            </button>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="workspace">
+            <!-- Left Area: Tabs Content -->
+            <div class="content-area">
+
+                <!-- TAB 0: CÓMPUTO RÁPIDO AUTOMÁTICO -->
+                <div class="tab-content active" id="tab-computo">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">🚀</span> Asistente de Cómputo Rápido por Parámetros</h2>
+                                <p class="card-subtitle">Ingresá los datos globales del proyecto y el calculador cargará automáticamente todos los materiales normalizados con margen de obra.</p>
+                            </div>
+                        </div>
+
+                        <div class="presets-grid">
+                            <!-- Preset Clima -->
+                            <div class="preset-card clima-border">
+                                <div class="preset-header">
+                                    <span class="preset-name">❄️ Climatización Split</span>
+                                    <span class="mat-tag tag-clima">HVAC</span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Capacidad</label>
+                                        <select id="preset-clima-cap">
+                                            <option value="3000">2250 / 3000 Fg (1/4 + 3/8)</option>
+                                            <option value="4500">4500 Fg (1/4 + 1/2)</option>
+                                            <option value="6000">6000 Fg (1/4 + 5/8)</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Cant. Equipos</label>
+                                        <input type="number" id="preset-clima-qty" value="1" min="1" max="20">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Metros Cañería / Eq.</label>
+                                        <input type="number" id="preset-clima-m" value="4" min="3" max="30">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Ménsulas & Tacos</label>
+                                        <select id="preset-clima-mensulas">
+                                            <option value="si">Sí, incluir</option>
+                                            <option value="no">No requiere</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn-calc-preset" onclick="computarClimaPreset()">
+                                    <span>➕ Cargar Materiales Clima</span>
+                                </button>
+                            </div>
+
+                            <!-- Preset Electricidad & EV -->
+                            <div class="preset-card elec-border">
+                                <div class="preset-header">
+                                    <span class="preset-name">⚡ Instalación Eléctrica / EV</span>
+                                    <span class="mat-tag tag-elec">High Volt</span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Bocas / Puntos</label>
+                                        <input type="number" id="preset-elec-bocas" value="10" min="0" max="100">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Metros Prom. p/Boca</label>
+                                        <input type="number" id="preset-elec-m-boca" value="6" min="3" max="20">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Puesta a Tierra (PAT)</label>
+                                        <select id="preset-elec-pat">
+                                            <option value="si">Jabalina 5/8 + Caja</option>
+                                            <option value="no">No incluir</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Cargador EV 20A</label>
+                                        <select id="preset-elec-ev">
+                                            <option value="no">No</option>
+                                            <option value="4mm">Sí (4mm² hasta 15m)</option>
+                                            <option value="6mm">Sí (6mm² > 15m)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn-calc-preset" onclick="computarElecPreset()">
+                                    <span>➕ Cargar Materiales Eléctrica</span>
+                                </button>
+                            </div>
+
+                            <!-- Preset CCTV -->
+                            <div class="preset-card cctv-border">
+                                <div class="preset-header">
+                                    <span class="preset-name">📹 Kit Cámaras CCTV</span>
+                                    <span class="mat-tag tag-cctv">Seguridad</span>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Cantidad Cámaras</label>
+                                        <input type="number" id="preset-cctv-cams" value="4" min="1" max="32">
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Metros UTP p/Cámara</label>
+                                        <input type="number" id="preset-cctv-m" value="25" min="5" max="150">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-field">
+                                        <label>Cajas Estancas 10x10</label>
+                                        <select id="preset-cctv-cajas">
+                                            <option value="si">1 por cada cámara</option>
+                                            <option value="no">No incluir</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-field">
+                                        <label>Almacenamiento (HDD)</label>
+                                        <select id="preset-cctv-hdd">
+                                            <option value="1tb">WD Purple 1TB</option>
+                                            <option value="2tb">WD Purple 2TB</option>
+                                            <option value="4tb">WD Purple 4TB</option>
+                                            <option value="no">Sin Disco</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <button class="btn-calc-preset" onclick="computarCctvPreset()">
+                                    <span>➕ Cargar Materiales CCTV</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 1: CLIMATIZACIÓN -->
+                <div class="tab-content" id="tab-clima">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">❄️</span> Insumos de Climatización & Refrigeración</h2>
+                                <p class="card-subtitle">Caños de cobre calidad frigorífica, aislaciones Armaflex, ménsulas, cintas y refrigerantes.</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-clima"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ELECTRICIDAD -->
+                <div class="tab-content" id="tab-elec">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">⚡</span> Insumos de Electricidad & Terminales EV</h2>
+                                <p class="card-subtitle">Conductores IRAM NM 247-3 por color, protecciones Schneider/Chint, Sintenax y tomas industriales.</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-elec"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 3: CCTV & SEGURIDAD -->
+                <div class="tab-content" id="tab-cctv">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">📹</span> Insumos de CCTV, Redes & Conectividad</h2>
+                                <p class="card-subtitle">Cable UTP 100% cobre exterior, baluns HD, conectores, fuentes conmutadas y discos de videovigilancia.</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-cctv"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Right Area: Live Order Summary -->
+            <div class="sidebar">
+                <div class="summary-card">
+                    <div class="summary-header">
+                        <h3 class="summary-title">📋 Orden de Compra</h3>
+                        <span class="badge-count" id="total-selected-items">0 ítems</span>
+                    </div>
+
+                    <div class="summary-filters">
+                        <button class="filter-btn active" onclick="filterOrderList('todos', this)">Todos</button>
+                        <button class="filter-btn" onclick="filterOrderList('clima', this)">❄️ Clima</button>
+                        <button class="filter-btn" onclick="filterOrderList('elec', this)">⚡ Elec</button>
+                        <button class="filter-btn" onclick="filterOrderList('cctv', this)">📹 CCTV</button>
+                    </div>
+
+                    <div class="order-items-list" id="order-list">
+                        <div class="empty-state">
+                            No hay materiales seleccionados aún.<br>Usá el cómputo rápido o sumá ítems desde los catálogos.
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-action btn-whatsapp" onclick="enviarWhatsApp()">
+                            <span>📲 Copiar Pedido WhatsApp</span>
+                        </button>
+                        <button class="btn-action btn-pdf" onclick="imprimirPDF()">
+                            <span>📄 Imprimir / Guardar PDF</span>
+                        </button>
+                        <button class="btn-action btn-secondary" onclick="limpiarPedido()">
+                            <span>🗑️ Vaciar Lista</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Official Template -->
+    <div id="printable-order">
+        <div class="print-header">
+            <div>
+                <h1 style="font-size: 20pt; margin: 0; color: #111;">EL CÓNDOR - SERVICIOS TÉCNICOS INTEGRALES</h1>
+                <p style="margin: 3px 0; font-size: 11pt; color: #555;">Climatización • Alta Tensión (High Volt) • Seguridad Electrónica & CCTV</p>
+                <p style="margin: 3px 0; font-size: 10pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
+            </div>
+            <div style="text-align: right;">
+                <h2 style="font-size: 14pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / PRESUPUESTO MOSTRADOR</h2>
+                <p style="margin: 3px 0; font-size: 10pt;"><b>Fecha:</b> <span id="p-date"></span></p>
+                <p style="margin: 3px 0; font-size: 10pt;"><b>Referencia Obra:</b> <span id="p-ref"></span></p>
+                <p style="margin: 3px 0; font-size: 10pt;"><b>Rubro / Destino:</b> <span id="p-supplier"></span></p>
+            </div>
+        </div>
+
+        <table class="print-table">
+            <thead>
+                <tr>
+                    <th style="width: 8%;">Ítem</th>
+                    <th style="width: 15%;">Rubro</th>
+                    <th style="width: 50%;">Descripción Técnica Normalizada / Marca</th>
+                    <th style="width: 12%; text-align: center;">Cantidad</th>
+                    <th style="width: 15%; text-align: right;">Precio Unit. (Cotizar)</th>
+                </tr>
+            </thead>
+            <tbody id="p-table-body">
+                <!-- Rows injected dynamically -->
+            </tbody>
+        </table>
+
+        <div style="margin-top: 40px; display: flex; justify-content: space-between;">
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 8px; text-align: center;">
+                <b>Firma y Aclaración (Técnico / Responsable de Compra)</b>
+            </div>
+            <div style="width: 45%; border-top: 1px solid #000; padding-top: 8px; text-align: center;">
+                <b>Recepción y Validez de Cotización (Mostrador / Proveedor)</b>
+            </div>
+        </div>
+
+        <div class="print-footer">
+            Documento emitido mediante el Sistema de Cómputo de Materiales El Cóndor. Todos los materiales eléctricos y de refrigeración deben cumplir estrictamente con normas IRAM / IEC / CACAAV.
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span id="toast-msg">Mensaje copiado con éxito</span>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS DE MATERIALES NORMALIZADOS ---
+        const CATALOGO_MATERIALES = [
+            // === CLIMATIZACIÓN ===
+            { id: 'clima_cu_14', cat: 'clima', name: 'Caño de cobre 1/4" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
+            { id: 'clima_cu_38', cat: 'clima', name: 'Caño de cobre 3/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
+            { id: 'clima_cu_12', cat: 'clima', name: 'Caño de cobre 1/2" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
+            { id: 'clima_cu_58', cat: 'clima', name: 'Caño de cobre 5/8" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280', supplier: 'Refrigeración' },
+            { id: 'clima_aisl_14', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/4"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
+            { id: 'clima_aisl_38', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 3/8"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
+            { id: 'clima_aisl_12', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 1/2"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
+            { id: 'clima_aisl_58', cat: 'clima', name: 'Aislación térmica Armaflex / elastomérica 5/8"', unit: 'Tiras 2m', sub: 'Ignífuga clase 1', supplier: 'Refrigeración' },
+            { id: 'clima_tacsa_sin', cat: 'clima', name: 'Cinta Tacsa para refrigeración (sin adhesivo)', unit: 'Rollos', sub: 'Protección UV 20m', supplier: 'Refrigeración' },
+            { id: 'clima_tacsa_con', cat: 'clima', name: 'Cinta Tacsa aisladora para cañerías (con adhesivo)', unit: 'Rollos', sub: 'Fijación de aislaciones', supplier: 'Refrigeración' },
+            { id: 'clima_mensulas_42', cat: 'clima', name: 'Ménsulas de chapa 42cm reforzadas (hasta 3000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería', supplier: 'Refrigeración' },
+            { id: 'clima_mensulas_52', cat: 'clima', name: 'Ménsulas de chapa 52cm reforzadas (4500/6000 Fg)', unit: 'Juegos (Par)', sub: 'Pintura epoxi con bulonería', supplier: 'Refrigeración' },
+            { id: 'clima_tacos_goma', cat: 'clima', name: 'Tacos antivibratorios de goma cónicos + tuercas', unit: 'Juegos (x4)', sub: 'Amortiguación de compresor', supplier: 'Refrigeración' },
+            { id: 'clima_cable_taller_515', cat: 'clima', name: 'Cable tipo Taller 5x1.5mm² para interconexión', unit: 'Metros', sub: 'Norma IRAM 2178/247', supplier: 'Eléctrica' },
+            { id: 'clima_manguera_drenaje', cat: 'clima', name: 'Manguera cristal reforzada / corrugado drenaje 5/8"', unit: 'Metros', sub: 'Descarga de condensado', supplier: 'Refrigeración' },
+            { id: 'clima_canaleta_kit', cat: 'clima', name: 'Canaleta estética para aire 60x100mm + codos y tapas', unit: 'Tiras 2m', sub: 'PVC rígido blanco', supplier: 'Refrigeración' },
+            { id: 'clima_gas_r410a', cat: 'clima', name: 'Garrafa Gas Refrigerante R410A (descartable)', unit: 'Garrafas (kg)', sub: 'Ecológico HFC', supplier: 'Refrigeración' },
+            { id: 'clima_gas_r32', cat: 'clima', name: 'Garrafa Gas Refrigerante R32', unit: 'Garrafas (kg)', sub: 'Nueva generación Inverter', supplier: 'Refrigeración' },
+
+            // === ELECTRICIDAD (HIGH VOLT) ===
+            { id: 'elec_unip_15_negro', cat: 'elec', name: 'Cable unipolar 1.5mm² NEGRO (Fase Retorno)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_15_marron', cat: 'elec', name: 'Cable unipolar 1.5mm² MARRÓN (Fase Retorno)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_15_celeste', cat: 'elec', name: 'Cable unipolar 1.5mm² CELESTE (Neutro)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_15_va', cat: 'elec', name: 'Cable unipolar 1.5mm² VERDE/AMARILLO (Tierra)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_25_marron', cat: 'elec', name: 'Cable unipolar 2.5mm² MARRÓN / ROJO (Fase TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_25_celeste', cat: 'elec', name: 'Cable unipolar 2.5mm² CELESTE (Neutro TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_25_va', cat: 'elec', name: 'Cable unipolar 2.5mm² VERDE/AMARILLO (Tierra TUG)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_40_marron', cat: 'elec', name: 'Cable unipolar 4.0mm² MARRÓN / ROJO (Fase TUE / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_40_celeste', cat: 'elec', name: 'Cable unipolar 4.0mm² CELESTE (Neutro TUE / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_40_va', cat: 'elec', name: 'Cable unipolar 4.0mm² VERDE/AMARILLO (Tierra 4mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_60_marron', cat: 'elec', name: 'Cable unipolar 6.0mm² MARRÓN / ROJO (Alimentador / EV)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_60_celeste', cat: 'elec', name: 'Cable unipolar 6.0mm² CELESTE (Neutro 6mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            { id: 'elec_unip_60_va', cat: 'elec', name: 'Cable unipolar 6.0mm² VERDE/AMARILLO (Tierra 6mm²)', unit: 'Metros / Rollo', sub: 'IRAM NM 247-3 (Prysmian/Kalop)', supplier: 'Eléctrica' },
+            
+            { id: 'elec_sint_2x4', cat: 'elec', name: 'Cable subterráneo Sintenax 2x4mm² cobre', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
+            { id: 'elec_sint_4x4', cat: 'elec', name: 'Cable subterráneo Sintenax 4x4mm² trifásico', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
+            { id: 'elec_sint_4x6', cat: 'elec', name: 'Cable subterráneo Sintenax 4x6mm² trifásico', unit: 'Metros', sub: 'IRAM 2178 doble aislación', supplier: 'Eléctrica' },
+
+            { id: 'elec_term_2x16', cat: 'elec', name: 'Térmica bipolar 2x16A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito IUG iluminación', supplier: 'Eléctrica' },
+            { id: 'elec_term_2x20', cat: 'elec', name: 'Térmica bipolar 2x20A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito TUG tomas / EV 4mm²', supplier: 'Eléctrica' },
+            { id: 'elec_term_2x25', cat: 'elec', name: 'Térmica bipolar 2x25A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Circuito TUE tomas / EV 6mm²', supplier: 'Eléctrica' },
+            { id: 'elec_term_2x32', cat: 'elec', name: 'Térmica bipolar 2x32A Curva C (Schneider / Chint)', unit: 'Unidades', sub: 'Corte general seccional', supplier: 'Eléctrica' },
+            { id: 'elec_disy_2x25_clase_a', cat: 'elec', name: 'Disyuntor Diferencial 2x25A 30mA CLASE A (EV / Electrónica)', unit: 'Unidades', sub: 'Schneider iID / Chint (Inmunizado DC)', supplier: 'Eléctrica' },
+            { id: 'elec_disy_2x40_ac', cat: 'elec', name: 'Disyuntor Diferencial 2x40A 30mA Clase AC (Estándar)', unit: 'Unidades', sub: 'Protección personas residencial', supplier: 'Eléctrica' },
+
+            { id: 'elec_jabalina_58_15m', cat: 'elec', name: 'Jabalina acero-cobre 5/8" x 1.50m IRAM 2309', unit: 'Unidades', sub: 'FacBSA / Grampas / Tomacable', supplier: 'Eléctrica' },
+            { id: 'elec_jabalina_58_3m', cat: 'elec', name: 'Jabalina acero-cobre 5/8" x 3.00m IRAM 2309', unit: 'Unidades', sub: 'Para PAT dedicada <10 Ohms', supplier: 'Eléctrica' },
+            { id: 'elec_caja_pat_inspec', cat: 'elec', name: 'Caja de inspección de puesta a tierra 15x15cm con tapa', unit: 'Unidades', sub: 'PVC de piso / vereda', supplier: 'Eléctrica' },
+            { id: 'elec_toma_scame_20a', cat: 'elec', name: 'Tomacorriente Scame Protecta IP66 2P+T 20A / CEE', unit: 'Unidades', sub: 'Macho/Hembra p/Cargador EV', supplier: 'Eléctrica' },
+            { id: 'elec_corrugado_34', cat: 'elec', name: 'Caño corrugado ignífugo blanco 3/4" (Rollo 25m)', unit: 'Rollos', sub: 'IRAM 62386', supplier: 'Eléctrica' },
+            { id: 'elec_caja_rectangular', cat: 'elec', name: 'Caja de chapa / PVC rectangular 10x5cm', unit: 'Unidades', sub: 'Para llaves y tomas', supplier: 'Eléctrica' },
+            { id: 'elec_caja_octogonal', cat: 'elec', name: 'Caja de chapa / PVC octogonal chica/grande', unit: 'Unidades', sub: 'Para centros de iluminación', supplier: 'Eléctrica' },
+
+            // === CCTV & SEGURIDAD ===
+            { id: 'cctv_utp_ext_cat5e', cat: 'cctv', name: 'Cable UTP exterior Cat5e 100% Cobre (Doble vaina negra)', unit: 'Metros / Bobina', sub: 'Para cámaras de seguridad', supplier: 'Seguridad' },
+            { id: 'cctv_bobina_utp_305', cat: 'cctv', name: 'Bobina cerrada cable UTP exterior 305m 100% cobre', unit: 'Bobinas (305m)', sub: 'Homologado CCTV HD / IP', supplier: 'Seguridad' },
+            { id: 'cctv_baluns_hd', cat: 'cctv', name: 'Balun pasivo de video HD hasta 5MP (Par)', unit: 'Pares', sub: 'Para transmisión por UTP', supplier: 'Seguridad' },
+            { id: 'cctv_plug_macho', cat: 'cctv', name: 'Conector Plug macho 12V con bornera a tornillo', unit: 'Unidades', sub: 'Alimentación de cámara', supplier: 'Seguridad' },
+            { id: 'cctv_plug_hembra', cat: 'cctv', name: 'Conector Plug hembra 12V con bornera a tornillo', unit: 'Unidades', sub: 'Acople de fuente', supplier: 'Seguridad' },
+            { id: 'cctv_fuente_12v_2a', cat: 'cctv', name: 'Fuente switching individual 12V 2A real', unit: 'Unidades', sub: 'Para 1 o 2 cámaras', supplier: 'Seguridad' },
+            { id: 'cctv_fuente_central_5a', cat: 'cctv', name: 'Fuente metálica switching conmutada 12V 5A', unit: 'Unidades', sub: 'Para hasta 4 cámaras con bornera', supplier: 'Seguridad' },
+            { id: 'cctv_fuente_central_10a', cat: 'cctv', name: 'Fuente metálica switching conmutada 12V 10A', unit: 'Unidades', sub: 'Para 8 cámaras con fusible térmico', supplier: 'Seguridad' },
+            { id: 'cctv_caja_estanca_10x10', cat: 'cctv', name: 'Caja estanca IP65 10x10x7cm con conos de goma', unit: 'Unidades', sub: 'Protección conexiones de cámara', supplier: 'Seguridad' },
+            { id: 'cctv_reja_proteccion', cat: 'cctv', name: 'Reja de protección metálica antivandálica con candado', unit: 'Unidades', sub: 'Hierro desplegado para bullet', supplier: 'Seguridad' },
+            { id: 'cctv_soporte_poste', cat: 'cctv', name: 'Soporte abrazadera metálica para poste / columna', unit: 'Unidades', sub: 'Montaje de domos y cámaras', supplier: 'Seguridad' },
+            { id: 'cctv_hdd_1tb_purple', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
+            { id: 'cctv_hdd_2tb_purple', cat: 'cctv', name: 'Disco Rígido 2TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
+            { id: 'cctv_hdd_4tb_purple', cat: 'cctv', name: 'Disco Rígido 4TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Garantía oficial videovigilancia', supplier: 'Seguridad' },
+            { id: 'cctv_tarugos_tornillos', cat: 'cctv', name: 'Bolsa tarugos del 6/8 con tope + tornillos fixx (x100)', unit: 'Bolsas (x100)', sub: 'Fijaciones para cajas y cámaras', supplier: 'Seguridad' },
+            { id: 'cctv_precintos_uv', cat: 'cctv', name: 'Precintos plásticos negros con protección UV 200mm (x100)', unit: 'Paquetes (x100)', sub: 'Sujeción de cables exterior', supplier: 'Seguridad' }
+        ];
+
+        // Estado de materiales seleccionados: { id: cantidad }
+        let selectedItems = {};
+        let activeFilter = 'todos';
+
+        // Inicializar fecha
+        document.addEventListener('DOMContentLoaded', () => {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('order-date').value = today;
+            
+            // Cargar de LocalStorage si existe
+            cargarEstadoLocal();
+            
+            // Renderizar catálogos
+            renderCatalogos();
+            actualizarResumen();
+        });
+
+        // Cambio de pestañas
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            if (btn) btn.classList.add('active');
+
+            const content = document.getElementById(`tab-${tabId}`);
+            if (content) content.classList.add('active');
+        }
+
+        // Renderizar los grids de materiales
+        function renderCatalogos() {
+            const gridClima = document.getElementById('grid-clima');
+            const gridElec = document.getElementById('grid-elec');
+            const gridCctv = document.getElementById('grid-cctv');
+
+            gridClima.innerHTML = '';
+            gridElec.innerHTML = '';
+            gridCctv.innerHTML = '';
+
+            CATALOGO_MATERIALES.forEach(item => {
+                const qty = selectedItems[item.id] || 0;
+                const isSel = qty > 0;
+                
+                const card = document.createElement('div');
+                card.className = `mat-item ${isSel ? 'selected' : ''}`;
+                card.id = `card-item-${item.id}`;
+
+                const tagClass = item.cat === 'clima' ? 'tag-clima' : (item.cat === 'elec' ? 'tag-elec' : 'tag-cctv');
+
+                card.innerHTML = `
+                    <div class="mat-header">
+                        <div class="mat-name">${item.name}</div>
+                        <span class="mat-tag ${tagClass}">${item.cat.toUpperCase()}</span>
+                    </div>
+                    <div class="mat-sub">
+                        <span>🏷️ ${item.sub}</span>
+                        <span>• 🏢 ${item.supplier}</span>
+                    </div>
+                    <div class="mat-controls">
+                        <span class="unit-label">${item.unit}</span>
+                        <div class="qty-stepper">
+                            <button class="btn-step" onclick="changeQty('${item.id}', -1)">-</button>
+                            <input type="number" class="qty-input" id="input-${item.id}" value="${qty}" min="0" onchange="setQtyManual('${item.id}', this.value)">
+                            <button class="btn-step" onclick="changeQty('${item.id}', 1)">+</button>
+                        </div>
+                    </div>
+                `;
+
+                if (item.cat === 'clima') gridClima.appendChild(card);
+                else if (item.cat === 'elec') gridElec.appendChild(card);
+                else if (item.cat === 'cctv') gridCctv.appendChild(card);
+            });
+        }
+
+        // Modificar cantidad con stepper
+        function changeQty(itemId, delta) {
+            const current = selectedItems[itemId] || 0;
+            const next = Math.max(0, current + delta);
+            setQty(itemId, next);
+        }
+
+        function setQtyManual(itemId, val) {
+            const n = Math.max(0, parseInt(val) || 0);
+            setQty(itemId, n);
+        }
+
+        function setQty(itemId, qty) {
+            if (qty > 0) {
+                selectedItems[itemId] = qty;
+            } else {
+                delete selectedItems[itemId];
+            }
+
+            // Actualizar input y estilo
+            const input = document.getElementById(`input-${itemId}`);
+            if (input) input.value = qty;
+
+            const card = document.getElementById(`card-item-${itemId}`);
+            if (card) {
+                if (qty > 0) card.classList.add('selected');
+                else card.classList.remove('selected');
+            }
+
+            guardarEstadoLocal();
+            actualizarResumen();
+        }
+
+        // Actualizar resumen lateral y badges
+        function actualizarResumen() {
+            let totalCount = 0;
+            let cClima = 0;
+            let cElec = 0;
+            let cCctv = 0;
+
+            const orderList = document.getElementById('order-list');
+            orderList.innerHTML = '';
+
+            const keys = Object.keys(selectedItems);
+
+            keys.forEach(id => {
+                const qty = selectedItems[id];
+                if (qty <= 0) return;
+
+                const item = CATALOGO_MATERIALES.find(m => m.id === id);
+                if (!item) return;
+
+                totalCount++;
+                if (item.cat === 'clima') cClima++;
+                if (item.cat === 'elec') cElec++;
+                if (item.cat === 'cctv') cCctv++;
+
+                // Verificar filtro
+                if (activeFilter !== 'todos' && item.cat !== activeFilter) return;
+
+                const row = document.createElement('div');
+                row.className = 'order-item-row';
+                row.innerHTML = `
+                    <div class="order-item-info">
+                        <span class="order-item-title">${item.name}</span>
+                        <span class="order-item-supplier">${item.supplier} • ${item.unit}</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span class="order-item-qty">${qty} ${item.unit.split(' ')[0]}</span>
+                        <button class="btn-remove-item" onclick="setQty('${item.id}', 0)" title="Quitar">✕</button>
+                    </div>
+                `;
+                orderList.appendChild(row);
+            });
+
+            if (orderList.children.length === 0) {
+                orderList.innerHTML = `
+                    <div class="empty-state">
+                        ${keys.length === 0 ? 'No hay materiales seleccionados aún.<br>Usá el cómputo rápido o sumá ítems desde los catálogos.' : 'No hay ítems seleccionados para este filtro.'}
+                    </div>
+                `;
+            }
+
+            // Actualizar badges
+            document.getElementById('total-selected-items').innerText = `${totalCount} ítems`;
+            document.getElementById('count-clima').innerText = cClima;
+            document.getElementById('count-elec').innerText = cElec;
+            document.getElementById('count-cctv').innerText = cCctv;
+        }
+
+        function filterOrderList(cat, btn) {
+            activeFilter = cat;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            actualizarResumen();
+        }
+
+        // --- PRESETS AUTOMÁTICOS DE CÓMPUTO ---
+        function computarClimaPreset() {
+            const cap = document.getElementById('preset-clima-cap').value;
+            const nEq = parseInt(document.getElementById('preset-clima-qty').value) || 1;
+            const mPerEq = parseInt(document.getElementById('preset-clima-m').value) || 4;
+            const incMensulas = document.getElementById('preset-clima-mensulas').value === 'si';
+
+            const totalM = nEq * mPerEq;
+            const tirasAisl = Math.ceil(totalM / 2);
+
+            // Caños según capacidad
+            if (cap === '3000') {
+                sumarItem('clima_cu_14', totalM);
+                sumarItem('clima_cu_38', totalM);
+                sumarItem('clima_aisl_14', tirasAisl);
+                sumarItem('clima_aisl_38', tirasAisl);
+                if (incMensulas) {
+                    sumarItem('clima_mensulas_42', nEq);
+                    sumarItem('clima_tacos_goma', nEq);
+                }
+            } else if (cap === '4500') {
+                sumarItem('clima_cu_14', totalM);
+                sumarItem('clima_cu_12', totalM);
+                sumarItem('clima_aisl_14', tirasAisl);
+                sumarItem('clima_aisl_12', tirasAisl);
+                if (incMensulas) {
+                    sumarItem('clima_mensulas_52', nEq);
+                    sumarItem('clima_tacos_goma', nEq);
+                }
+            } else if (cap === '6000') {
+                sumarItem('clima_cu_14', totalM);
+                sumarItem('clima_cu_58', totalM);
+                sumarItem('clima_aisl_14', tirasAisl);
+                sumarItem('clima_aisl_58', tirasAisl);
+                if (incMensulas) {
+                    sumarItem('clima_mensulas_52', nEq);
+                    sumarItem('clima_tacos_goma', nEq);
+                }
+            }
+
+            sumarItem('clima_tacsa_sin', Math.ceil(totalM / 5));
+            sumarItem('clima_tacsa_con', nEq);
+            sumarItem('clima_cable_taller_515', totalM + (nEq * 2)); // 2m extra por equipo
+            sumarItem('clima_manguera_drenaje', totalM);
+
+            mostrarToast(`¡Cómputo Clima cargado para ${nEq} equipo(s)!`);
+        }
+
+        function computarElecPreset() {
+            const bocas = parseInt(document.getElementById('preset-elec-bocas').value) || 0;
+            const mBoca = parseInt(document.getElementById('preset-elec-m-boca').value) || 6;
+            const incPat = document.getElementById('preset-elec-pat').value === 'si';
+            const evOption = document.getElementById('preset-elec-ev').value;
+
+            if (bocas > 0) {
+                const totalCable = Math.round(bocas * mBoca * 1.15); // +15% desperdicio/curvas
+                sumarItem('elec_unip_25_marron', totalCable);
+                sumarItem('elec_unip_25_celeste', totalCable);
+                sumarItem('elec_unip_25_va', totalCable);
+                sumarItem('elec_caja_rectangular', Math.ceil(bocas * 0.7));
+                sumarItem('elec_caja_octogonal', Math.ceil(bocas * 0.3));
+                sumarItem('elec_corrugado_34', Math.ceil((bocas * mBoca) / 25));
+                sumarItem('elec_term_2x20', Math.max(1, Math.ceil(bocas / 12)));
+                sumarItem('elec_disy_2x40_ac', 1);
+            }
+
+            if (incPat) {
+                sumarItem('elec_jabalina_58_15m', 1);
+                sumarItem('elec_caja_pat_inspec', 1);
+                sumarItem('elec_unip_40_va', 10); // puente hasta tablero
+            }
+
+            if (evOption === '4mm') {
+                sumarItem('elec_unip_40_marron', 18);
+                sumarItem('elec_unip_40_celeste', 18);
+                sumarItem('elec_unip_40_va', 18);
+                sumarItem('elec_term_2x20', 1);
+                sumarItem('elec_disy_2x25_clase_a', 1);
+                sumarItem('elec_toma_scame_20a', 1);
+                sumarItem('elec_jabalina_58_3m', 1);
+                sumarItem('elec_caja_pat_inspec', 1);
+            } else if (evOption === '6mm') {
+                sumarItem('elec_unip_60_marron', 25);
+                sumarItem('elec_unip_60_celeste', 25);
+                sumarItem('elec_unip_60_va', 25);
+                sumarItem('elec_term_2x25', 1);
+                sumarItem('elec_disy_2x25_clase_a', 1);
+                sumarItem('elec_toma_scame_20a', 1);
+                sumarItem('elec_jabalina_58_3m', 1);
+                sumarItem('elec_caja_pat_inspec', 1);
+            }
+
+            mostrarToast(`¡Cómputo Eléctrico y protecciones cargado!`);
+        }
+
+        function computarCctvPreset() {
+            const nCams = parseInt(document.getElementById('preset-cctv-cams').value) || 4;
+            const mPerCam = parseInt(document.getElementById('preset-cctv-m').value) || 25;
+            const incCajas = document.getElementById('preset-cctv-cajas').value === 'si';
+            const hddOption = document.getElementById('preset-cctv-hdd').value;
+
+            const totalM = nCams * mPerCam;
+            if (totalM >= 250) {
+                sumarItem('cctv_bobina_utp_305', 1);
+            } else {
+                sumarItem('cctv_utp_ext_cat5e', totalM);
+            }
+
+            sumarItem('cctv_baluns_hd', nCams);
+            sumarItem('cctv_plug_macho', nCams);
+            sumarItem('cctv_plug_hembra', nCams);
+
+            if (incCajas) sumarItem('cctv_caja_estanca_10x10', nCams);
+            sumarItem('cctv_tarugos_tornillos', 1);
+            sumarItem('cctv_precintos_uv', 1);
+
+            // Fuente según cantidad
+            if (nCams <= 2) {
+                sumarItem('cctv_fuente_12v_2a', nCams);
+            } else if (nCams <= 4) {
+                sumarItem('cctv_fuente_central_5a', 1);
+            } else {
+                sumarItem('cctv_fuente_central_10a', 1);
+            }
+
+            if (hddOption === '1tb') sumarItem('cctv_hdd_1tb_purple', 1);
+            else if (hddOption === '2tb') sumarItem('cctv_hdd_2tb_purple', 1);
+            else if (hddOption === '4tb') sumarItem('cctv_hdd_4tb_purple', 1);
+
+            mostrarToast(`¡Cómputo CCTV para ${nCams} cámaras cargado!`);
+        }
+
+        function sumarItem(itemId, qtyAdd) {
+            const current = selectedItems[itemId] || 0;
+            setQty(itemId, current + qtyAdd);
+        }
+
+        // --- EXPORTACIÓN Y SALIDAS ---
+        function enviarWhatsApp() {
+            const keys = Object.keys(selectedItems);
+            if (keys.length === 0) {
+                alert("Seleccioná al menos un material antes de enviar el pedido.");
+                return;
+            }
+
+            const ref = document.getElementById('order-ref').value || 'Sin especificar';
+            const date = document.getElementById('order-date').value || new Date().toISOString().split('T')[0];
+
+            let text = `📦 *ORDEN DE COMPRA DE MATERIALES - EL CÓNDOR*\n`;
+            text += `📅 *Fecha:* ${date}\n`;
+            text += `📍 *Obra / Ref:* ${ref}\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━\n\n`;
+
+            // Agrupar por categoría
+            const categorias = {
+                clima: { title: '❄️ *CLIMATIZACIÓN & REFRIGERACIÓN:*', items: [] },
+                elec: { title: '⚡ *ELECTRICIDAD & TABLEROS:*', items: [] },
+                cctv: { title: '📹 *CCTV & SEGURIDAD ELECTRÓNICA:*', items: [] }
+            };
+
+            keys.forEach(id => {
+                const qty = selectedItems[id];
+                if (qty <= 0) return;
+                const m = CATALOGO_MATERIALES.find(item => item.id === id);
+                if (m) {
+                    categorias[m.cat].items.push(`▫️ *${qty} ${m.unit}* - ${m.name} _(${m.sub})_`);
+                }
+            });
+
+            for (const c in categorias) {
+                if (categorias[c].items.length > 0) {
+                    text += `${categorias[c].title}\n`;
+                    text += categorias[c].items.join('\n') + `\n\n`;
+                }
+            }
+
+            text += `━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `*Por favor confirmar disponibilidad y cotización a la brevedad. Gracias!*`;
+
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(text).then(() => {
+                mostrarToast("📋 ¡Pedido copiado en formato WhatsApp!");
+            }).catch(() => {
+                // Fallback prompt
+                prompt("Copia el texto del pedido:", text);
+            });
+        }
+
+        function imprimirPDF() {
+            const keys = Object.keys(selectedItems);
+            if (keys.length === 0) {
+                alert("Seleccioná al menos un material antes de generar la orden.");
+                return;
+            }
+
+            // Preparar datos imprimibles
+            document.getElementById('p-date').innerText = document.getElementById('order-date').value || new Date().toISOString().split('T')[0];
+            document.getElementById('p-ref').innerText = document.getElementById('order-ref').value || 'Obra General';
+            
+            const supSelect = document.getElementById('order-supplier-target');
+            document.getElementById('p-supplier').innerText = supSelect.options[supSelect.selectedIndex].text;
+
+            const tbody = document.getElementById('p-table-body');
+            tbody.innerHTML = '';
+
+            let itemNum = 1;
+            keys.forEach(id => {
+                const qty = selectedItems[id];
+                if (qty <= 0) return;
+                const m = CATALOGO_MATERIALES.find(item => item.id === id);
+                if (!m) return;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="text-align: center; font-weight: bold;">${itemNum++}</td>
+                    <td><span style="font-size: 8pt; text-transform: uppercase; font-weight: bold;">${m.supplier}</span></td>
+                    <td>
+                        <b>${m.name}</b><br>
+                        <span style="font-size: 8pt; color: #555;">${m.sub}</span>
+                    </td>
+                    <td style="text-align: center; font-weight: bold;">${qty} ${m.unit}</td>
+                    <td style="text-align: right; color: #777;">$ ...................</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            // Disparar diálogo de impresión
+            window.print();
+        }
+
+        function limpiarPedido() {
+            if (confirm("¿Seguro que deseas vaciar toda la lista de materiales?")) {
+                selectedItems = {};
+                guardarEstadoLocal();
+                renderCatalogos();
+                actualizarResumen();
+                mostrarToast("Lista de materiales vaciada");
+            }
+        }
+
+        function mostrarToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => {
+                t.classList.remove('show');
+            }, 3000);
+        }
+
+        // LocalStorage
+        function guardarEstadoLocal() {
+            try {
+                localStorage.setItem('elcondor_mat_calc_items', JSON.stringify(selectedItems));
+                localStorage.setItem('elcondor_mat_calc_ref', document.getElementById('order-ref').value);
+            } catch (e) {}
+        }
+
+        function cargarEstadoLocal() {
+            try {
+                const saved = localStorage.getItem('elcondor_mat_calc_items');
+                if (saved) selectedItems = JSON.parse(saved);
+                const ref = localStorage.getItem('elcondor_mat_calc_ref');
+                if (ref) document.getElementById('order-ref').value = ref;
+            } catch (e) {}
+        }
+    </script>
+</body>
+</html>

@@ -25,6 +25,8 @@
             --elec-glow: rgba(245, 158, 11, 0.25);
             --cctv: #10b981;
             --cctv-glow: rgba(16, 185, 129, 0.25);
+            --alarma: #8b5cf6;
+            --alarma-glow: rgba(139, 92, 246, 0.25);
             --accent: #3b82f6;
             --accent-glow: rgba(59, 130, 246, 0.3);
             
@@ -47,7 +49,7 @@
             background-color: var(--bg-main);
             background-image: 
                 radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(6, 182, 212, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 50%),
                 radial-gradient(at 50% 100%, rgba(245, 158, 11, 0.08) 0px, transparent 50%);
             background-attachment: fixed;
             color: var(--text-main);
@@ -205,6 +207,13 @@
             box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
         }
 
+        .tab-btn.active[data-tab="alarma"] {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+            color: #a78bfa;
+            border-color: rgba(139, 92, 246, 0.5);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
         .tab-btn.active[data-tab="elec"] {
             background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.05));
             color: #fbbf24;
@@ -323,6 +332,12 @@
             transform: translateY(-2px);
         }
 
+        .preset-card.alarma-special {
+            border-left: 5px solid #8b5cf6;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(11, 17, 32, 0.85));
+            border-color: rgba(139, 92, 246, 0.4);
+        }
+
         .preset-card.ev-special {
             border-left: 5px solid #ef4444;
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(11, 17, 32, 0.85));
@@ -401,6 +416,16 @@
             border-color: rgba(59, 130, 246, 0.6);
         }
 
+        .btn-calc-preset.alarma-btn {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.35), rgba(124, 58, 237, 0.2));
+            border-color: rgba(139, 92, 246, 0.6);
+            color: #ddd6fe;
+        }
+        .btn-calc-preset.alarma-btn:hover {
+            background: rgba(139, 92, 246, 0.5);
+            color: #ffffff;
+        }
+
         .btn-calc-preset.ev-btn {
             background: linear-gradient(135deg, rgba(239, 68, 68, 0.3), rgba(220, 38, 38, 0.15));
             border-color: rgba(239, 68, 68, 0.6);
@@ -476,6 +501,7 @@
         .tag-clima { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
         .tag-elec { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
         .tag-cctv { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .tag-alarma { background: rgba(139, 92, 246, 0.18); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.4); }
 
         .mat-sub {
             font-size: 0.75rem;
@@ -866,7 +892,7 @@
                 <div class="brand-icon">📦</div>
                 <div class="brand-text">
                     <h1>EL CÓNDOR <span>Materiales Mostrador v2.0</span></h1>
-                    <p>Cómputo Técnico y Órdenes de Compra con Códigos de Distribuidor (Clima • High Volt • EV • CCTV)</p>
+                    <p>Cómputo Técnico y Órdenes de Compra en Pesos Argentinos (ARS) • Clima • High Volt • EV • Alarmas • CCTV</p>
                 </div>
             </div>
 
@@ -877,12 +903,13 @@
                 </div>
                 <div class="input-group-top">
                     <label>Obra / Referencia</label>
-                    <input type="text" id="order-ref" placeholder="Ej: Obra EV 20A / Dpto 4B">
+                    <input type="text" id="order-ref" placeholder="Ej: Obra Alarma Intelbras / Dpto 4B">
                 </div>
                 <div class="input-group-top">
                     <label>Distribuidor / Destino</label>
                     <select id="order-supplier-target">
                         <option value="todos">Todos los Proveedores</option>
+                        <option value="alarma">Mayorista de Seguridad (Alarmas Intelbras)</option>
                         <option value="electrica">Distribuidora Eléctrica (High Volt / EV)</option>
                         <option value="refrigeracion">Casa de Refrigeración (Clima)</option>
                         <option value="seguridad">Mayorista de Seguridad (CCTV / Redes)</option>
@@ -895,6 +922,10 @@
         <div class="tabs-nav">
             <button class="tab-btn active" data-tab="computo" onclick="switchTab('computo')">
                 <span>⚡ Cómputo Rápido de Obra</span>
+            </button>
+            <button class="tab-btn" data-tab="alarma" onclick="switchTab('alarma')">
+                <span>🚨 Centrales de Alarma Intelbras</span>
+                <span class="badge-count" id="count-alarma">0</span>
             </button>
             <button class="tab-btn" data-tab="elec" onclick="switchTab('elec')">
                 <span>🔌 Electricidad, Kalop & EV</span>
@@ -921,26 +952,43 @@
                         <div class="card-header">
                             <div>
                                 <h2 class="card-title"><span class="icon">🚀</span> Asistente de Cómputo y Kits Preconfigurados</h2>
-                                <p class="card-subtitle">Elegí el kit de obra o presupuesto y cargá al instante los materiales con códigos exactos de distribuidor.</p>
+                                <p class="card-subtitle">Elegí el kit de obra y cargá al instante los materiales con códigos exactos de distribuidor en Pesos Argentinos (ARS).</p>
                             </div>
                         </div>
 
                         <div class="presets-grid">
                             
-                            <!-- PRESET ESTRELLA: KIT EXACTO CARGADOR EV 20A CON CÓDIGOS DE DISTRIBUIDOR -->
+                            <!-- PRESET ESTRELLA: KIT CENTRAL DE ALARMA INTELBRAS AMT 8000 PRO -->
+                            <div class="preset-card alarma-special">
+                                <div class="preset-header">
+                                    <span class="preset-name" style="color: #ddd6fe;">🚨 Kit Alarma Intelbras AMT 8000 PRO</span>
+                                    <span class="mat-tag" style="background: rgba(139, 92, 246, 0.25); color: #c4b5fd; border: 1px solid rgba(139, 92, 246, 0.5);">Pesos Argentinos</span>
+                                </div>
+                                <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
+                                    Carga exactamente el <b>presupuesto oficial del distribuidor</b> en Pesos Argentinos (T.C. $1.545):
+                                    <br>• <b>1x AMT 8000 PRO:</b> Central Inalámbrica 64 Zonas Wi-Fi ($213.256,35)
+                                    <br>• <b>4x XAS 8000:</b> Sensores Magnéticos Inalámbricos con baterías ($142.819,80)
+                                    <br>• <b>2x IVP 8000 EX:</b> Sensores Doble PIR Inalámbricos Exterior 110° ($213.580,80)
+                                    <br>• <b>2x XAC 8000:</b> Controles Remotos Anti-Bloqueo ($61.985,40)
+                                    <br><b style="color: #fbbf24;">Subtotal Neto: $631.642,35 • Con IVA (21%): $764.287,24</b>
+                                </p>
+                                <button class="btn-calc-preset alarma-btn" onclick="computarKitRealAlarma()">
+                                    <span>🚨 Cargar Kit Alarma Intelbras Completo (ARS $764.287,24)</span>
+                                </button>
+                            </div>
+
+                            <!-- PRESET ESTRELLA 2: KIT EXACTO CARGADOR EV 20A CON CÓDIGOS DE DISTRIBUIDOR -->
                             <div class="preset-card ev-special">
                                 <div class="preset-header">
                                     <span class="preset-name" style="color: #fca5a5;">🚗⚡ Kit Cargador EV 20A Completo</span>
                                     <span class="mat-tag" style="background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4);">Presupuesto Real</span>
                                 </div>
                                 <p style="font-size: 0.8rem; color: #cbd5e1; line-height: 1.4;">
-                                    Carga exactamente los <b>18 ítems reales</b> de distribuidor eléctrico para instalación de cargador vehicular portátil / wallbox 20A:
-                                    <br>• 20m Sintenax 2x6mm² 1.1kV
-                                    <br>• Caños PVC Kalop semipesado 20mm + Conectores + Grampas + Curvas
-                                    <br>• Térmica Chint 2x25A 6kA + Disyuntor Chint NL210 40A 30mA Clase B
-                                    <br>• Prensacables 3/4" + Cajas Forli 90x90 y Tablero DIN 4 bocas
-                                    <br>• Módulo Toma Cambre 20A con tierra + Caja exterior Siglo XXII
-                                    <br>• 2x Barras cobreadas 1/2" x 1.50m con tomacable + 2 Cajas de inspección PVC
+                                    Los <b>18 ítems de distribuidor eléctrico</b> para cargador vehicular / wallbox 20A:
+                                    <br>• 20m Sintenax 2x6mm² + Caño Kalop semipesado 20mm + Conectores + Curvas
+                                    <br>• Térmica Chint 2x25A + Disyuntor Chint NL210 40A 30mA Clase B
+                                    <br>• Módulo Toma Cambre 20A + Caja Siglo XXII + 2x Jabalinas 1/2" x 1.5m
+                                    <br><b style="color: #fbbf24;">Total con IVA: $624.948,12</b>
                                 </p>
                                 <button class="btn-calc-preset ev-btn" onclick="computarKitRealEV20A()">
                                     <span>🔥 Cargar Presupuesto Completo EV 20A (18 Ítems)</span>
@@ -967,7 +1015,7 @@
                                     <div class="form-field">
                                         <label>Puesta a Tierra (PAT)</label>
                                         <select id="preset-elec-pat">
-                                            <option value="si">Jabalina 5/8 + Caja</option>
+                                            <option value="si">Jabalina + Caja</option>
                                             <option value="no">No incluir</option>
                                         </select>
                                     </div>
@@ -1022,50 +1070,24 @@
                                 </button>
                             </div>
 
-                            <!-- Preset CCTV -->
-                            <div class="preset-card cctv-border">
-                                <div class="preset-header">
-                                    <span class="preset-name">📹 Kit Cámaras CCTV</span>
-                                    <span class="mat-tag tag-cctv">Seguridad</span>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Cantidad Cámaras</label>
-                                        <input type="number" id="preset-cctv-cams" value="4" min="1" max="32">
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Metros UTP p/Cám.</label>
-                                        <input type="number" id="preset-cctv-m" value="25" min="5" max="150">
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-field">
-                                        <label>Cajas Estancas 10x10</label>
-                                        <select id="preset-cctv-cajas">
-                                            <option value="si">1 por cada cámara</option>
-                                            <option value="no">No incluir</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-field">
-                                        <label>Disco (HDD)</label>
-                                        <select id="preset-cctv-hdd">
-                                            <option value="1tb">WD Purple 1TB</option>
-                                            <option value="2tb">WD Purple 2TB</option>
-                                            <option value="4tb">WD Purple 4TB</option>
-                                            <option value="no">Sin Disco</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <button class="btn-calc-preset" onclick="computarCctvPreset()">
-                                    <span>➕ Cargar Materiales CCTV</span>
-                                </button>
-                            </div>
-
                         </div>
                     </div>
                 </div>
 
-                <!-- TAB 1: ELECTRICIDAD & KALOP & EV -->
+                <!-- TAB 1: ALARMAS INTELBRAS -->
+                <div class="tab-content" id="tab-alarma">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h2 class="card-title"><span class="icon">🚨</span> Central de Alarma y Periféricos Intelbras Inalámbricos</h2>
+                                <p class="card-subtitle">Precios oficiales expresados en Pesos Argentinos (ARS) convertidos al tipo de cambio de distribuidor ($1.545).</p>
+                            </div>
+                        </div>
+                        <div class="materials-grid" id="grid-alarma"></div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ELECTRICIDAD & KALOP & EV -->
                 <div class="tab-content" id="tab-elec">
                     <div class="card">
                         <div class="card-header">
@@ -1078,7 +1100,7 @@
                     </div>
                 </div>
 
-                <!-- TAB 2: CLIMATIZACIÓN -->
+                <!-- TAB 3: CLIMATIZACIÓN -->
                 <div class="tab-content" id="tab-clima">
                     <div class="card">
                         <div class="card-header">
@@ -1091,12 +1113,12 @@
                     </div>
                 </div>
 
-                <!-- TAB 3: CCTV & SEGURIDAD -->
+                <!-- TAB 4: CCTV & SEGURIDAD -->
                 <div class="tab-content" id="tab-cctv">
                     <div class="card">
                         <div class="card-header">
                             <div>
-                                <h2 class="card-title"><span class="icon">📹</span> Insumos de CCTV, Redes & Conectividad</h2>
+                                <h2 class="card-title"><span class="icon">📹</span> Insumos de CCTV, Redes & Almacenamiento</h2>
                                 <p class="card-subtitle">Cable UTP exterior 100% cobre, baluns HD con filtro, fuentes switching conmutadas y discos de videovigilancia WD Purple.</p>
                             </div>
                         </div>
@@ -1116,6 +1138,7 @@
 
                     <div class="summary-filters">
                         <button class="filter-btn active" onclick="filterOrderList('todos', this)">Todos</button>
+                        <button class="filter-btn" onclick="filterOrderList('alarma', this)">🚨 Alarmas</button>
                         <button class="filter-btn" onclick="filterOrderList('elec', this)">⚡ Elec/EV</button>
                         <button class="filter-btn" onclick="filterOrderList('clima', this)">❄️ Clima</button>
                         <button class="filter-btn" onclick="filterOrderList('cctv', this)">📹 CCTV</button>
@@ -1130,15 +1153,15 @@
                     <!-- Totals Box -->
                     <div class="order-totals-box" id="order-totals-box" style="display: none;">
                         <div class="totals-row">
-                            <span>Subtotal estimado (Neto):</span>
+                            <span>Subtotal estimado (Neto ARS):</span>
                             <span id="tot-neto" style="font-family: 'JetBrains Mono', monospace; font-weight: bold;">$ 0,00</span>
                         </div>
                         <div class="totals-row">
-                            <span>IVA estimado (21%):</span>
+                            <span>IVA estimado (21% ARS):</span>
                             <span id="tot-iva" style="font-family: 'JetBrains Mono', monospace;">$ 0,00</span>
                         </div>
                         <div class="totals-row final">
-                            <span>TOTAL PRESUPUESTO:</span>
+                            <span>TOTAL PRESUPUESTO (ARS):</span>
                             <span id="tot-final" style="color: #fbbf24; font-family: 'JetBrains Mono', monospace;">$ 0,00</span>
                         </div>
                     </div>
@@ -1163,12 +1186,12 @@
     <div id="printable-order">
         <div class="print-header">
             <div>
-                <h1 style="font-size: 18pt; margin: 0; color: #111;">EL CÓNDOR - SERVICIOS TÉCNICOS INTEGRALES</h1>
-                <p style="margin: 2px 0; font-size: 10pt; color: #555;">Climatización • Alta Tensión (High Volt) • Instalación Wallbox & EV • Seguridad CCTV</p>
+                <h1 style="font-size: 18pt; margin: 0; color: #111;">EL CÓNDOR • SERVICIOS TÉCNICOS INTEGRALES</h1>
+                <p style="margin: 2px 0; font-size: 10pt; color: #555;">Alarmas Inalámbricas Intelbras • Seguridad CCTV • Climatización • Alta Tensión (High Volt & EV)</p>
                 <p style="margin: 2px 0; font-size: 9pt;">Tel: 11-4089-0580 | Quilmes, Buenos Aires | contacto@elcondor.com.ar</p>
             </div>
             <div style="text-align: right;">
-                <h2 style="font-size: 13pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / SOLICITUD DE MOSTRADOR</h2>
+                <h2 style="font-size: 13pt; margin: 0; text-transform: uppercase;">ORDEN DE COMPRA / COTIZACIÓN MOSTRADOR (ARS)</h2>
                 <p style="margin: 2px 0; font-size: 9pt;"><b>Fecha:</b> <span id="p-date"></span></p>
                 <p style="margin: 2px 0; font-size: 9pt;"><b>Obra / Ref:</b> <span id="p-ref"></span></p>
                 <p style="margin: 2px 0; font-size: 9pt;"><b>Destino:</b> <span id="p-supplier"></span></p>
@@ -1179,11 +1202,11 @@
             <thead>
                 <tr>
                     <th style="width: 5%; text-align: center;">#</th>
-                    <th style="width: 12%;">Cód. Art.</th>
-                    <th style="width: 48%;">Descripción Técnica Normalizada / Marca</th>
-                    <th style="width: 12%; text-align: center;">Cantidad</th>
-                    <th style="width: 11%; text-align: right;">P. Unit. Estim.</th>
-                    <th style="width: 12%; text-align: right;">Subtotal</th>
+                    <th style="width: 14%;">Cód. Art.</th>
+                    <th style="width: 45%;">Descripción Técnica Normalizada / Marca</th>
+                    <th style="width: 11%; text-align: center;">Cantidad</th>
+                    <th style="width: 12%; text-align: right;">P. Unit. (ARS)</th>
+                    <th style="width: 13%; text-align: right;">Subtotal (ARS)</th>
                 </tr>
             </thead>
             <tbody id="p-table-body">
@@ -1191,15 +1214,15 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4" style="text-align: right; font-weight: bold;">SUBTOTAL NETO ESTIMADO:</td>
+                    <td colspan="4" style="text-align: right; font-weight: bold;">SUBTOTAL NETO ESTIMADO (ARS):</td>
                     <td colspan="2" id="p-foot-subtotal" style="text-align: right; font-weight: bold; font-family: monospace;">$ 0,00</td>
                 </tr>
                 <tr>
-                    <td colspan="4" style="text-align: right; font-weight: bold;">TOTAL IVA (21%):</td>
+                    <td colspan="4" style="text-align: right; font-weight: bold;">TOTAL IVA (21% ARS):</td>
                     <td colspan="2" id="p-foot-iva" style="text-align: right; font-family: monospace;">$ 0,00</td>
                 </tr>
                 <tr style="background: #f1f5f9; font-size: 10pt;">
-                    <td colspan="4" style="text-align: right; font-weight: 800;">TOTAL ESTIMADO DE COMPRA:</td>
+                    <td colspan="4" style="text-align: right; font-weight: 800;">TOTAL ESTIMADO DE COMPRA (ARS):</td>
                     <td colspan="2" id="p-foot-total" style="text-align: right; font-weight: 800; font-family: monospace; color: #000;">$ 0,00</td>
                 </tr>
             </tfoot>
@@ -1217,7 +1240,7 @@
         </div>
 
         <div class="print-footer">
-            Documento emitido mediante el Sistema de Cómputo de Materiales El Cóndor. Todos los materiales eléctricos y de refrigeración deben contar con sello IRAM / certificación eléctrica argentina según Res. 169/2018.
+            Documento emitido mediante el Sistema de Cómputo de Materiales El Cóndor. Todos los valores expresados en Pesos Argentinos (ARS) de acuerdo al tipo de cambio oficial de cotización del proveedor.
         </div>
     </div>
 
@@ -1227,8 +1250,50 @@
     </div>
 
     <script>
-        // --- BASE DE DATOS DE MATERIALES CON CÓDIGOS REALES DE DISTRIBUIDOR Y PRECIOS ---
+        // --- BASE DE DATOS DE MATERIALES CON CÓDIGOS REALES EN PESOS ARGENTINOS (ARS) ---
         const CATALOGO_MATERIALES = [
+            // === ALARMAS & INTRUSIÓN (INTELBRAS) ===
+            { 
+                id: 'AMT_8000_PRO', 
+                code: 'AMT 8000 PRO', 
+                cat: 'alarma', 
+                name: 'Central de Alarma totalmente inalámbrica 64 Zonas Wi-Fi Intelbras', 
+                unit: 'Unidades', 
+                sub: 'Supervisada con reporte a app móvil, batería interna recargable', 
+                supplier: 'Mayorista de Seguridad (Intelbras)',
+                price: 213256.35 // USD 138.03 * 1545
+            },
+            { 
+                id: 'XAS_8000', 
+                code: 'XAS 8000', 
+                cat: 'alarma', 
+                name: 'Sensor Magnético Inalámbrico de Apertura con baterías Intelbras', 
+                unit: 'Unidades', 
+                sub: 'Baterías de larga duración incluidas, supervisión continua', 
+                supplier: 'Mayorista de Seguridad (Intelbras)',
+                price: 35704.95 // USD 23.11 * 1545
+            },
+            { 
+                id: 'IVP_8000_EX', 
+                code: 'IVP 8000 EX', 
+                cat: 'alarma', 
+                name: 'Sensor Doble PIR Inalámbrico Exterior ángulo 110° 12m Intelbras', 
+                unit: 'Unidades', 
+                sub: 'Inmunidad a mascotas (Pet Immunity), apto intemperie IPX4', 
+                supplier: 'Mayorista de Seguridad (Intelbras)',
+                price: 106790.40 // USD 69.12 * 1545
+            },
+            { 
+                id: 'XAC_8000', 
+                code: 'XAC 8000', 
+                cat: 'alarma', 
+                name: 'Control Remoto Inalámbrico Diseño Moderno Anti-Bloqueo Intelbras', 
+                unit: 'Unidades', 
+                sub: 'Tecnología anti-clonación y anti-bloqueo de señal', 
+                supplier: 'Mayorista de Seguridad (Intelbras)',
+                price: 30992.70 // USD 20.06 * 1545
+            },
+
             // === ELECTRICIDAD (HIGH VOLT) & CAÑERÍA KALOP & EV WALLBOX ===
             { 
                 id: 'MVS26', 
@@ -1410,57 +1475,6 @@
                 supplier: 'Distribuidora Eléctrica',
                 price: 1207.05 
             },
-            // Otros ítems eléctricos habituales
-            { 
-                id: 'elec_unip_25_marron', 
-                code: 'MVU125M', 
-                cat: 'elec', 
-                name: 'Cable unipolar 2.5mm² MARRÓN (IRAM NM 247-3)', 
-                unit: 'Metros', 
-                sub: 'Fase TUG tomas corrientes 10A', 
-                supplier: 'Distribuidora Eléctrica',
-                price: 895.00 
-            },
-            { 
-                id: 'elec_unip_25_celeste', 
-                code: 'MVU125C', 
-                cat: 'elec', 
-                name: 'Cable unipolar 2.5mm² CELESTE (IRAM NM 247-3)', 
-                unit: 'Metros', 
-                sub: 'Neutro TUG tomas corrientes 10A', 
-                supplier: 'Distribuidora Eléctrica',
-                price: 895.00 
-            },
-            { 
-                id: 'elec_unip_25_va', 
-                code: 'MVU125VA', 
-                cat: 'elec', 
-                name: 'Cable unipolar 2.5mm² VERDE/AMARILLO (IRAM NM 247-3)', 
-                unit: 'Metros', 
-                sub: 'Tierra PAT para circuito TUG', 
-                supplier: 'Distribuidora Eléctrica',
-                price: 895.00 
-            },
-            { 
-                id: 'elec_toma_scame_20a', 
-                code: 'SCM1375123', 
-                cat: 'elec', 
-                name: 'Tomacorriente Scame Protecta IP66 2P+T 20A / CEE', 
-                unit: 'Unidades', 
-                sub: 'Estanco industrial con traba para intemperie', 
-                supplier: 'Distribuidora Eléctrica',
-                price: 28500.00 
-            },
-            { 
-                id: 'elec_corrugado_34', 
-                code: 'CORR34B', 
-                cat: 'elec', 
-                name: 'Caño corrugado ignífugo blanco 3/4" (Rollo 25m)', 
-                unit: 'Rollos', 
-                sub: 'IRAM 62386 no propagante de llama', 
-                supplier: 'Distribuidora Eléctrica',
-                price: 14200.00 
-            },
 
             // === CLIMATIZACIÓN ===
             { id: 'clima_cu_14', code: 'CU14-08', cat: 'clima', name: 'Caño de cobre 1/4" (0.8mm calidad refrigeración)', unit: 'Metros', sub: 'Norma ASTM B280 para R410A / R32', supplier: 'Casa de Refrigeración', price: 6200.00 },
@@ -1488,11 +1502,9 @@
             { id: 'cctv_fuente_central_5a', code: 'FTE-MET-5A', cat: 'cctv', name: 'Fuente metálica conmutada 12V 5A con bornera', unit: 'Unidades', sub: 'Para hasta 4 cámaras con filtro térmico', supplier: 'Mayorista de Seguridad', price: 22500.00 },
             { id: 'cctv_caja_estanca_10x10', code: 'CAJA-EST-1010', cat: 'cctv', name: 'Caja estanca IP65 10x10x7cm con conos de goma', unit: 'Unidades', sub: 'Protección conexiones de cámara intemperie', supplier: 'Mayorista de Seguridad', price: 3100.00 },
             { id: 'cctv_hdd_1tb_purple', code: 'WD10PURZ', cat: 'cctv', name: 'Disco Rígido 1TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 92000.00 },
-            { id: 'cctv_hdd_2tb_purple', code: 'WD20PURZ', cat: 'cctv', name: 'Disco Rígido 2TB Western Digital Purple CCTV 24/7', unit: 'Unidades', sub: 'Grabación continua AllFrame oficial', supplier: 'Mayorista de Seguridad', price: 125000.00 },
             { id: 'cctv_precintos_uv', code: 'PREC-UV-200', cat: 'cctv', name: 'Precintos plásticos negros UV 200mm (x100)', unit: 'Paquetes (x100)', sub: 'Sujeción de cables exterior', supplier: 'Mayorista de Seguridad', price: 3800.00 }
         ];
 
-        // Estado de materiales seleccionados: { id: cantidad }
         let selectedItems = {};
         let activeFilter = 'todos';
 
@@ -1521,12 +1533,14 @@
         }
 
         function renderCatalogos() {
-            const gridClima = document.getElementById('grid-clima');
+            const gridAlarma = document.getElementById('grid-alarma');
             const gridElec = document.getElementById('grid-elec');
+            const gridClima = document.getElementById('grid-clima');
             const gridCctv = document.getElementById('grid-cctv');
 
-            gridClima.innerHTML = '';
+            gridAlarma.innerHTML = '';
             gridElec.innerHTML = '';
+            gridClima.innerHTML = '';
             gridCctv.innerHTML = '';
 
             CATALOGO_MATERIALES.forEach(item => {
@@ -1537,7 +1551,10 @@
                 card.className = `mat-item ${isSel ? 'selected' : ''}`;
                 card.id = `card-item-${item.id}`;
 
-                const tagClass = item.cat === 'clima' ? 'tag-clima' : (item.cat === 'elec' ? 'tag-elec' : 'tag-cctv');
+                let tagClass = 'tag-elec';
+                if (item.cat === 'alarma') tagClass = 'tag-alarma';
+                else if (item.cat === 'clima') tagClass = 'tag-clima';
+                else if (item.cat === 'cctv') tagClass = 'tag-cctv';
 
                 card.innerHTML = `
                     <div class="mat-header">
@@ -1550,7 +1567,7 @@
                     <div class="mat-sub">
                         <span>🏷️ ${item.sub}</span>
                         <span>🏢 ${item.supplier}</span>
-                        <span class="mat-price-tag">Precio unit. aprox: ${fmt(item.price)}</span>
+                        <span class="mat-price-tag">Precio unit. ARS: ${fmt(item.price)}</span>
                     </div>
                     <div class="mat-controls">
                         <span class="unit-label">${item.unit}</span>
@@ -1562,8 +1579,9 @@
                     </div>
                 `;
 
-                if (item.cat === 'clima') gridClima.appendChild(card);
+                if (item.cat === 'alarma') gridAlarma.appendChild(card);
                 else if (item.cat === 'elec') gridElec.appendChild(card);
+                else if (item.cat === 'clima') gridClima.appendChild(card);
                 else if (item.cat === 'cctv') gridCctv.appendChild(card);
             });
         }
@@ -1601,6 +1619,7 @@
 
         function actualizarResumen() {
             let totalCount = 0;
+            let cAlarma = 0;
             let cClima = 0;
             let cElec = 0;
             let cCctv = 0;
@@ -1619,6 +1638,7 @@
                 if (!item) return;
 
                 totalCount++;
+                if (item.cat === 'alarma') cAlarma++;
                 if (item.cat === 'clima') cClima++;
                 if (item.cat === 'elec') cElec++;
                 if (item.cat === 'cctv') cCctv++;
@@ -1634,7 +1654,7 @@
                         <span class="order-item-title">${item.name}</span>
                         <div class="order-item-meta">
                             <span>Cód: ${item.code}</span>
-                            <span>• ${fmt(item.price * qty)}</span>
+                            <span>• ${fmt(item.price * qty)} ARS</span>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
@@ -1663,8 +1683,9 @@
             }
 
             document.getElementById('total-selected-items').innerText = `${totalCount} ítems`;
-            document.getElementById('count-clima').innerText = cClima;
+            document.getElementById('count-alarma').innerText = cAlarma;
             document.getElementById('count-elec').innerText = cElec;
+            document.getElementById('count-clima').innerText = cClima;
             document.getElementById('count-cctv').innerText = cCctv;
         }
 
@@ -1675,9 +1696,22 @@
             actualizarResumen();
         }
 
+        // --- CÓMPUTO RÁPIDO: KIT ALARMA INTELBRAS AMT 8000 PRO ---
+        function computarKitRealAlarma() {
+            setQty('AMT_8000_PRO', 1); // 1x Central AMT 8000 PRO
+            setQty('XAS_8000', 4);     // 4x Sensores magnéticos
+            setQty('IVP_8000_EX', 2);   // 2x Sensores exterior
+            setQty('XAC_8000', 2);     // 2x Controles remotos
+
+            document.getElementById('order-ref').value = 'Sistema de Alarma Inalámbrica Intelbras AMT 8000';
+            const supSelect = document.getElementById('order-supplier-target');
+            if (supSelect) supSelect.value = 'alarma';
+
+            mostrarToast("🚨 ¡Cargado Kit Alarma Intelbras Completo en Pesos Argentinos!");
+        }
+
         // --- CÓMPUTO RÁPIDO: KIT EXACTO DISTRIBUIDOR CARGADOR EV 20A ---
         function computarKitRealEV20A() {
-            // Cargar con las cantidades exactas de la factura de distribuidora
             setQty('MVS26', 20);      // 20m Cable Subterráneo 2x6mm
             setQty('FRAG1234', 20);   // 20x Grampas Omega 3/4"
             setQty('PP173G', 2);      // 2x Prensacable 3/4" nylon gris
@@ -1709,9 +1743,9 @@
 
             if (bocas > 0) {
                 const totalCable = Math.round(bocas * mBoca * 1.15);
-                sumarItem('elec_unip_25_marron', totalCable);
-                sumarItem('elec_unip_25_celeste', totalCable);
-                sumarItem('elec_unip_25_va', totalCable);
+                sumarItem('MVU14R', Math.round(totalCable * 0.4));
+                sumarItem('MVU14C', Math.round(totalCable * 0.4));
+                sumarItem('MVU14VA', Math.round(totalCable * 0.4));
                 
                 if (canaliz === 'kalop') {
                     const tiras = Math.ceil((bocas * mBoca) / 3);
@@ -1719,8 +1753,6 @@
                     sumarItem('KC05401', bocas * 2);
                     sumarItem('KC05601', tiras * 3);
                     sumarItem('KC05201', Math.ceil(bocas / 2));
-                } else {
-                    sumarItem('elec_corrugado_34', Math.ceil((bocas * mBoca) / 25));
                 }
             }
 
@@ -1771,36 +1803,6 @@
             mostrarToast(`¡Cómputo Clima cargado para ${nEq} equipo(s)!`);
         }
 
-        function computarCctvPreset() {
-            const nCams = parseInt(document.getElementById('preset-cctv-cams').value) || 4;
-            const mPerCam = parseInt(document.getElementById('preset-cctv-m').value) || 25;
-            const incCajas = document.getElementById('preset-cctv-cajas').value === 'si';
-            const hddOption = document.getElementById('preset-cctv-hdd').value;
-
-            const totalM = nCams * mPerCam;
-            if (totalM >= 250) {
-                sumarItem('cctv_bobina_utp_305', 1);
-            } else {
-                sumarItem('cctv_utp_ext_cat5e', totalM);
-            }
-
-            sumarItem('cctv_baluns_hd', nCams);
-            sumarItem('cctv_plug_macho', nCams);
-            sumarItem('cctv_plug_hembra', nCams);
-
-            if (incCajas) sumarItem('cctv_caja_estanca_10x10', nCams);
-            sumarItem('cctv_precintos_uv', 1);
-
-            if (nCams <= 2) sumarItem('cctv_fuente_12v_2a', nCams);
-            else sumarItem('cctv_fuente_central_5a', 1);
-
-            if (hddOption === '1tb') sumarItem('cctv_hdd_1tb_purple', 1);
-            else if (hddOption === '2tb') sumarItem('cctv_hdd_2tb_purple', 1);
-            else if (hddOption === '4tb') sumarItem('cctv_hdd_4tb_purple', 1);
-
-            mostrarToast(`¡Cómputo CCTV para ${nCams} cámaras cargado!`);
-        }
-
         function sumarItem(itemId, qtyAdd) {
             const current = selectedItems[itemId] || 0;
             setQty(itemId, current + qtyAdd);
@@ -1817,7 +1819,7 @@
             const ref = document.getElementById('order-ref').value || 'Sin especificar';
             const date = document.getElementById('order-date').value || new Date().toISOString().split('T')[0];
 
-            let text = `📦 *ORDEN DE COMPRA DE MATERIALES - EL CÓNDOR*\n`;
+            let text = `📦 *ORDEN DE COMPRA DE MATERIALES - EL CÓNDOR (ARS)*\n`;
             text += `📅 *Fecha:* ${date}\n`;
             text += `📍 *Obra / Ref:* ${ref}\n`;
             text += `━━━━━━━━━━━━━━━━━━━━\n\n`;
@@ -1832,7 +1834,7 @@
                     const st = m.price * qty;
                     subtotalEstimado += st;
                     text += `▫️ *[${m.code}]* ${qty} ${m.unit} • ${m.name}\n`;
-                    text += `   ↳ _(${m.sub})_ ~ ${fmt(st)}\n`;
+                    text += `   ↳ _(${m.sub})_ ~ ${fmt(st)} ARS\n`;
                 }
             });
 
@@ -1840,12 +1842,12 @@
             const total = subtotalEstimado + iva;
 
             text += `\n━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `💵 *Subtotal Neto Aprox:* ${fmt(subtotalEstimado)}\n`;
-            text += `🧾 *Total con IVA Estimado:* ${fmt(total)}\n`;
+            text += `💵 *Subtotal Neto Aprox:* ${fmt(subtotalEstimado)} ARS\n`;
+            text += `🧾 *Total con IVA (21%):* ${fmt(total)} ARS\n`;
             text += `*Por favor confirmar disponibilidad y cotización final de mostrador. ¡Muchas gracias!*`;
 
             navigator.clipboard.writeText(text).then(() => {
-                mostrarToast("📋 ¡Pedido copiado con códigos de artículo para WhatsApp!");
+                mostrarToast("📋 ¡Pedido copiado en Pesos Argentinos (ARS) para WhatsApp!");
             }).catch(() => {
                 prompt("Copia el texto del pedido:", text);
             });

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Cóndor - Control Financiero y Flujo de Caja</title>
+  <title>El Cóndor - Control Financiero y Escalera de Libertad</title>
   <meta name="theme-color" content="#090e17">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -69,7 +69,7 @@
       align-items: center;
       padding: 1rem 0 1.25rem;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
       flex-wrap: wrap;
       gap: 1rem;
     }
@@ -146,6 +146,41 @@
       background: var(--surface-hover);
       color: var(--cyan);
       border-color: var(--border-light);
+    }
+
+    /* Main View Switcher (Tabs) */
+    .view-switcher {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background: var(--surface);
+      padding: 0.35rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+
+    .view-tab-btn {
+      padding: 0.7rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .view-tab-btn.active {
+      background: var(--surface-card);
+      color: #fff;
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     }
 
     /* Target Banner */
@@ -257,50 +292,6 @@
       gap: 0.5rem;
     }
 
-    /* KPI Grid */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 0.75rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1rem;
-      position: relative;
-    }
-
-    .kpi-label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      font-weight: 700;
-      margin-bottom: 0.35rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .kpi-value {
-      font-size: 1.4rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-    }
-
-    .kpi-sub {
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      margin-top: 0.25rem;
-    }
-
-    .kpi-card.warning-card {
-      border-color: rgba(239, 68, 68, 0.4);
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), var(--surface));
-    }
-
     /* Fast Action Buttons */
     .action-bar {
       display: grid;
@@ -345,6 +336,84 @@
       background: linear-gradient(135deg, #d97706, #f59e0b);
       color: #fff;
       box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .kpi-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      position: relative;
+    }
+
+    .kpi-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .kpi-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    .kpi-card.warning-card {
+      border-color: rgba(239, 68, 68, 0.4);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), var(--surface));
+    }
+
+    /* Arqueo Efectivo vs Banco */
+    .cashflow-box {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .cashflow-item {
+      padding: 0.75rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .cashflow-item h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .cashflow-item .amount {
+      font-size: 1.25rem;
+      font-weight: 800;
     }
 
     /* Envelopes */
@@ -422,173 +491,244 @@
       color: var(--text-muted);
     }
 
-    /* Cashflow Box */
-    .cashflow-box {
-      background: var(--surface-card);
-      border: 1px solid var(--border);
+    /* =========================================
+       SECCIÓN: ESCALERA DE 5 NIVELES FINANCIEROS
+       ========================================= */
+    .levels-container {
+      display: none;
+    }
+
+    .levels-container.active {
+      display: block;
+    }
+
+    .levels-hero {
+      background: linear-gradient(135deg, rgba(14, 22, 36, 0.95), rgba(24, 37, 58, 0.95));
+      border: 1px solid var(--border-light);
       border-radius: var(--radius);
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    .cashflow-item {
-      padding: 0.75rem;
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--border);
-    }
-
-    .cashflow-item h4 {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-    }
-
-    .cashflow-item .amount {
-      font-size: 1.25rem;
-      font-weight: 800;
-    }
-
-    /* Modal Form */
-    .modal-backdrop {
-      position: fixed;
+    .levels-hero::before {
+      content: "";
+      position: absolute;
       top: 0;
       left: 0;
       right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(4px);
-      display: none;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--cyan), var(--purple));
+    }
+
+    .level-badge-current {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 1rem;
+      gap: 0.4rem;
+      padding: 0.3rem 0.75rem;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 20px;
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
     }
 
-    .modal-backdrop.open {
-      display: flex;
+    .levels-hero h2 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.35rem;
     }
 
-    .modal-content {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
+    .levels-hero p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* Colchón de Emergencia Interactive Card */
+    .emergency-fund-card {
+      background: var(--surface-card);
+      border: 1px solid rgba(16, 185, 129, 0.3);
       border-radius: var(--radius);
-      width: 100%;
-      max-width: 480px;
-      padding: 1.5rem;
-      position: relative;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-      animation: modalSlide 0.2s ease-out;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
     }
 
-    @keyframes modalSlide {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .modal-header {
+    .emergency-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
     }
 
-    .modal-title {
-      font-size: 1.1rem;
+    .emergency-header h3 {
+      font-size: 0.95rem;
       font-weight: 800;
+      color: var(--green);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .emergency-input-wrap {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .emergency-input {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.4rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      width: 170px;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .emergency-input:focus {
+      border-color: var(--green);
+    }
+
+    .emergency-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .emergency-stat-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .emergency-stat-box span {
+      display: block;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-weight: 700;
+      margin-bottom: 0.2rem;
+    }
+
+    .emergency-stat-box strong {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* 5 Level Cards List */
+    .levels-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .level-step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem;
+      position: relative;
+      transition: all 0.2s ease;
+    }
+
+    .level-step-card.active-step {
+      border-color: rgba(245, 158, 11, 0.6);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), var(--surface));
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+    }
+
+    .level-step-card.completed-step {
+      border-color: rgba(16, 185, 129, 0.4);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.05), var(--surface));
+    }
+
+    .level-card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.5rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .level-card-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .btn-close-modal {
-      background: transparent;
-      border: none;
-      color: var(--text-dim);
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.25rem;
-      line-height: 1;
-    }
-
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-label {
-      display: block;
-      font-size: 0.75rem;
+    .level-tag {
+      font-size: 0.7rem;
+      padding: 0.2rem 0.55rem;
+      border-radius: 12px;
       font-weight: 700;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
       text-transform: uppercase;
     }
 
-    .form-input, .form-select {
-      width: 100%;
-      background: var(--surface-card);
+    .tag-active {
+      background: rgba(245, 158, 11, 0.2);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    .tag-completed {
+      background: rgba(16, 185, 129, 0.2);
+      color: var(--green);
+      border: 1px solid var(--green);
+    }
+
+    .tag-locked {
+      background: rgba(100, 116, 139, 0.2);
+      color: var(--text-dim);
       border: 1px solid var(--border);
-      color: #fff;
-      padding: 0.75rem 0.9rem;
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
     }
 
-    .form-input:focus, .form-select:focus {
-      border-color: var(--cyan);
-    }
-
-    .form-amount-input {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--cyan);
-    }
-
-    .payment-toggle {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-    }
-
-    .toggle-btn {
-      padding: 0.75rem;
-      background: var(--surface-card);
-      border: 1px solid var(--border);
+    .level-rule {
+      font-size: 0.8rem;
       color: var(--text-muted);
-      border-radius: var(--radius-sm);
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
+      line-height: 1.45;
+      margin-bottom: 0.75rem;
     }
 
-    .toggle-btn.active {
-      background: rgba(0, 210, 255, 0.15);
-      border-color: var(--cyan);
-      color: #fff;
-    }
-
-    .btn-submit {
-      width: 100%;
-      padding: 0.9rem;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      font-weight: 800;
-      color: #fff;
-      cursor: pointer;
+    .level-checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
       margin-top: 0.5rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      padding-top: 0.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .level-checklist li {
+      font-size: 0.75rem;
+      color: var(--text);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+    }
+
+    .level-checklist li span.icon {
+      font-size: 0.85rem;
+      line-height: 1.2;
     }
 
     /* History Table */
@@ -744,6 +884,141 @@
       font-size: 0.85rem;
     }
 
+    /* Modal Form */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius);
+      width: 100%;
+      max-width: 480px;
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      animation: modalSlide 0.2s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-close-modal {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.25rem;
+      line-height: 1;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+      text-transform: uppercase;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.75rem 0.9rem;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--cyan);
+    }
+
+    .form-amount-input {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+
+    .payment-toggle {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+    }
+
+    .toggle-btn {
+      padding: 0.75rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .toggle-btn.active {
+      background: rgba(0, 210, 255, 0.15);
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 0.9rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
     /* Toast Notification */
     .toast {
       position: fixed;
@@ -787,6 +1062,12 @@
       .cashflow-box {
         grid-template-columns: 1fr;
       }
+      .emergency-input-wrap {
+        width: 100%;
+      }
+      .emergency-input {
+        flex: 1;
+      }
     }
   </style>
 </head>
@@ -799,7 +1080,7 @@
         <div class="brand-icon">🦅</div>
         <div class="brand-info">
           <h1>EL CÓNDOR</h1>
-          <p>Control Financiero y Flujo de Caja</p>
+          <p>Control Financiero & 5 Niveles</p>
         </div>
       </div>
       <div class="header-controls">
@@ -811,170 +1092,323 @@
       </div>
     </header>
 
-    <!-- Main Goal / Target $5.000.000 Banner -->
-    <div class="target-card">
-      <div class="target-header">
-        <span class="target-title">🎯 Objetivo Mensual: $5.000.000</span>
-        <div id="targetBadge" class="target-status-badge badge-warning">Calculando ritmo...</div>
-      </div>
-      <div class="target-amounts">
-        <div>
-          <div id="totalIncomeDisplay" class="current-val mono">$0</div>
-          <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Total recaudado en el mes</div>
-        </div>
-        <div class="mono target-val" id="remainingTargetDisplay">Faltan: $5.000.000</div>
-      </div>
-
-      <!-- Barra de Progreso -->
-      <div class="progress-bar-bg">
-        <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
-      </div>
-
-      <div class="target-footer">
-        <span id="progressPercentDisplay">0% completado</span>
-        <span id="dailyPaceDisplay" class="mono">Meta diaria restante: $0/día</span>
-      </div>
-    </div>
-
-    <!-- 3 Botones de Carga Rápida (Touch / Pulgar) -->
-    <div class="action-bar">
-      <button class="btn-action btn-income" onclick="openModal('income')">
-        <span style="font-size: 1.3rem;">💵</span>
-        <span>+ COBRO / INGRESO</span>
+    <!-- Selector de Vistas: Flujo Operativo vs 5 Niveles -->
+    <div class="view-switcher">
+      <button id="tabOperativo" class="view-tab-btn active" onclick="switchView('operativo')">
+        <span>📊 Flujo de Caja ($5.000.000)</span>
       </button>
-      <button class="btn-action btn-expense" onclick="openModal('expense')">
-        <span style="font-size: 1.3rem;">🏷️</span>
-        <span>- GASTO COMÚN</span>
-      </button>
-      <button class="btn-action btn-gota" onclick="openModal('gota')">
-        <span style="font-size: 1.3rem;">💧</span>
-        <span>- REGISTRAR GASTO GOTA</span>
+      <button id="tabNiveles" class="view-tab-btn" onclick="switchView('niveles')">
+        <span>🏆 Escalera de los 5 Niveles</span>
       </button>
     </div>
 
-    <!-- KPI Mini Cards -->
-    <div class="kpi-grid">
-      <div class="kpi-card">
-        <div class="kpi-label">💰 Saldo Neto del Mes</div>
-        <div id="netBalanceDisplay" class="kpi-value mono" style="color: var(--cyan);">$0</div>
-        <div class="kpi-sub">Ingresos menos todos los gastos</div>
+    <!-- =====================================
+         VISTA 1: OPERATIVA (FLUJO DE CAJA)
+         ===================================== -->
+    <div id="viewOperativo">
+      <!-- Main Goal / Target $5.000.000 Banner -->
+      <div class="target-card">
+        <div class="target-header">
+          <span class="target-title">🎯 Meta del Mes: $5.000.000</span>
+          <div id="targetBadge" class="target-status-badge badge-warning">Calculando ritmo...</div>
+        </div>
+        <div class="target-amounts">
+          <div>
+            <div id="totalIncomeDisplay" class="current-val mono">$0</div>
+            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">Total recaudado en el mes</div>
+          </div>
+          <div class="mono target-val" id="remainingTargetDisplay">Faltan: $5.000.000</div>
+        </div>
+
+        <!-- Barra de Progreso -->
+        <div class="progress-bar-bg">
+          <div id="progressBarFill" class="progress-bar-fill" style="width: 0%;"></div>
+        </div>
+
+        <div class="target-footer">
+          <span id="progressPercentDisplay">0% completado</span>
+          <span id="dailyPaceDisplay" class="mono">Meta diaria restante: $0/día</span>
+        </div>
       </div>
-      <div class="kpi-card">
-        <div class="kpi-label">📤 Gastos Totales</div>
-        <div id="totalExpensesDisplay" class="kpi-value mono" style="color: var(--red);">$0</div>
-        <div class="kpi-sub" id="expensesCountDisplay">0 movimientos</div>
+
+      <!-- 3 Botones de Carga Rápida (Touch / Pulgar) -->
+      <div class="action-bar">
+        <button class="btn-action btn-income" onclick="openModal('income')">
+          <span style="font-size: 1.3rem;">💵</span>
+          <span>+ COBRO / INGRESO</span>
+        </button>
+        <button class="btn-action btn-expense" onclick="openModal('expense')">
+          <span style="font-size: 1.3rem;">🏷️</span>
+          <span>- GASTO COMÚN</span>
+        </button>
+        <button class="btn-action btn-gota" onclick="openModal('gota')">
+          <span style="font-size: 1.3rem;">💧</span>
+          <span>- REGISTRAR GASTO GOTA</span>
+        </button>
       </div>
-      <div class="kpi-card warning-card">
-        <div class="kpi-label" style="color: var(--gold);">💧 Fuga "Gasto Gota"</div>
-        <div id="totalGotaDisplay" class="kpi-value mono" style="color: var(--gold);">$0</div>
-        <div class="kpi-sub" id="gotaPercentDisplay">0% del dinero recaudado</div>
+
+      <!-- KPI Mini Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">💰 Saldo Neto del Mes</div>
+          <div id="netBalanceDisplay" class="kpi-value mono" style="color: var(--cyan);">$0</div>
+          <div class="kpi-sub">Ingresos menos todos los gastos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">📤 Gastos Totales</div>
+          <div id="totalExpensesDisplay" class="kpi-value mono" style="color: var(--red);">$0</div>
+          <div class="kpi-sub" id="expensesCountDisplay">0 movimientos</div>
+        </div>
+        <div class="kpi-card warning-card">
+          <div class="kpi-label" style="color: var(--gold);">💧 Fuga "Gasto Gota"</div>
+          <div id="totalGotaDisplay" class="kpi-value mono" style="color: var(--gold);">$0</div>
+          <div class="kpi-sub" id="gotaPercentDisplay">0% del dinero recaudado</div>
+        </div>
+      </div>
+
+      <!-- Arqueo de Fondos: Efectivo vs Banco -->
+      <div class="cashflow-box">
+        <div class="cashflow-item">
+          <h4>💵 Efectivo en Mano (En sobre / caja)</h4>
+          <div id="cashBalanceDisplay" class="amount mono" style="color: var(--green);">$0</div>
+          <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem;">Total cobrado en mano menos gastos en efectivo</div>
+        </div>
+        <div class="cashflow-item">
+          <h4>💳 En Banco / Mercado Pago</h4>
+          <div id="bankBalanceDisplay" class="amount mono" style="color: var(--blue);">$0</div>
+          <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem;">Transferencias recibidas menos débitos</div>
+        </div>
+      </div>
+
+      <!-- Sistema de Sobres (Asignación Inteligente de los $5.000.000) -->
+      <div class="section-title">
+        <span>📦 Distribución en Sobres (Fondos Asignados)</span>
+        <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">Regla de blindaje mensual</span>
+      </div>
+
+      <div class="envelopes-grid">
+        <!-- Sobre 1: Alquiler y Servicios ($3.500.000) -->
+        <div class="envelope-card">
+          <div class="envelope-header">
+            <span class="envelope-name">🏠 Alquiler y Servicios</span>
+            <span class="envelope-target mono">$3.5M</span>
+          </div>
+          <div id="envRentCollected" class="envelope-collected mono" style="color: #38bdf8;">$0</div>
+          <div class="envelope-progress">
+            <div id="envRentBar" class="envelope-fill" style="width: 0%; background: #0284c7;"></div>
+          </div>
+          <div class="envelope-info">
+            <span id="envRentPercent">0%</span>
+            <span id="envRentDiff" class="mono">Faltan $3.500.000</span>
+          </div>
+        </div>
+
+        <!-- Sobre 2: Comida Familiar ($500.000 - $125k/sem) -->
+        <div class="envelope-card">
+          <div class="envelope-header">
+            <span class="envelope-name">🥩 Comida Hogar (4 pers)</span>
+            <span class="envelope-target mono">$500k</span>
+          </div>
+          <div id="envFoodCollected" class="envelope-collected mono" style="color: var(--green);">$0</div>
+          <div class="envelope-progress">
+            <div id="envFoodBar" class="envelope-fill" style="width: 0%; background: var(--green);"></div>
+          </div>
+          <div class="envelope-info">
+            <span id="envFoodPercent">0%</span>
+            <span class="mono">$125.000 / semana</span>
+          </div>
+        </div>
+
+        <!-- Sobre 3: Extras / Combustible ($500.000) -->
+        <div class="envelope-card">
+          <div class="envelope-header">
+            <span class="envelope-name">⚡ Extras / Taller</span>
+            <span class="envelope-target mono">$500k</span>
+          </div>
+          <div id="envExtrasCollected" class="envelope-collected mono" style="color: var(--gold);">$0</div>
+          <div class="envelope-progress">
+            <div id="envExtrasBar" class="envelope-fill" style="width: 0%; background: var(--gold);"></div>
+          </div>
+          <div class="envelope-info">
+            <span id="envExtrasPercent">0%</span>
+            <span id="envExtrasDiff" class="mono">Faltan $500.000</span>
+          </div>
+        </div>
+
+        <!-- Sobre 4: Ahorro Intocable ($500.000) -->
+        <div class="envelope-card">
+          <div class="envelope-header">
+            <span class="envelope-name">🏦 Ahorro y Respaldo</span>
+            <span class="envelope-target mono">$500k</span>
+          </div>
+          <div id="envSavingsCollected" class="envelope-collected mono" style="color: var(--purple);">$0</div>
+          <div class="envelope-progress">
+            <div id="envSavingsBar" class="envelope-fill" style="width: 0%; background: var(--purple);"></div>
+          </div>
+          <div class="envelope-info">
+            <span id="envSavingsPercent">0%</span>
+            <span id="envSavingsDiff" class="mono">Faltan $500.000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Historial de Movimientos -->
+      <div class="history-card">
+        <div class="history-controls">
+          <h3 style="font-size: 0.95rem; font-weight: 700;">📋 Movimientos del Mes</h3>
+          <div class="filter-tags">
+            <button class="filter-tag active" onclick="setFilter('all', this)">Todos</button>
+            <button class="filter-tag" onclick="setFilter('income', this)">Ingresos</button>
+            <button class="filter-tag" onclick="setFilter('expense', this)">Gastos</button>
+            <button class="filter-tag" onclick="setFilter('gota', this)">💧 Gasto Gota</button>
+            <button class="filter-tag" onclick="setFilter('efectivo', this)">💵 Efectivo</button>
+            <button class="filter-tag" onclick="setFilter('transferencia', this)">💳 Banco/MP</button>
+          </div>
+        </div>
+
+        <div id="transactionList" class="transaction-list">
+          <!-- Renderizado dinámicamente -->
+        </div>
       </div>
     </div>
 
-    <!-- Arqueo de Fondos: Efectivo vs Banco -->
-    <div class="cashflow-box">
-      <div class="cashflow-item">
-        <h4>💵 Efectivo en Mano (En sobre / caja)</h4>
-        <div id="cashBalanceDisplay" class="amount mono" style="color: var(--green);">$0</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem;">Total cobrado en mano menos gastos en efectivo</div>
+    <!-- =====================================
+         VISTA 2: ESCALERA DE LOS 5 NIVELES
+         ===================================== -->
+    <div id="viewNiveles" class="levels-container">
+      
+      <!-- Hero de Nivel -->
+      <div class="levels-hero">
+        <div id="currentLevelBadge" class="level-badge-current">
+          <span>📍</span> <span>ESTADO ACTUAL: NIVEL 1 EN CONQUISTA</span>
+        </div>
+        <h2 id="currentLevelHeading">Camino hacia el Nivel 2: Seguridad</h2>
+        <p id="currentLevelDescription">Tu misión principal este mes es asegurar los $3.500.000 de gastos fijos antes del día 1 del próximo mes y eliminar las fugas de dinero hormiga.</p>
       </div>
-      <div class="cashflow-item">
-        <h4>💳 En Banco / Mercado Pago</h4>
-        <div id="bankBalanceDisplay" class="amount mono" style="color: var(--blue);">$0</div>
-        <div style="font-size: 0.7rem; color: var(--text-dim); margin-top: 0.3rem;">Transferencias recibidas menos débitos</div>
+
+      <!-- Calculadora de Fondo de Reserva (Colchón de Seguridad) -->
+      <div class="emergency-fund-card">
+        <div class="emergency-header">
+          <h3>🛡️ Mi Fondo de Reserva / Colchón Actual</h3>
+          <div class="emergency-input-wrap">
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">Ahorro actual: $</span>
+            <input type="number" id="emergencyFundInput" class="emergency-input mono" placeholder="0" step="50000" onchange="updateEmergencyFund(this.value)">
+          </div>
+        </div>
+
+        <div class="emergency-stats">
+          <div class="emergency-stat-box">
+            <span>Días de Tranquilidad Pagados</span>
+            <strong id="statDaysCovered" class="mono" style="color: var(--green);">0 Días</strong>
+          </div>
+          <div class="emergency-stat-box">
+            <span>Meses de Alquiler Blindados</span>
+            <strong id="statMonthsCovered" class="mono" style="color: var(--cyan);">0.0 Meses</strong>
+          </div>
+          <div class="emergency-stat-box">
+            <span>Meta Nivel 2 (3 Meses Fijos)</span>
+            <strong class="mono" style="color: var(--gold);">$10.500.000</strong>
+          </div>
+        </div>
       </div>
+
+      <!-- Lista Detallada de los 5 Niveles -->
+      <div class="levels-list">
+        
+        <!-- Nivel 1 -->
+        <div id="cardLevel1" class="level-step-card active-step">
+          <div class="level-card-head">
+            <div class="level-card-title">
+              <span>🥊</span> <span>Nivel 1: Supervivencia Operativa</span>
+            </div>
+            <span id="badgeL1" class="level-tag tag-active">En Conquista</span>
+          </div>
+          <div class="level-rule">
+            <strong>Misión:</strong> Salir de la incertidumbre. En vez de trabajar para llegar a fin de mes, acumular los $3.500.000 del alquiler del mes que viene <em>antes del día 1</em>.
+          </div>
+          <ul class="level-checklist">
+            <li><span class="icon" id="chkL1Rent">⏳</span> <span>Sobre Alquiler al 100% ($3.5M asegurados para el día 1).</span></li>
+            <li><span class="icon" id="chkL1Pace">⏳</span> <span>Meta mensual de $5.000.000 completada.</span></li>
+            <li><span class="icon" id="chkL1Gota">⏳</span> <span>Gasto Gota frenado por debajo del 5% de los ingresos.</span></li>
+          </ul>
+        </div>
+
+        <!-- Nivel 2 -->
+        <div id="cardLevel2" class="level-step-card">
+          <div class="level-card-head">
+            <div class="level-card-title">
+              <span>🛡️</span> <span>Nivel 2: Seguridad Financiera</span>
+            </div>
+            <span id="badgeL2" class="level-tag tag-locked">Próximo Escalón</span>
+          </div>
+          <div class="level-rule">
+            <strong>Misión:</strong> Blindaje total. Contar con un Fondo de Emergencia de 3 meses de costos fijos ($10.500.000). Si te enfermás o se para una obra, tu familia y negocio siguen intactos.
+          </div>
+          <ul class="level-checklist">
+            <li><span class="icon">🔹</span> <span>Tener 3 meses de gastos fijos intocables en dólares o instrumentos seguros.</span></li>
+            <li><span class="icon">🔹</span> <span>Paz mental para decir que NO a clientes regateadores o malos pagadores.</span></li>
+            <li><span class="icon">🔹</span> <span>Mantenimiento preventivo de herramientas y vehículo al día sin estrés.</span></li>
+          </ul>
+        </div>
+
+        <!-- Nivel 3 -->
+        <div id="cardLevel3" class="level-step-card">
+          <div class="level-card-head">
+            <div class="level-card-title">
+              <span>⚡</span> <span>Nivel 3: Acumulación & Crecimiento</span>
+            </div>
+            <span class="level-tag tag-locked">Futuro Cercano</span>
+          </div>
+          <div class="level-rule">
+            <strong>Misión:</strong> Poner el dinero a trabajar para vos. Reinvertir el sobrante en herramientas de alta productividad y stock a precio mayorista.
+          </div>
+          <ul class="level-checklist">
+            <li><span class="icon">🔹</span> <span>Herramientas de última generación que bajan tus horas de trabajo un 40%.</span></li>
+            <li><span class="icon">🔹</span> <span>Stock mayorista propio de caños de cobre, gas refrigerante y kits de cámaras.</span></li>
+            <li><span class="icon">🔹</span> <span>Ahorro mensual sistemático de $1.000.000+ en activos financieros.</span></li>
+          </ul>
+        </div>
+
+        <!-- Nivel 4 -->
+        <div id="cardLevel4" class="level-step-card">
+          <div class="level-card-head">
+            <div class="level-card-title">
+              <span>🏢</span> <span>Nivel 4: Independencia Financiera</span>
+            </div>
+            <span class="level-tag tag-locked">Estructura B2B</span>
+          </div>
+          <div class="level-rule">
+            <strong>Misión:</strong> Pasar de ser "técnico autoempleado" a "director de empresa". El negocio factura con tu equipo en la calle mientras vos gestionás.
+          </div>
+          <ul class="level-checklist">
+            <li><span class="icon">🔹</span> <span>Abonos fijos mensuales con consorcios, colegios y empresas de Zona Sur.</span></li>
+            <li><span class="icon">🔹</span> <span>Cuadrilla técnica en la calle ejecutando las obras estándar.</span></li>
+            <li><span class="icon">🔹</span> <span>Ingresos que pagan tus $5M mensuales aunque te tomes 15 días de vacaciones.</span></li>
+          </ul>
+        </div>
+
+        <!-- Nivel 5 -->
+        <div id="cardLevel5" class="level-step-card">
+          <div class="level-card-head">
+            <div class="level-card-title">
+              <span>🦅</span> <span>Nivel 5: Libertad Financiera Absoluta</span>
+            </div>
+            <span class="level-tag tag-locked">Meta Definitiva</span>
+          </div>
+          <div class="level-rule">
+            <strong>Misión:</strong> Soberanía total del tiempo. El patrimonio genera rentas pasivas superiores a todos tus gastos ideales. Trabajo 100% por elección.
+          </div>
+          <ul class="level-checklist">
+            <li><span class="icon">🔹</span> <span>Rentas pasivas que superan con creces el costo de vida familiar.</span></li>
+            <li><span class="icon">🔹</span> <span>Tiempo libre absoluto para salud, familia y nuevos proyectos.</span></li>
+            <li><span class="icon">🔹</span> <span>Patrimonio consolidado como legado para tus hijos.</span></li>
+          </ul>
+        </div>
+
+      </div>
+
     </div>
 
-    <!-- Sistema de Sobres (Asignación Inteligente de los $5.000.000) -->
-    <div class="section-title">
-      <span>📦 Distribución en Sobres (Fondos Asignados)</span>
-      <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: normal;">Regla de blindaje mensual</span>
-    </div>
-
-    <div class="envelopes-grid">
-      <!-- Sobre 1: Alquiler y Servicios ($3.500.000) -->
-      <div class="envelope-card">
-        <div class="envelope-header">
-          <span class="envelope-name">🏠 Alquiler y Servicios</span>
-          <span class="envelope-target mono">$3.5M</span>
-        </div>
-        <div id="envRentCollected" class="envelope-collected mono" style="color: #38bdf8;">$0</div>
-        <div class="envelope-progress">
-          <div id="envRentBar" class="envelope-fill" style="width: 0%; background: #0284c7;"></div>
-        </div>
-        <div class="envelope-info">
-          <span id="envRentPercent">0%</span>
-          <span id="envRentDiff" class="mono">Faltan $3.500.000</span>
-        </div>
-      </div>
-
-      <!-- Sobre 2: Comida Familiar ($500.000 - $125k/sem) -->
-      <div class="envelope-card">
-        <div class="envelope-header">
-          <span class="envelope-name">🥩 Comida Hogar (4 pers)</span>
-          <span class="envelope-target mono">$500k</span>
-        </div>
-        <div id="envFoodCollected" class="envelope-collected mono" style="color: var(--green);">$0</div>
-        <div class="envelope-progress">
-          <div id="envFoodBar" class="envelope-fill" style="width: 0%; background: var(--green);"></div>
-        </div>
-        <div class="envelope-info">
-          <span id="envFoodPercent">0%</span>
-          <span class="mono">$125.000 / semana</span>
-        </div>
-      </div>
-
-      <!-- Sobre 3: Extras / Combustible ($500.000) -->
-      <div class="envelope-card">
-        <div class="envelope-header">
-          <span class="envelope-name">⚡ Extras / Taller</span>
-          <span class="envelope-target mono">$500k</span>
-        </div>
-        <div id="envExtrasCollected" class="envelope-collected mono" style="color: var(--gold);">$0</div>
-        <div class="envelope-progress">
-          <div id="envExtrasBar" class="envelope-fill" style="width: 0%; background: var(--gold);"></div>
-        </div>
-        <div class="envelope-info">
-          <span id="envExtrasPercent">0%</span>
-          <span id="envExtrasDiff" class="mono">Faltan $500.000</span>
-        </div>
-      </div>
-
-      <!-- Sobre 4: Ahorro Intocable ($500.000) -->
-      <div class="envelope-card">
-        <div class="envelope-header">
-          <span class="envelope-name">🏦 Ahorro y Respaldo</span>
-          <span class="envelope-target mono">$500k</span>
-        </div>
-        <div id="envSavingsCollected" class="envelope-collected mono" style="color: var(--purple);">$0</div>
-        <div class="envelope-progress">
-          <div id="envSavingsBar" class="envelope-fill" style="width: 0%; background: var(--purple);"></div>
-        </div>
-        <div class="envelope-info">
-          <span id="envSavingsPercent">0%</span>
-          <span id="envSavingsDiff" class="mono">Faltan $500.000</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Historial de Movimientos -->
-    <div class="history-card">
-      <div class="history-controls">
-        <h3 style="font-size: 0.95rem; font-weight: 700;">📋 Movimientos del Mes</h3>
-        <div class="filter-tags">
-          <button class="filter-tag active" onclick="setFilter('all', this)">Todos</button>
-          <button class="filter-tag" onclick="setFilter('income', this)">Ingresos</button>
-          <button class="filter-tag" onclick="setFilter('expense', this)">Gastos</button>
-          <button class="filter-tag" onclick="setFilter('gota', this)">💧 Gasto Gota</button>
-          <button class="filter-tag" onclick="setFilter('efectivo', this)">💵 Efectivo</button>
-          <button class="filter-tag" onclick="setFilter('transferencia', this)">💳 Banco/MP</button>
-        </div>
-      </div>
-
-      <div id="transactionList" class="transaction-list">
-        <!-- Renderizado dinámicamente -->
-      </div>
-    </div>
   </div>
 
   <!-- MODAL PARA NUEVO REGISTRO -->
@@ -1044,6 +1478,7 @@
     let currentMonth = "";
     let transactions = [];
     let activeFilter = "all";
+    let emergencyFund = 0;
 
     // Inicialización
     window.addEventListener("DOMContentLoaded", () => {
@@ -1060,6 +1495,13 @@
       });
 
       document.getElementById("txDate").value = today.toISOString().split("T")[0];
+
+      // Cargar fondo de reserva
+      const savedFund = localStorage.getItem("condor_emergency_fund");
+      if (savedFund) {
+        emergencyFund = parseFloat(savedFund) || 0;
+        document.getElementById("emergencyFundInput").value = emergencyFund;
+      }
 
       loadTransactions();
     });
@@ -1086,6 +1528,34 @@
     function saveTransactions() {
       localStorage.setItem(getStorageKey(), JSON.stringify(transactions));
       render();
+    }
+
+    function updateEmergencyFund(val) {
+      emergencyFund = parseFloat(val) || 0;
+      localStorage.setItem("condor_emergency_fund", emergencyFund);
+      renderLevels();
+      showToast("🛡️ Fondo de reserva actualizado");
+    }
+
+    // Switch de Vistas (Tabs)
+    function switchView(view) {
+      const tabOp = document.getElementById("tabOperativo");
+      const tabNv = document.getElementById("tabNiveles");
+      const viewOp = document.getElementById("viewOperativo");
+      const viewNv = document.getElementById("viewNiveles");
+
+      if (view === "operativo") {
+        tabOp.classList.add("active");
+        tabNv.classList.remove("active");
+        viewOp.style.display = "block";
+        viewNv.classList.remove("active");
+      } else {
+        tabNv.classList.add("active");
+        tabOp.classList.remove("active");
+        viewOp.style.display = "none";
+        viewNv.classList.add("active");
+        renderLevels();
+      }
     }
 
     // Modal Control
@@ -1347,6 +1817,87 @@
       document.getElementById("envSavingsDiff").textContent = savingsAllocated >= TARGET_SAVINGS ? "✅ Cubierto" : `Faltan ${formatMoney(TARGET_SAVINGS - savingsAllocated)}`;
 
       renderList();
+      renderLevels();
+    }
+
+    // Renderizado del Módulo de los 5 Niveles
+    function renderLevels() {
+      let totalIncome = 0;
+      let totalGota = 0;
+      transactions.forEach(t => {
+        if (t.type === "income") totalIncome += t.amount;
+        if (t.type === "gota") totalGota += t.amount;
+      });
+
+      const rentCovered = totalIncome >= TARGET_RENT;
+      const targetCovered = totalIncome >= TARGET_MONTHLY;
+      const gotaRatio = totalIncome > 0 ? (totalGota / totalIncome) * 100 : 0;
+      const gotaOk = gotaRatio <= 5;
+
+      // Actualizar checklists de Nivel 1
+      const chkRent = document.getElementById("chkL1Rent");
+      if (chkRent) {
+        chkRent.textContent = rentCovered ? "✅" : "⏳";
+        chkRent.style.color = rentCovered ? "var(--green)" : "var(--gold)";
+      }
+
+      const chkPace = document.getElementById("chkL1Pace");
+      if (chkPace) {
+        chkPace.textContent = targetCovered ? "✅" : "⏳";
+        chkPace.style.color = targetCovered ? "var(--green)" : "var(--gold)";
+      }
+
+      const chkGota = document.getElementById("chkL1Gota");
+      if (chkGota) {
+        chkGota.textContent = gotaOk ? "✅" : "⚠️";
+        chkGota.style.color = gotaOk ? "var(--green)" : "var(--red)";
+      }
+
+      // Estadísticas del Fondo de Reserva
+      // Gastos diarios base: $5.000.000 / 30 = $166.666 diarios
+      const dailyExpenseRate = TARGET_MONTHLY / 30;
+      const daysCovered = Math.round(emergencyFund / dailyExpenseRate);
+      const monthsCovered = (emergencyFund / TARGET_RENT).toFixed(1);
+
+      const daysEl = document.getElementById("statDaysCovered");
+      if (daysEl) daysEl.textContent = `${daysCovered} Días`;
+
+      const monthsEl = document.getElementById("statMonthsCovered");
+      if (monthsEl) monthsEl.textContent = `${monthsCovered} Meses`;
+
+      // Diagnóstico de Nivel Activo
+      const heroBadge = document.getElementById("currentLevelBadge");
+      const heroHeading = document.getElementById("currentLevelHeading");
+      const heroDesc = document.getElementById("currentLevelDescription");
+      const cardL1 = document.getElementById("cardLevel1");
+      const cardL2 = document.getElementById("cardLevel2");
+      const badgeL1 = document.getElementById("badgeL1");
+      const badgeL2 = document.getElementById("badgeL2");
+
+      if (emergencyFund >= 10500000) {
+        // Nivel 2 conquistado -> En camino a Nivel 3
+        if (heroBadge) heroBadge.innerHTML = "<span>🏆</span> <span>NIVEL 2 COMPLETADO: SEGURIDAD TOTAL</span>";
+        if (heroHeading) heroHeading.textContent = "Conquistando Nivel 3: Acumulación de Capital";
+        if (heroDesc) heroDesc.textContent = "Tenés más de 3 meses de gastos fijos blindados. Es momento de reinvertir fuertemente en herramientas pro, stock a precio mayorista y activos que generen rendimiento.";
+        if (cardL1) cardL1.className = "level-step-card completed-step";
+        if (cardL2) cardL2.className = "level-step-card completed-step";
+        if (badgeL1) { badgeL1.textContent = "Completado"; badgeL1.className = "level-tag tag-completed"; }
+        if (badgeL2) { badgeL2.textContent = "Completado"; badgeL2.className = "level-tag tag-completed"; }
+      } else if (rentCovered) {
+        // Alquiler cubierto este mes
+        if (heroBadge) heroBadge.innerHTML = "<span>⚡</span> <span>TRANSICIÓN A NIVEL 2: ALQUILER ASEGURADO</span>";
+        if (heroHeading) heroHeading.textContent = "¡Alquiler del mes cubierto! Alimentando el Colchón de Reserva";
+        if (heroDesc) heroDesc.textContent = "Lograste blindar los $3.500.000. Todo ingreso restante de este mes debe ir directo a engrosar tu Fondo de Seguridad para alcanzar la meta de $10.500.000.";
+        if (badgeL1) { badgeL1.textContent = "Casi Listo"; badgeL1.className = "level-tag tag-completed"; }
+        if (badgeL2) { badgeL2.textContent = "En Foco"; badgeL2.className = "level-tag tag-active"; }
+      } else {
+        // En batalla de Nivel 1
+        if (heroBadge) heroBadge.innerHTML = "<span>📍</span> <span>ESTADO ACTUAL: NIVEL 1 EN CONQUISTA</span>";
+        if (heroHeading) heroHeading.textContent = "Misión: Asegurar el Alquiler del Mes Próximo";
+        if (heroDesc) heroDesc.textContent = "Tu foco diario es ingresar los $3.500.000 del sobre de gastos fijos y vigilar que el Gasto Gota no supere el 5%.";
+        if (cardL1) cardL1.className = "level-step-card active-step";
+        if (badgeL1) { badgeL1.textContent = "En Conquista"; badgeL1.className = "level-tag tag-active"; }
+      }
     }
 
     function renderList() {
@@ -1427,7 +1978,12 @@
 
     // Copia de seguridad JSON
     function exportData() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(transactions, null, 2));
+      const exportPayload = {
+        month: currentMonth,
+        transactions,
+        emergencyFund
+      };
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exportPayload, null, 2));
       const dlAnchor = document.createElement("a");
       dlAnchor.setAttribute("href", dataStr);
       dlAnchor.setAttribute("download", `condor_finanzas_${currentMonth}.json`);
@@ -1444,11 +2000,16 @@
           const imported = JSON.parse(e.target.result);
           if (Array.isArray(imported)) {
             transactions = imported;
-            saveTransactions();
-            showToast("📂 Datos restaurados con éxito");
-          } else {
-            alert("El archivo no tiene el formato correcto.");
+          } else if (imported && Array.isArray(imported.transactions)) {
+            transactions = imported.transactions;
+            if (imported.emergencyFund !== undefined) {
+              emergencyFund = imported.emergencyFund;
+              localStorage.setItem("condor_emergency_fund", emergencyFund);
+              document.getElementById("emergencyFundInput").value = emergencyFund;
+            }
           }
+          saveTransactions();
+          showToast("📂 Datos restaurados con éxito");
         } catch (err) {
           alert("Error al leer el archivo de respaldo.");
         }
@@ -1456,7 +2017,7 @@
       reader.readAsText(file);
     }
 
-    // Resumen de WhatsApp para mandarte a vos mismo
+    // Resumen de WhatsApp
     function shareWhatsAppSummary() {
       let totalIncome = 0;
       let totalExpenses = 0;
@@ -1480,7 +2041,7 @@
       const rentAllocated = Math.min(TARGET_RENT, totalIncome);
       const remainingTarget = Math.max(0, TARGET_MONTHLY - totalIncome);
 
-      const msg = `🦅 *EL CÓNDOR - RESUMEN FINANCIERO (${currentMonth})*
+      const msg = `🦅 *EL CÓNDOR - RESUMEN FINANCIERO Y NIVELES (${currentMonth})*
 ----------------------------------------
 🎯 *Meta Mensual:* $5.000.000
 💰 *Total Ingresos:* ${formatMoney(totalIncome)}
@@ -1491,6 +2052,10 @@
 📦 *SOBRE ALQUILER ($3.5M):*
 Acumulado: ${formatMoney(rentAllocated)} (${((rentAllocated/TARGET_RENT)*100).toFixed(0)}%)
 ${rentAllocated >= TARGET_RENT ? "✅ Alquiler asegurado" : "⏳ Faltan: " + formatMoney(TARGET_RENT - rentAllocated)}
+
+🛡️ *FONDO DE SEGURIDAD (NIVEL 2):*
+Ahorro acumulado: ${formatMoney(emergencyFund)}
+Días de tranquilidad: ${Math.round(emergencyFund / (TARGET_MONTHLY/30))} días
 
 💵 *ARQUEO DE FONDOS:*
 • Efectivo en mano/sobre: ${formatMoney(cash)}

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Cóndor - CAD Tableros Eléctricos & Racks CCTV con Marcas y Gabinetes</title>
+  <title>El Cóndor - CAD Tableros Eléctricos & CCTV con Ojos de Buey R-S-T-N-T</title>
   <meta name="theme-color" content="#090e17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@
     }
 
     .app-container {
-      max-width: 1260px;
+      max-width: 1280px;
       margin: 0 auto;
       padding: 1rem;
     }
@@ -219,7 +219,7 @@
     /* Main Grid Layout */
     .designer-grid {
       display: grid;
-      grid-template-columns: 390px 1fr;
+      grid-template-columns: 400px 1fr;
       gap: 1.25rem;
       align-items: start;
     }
@@ -281,7 +281,7 @@
       transform: translateY(-2px);
     }
 
-    /* Custom Input Form */
+    /* Form Controls */
     .form-group {
       margin-bottom: 0.65rem;
     }
@@ -348,21 +348,21 @@
       box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6);
     }
 
-    /* 1. Gabinete de Embutir (Marco rasante, pared de mampostería) */
+    /* 1. Embutir */
     .enc-mount-embutir {
       background: linear-gradient(180deg, #1b2333 0%, #111827 100%);
       border: 3px solid #334155;
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 0 0 4px #0f172a;
     }
 
-    /* 2. Gabinete de Superficie (Caja de sobrepared plástica/chapa) */
+    /* 2. Superficie */
     .enc-mount-superficie {
       background: linear-gradient(180deg, #202b3f 0%, #151e2e 100%);
       border: 4px solid #475569;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
     }
 
-    /* 3. Gabinete Intemperie Estanco IP65 (Gabexel chapa / Genrod Estanco con burlete) */
+    /* 3. Intemperie IP65 */
     .enc-mount-intemperie {
       background: linear-gradient(180deg, #2b3548 0%, #1e2738 100%);
       border: 5px solid #64748b;
@@ -389,7 +389,7 @@
       justify-content: space-between;
       align-items: center;
       padding-bottom: 0.75rem;
-      margin-bottom: 1.25rem;
+      margin-bottom: 1rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       flex-wrap: wrap;
       gap: 0.5rem;
@@ -409,6 +409,131 @@
       font-size: 0.75rem;
       color: var(--cyan);
       font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* =========================================================
+       PANEL DE OJOS DE BUEY 22mm (R - S - T - N - T/PE)
+       ========================================================= */
+    .pilot-lights-panel {
+      background: linear-gradient(180deg, #101726 0%, #090e1a 100%);
+      border: 1px solid #23344d;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .pilot-panel-title {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .pilot-lights-cluster {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    /* El Ojo de Buey Industrial de 22mm */
+    .pilot-bezel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      user-select: none;
+      transition: transform 0.2s;
+    }
+
+    .pilot-bezel:hover {
+      transform: scale(1.08);
+    }
+
+    .pilot-lamp-housing {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #1e293b;
+      border: 3px solid #64748b; /* Bisel cromado */
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .pilot-lens {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
+    }
+
+    /* Colores y Efecto Glow de los Ojos de Buey */
+    /* FASE R (Rojo) */
+    .pilot-lens.phase-r {
+      background: radial-gradient(circle at 35% 35%, #ff4d4d, #dc2626 70%, #991b1b);
+      box-shadow: 0 0 16px rgba(239, 68, 68, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    /* FASE S (Amarillo) */
+    .pilot-lens.phase-s {
+      background: radial-gradient(circle at 35% 35%, #fef08a, #eab308 70%, #a16207);
+      color: #713f12;
+      box-shadow: 0 0 16px rgba(234, 179, 8, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    /* FASE T (Verde / Azul) */
+    .pilot-lens.phase-t {
+      background: radial-gradient(circle at 35% 35%, #4ade80, #16a34a 70%, #14532d);
+      box-shadow: 0 0 16px rgba(34, 197, 94, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    /* NEUTRO N (Azul) */
+    .pilot-lens.line-n {
+      background: radial-gradient(circle at 35% 35%, #38bdf8, #0284c7 70%, #0369a1);
+      box-shadow: 0 0 14px rgba(2, 132, 199, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    /* TIERRA PE / T (Verde-Amarillo PAT) */
+    .pilot-lens.line-pe {
+      background: linear-gradient(135deg, #16a34a 50%, #facc15 50%);
+      color: #000;
+      box-shadow: 0 0 14px rgba(22, 163, 74, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    }
+
+    .pilot-label {
+      font-size: 9px;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    .pilot-volts {
+      font-size: 8px;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
     }
 
     /* MULTI-DIN RAILS SYSTEM (1 a 4 Rieles DIN) */
@@ -488,38 +613,25 @@
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
     }
 
-    /* Module widths */
     .din-1m { width: 44px; height: 155px; }
     .din-2m { width: 88px; height: 155px; }
     .din-3m { width: 132px; height: 155px; }
     .din-4m { width: 176px; height: 155px; }
 
     /* Brands */
-    .brand-schneider {
-      border-top: 3px solid #009530;
-      background: #f1f5f9;
-    }
+    .brand-schneider { border-top: 3px solid #009530; background: #f1f5f9; }
     .brand-schneider .din-brand-title { color: #009530; font-weight: 900; font-size: 7.5px; }
     .brand-schneider .din-toggle { background: #ea580c; border-color: #c2410c; }
 
-    .brand-abb {
-      border-top: 3px solid #ff000f;
-      background: #f8fafc;
-    }
+    .brand-abb { border-top: 3px solid #ff000f; background: #f8fafc; }
     .brand-abb .din-brand-title { color: #ff000f; font-weight: 900; font-size: 8px; }
     .brand-abb .din-toggle { background: #1e293b; border-color: #0f172a; }
 
-    .brand-chint {
-      border-top: 3px solid #005bac;
-      background: #f1f5f9;
-    }
+    .brand-chint { border-top: 3px solid #005bac; background: #f1f5f9; }
     .brand-chint .din-brand-title { color: #005bac; font-weight: 900; font-size: 8px; }
     .brand-chint .din-toggle { background: #0284c7; border-color: #0369a1; }
 
-    .brand-baw {
-      border-top: 3px solid #f59e0b;
-      background: #f8fafc;
-    }
+    .brand-baw { border-top: 3px solid #f59e0b; background: #f8fafc; }
     .brand-baw .din-brand-title { color: #b45309; font-weight: 900; font-size: 8px; }
     .brand-baw .din-toggle { background: #dc2626; border-color: #b91c1c; }
 
@@ -613,6 +725,14 @@
       font-size: 8px;
       font-weight: 800;
       text-align: center;
+    }
+
+    /* Ojo de buey en Riel DIN */
+    .din-pilot-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
     }
 
     .din-bottom { border-top: 1px solid #cbd5e1; padding-top: 3px; text-align: center; font-size: 8.5px; font-weight: 800; color: #334155; }
@@ -851,9 +971,9 @@
         </div>
       </div>
       <div class="header-actions">
+        <button class="btn-header" onclick="loadPreset('trifasico_pro')">⚡⚡⚡ Preset Trifásico R-S-T</button>
         <button class="btn-header" onclick="loadPreset('schneider_pro')">🟢 Schneider Premium</button>
         <button class="btn-header" onclick="loadPreset('abb_pro')">🔴 ABB Compact</button>
-        <button class="btn-header" onclick="loadPreset('chint_pro')">🔵 Chint NXB</button>
         <button class="btn-header" onclick="clearBoard()">🗑️ Limpiar</button>
         <button class="btn-header primary" onclick="openClientPresentation()">📄 Presentar al Cliente</button>
       </div>
@@ -878,7 +998,23 @@
         <!-- ELECTRICAL TOOLBAR -->
         <div id="toolsElec">
           
-          <!-- SELECCIÓN DE GABINETE / CAJA (GENROD, ROKET, GABEXEL, CONEXTUBE) -->
+          <!-- TIPO DE SUMINISTRO: MONOFÁSICO VS TRIFÁSICO -->
+          <div class="panel-card" style="border-color: rgba(245, 158, 11, 0.4);">
+            <div class="panel-title">
+              <span>⚡ Tipo de Suministro Eléctrico</span>
+              <span id="supplyBadge" style="font-size: 0.7rem; color: var(--gold);">Trifásico 380V</span>
+            </div>
+            <div class="pills-row">
+              <button class="pill-btn" id="supplyMono" onclick="setSupplyType('monofasico')">
+                <span>⚡</span> <span>Monofásico 220V</span>
+              </button>
+              <button class="pill-btn active" id="supplyTri" onclick="setSupplyType('trifasico')">
+                <span>⚡⚡⚡</span> <span>Trifásico 380V (R-S-T)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- SELECCIÓN DE GABINETE / CAJA -->
           <div class="panel-card" style="border-color: rgba(0, 210, 255, 0.3);">
             <div class="panel-title">
               <span>🏗️ Gabinete / Caja Eléctrica</span>
@@ -916,11 +1052,10 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Puerta</label>
-                <select id="enclosureDoorSelect" class="form-control" onchange="render()">
-                  <option value="fume">Fumé Traslúcida</option>
-                  <option value="blanca">Ciega Blanca</option>
-                  <option value="metalica">Metálica con Cerradura</option>
+                <label class="form-label">Ojos de Buey en Tapa</label>
+                <select id="togglePilotLights" class="form-control" onchange="togglePilots(this.value)">
+                  <option value="si" selected>Sí (Luces LED 22mm)</option>
+                  <option value="no">Sin Ojos de Buey</option>
                 </select>
               </div>
             </div>
@@ -949,7 +1084,10 @@
                 <span>📟</span> <span>Prot. Tensión (2M)</span>
               </button>
               <button class="btn-quick" onclick="addQuick('diferencial')">
-                <span>🛡️</span> <span>Disyuntor 40A 30mA</span>
+                <span>🛡️</span> <span>Disyuntor Dif. (2M/4M)</span>
+              </button>
+              <button class="btn-quick" onclick="addQuick('ojo_din')">
+                <span>🔴🟡🟢</span> <span>Ojo Buey DIN (1M)</span>
               </button>
               <button class="btn-quick" onclick="addQuick('contactor')">
                 <span>🧲</span> <span>Contactor 25A (1M)</span>
@@ -965,9 +1103,6 @@
               </button>
               <button class="btn-quick" onclick="addQuick('termica_aire')">
                 <span>❄️</span> <span>Aire C20 / 4.0mm²</span>
-              </button>
-              <button class="btn-quick" onclick="addQuick('termica_horno')">
-                <span>🍳</span> <span>Cocina C25 / 6.0mm²</span>
               </button>
             </div>
 
@@ -1141,13 +1276,24 @@
                 <div class="enclosure-specs" id="enclosureSpecsTag">24 Módulos DIN • IP40 • Norma IRAM</div>
               </div>
 
+              <!-- PANEL FRONTAL DE OJOS DE BUEY (R - S - T - N - T) -->
+              <div id="pilotLightsPanel" class="pilot-lights-panel">
+                <div class="pilot-panel-title">
+                  <span>💡</span> <span id="pilotPanelTitle">LUCES TESTIGO DE FASE & ESTADO (OJOS DE BUEY 22mm)</span>
+                </div>
+
+                <div class="pilot-lights-cluster" id="pilotLightsCluster">
+                  <!-- Render dinámico según Monofásico o Trifásico -->
+                </div>
+              </div>
+
               <!-- CONTENEDOR MULTI-RIEL DIN -->
               <div id="railsStackContainer" class="rails-stack">
                 <!-- Se generan dinámicamente según la capacidad (1 a 4 rieles) -->
               </div>
 
               <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.75rem;">
-                Hacé clic en cualquier térmica para eliminarla o editarla.
+                Hacé clic en cualquier térmica o piloto para interactuar.
               </div>
             </div>
           </div>
@@ -1247,7 +1393,7 @@
         <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">🛡️ Compromiso de Calidad y Seguridad El Cóndor:</h4>
         <p style="color: #64748b; line-height: 1.5;">
           • Solo utilizamos aparamenta original certificada bajo normas IRAM / IEC (Schneider Electric, ABB, Chint, BAW) y envolventes homologadas (Genrod, Roket, Gabexel, Conextube).<br>
-          • Todos los tableros se entregan peinados con barras de cobre aisladas, terminales taborados/ojal para evitar puntos calientes, verificación de torque y prueba de disparo diferencial con instrumental calibrado.
+          • Tablero equipado con señalización óptica frontal (Ojos de buey LED 22mm para control de fases y presencia de neutro/tierra), peinado con barras de cobre aisladas y prueba de disparo diferencial con instrumental calibrado.
         </p>
       </div>
 
@@ -1264,6 +1410,8 @@
   <script>
     // ESTADO DE LA APP
     let currentMode = "electrico"; // 'electrico' | 'cctv'
+    let supplyType = "trifasico";  // 'monofasico' | 'trifasico'
+    let showPilots = true;
     let activeBrand = "schneider"; // 'schneider' | 'abb' | 'chint' | 'baw'
     let enclosureBrand = "genrod"; // 'genrod' | 'roket' | 'gabexel' | 'conextube'
     let mountType = "embutir";     // 'embutir' | 'superficie' | 'intemperie'
@@ -1281,7 +1429,7 @@
       16.0: 66
     };
 
-    // MARCAS DE GABINETES / CAJAS
+    // MARCAS DE GABINETES
     const ENCLOSURE_DATA = {
       genrod: {
         name: "Genrod",
@@ -1309,7 +1457,7 @@
       }
     };
 
-    // DATOS DE APARAMENTA
+    // APARAMENTA
     const BRAND_INFO = {
       schneider: {
         name: "Schneider Electric",
@@ -1317,7 +1465,7 @@
         class: "brand-schneider",
         label: "Schneider",
         protModel: "RU-40 Digi",
-        diffModel: "iID 2x40A 30mA",
+        diffModel: "iID 4x40A 30mA",
         contactorModel: "iCT 25A 2NA",
         dpsModel: "iPRD 20r 350V",
         piaPrefix: "iC60N C"
@@ -1328,7 +1476,7 @@
         class: "brand-abb",
         label: "ABB",
         protModel: "E200 Digital",
-        diffModel: "FH202 2x40A 30mA",
+        diffModel: "FH204 4x40A 30mA",
         contactorModel: "ESB25-20N 2NA",
         dpsModel: "OVR T2 40-275",
         piaPrefix: "S201 C"
@@ -1339,7 +1487,7 @@
         class: "brand-chint",
         label: "CHNT",
         protModel: "NXJ-40 Digital",
-        diffModel: "NL1-63 2x40A 30mA",
+        diffModel: "NL1-63 4x40A 30mA",
         contactorModel: "NCH8-25 2NA",
         dpsModel: "NU6-II 40kA",
         piaPrefix: "NXB-63 C"
@@ -1350,7 +1498,7 @@
         class: "brand-baw",
         label: "BAW",
         protModel: "RU-40 220V",
-        diffModel: "ID 2x40A 30mA",
+        diffModel: "ID 4x40A 30mA",
         contactorModel: "KNL 25A 220V",
         dpsModel: "DPS Clase II 40kA",
         piaPrefix: "B100 C"
@@ -1358,9 +1506,25 @@
     };
 
     window.addEventListener("DOMContentLoaded", () => {
-      loadPreset('schneider_pro');
+      loadPreset('trifasico_pro');
       document.getElementById('printDate').textContent = new Date().toLocaleDateString('es-AR');
     });
+
+    // SUMINISTRO: MONOFÁSICO / TRIFÁSICO
+    function setSupplyType(type) {
+      supplyType = type;
+      document.getElementById('supplyMono').className = type === 'monofasico' ? 'pill-btn active' : 'pill-btn';
+      document.getElementById('supplyTri').className = type === 'trifasico' ? 'pill-btn active' : 'pill-btn';
+      document.getElementById('supplyBadge').textContent = type === 'monofasico' ? 'Monofásico 220V' : 'Trifásico 380V (R-S-T)';
+      render();
+      showToast(type === 'monofasico' ? '⚡ Suministro Monofásico (L-N-PE)' : '⚡⚡⚡ Suministro Trifásico (R-S-T-N-PE)');
+    }
+
+    function togglePilots(val) {
+      showPilots = val === 'si';
+      document.getElementById('pilotLightsPanel').style.display = showPilots ? 'flex' : 'none';
+      showToast(showPilots ? '💡 Ojos de buey activados' : 'Ojos de buey ocultos');
+    }
 
     // CONTROL DE GABINETES
     function setEnclosureBrand(brand) {
@@ -1432,13 +1596,18 @@
       const b = BRAND_INFO[activeBrand];
 
       if (itemType === 'protector') {
-        addModule('protector', `Protector Tensión ${b.label}`, b.label, b.protModel, 40, 2, 'display', 10.0, 0);
+        const modWidth = supplyType === 'trifasico' ? 4 : 2;
+        addModule('protector', `Protector Tensión ${supplyType === 'trifasico' ? 'Trifásico' : 'Monofásico'}`, b.label, b.protModel, 40, modWidth, 'display', 10.0, 0);
       } else if (itemType === 'diferencial') {
-        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, 2, 'disyuntor', 10.0, 0);
+        const modWidth = supplyType === 'trifasico' ? 4 : 2;
+        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 10.0, 0);
+      } else if (itemType === 'ojo_din') {
+        addModule('ojo_din', `Ojo de Buey DIN R-S-T ${b.label}`, b.label, 'LED 230V DIN', 0, 1, 'pilot_din', 1.5, 5);
       } else if (itemType === 'contactor') {
         addModule('contactor', `Contactor Modular ${b.label} 25A`, b.label, b.contactorModel, 25, 1, 'contactor', 4.0, 50);
       } else if (itemType === 'dps') {
-        addModule('dps', `Descargador DPS ${b.label} 40kA`, b.label, b.dpsModel, 40, 1, 'dps', 6.0, 0);
+        const modWidth = supplyType === 'trifasico' ? 4 : 2;
+        addModule('dps', `Descargador DPS ${b.label} 40kA`, b.label, b.dpsModel, 40, modWidth, 'dps', 6.0, 0);
       } else if (itemType === 'termica_ilum') {
         addModule('termica', 'Iluminación IUG', b.label, `${b.piaPrefix}10`, 10, 1, 'termica', 1.5, 1200);
       } else if (itemType === 'termica_tomas') {
@@ -1464,17 +1633,17 @@
 
       if (type === 'diferencial') {
         model = `${b.diffModel}`;
-        width = 2;
+        width = supplyType === 'trifasico' ? 4 : 2;
       } else if (type === 'protector') {
         model = `${b.protModel}`;
-        width = 2;
+        width = supplyType === 'trifasico' ? 4 : 2;
         display = 'display';
       } else if (type === 'contactor') {
         model = `${b.contactorModel}`;
         width = 1;
       } else if (type === 'dps') {
         model = `${b.dpsModel}`;
-        width = 1;
+        width = supplyType === 'trifasico' ? 4 : 2;
       }
 
       addModule(type, name, b.label, model, amp, width, display, cable, watts);
@@ -1483,9 +1652,31 @@
 
     // PRESETS
     function loadPreset(presetName) {
-      if (presetName === 'schneider_pro') {
+      if (presetName === 'trifasico_pro') {
         currentMode = 'electrico';
         setMode('electrico');
+        setSupplyType('trifasico');
+        setActiveBrand('schneider');
+        setEnclosureBrand('genrod');
+        setMountType('embutir');
+        setEnclosureCapacity(36);
+        elecModules = [
+          { id: '1', type: 'termica', name: 'Térmica General Tetrapolar 4x40A', brand: 'Schneider', model: 'iC60N 4P C40', amp: 40, width: 4, display: 'termica', cable: 10.0, watts: 0 },
+          { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Tetrapolar 4x40A 30mA', brand: 'Schneider', model: 'Acti9 iID 4P 40A', amp: 40, width: 4, display: 'disyuntor', cable: 10.0, watts: 0 },
+          { id: '3', type: 'dps', name: 'Descargador Atmosférico DPS 40kA (R-S-T-N)', brand: 'Schneider', model: 'iPRD 4P 350V', amp: 40, width: 4, display: 'dps', cable: 6.0, watts: 0 },
+          { id: '4', type: 'termica', name: 'Fase R: Iluminación Planta Baja', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '5', type: 'termica', name: 'Fase R: Tomas Planta Baja (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '6', type: 'termica', name: 'Fase S: Iluminación Planta Alta', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '7', type: 'termica', name: 'Fase S: Tomas Planta Alta (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '8', type: 'termica', name: 'Fase T: Aire Acondicionado Split 1', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
+          { id: '9', type: 'termica', name: 'Fase T: Aire Acondicionado Split 2', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3000 },
+          { id: '10', type: 'contactor', name: 'Contactor Bomba Riego / Parque', brand: 'Schneider', model: 'iCT 25A 2NA', amp: 25, width: 1, display: 'contactor', cable: 4.0, watts: 1500 }
+        ];
+        showToast("⚡⚡⚡ Tablero Trifásico R-S-T Schneider + Genrod cargado");
+      } else if (presetName === 'schneider_pro') {
+        currentMode = 'electrico';
+        setMode('electrico');
+        setSupplyType('monofasico');
         setActiveBrand('schneider');
         setEnclosureBrand('genrod');
         setMountType('embutir');
@@ -1502,6 +1693,7 @@
       } else if (presetName === 'abb_pro') {
         currentMode = 'electrico';
         setMode('electrico');
+        setSupplyType('monofasico');
         setActiveBrand('abb');
         setEnclosureBrand('gabexel');
         setMountType('superficie');
@@ -1515,21 +1707,6 @@
           { id: '6', type: 'termica', name: 'Horno / Cocina Eléctrica', brand: 'ABB', model: 'S201 C25', amp: 25, width: 1, display: 'termica', cable: 6.0, watts: 4400 }
         ];
         showToast("🔴 Preset ABB + Gabexel cargado");
-      } else if (presetName === 'chint_pro') {
-        currentMode = 'electrico';
-        setMode('electrico');
-        setActiveBrand('chint');
-        setEnclosureBrand('roket');
-        setMountType('embutir');
-        setEnclosureCapacity(24);
-        elecModules = [
-          { id: '1', type: 'protector', name: 'Protector Tensión Chint', brand: 'CHNT', model: 'NXJ-40 Digi', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
-          { id: '2', type: 'diferencial', name: 'Disyuntor Dif. Chint 40A', brand: 'CHNT', model: 'NL1-63 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
-          { id: '3', type: 'termica', name: 'Iluminación IUG', brand: 'CHNT', model: 'NXB-63 C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
-          { id: '4', type: 'termica', name: 'Tomas TUG', brand: 'CHNT', model: 'NXB-63 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
-          { id: '5', type: 'termica', name: 'Aire Acondicionado TUE', brand: 'CHNT', model: 'NXB-63 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
-        ];
-        showToast("🔵 Preset Chint + Roket cargado");
       } else if (presetName === 'cctv_ip_pro') {
         currentMode = 'cctv';
         setMode('cctv');
@@ -1609,18 +1786,103 @@
       }
     }
 
-    // RENDER TABLERO ELÉCTRICO CON MULTI-RIEL Y GABINETES
+    // RENDER TABLERO ELÉCTRICO CON OJOS DE BUEY R-S-T-N-T
     function renderElectricBoard() {
       const enclosureEl = document.getElementById("boardOuterEnclosure");
       const encData = ENCLOSURE_DATA[enclosureBrand] || ENCLOSURE_DATA['genrod'];
       const currentEncConfig = encData[mountType] || encData['embutir'];
 
-      // Aplicar clases visuales al gabinete exterior
       enclosureEl.className = `board-outer-enclosure enc-mount-${mountType}`;
       document.getElementById("enclosureMainTitle").textContent = `${currentEncConfig.title.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
       document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • ${currentEncConfig.ip} • ${currentEncConfig.material}`;
 
-      // Configuración de Rieles: cuántos módulos por riel
+      // RENDER OJOS DE BUEY (R - S - T - N - T)
+      const pilotCluster = document.getElementById("pilotLightsCluster");
+      pilotCluster.innerHTML = "";
+
+      if (supplyType === 'trifasico') {
+        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DE RED TRIFÁSICA (OJOS DE BUEY 22mm: R - S - T + N + PE)";
+        
+        pilotCluster.innerHTML = `
+          <!-- FASE R -->
+          <div class="pilot-bezel" title="Fase R (L1) - 223V">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens phase-r">R</div>
+            </div>
+            <span class="pilot-label">FASE R</span>
+            <span class="pilot-volts mono">223V</span>
+          </div>
+
+          <!-- FASE S -->
+          <div class="pilot-bezel" title="Fase S (L2) - 220V">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens phase-s">S</div>
+            </div>
+            <span class="pilot-label">FASE S</span>
+            <span class="pilot-volts mono">220V</span>
+          </div>
+
+          <!-- FASE T -->
+          <div class="pilot-bezel" title="Fase T (L3) - 225V">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens phase-t">T</div>
+            </div>
+            <span class="pilot-label">FASE T</span>
+            <span class="pilot-volts mono">225V</span>
+          </div>
+
+          <!-- NEUTRO N -->
+          <div class="pilot-bezel" title="Neutro de Red (N)">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens line-n">N</div>
+            </div>
+            <span class="pilot-label">NEUTRO</span>
+            <span class="pilot-volts mono" style="color:var(--cyan);">0V</span>
+          </div>
+
+          <!-- TIERRA T / PE -->
+          <div class="pilot-bezel" title="Puesta a Tierra (PE / Jabalina)">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens line-pe">PE</div>
+            </div>
+            <span class="pilot-label">TIERRA</span>
+            <span class="pilot-volts mono" style="color:var(--green);">PAT OK</span>
+          </div>
+        `;
+      } else {
+        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DE RED MONOFÁSICA (OJOS DE BUEY 22mm: L - N - TIERRA)";
+        
+        pilotCluster.innerHTML = `
+          <!-- LÍNEA FASE -->
+          <div class="pilot-bezel" title="Fase L - 220V Normal">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens phase-r">L</div>
+            </div>
+            <span class="pilot-label">FASE L</span>
+            <span class="pilot-volts mono">221V</span>
+          </div>
+
+          <!-- NEUTRO N -->
+          <div class="pilot-bezel" title="Neutro N">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens line-n">N</div>
+            </div>
+            <span class="pilot-label">NEUTRO</span>
+            <span class="pilot-volts mono" style="color:var(--cyan);">0V</span>
+          </div>
+
+          <!-- TIERRA T / PE -->
+          <div class="pilot-bezel" title="Puesta a Tierra (Jabalina)">
+            <div class="pilot-lamp-housing">
+              <div class="pilot-lens line-pe">PE</div>
+            </div>
+            <span class="pilot-label">TIERRA</span>
+            <span class="pilot-volts mono" style="color:var(--green);">PAT OK</span>
+          </div>
+        `;
+      }
+
+      // RIELES DIN
       let modulesPerRail = 12;
       let totalRailsCount = 1;
 
@@ -1631,7 +1893,6 @@
       else if (enclosureCapacity === 48) { modulesPerRail = 12; totalRailsCount = 4; }
       else if (enclosureCapacity === 54) { modulesPerRail = 18; totalRailsCount = 3; }
 
-      // Preparar Rieles
       const railsContainer = document.getElementById("railsStackContainer");
       railsContainer.innerHTML = "";
 
@@ -1647,7 +1908,6 @@
         railsElements.push(railRow.querySelector(`#dinRail_${r}`));
       }
 
-      // Distribuir componentes secuencialmente entre rieles
       let currentRailIndex = 0;
       let currentRailOccupied = 0;
       let totalOccupiedModules = 0;
@@ -1658,12 +1918,10 @@
         totalOccupiedModules += m.width;
         if (m.type === 'termica' || m.type === 'contactor') totalWatts += m.watts;
 
-        // Comprobación AEA
         const iz = CABLE_IZ[m.cable] || 15;
         const isSafe = m.type !== 'termica' || (m.amp <= iz);
         if (!isSafe) hasAeaWarning = true;
 
-        // Verificar si cabe en el riel actual o pasa al siguiente
         if (currentRailOccupied + m.width > modulesPerRail && currentRailIndex < totalRailsCount - 1) {
           currentRailIndex++;
           currentRailOccupied = 0;
@@ -1672,7 +1930,6 @@
 
         const targetRail = railsElements[currentRailIndex] || railsElements[railsElements.length - 1];
 
-        // Crear elemento visual del módulo
         const modEl = document.createElement("div");
         const brandKey = m.brand.toLowerCase().includes('abb') ? 'abb' :
                          m.brand.toLowerCase().includes('chint') || m.brand.toLowerCase().includes('chnt') ? 'chint' :
@@ -1686,7 +1943,7 @@
         let bodyHtml = "";
         if (m.display === 'display') {
           bodyHtml = `
-            <div class="din-digital-display mono">220V</div>
+            <div class="din-digital-display mono">${supplyType === 'trifasico' ? '380V' : '220V'}</div>
             <div style="font-size: 7px; color: #16a34a; font-weight: 900;">NORMAL</div>
           `;
         } else if (m.display === 'disyuntor') {
@@ -1706,6 +1963,20 @@
             <div class="din-dps-cartridge">OK</div>
             <div style="font-size:7px; font-weight:800; color:#475569;">40kA</div>
           `;
+        } else if (m.display === 'pilot_din') {
+          bodyHtml = `
+            <div class="din-pilot-body">
+              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
+                <div class="pilot-lens phase-r" style="width:18px; height:18px; font-size:8px;">R</div>
+              </div>
+              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
+                <div class="pilot-lens phase-s" style="width:18px; height:18px; font-size:8px;">S</div>
+              </div>
+              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
+                <div class="pilot-lens phase-t" style="width:18px; height:18px; font-size:8px;">T</div>
+              </div>
+            </div>
+          `;
         } else {
           bodyHtml = `
             <div class="din-toggle">ON</div>
@@ -1723,18 +1994,19 @@
             ${bodyHtml}
           </div>
           <div class="din-bottom">
-            <div>${m.amp}A</div>
+            <div>${m.amp > 0 ? m.amp + 'A' : 'LED'}</div>
           </div>
         `;
         targetRail.appendChild(modEl);
       });
 
-      // Actualizar Resumen
-      const maxCurrent = (totalWatts / 220).toFixed(1);
+      // Resumen
+      const v = supplyType === 'trifasico' ? 380 : 220;
+      const maxCurrent = (totalWatts / v).toFixed(1);
       document.getElementById("statModules").textContent = `${totalOccupiedModules} / ${enclosureCapacity} DIN`;
       document.getElementById("statEnclosureSummary").textContent = `${encData.name} ${mountType.toUpperCase()}`;
       document.getElementById("statPower").textContent = `${totalWatts.toLocaleString('es-AR')} W`;
-      document.getElementById("statCurrent").textContent = `${maxCurrent} A (220V)`;
+      document.getElementById("statCurrent").textContent = `${maxCurrent} A (${v}V)`;
 
       const badge = document.getElementById("complianceBadge");
       if (hasAeaWarning) {
@@ -1745,7 +2017,7 @@
         badge.innerHTML = "✅ AEA 90364 CONFORME";
       }
 
-      // Tabla de Planilla Eléctrica
+      // Tabla de Planilla
       const tableBody = document.getElementById("specsTableBody");
       tableBody.innerHTML = "";
 
@@ -1757,7 +2029,7 @@
         tr.innerHTML = `
           <td><strong>${m.name}</strong></td>
           <td><span style="font-weight: 800; color: #fff;">${m.brand}</span> <span style="color:var(--text-dim); font-size:0.75rem;">(${m.model})</span></td>
-          <td><span class="mono" style="font-weight: 800;">${m.amp}A</span></td>
+          <td><span class="mono" style="font-weight: 800;">${m.amp > 0 ? m.amp + 'A' : 'Testigo'}</span></td>
           <td><span class="mono">${m.cable ? m.cable + ' mm²' : '-'}</span></td>
           <td><span class="mono">${m.cable ? iz + ' A' : '-'}</span></td>
           <td><span class="mono">${m.watts ? m.watts + ' W' : '-'}</span></td>
@@ -1861,13 +2133,15 @@
       const currentEncConfig = encData[mountType] || encData['embutir'];
 
       if (currentMode === 'electrico') {
-        title.textContent = "MEMORIA TÉCNICA - TABLERO ELÉCTRICO SECCIONAL";
+        title.textContent = `MEMORIA TÉCNICA - TABLERO ${supplyType.toUpperCase()} SECCIONAL`;
         subtitle.textContent = "Especificación de envolventes homologadas (Genrod, Roket, Gabexel, Conextube) y aparamenta bajo Reglamentación AEA 90364.";
 
         encSpecsBox.style.display = "block";
         encSpecsBox.innerHTML = `
           <strong>📦 ESPECIFICACIÓN DEL GABINETE:</strong> ${currentEncConfig.title} (${enclosureCapacity} Módulos DIN)<br>
+          • <strong>Suministro:</strong> ${supplyType === 'trifasico' ? 'Trifásico 380V (Fases R, S, T + Neutro N + Tierra PE)' : 'Monofásico 220V (Fase L + Neutro N + Tierra PE)'}<br>
           • <strong>Montaje:</strong> ${mountType.toUpperCase()} | <strong>Protección:</strong> ${currentEncConfig.ip}<br>
+          • <strong>Señalización Frontal:</strong> ${showPilots ? 'Ojos de buey LED 22mm de alta visibilidad para monitoreo de fases R-S-T, neutro y puesta a tierra' : 'Sin señalización óptica'}<br>
           • <strong>Material constructivo:</strong> ${currentEncConfig.material} (Norma IRAM 2006 / IEC 60670).
         `;
 
@@ -1889,7 +2163,7 @@
             <tr>
               <td><strong>${m.name}</strong></td>
               <td><strong>${m.brand}</strong></td>
-              <td>${m.model} (${m.amp}A)</td>
+              <td>${m.model} (${m.amp > 0 ? m.amp + 'A' : 'Testigo'})</td>
               <td>${m.cable ? m.cable + ' mm²' : '-'}</td>
               <td>${m.cable ? (CABLE_IZ[m.cable] || 15) + ' A' : '-'}</td>
               <td>${m.watts ? m.watts + ' W' : '-'}</td>

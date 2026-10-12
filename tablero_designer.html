@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Cóndor - CAD Tableros Eléctricos con Voltímetro, Amperímetro y Ojos de Buey</title>
+  <title>El Cóndor - CAD Tableros Eléctricos & CCTV (Vista Realista y Cableado)</title>
   <meta name="theme-color" content="#090e17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@
     }
 
     .app-container {
-      max-width: 1300px;
+      max-width: 1360px;
       margin: 0 auto;
       padding: 1rem;
     }
@@ -138,164 +138,216 @@
       box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
     }
 
-    /* Mode Selector */
+    /* Mode & Perspective Selectors */
     .mode-selector {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      background: var(--surface);
-      padding: 0.35rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      margin-bottom: 1.25rem;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
     }
 
     .mode-tab {
-      padding: 0.85rem;
-      border: none;
-      border-radius: var(--radius-sm);
-      background: transparent;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
       color: var(--text-muted);
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
-      transition: all 0.2s ease;
-    }
-
-    .mode-tab.active {
-      background: var(--surface-card);
-      color: #fff;
-      border: 1px solid var(--border-light);
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-    }
-
-    .mode-tab.active.elec { border-color: rgba(245, 158, 11, 0.5); color: var(--gold); }
-    .mode-tab.active.cctv { border-color: rgba(0, 210, 255, 0.5); color: var(--cyan); }
-
-    /* Pills Selectors */
-    .pills-row {
-      display: flex;
-      gap: 0.4rem;
-      margin-bottom: 0.75rem;
-      flex-wrap: wrap;
-    }
-
-    .pill-btn {
-      flex: 1;
-      min-width: 75px;
-      padding: 0.5rem 0.4rem;
-      background: var(--surface-card);
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      border-radius: var(--radius-sm);
-      font-size: 0.75rem;
-      font-weight: 800;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.25rem;
       transition: all 0.2s;
     }
 
-    .pill-btn.active {
+    .mode-tab.active.elec {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.2), rgba(0, 210, 255, 0.1));
       border-color: var(--cyan);
       color: #fff;
-      background: rgba(0, 210, 255, 0.12);
-      box-shadow: 0 2px 8px rgba(0, 210, 255, 0.2);
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.15);
     }
 
-    /* Main Grid Layout */
+    .mode-tab.active.cctv {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(0, 210, 255, 0.1));
+      border-color: var(--green);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.15);
+    }
+
+    /* BARRA SELECTORA DE PERSPECTIVA (VISTA INTERNA REALISTA VS TAPA) */
+    .perspective-bar {
+      background: linear-gradient(90deg, #101726 0%, #162032 100%);
+      border: 1px solid #23344d;
+      border-radius: var(--radius);
+      padding: 0.5rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .perspective-toggle-group {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-perspective {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-perspective:hover {
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    .btn-perspective.active {
+      background: linear-gradient(135deg, #0284c7, #00d2ff);
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 4px 12px rgba(0, 210, 255, 0.35);
+    }
+
+    .perspective-badge-tag {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Main Grid */
     .designer-grid {
       display: grid;
-      grid-template-columns: 410px 1fr;
+      grid-template-columns: 360px 1fr;
       gap: 1.25rem;
       align-items: start;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .designer-grid {
         grid-template-columns: 1fr;
       }
     }
 
-    /* Sidebar / Tool Panel */
+    /* Panels */
     .panel-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 1.15rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .panel-title {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 0.65rem;
+      color: #fff;
+      margin-bottom: 0.75rem;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
+      letter-spacing: -0.01em;
+    }
+
+    .pills-row {
+      display: flex;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+    }
+
+    .pill-btn {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.4rem 0.65rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .pill-btn:hover {
+      border-color: var(--cyan);
+      color: var(--text);
+    }
+
+    .pill-btn.active {
+      background: rgba(2, 132, 199, 0.2);
+      border-color: var(--cyan);
+      color: var(--cyan);
+      font-weight: 800;
     }
 
     .quick-add-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 0.5rem;
-      margin-bottom: 0.75rem;
+      gap: 0.45rem;
     }
 
     .btn-quick {
-      padding: 0.65rem 0.5rem;
       background: var(--surface-card);
       border: 1px solid var(--border);
       color: var(--text);
+      padding: 0.5rem 0.6rem;
       border-radius: var(--radius-sm);
       font-size: 0.75rem;
       font-weight: 700;
       cursor: pointer;
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.4rem;
+      text-align: left;
       transition: all 0.2s;
-      text-align: center;
     }
 
     .btn-quick:hover {
       background: var(--surface-hover);
       border-color: var(--cyan);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
 
-    /* Form Controls */
     .form-group {
       margin-bottom: 0.65rem;
     }
 
     .form-label {
-      display: block;
-      font-size: 0.7rem;
-      font-weight: 700;
+      font-size: 0.75rem;
       color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.25rem;
+      display: block;
+      font-weight: 600;
     }
 
     .form-control {
       width: 100%;
       background: var(--surface-card);
       border: 1px solid var(--border);
-      color: #fff;
-      padding: 0.55rem 0.75rem;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
+      border-radius: 6px;
+      padding: 0.5rem 0.65rem;
+      color: var(--text);
+      font-size: 0.8rem;
       outline: none;
       transition: border-color 0.2s;
     }
@@ -326,7 +378,7 @@
       background: #090e18;
       border: 2px solid var(--border-light);
       border-radius: var(--radius);
-      padding: 1.5rem;
+      padding: 1.25rem;
       position: relative;
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
     }
@@ -357,20 +409,18 @@
       box-shadow: inset 0 0 0 3px #0f172a, 0 15px 40px rgba(0, 0, 0, 0.8);
       position: relative;
     }
-    .enc-mount-intemperie::before, .enc-mount-intemperie::after {
-      content: "🔒 Cierre 1/4";
-      position: absolute;
-      top: 10px;
-      font-size: 8px;
-      font-weight: 800;
-      color: #94a3b8;
-      background: #0f172a;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #475569;
+
+    /* ESTILO CHASIS INTERIOR VISTA REALISTA (TABLEROSREALISTAS) */
+    .board-outer-enclosure.enc-view-internal {
+      background: #0a0f18 !important;
+      background-image: 
+        radial-gradient(#1e293b 1px, transparent 1px),
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px) !important;
+      background-size: 24px 24px, 24px 24px, 24px 24px !important;
+      border: 4px solid #334155 !important;
+      box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.9), 0 15px 45px rgba(0, 0, 0, 0.8) !important;
     }
-    .enc-mount-intemperie::before { left: 12px; }
-    .enc-mount-intemperie::after { right: 12px; }
 
     .enclosure-header {
       display: flex;
@@ -400,7 +450,93 @@
     }
 
     /* =========================================================
-       INSTRUMENTOS DE MEDICIÓN: VOLTÍMETRO Y AMPERÍMETRO
+       BORNERA REPARTIDORA SUPERIOR (TABLEROSREALISTAS)
+       ========================================================= */
+    .dist-terminal-block {
+      background: linear-gradient(180deg, #182234 0%, #0d1522 100%);
+      border: 1.5px solid #334766;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    }
+
+    .dist-block-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--text-muted);
+    }
+
+    .dist-terminal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      background: rgba(10, 15, 26, 0.9);
+      border: 1px solid #1e2b40;
+      border-radius: 6px;
+      padding: 0.4rem 0.75rem;
+      gap: 0.5rem;
+      overflow-x: auto;
+    }
+
+    .screw-terminal-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      user-select: none;
+    }
+
+    .screw-terminal-head {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 45%, #64748b 80%, #334155 100%);
+      border: 1px solid #1e293b;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.9);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Ranura combinada Pozidriv / Plana */
+    .screw-terminal-head::before {
+      content: "";
+      position: absolute;
+      width: 10px;
+      height: 2px;
+      background: #1e293b;
+      border-radius: 1px;
+    }
+
+    .screw-terminal-head::after {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 10px;
+      background: #1e293b;
+      border-radius: 1px;
+    }
+
+    .screw-caption {
+      font-size: 8px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .screw-caption.phase { color: #ef4444; }
+    .screw-caption.neutral { color: #38bdf8; }
+    .screw-caption.earth { color: #22c55e; }
+
+    /* =========================================================
+       INSTRUMENTOS DE MEDICIÓN: VOLTÍMETRO Y AMPERÍMETRO EN TAPA
        ========================================================= */
     .pilot-lights-panel {
       background: linear-gradient(180deg, #101726 0%, #090e1a 100%);
@@ -434,7 +570,6 @@
       flex-wrap: wrap;
     }
 
-    /* Ojo de Buey 22mm Volt-Amperímetro Digital */
     .meter-unit-22mm {
       display: flex;
       flex-direction: column;
@@ -444,16 +579,14 @@
       transition: transform 0.2s;
     }
 
-    .meter-unit-22mm:hover {
-      transform: scale(1.05);
-    }
+    .meter-unit-22mm:hover { transform: scale(1.05); }
 
     .meter-housing {
       width: 48px;
       height: 48px;
       border-radius: 50%;
       background: #020617;
-      border: 3px solid #64748b; /* Bisel metálico roscado */
+      border: 3px solid #64748b;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.2);
       display: flex;
       flex-direction: column;
@@ -479,8 +612,6 @@
       text-align: center;
     }
 
-    /* Colores LED de Displays Volt-Amperímetro */
-    /* Color Style: Clásico Rojo-Amarillo-Verde */
     .meter-color-r .meter-display-v { color: #ff4d4d; text-shadow: 0 0 6px rgba(239, 68, 68, 0.8); }
     .meter-color-r .meter-display-a { color: #fca5a5; text-shadow: 0 0 5px rgba(239, 68, 68, 0.6); }
 
@@ -490,7 +621,6 @@
     .meter-color-t .meter-display-v { color: #22c55e; text-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
     .meter-color-t .meter-display-a { color: #86efac; text-shadow: 0 0 5px rgba(34, 197, 94, 0.6); }
 
-    /* Color Style: Blancos Normalizados IEC 60073 */
     .meter-color-white .meter-display-v { color: #f8fafc; text-shadow: 0 0 6px rgba(248, 250, 252, 0.9); }
     .meter-color-white .meter-display-a { color: #38bdf8; text-shadow: 0 0 6px rgba(56, 189, 248, 0.9); }
 
@@ -501,7 +631,7 @@
       letter-spacing: 0.05em;
     }
 
-    /* BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) REGLAMENTARIAS */
+    /* BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) */
     .ground-busbar-container {
       background: rgba(15, 23, 42, 0.6);
       border: 1px dashed #334155;
@@ -529,7 +659,6 @@
       border: 1px solid #78350f;
       border-radius: 3px;
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-around;
@@ -551,31 +680,34 @@
       border: 1px solid #075985;
       border-radius: 3px;
       box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
-      position: relative;
       display: flex;
       align-items: center;
       justify-content: space-around;
       padding: 0 4px;
     }
 
-    /* MULTI-DIN RAILS SYSTEM (1 a 4 Rieles DIN) */
+    /* =========================================================
+       RIEL DIN OMEGA PERFORADO GALVANIZADO REALISTA
+       ========================================================= */
     .rails-stack {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
+      gap: 1.5rem;
+      position: relative;
     }
 
     .din-rail-row {
-      background: linear-gradient(180deg, #182232 0%, #0e1624 100%);
-      border: 1px solid #22334d;
+      background: #0f1624;
+      border: 1px solid #23344d;
       border-radius: 10px;
-      padding: 1.15rem 0.75rem;
+      padding: 1.5rem 0.85rem;
       position: relative;
-      min-height: 185px;
+      min-height: 250px;
       display: flex;
       align-items: center;
     }
 
+    /* Riel Metálico Cincado con Perforaciones Ovaladas */
     .din-rail-row::before {
       content: "";
       position: absolute;
@@ -583,184 +715,366 @@
       right: 10px;
       top: 50%;
       transform: translateY(-50%);
-      height: 24px;
-      background: linear-gradient(180deg, #526078 0%, #334155 50%, #1e293b 100%);
-      border: 1px solid #64748b;
+      height: 38px;
+      background: linear-gradient(180deg, #94a3b8 0%, #cbd5e1 30%, #f1f5f9 45%, #64748b 75%, #334155 100%);
+      border: 1.5px solid #475569;
       border-radius: 3px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(255, 255, 255, 0.8);
       z-index: 1;
+    }
+
+    /* Perforaciones oblongas caladas a lo largo del riel */
+    .din-rail-row::after {
+      content: "";
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 12px;
+      background: repeating-linear-gradient(
+        90deg,
+        #0b0f19 0px,
+        #0b0f19 22px,
+        transparent 22px,
+        transparent 38px
+      );
+      border-radius: 2px;
+      border-top: 1px solid rgba(0, 0, 0, 0.5);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+      z-index: 2;
+      pointer-events: none;
     }
 
     .rail-number-tag {
       position: absolute;
       top: 6px;
-      left: 10px;
+      left: 12px;
       font-size: 8px;
       font-weight: 900;
       color: #64748b;
       letter-spacing: 0.05em;
       text-transform: uppercase;
-      z-index: 2;
+      z-index: 3;
     }
 
     .din-components-container {
       display: flex;
-      gap: 5px;
+      gap: 4px;
       position: relative;
-      z-index: 2;
+      z-index: 4;
       overflow-x: auto;
       padding: 0.5rem 0;
       width: 100%;
+      align-items: center;
     }
 
-    /* REALISTIC BRANDED DIN MODULES */
-    .din-module {
-      background: #e2e8f0;
+    /* CAPA SVG DE CABLEADO CURVADO INTERNO */
+    .wiring-svg-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 8;
+    }
+
+    /* =========================================================
+       MÓDULOS DIN FOTOREALISTAS (ESTILO TABLEROSREALISTAS)
+       ========================================================= */
+    .din-mod-realistic {
+      background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
       color: #0f172a;
       border-radius: 4px;
-      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), inset 0 1px 1px rgba(255, 255, 255, 0.9);
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 5px 4px;
       flex-shrink: 0;
-      transition: transform 0.2s;
       cursor: pointer;
       user-select: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #cbd5e1;
+      height: 225px;
     }
 
-    .din-module:hover {
+    .din-mod-realistic:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.85);
     }
 
-    .din-1m { width: 44px; height: 155px; }
-    .din-2m { width: 88px; height: 155px; }
-    .din-3m { width: 132px; height: 155px; }
-    .din-4m { width: 176px; height: 155px; }
+    .mod-width-1m { width: 56px; }
+    .mod-width-2m { width: 112px; }
+    .mod-width-3m { width: 168px; }
+    .mod-width-4m { width: 224px; }
 
-    /* Brands */
-    .brand-schneider { border-top: 3px solid #009530; background: #f1f5f9; }
-    .brand-schneider .din-brand-title { color: #009530; font-weight: 900; font-size: 7.5px; }
-    .brand-schneider .din-toggle { background: #ea580c; border-color: #c2410c; }
+    /* BORNES SUPERIORES E INFERIORES CON TORNILLOS POZIDRIV */
+    .terminal-zone {
+      height: 38px;
+      background: #e2e8f0;
+      border-bottom: 1px solid #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 2px 4px;
+      position: relative;
+    }
 
-    .brand-abb { border-top: 3px solid #ff000f; background: #f8fafc; }
-    .brand-abb .din-brand-title { color: #ff000f; font-weight: 900; font-size: 8px; }
-    .brand-abb .din-toggle { background: #1e293b; border-color: #0f172a; }
+    .terminal-zone.bottom {
+      border-bottom: none;
+      border-top: 1px solid #cbd5e1;
+    }
 
-    .brand-chint { border-top: 3px solid #005bac; background: #f1f5f9; }
-    .brand-chint .din-brand-title { color: #005bac; font-weight: 900; font-size: 8px; }
-    .brand-chint .din-toggle { background: #0284c7; border-color: #0369a1; }
-
-    .brand-baw { border-top: 3px solid #f59e0b; background: #f8fafc; }
-    .brand-baw .din-brand-title { color: #b45309; font-weight: 900; font-size: 8px; }
-    .brand-baw .din-toggle { background: #dc2626; border-color: #b91c1c; }
-
-    /* Internal module details */
-    .din-top { text-align: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; }
-    .din-model-name { font-size: 9px; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
-    .din-body {
+    .terminal-pole-cavity {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      flex: 1;
-      padding: 4px 0;
+      width: 100%;
+      position: relative;
     }
 
-    .din-toggle {
-      width: 22px;
-      height: 40px;
-      border-radius: 3px;
-      border: 1px solid #475569;
-      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.4);
+    .screw-pozidriv {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #ffffff 0%, #cbd5e1 45%, #64748b 80%, #334155 100%);
+      border: 1px solid #334155;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8), 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .screw-pozidriv::before {
+      content: "";
+      position: absolute;
+      width: 9px;
+      height: 2px;
+      background: #1e293b;
+    }
+
+    .screw-pozidriv::after {
+      content: "";
+      position: absolute;
+      width: 2px;
+      height: 9px;
+      background: #1e293b;
+    }
+
+    /* Puntera Tubular / Ferrule Aislada en la entrada del borne */
+    .ferrule-indicator {
+      position: absolute;
+      top: -10px;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    }
+    .ferrule-15 { background: #ef4444; }
+    .ferrule-25 { background: #0284c7; }
+    .ferrule-40 { background: #eab308; }
+    .ferrule-60 { background: #16a34a; }
+    .ferrule-100 { background: #9333ea; }
+
+    /* CUERPO CENTRAL DE LA APARAMENTA */
+    .mod-central-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 6px 4px;
+      position: relative;
+    }
+
+    /* FRANJA DE MARCA AUTÉNTICA (ABB, SCHNEIDER, CHINT, BAW) */
+    .brand-banner-abb {
+      background: #e60000;
       color: #fff;
       font-size: 8px;
       font-weight: 900;
-    }
-
-    .din-indicator-box {
-      width: 14px;
-      height: 6px;
-      background: #ef4444;
-      border-radius: 2px;
-      border: 1px solid #991b1b;
-    }
-
-    .din-test-btn {
-      width: 18px;
-      height: 18px;
-      background: #facc15;
-      border-radius: 50%;
-      border: 1px solid #ca8a04;
-      font-size: 8px;
-      font-weight: 900;
-      color: #713f12;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      text-align: center;
+      padding: 1.5px 0;
+      border-radius: 1px;
+      letter-spacing: 0.08em;
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    .din-digital-display {
-      background: #020617;
-      border: 1px solid #1e293b;
-      border-radius: 3px;
-      padding: 3px 6px;
-      color: #22c55e;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
+    .brand-banner-schneider {
+      background: #009530;
+      color: #fff;
+      font-size: 7.5px;
       font-weight: 900;
-      text-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
       text-align: center;
-      width: 90%;
+      padding: 1.5px 0;
+      border-radius: 1px;
+      letter-spacing: 0.04em;
     }
 
-    .din-contactor-window {
-      background: #0f172a;
-      border: 1px solid #334155;
-      border-radius: 3px;
-      padding: 3px;
+    .brand-banner-chint {
+      background: #005bac;
+      color: #fff;
       font-size: 8px;
-      color: #38bdf8;
-      font-weight: 800;
+      font-weight: 900;
       text-align: center;
-      width: 90%;
+      padding: 1.5px 0;
+      border-radius: 1px;
     }
 
-    .din-dps-cartridge {
-      width: 80%;
-      height: 38px;
-      background: #16a34a;
-      border-radius: 3px;
-      border: 1px solid #14532d;
+    .brand-banner-baw {
+      background: #f59e0b;
+      color: #78350f;
+      font-size: 8px;
+      font-weight: 900;
+      text-align: center;
+      padding: 1.5px 0;
+      border-radius: 1px;
+    }
+
+    /* SERIGRAFÍA TÉCNICA */
+    .mod-print-main {
+      font-size: 13px;
+      font-weight: 900;
+      color: #0f172a;
+      text-align: center;
+      margin: 4px 0 2px;
+      letter-spacing: -0.02em;
+    }
+
+    .mod-print-sub {
+      font-size: 7px;
+      font-weight: 800;
+      color: #475569;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* MANETA 3D ERGONÓMICA CON RANURAS DE AGARRE */
+    .mod-rocker-switch-container {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #fff;
-      font-size: 8px;
-      font-weight: 800;
-      text-align: center;
+      margin: 6px 0;
     }
 
-    /* Volt-Amperímetro de Riel DIN */
-    .din-vameter-display {
+    .mod-rocker-switch {
+      height: 48px;
+      border-radius: 3px;
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      border: 1px solid #020617;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.3);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 7.5px;
+      font-weight: 900;
+    }
+
+    .rocker-1p { width: 22px; }
+    .rocker-2p { width: 44px; }
+    .rocker-4p { width: 88px; }
+
+    .rocker-schneider {
+      background: linear-gradient(180deg, #ea580c 0%, #c2410c 100%);
+    }
+
+    .rocker-chint {
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+    }
+
+    .rocker-baw {
+      background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+    }
+
+    .mod-rocker-switch::before {
+      content: "";
+      width: 70%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.4);
+      margin-bottom: 2px;
+    }
+
+    .mod-rocker-switch::after {
+      content: "";
+      width: 70%;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.4);
+      margin-top: 2px;
+    }
+
+    /* BOTÓN TEST OVALADO CON RELIEVE PARA DIFERENCIALES */
+    .mod-test-button {
+      width: 26px;
+      height: 16px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+      border: 1px solid #94a3b8;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      font-size: 7.5px;
+      font-weight: 900;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+    }
+
+    /* VISOR MECÁNICO VISITRIP / ESTADO */
+    .mod-visitrip-window {
+      width: 14px;
+      height: 6px;
+      background: #16a34a;
+      border-radius: 2px;
+      border: 1px solid #14532d;
+      margin: 2px auto;
+    }
+
+    /* DIAGRAMA UNIFILAR ESQUEMÁTICO */
+    .mod-schematic-drawing {
+      font-size: 6px;
+      color: #64748b;
+      text-align: center;
+      line-height: 1;
+      font-family: monospace;
+    }
+
+    /* PANTALLA DIGITAL LED 7-SEGMENTOS */
+    .mod-digital-led-box {
       background: #020617;
       border: 1px solid #1e293b;
-      border-radius: 3px;
-      padding: 2px 4px;
-      width: 92%;
+      border-radius: 4px;
+      padding: 3px 6px;
       text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      margin: 4px 0;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
     }
 
-    .din-bottom { border-top: 1px solid #cbd5e1; padding-top: 3px; text-align: center; font-size: 8.5px; font-weight: 800; color: #334155; }
+    /* ETIQUETA AMARILLA FLOTANTE DE CALIBRE (4 mm) */
+    .cable-gauge-chip {
+      background: #facc15;
+      color: #000;
+      border: 1px solid #ca8a04;
+      border-radius: 3px;
+      padding: 2px 6px;
+      font-size: 8.5px;
+      font-weight: 900;
+      font-family: 'JetBrains Mono', monospace;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      position: absolute;
+      z-index: 15;
+      user-select: none;
+      pointer-events: none;
+    }
 
+    /* TAG ELIMINAR */
     .din-remove-tag {
       position: absolute;
       top: -8px;
@@ -768,20 +1082,21 @@
       background: #ef4444;
       color: #fff;
       border-radius: 50%;
-      width: 17px;
-      height: 17px;
+      width: 18px;
+      height: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 9px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
       opacity: 0;
       transition: opacity 0.2s;
+      z-index: 20;
     }
 
-    .din-module:hover .din-remove-tag { opacity: 1; }
+    .din-mod-realistic:hover .din-remove-tag { opacity: 1; }
 
     /* CCTV RACK CANVAS */
     .rack-cabinet {
@@ -950,33 +1265,26 @@
     .btn-print-pdf { background: #0284c7; color: #fff; }
     .btn-print-close { background: #e2e8f0; color: #334155; }
 
-    @media print {
-      body * { visibility: hidden; }
-      .modal-print-sheet, .modal-print-sheet * { visibility: visible; }
-      .modal-print-sheet { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; padding: 0; }
-      .print-footer-actions { display: none; }
-    }
-
     /* Toast */
     .toast {
       position: fixed;
-      bottom: 75px;
+      bottom: 20px;
       left: 50%;
       transform: translateX(-50%) translateY(100px);
-      background: var(--surface-card);
-      border: 1px solid var(--border-light);
-      padding: 0.75rem 1.25rem;
-      border-radius: 30px;
+      background: #1e293b;
       color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 30px;
       font-size: 0.85rem;
-      font-weight: 600;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      font-weight: 700;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-light);
       z-index: 2000;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      opacity: 0;
     }
 
     .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
@@ -991,13 +1299,13 @@
         <div class="brand-icon">⚡</div>
         <div class="brand-info">
           <h1>EL CÓNDOR</h1>
-          <p>CAD Diseñador de Tableros & Racks CCTV</p>
+          <p>CAD Tableros Eléctricos & Racks CCTV • AEA 90364</p>
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn-header" onclick="loadPreset('trifasico_pro')">⚡⚡⚡ Trifásico R-S-T</button>
+        <button class="btn-header" onclick="loadPreset('abb_pro')">🔴 ABB Realista (Foto)</button>
         <button class="btn-header" onclick="loadPreset('schneider_pro')">🟢 Schneider Premium</button>
-        <button class="btn-header" onclick="loadPreset('abb_pro')">🔴 ABB Compact</button>
+        <button class="btn-header" onclick="loadPreset('trifasico_pro')">⚡⚡⚡ Trifásico R-S-T</button>
         <button class="btn-header" onclick="clearBoard()">🗑️ Limpiar</button>
         <button class="btn-header primary" onclick="openClientPresentation()">📄 Presentar al Cliente</button>
       </div>
@@ -1013,6 +1321,21 @@
       </button>
     </div>
 
+    <!-- BARRA SELECTORA DE PERSPECTIVA (VISTA INTERNA CON CABLEADO VS VISTA TAPA) -->
+    <div id="perspectiveBar" class="perspective-bar">
+      <div class="perspective-toggle-group">
+        <button id="btnPerspInternal" class="btn-perspective active" onclick="setViewPerspective('internal')">
+          <span>🔌 Vista Interna Realista (TablerosRealistas: Cables, Bornes y Riel Perforado)</span>
+        </button>
+        <button id="btnPerspFront" class="btn-perspective" onclick="setViewPerspective('front')">
+          <span>🔘 Vista Frontal (Tapa Gabinete con Voltímetros y Amperímetros 22mm)</span>
+        </button>
+      </div>
+      <div class="perspective-badge-tag">
+        <span id="perspectiveInfoTag">⚡ Modo Chasis Abierto • Conexiones Reales</span>
+      </div>
+    </div>
+
     <!-- Main Workspace Grid -->
     <div class="designer-grid">
       
@@ -1022,23 +1345,32 @@
         <!-- ELECTRICAL TOOLBAR -->
         <div id="toolsElec">
           
-          <!-- SUMINISTRO: MONOFÁSICO VS TRIFÁSICO -->
+          <!-- SUMINISTRO & CABLEADO -->
           <div class="panel-card" style="border-color: rgba(245, 158, 11, 0.4);">
             <div class="panel-title">
-              <span>⚡ Suministro & Medición</span>
-              <span id="supplyBadge" style="font-size: 0.7rem; color: var(--gold);">Trifásico 380V</span>
+              <span>⚡ Suministro & Cableado</span>
+              <span id="supplyBadge" style="font-size: 0.7rem; color: var(--gold);">Monofásico 220V</span>
             </div>
             <div class="pills-row">
-              <button class="pill-btn" id="supplyMono" onclick="setSupplyType('monofasico')">
+              <button class="pill-btn active" id="supplyMono" onclick="setSupplyType('monofasico')">
                 <span>⚡</span> <span>Monofásico 220V</span>
               </button>
-              <button class="pill-btn active" id="supplyTri" onclick="setSupplyType('trifasico')">
+              <button class="pill-btn" id="supplyTri" onclick="setSupplyType('trifasico')">
                 <span>⚡⚡⚡</span> <span>Trifásico 380V (R-S-T)</span>
               </button>
             </div>
 
+            <!-- Ajustes de Cableado Realista -->
+            <label class="form-label" style="margin-top: 0.4rem;">Opciones de Cableado Interno</label>
+            <div class="pills-row">
+              <button class="pill-btn active" id="toggleWiringBtn" onclick="toggleWiring()">🔌 Cables Curvos: SÍ</button>
+              <button class="pill-btn active" id="gauge4Btn" onclick="setMainGauge(4)">🟡 4 mm²</button>
+              <button class="pill-btn" id="gauge6Btn" onclick="setMainGauge(6)">🟢 6 mm²</button>
+              <button class="pill-btn" id="gauge10Btn" onclick="setMainGauge(10)">🟣 10 mm²</button>
+            </div>
+
             <!-- Estilo de Ojos de Buey / Medición -->
-            <label class="form-label" style="margin-top: 0.4rem;">Color de Instrumentos Ojo de Buey 22mm</label>
+            <label class="form-label" style="margin-top: 0.4rem;">Color de Instrumentos 22mm (Tapa)</label>
             <div class="pills-row">
               <button class="pill-btn active" id="colorRYG" onclick="setPilotColorStyle('ryg')">🔴🟡🟢 R-Y-G Clásico</button>
               <button class="pill-btn" id="colorWhite" onclick="setPilotColorStyle('white')">⚪⚪⚪ IEC Blanco</button>
@@ -1093,11 +1425,11 @@
           <div class="panel-card">
             <div class="panel-title">
               <span>🏷️ Marca de Protecciones</span>
-              <span style="font-size: 0.7rem; color: var(--cyan);" id="activeBrandLabel">Schneider Electric</span>
+              <span style="font-size: 0.7rem; color: var(--cyan);" id="activeBrandLabel">ABB System Pro M</span>
             </div>
             <div class="pills-row">
-              <button class="pill-btn active" id="pillSchneider" onclick="setActiveBrand('schneider')">🟢 Schneider</button>
-              <button class="pill-btn" id="pillAbb" onclick="setActiveBrand('abb')">🔴 ABB</button>
+              <button class="pill-btn active" id="pillAbb" onclick="setActiveBrand('abb')">🔴 ABB (Franja Roja)</button>
+              <button class="pill-btn" id="pillSchneider" onclick="setActiveBrand('schneider')">🟢 Schneider</button>
               <button class="pill-btn" id="pillChint" onclick="setActiveBrand('chint')">🔵 Chint</button>
               <button class="pill-btn" id="pillBaw" onclick="setActiveBrand('baw')">🟡 BAW</button>
             </div>
@@ -1108,11 +1440,14 @@
               <span style="font-size: 0.7rem; color: var(--gold);">Riel 35mm</span>
             </div>
             <div class="quick-add-grid">
-              <button class="btn-quick" onclick="addQuick('protector')">
-                <span>📟</span> <span>Prot. Tensión (2M/4M)</span>
+              <button class="btn-quick" onclick="addQuick('termica_gen')">
+                <span>⚡</span> <span>PIA General (20A / 40A)</span>
               </button>
               <button class="btn-quick" onclick="addQuick('diferencial')">
-                <span>🛡️</span> <span>Disyuntor Dif. (2M/4M)</span>
+                <span>🛡️</span> <span>Diferencial (FH202/iID)</span>
+              </button>
+              <button class="btn-quick" onclick="addQuick('protector')">
+                <span>📟</span> <span>Prot. Tensión Digital</span>
               </button>
               <button class="btn-quick" onclick="addQuick('vameter_din')">
                 <span>📊</span> <span>Volt-Amperímetro DIN</span>
@@ -1159,8 +1494,8 @@
                 <label class="form-label">Amperaje Nominal (In)</label>
                 <select id="customElecAmp" class="form-control">
                   <option value="10">10A</option>
-                  <option value="16" selected>16A</option>
-                  <option value="20">20A</option>
+                  <option value="16">16A</option>
+                  <option value="20" selected>20A</option>
                   <option value="25">25A</option>
                   <option value="32">32A</option>
                   <option value="40">40A</option>
@@ -1174,8 +1509,8 @@
                 <label class="form-label">Calibre Cable (AEA)</label>
                 <select id="customElecCable" class="form-control">
                   <option value="1.5">1.5 mm² (Iz ~15A)</option>
-                  <option value="2.5" selected>2.5 mm² (Iz ~21A)</option>
-                  <option value="4.0">4.0 mm² (Iz ~28A)</option>
+                  <option value="2.5">2.5 mm² (Iz ~21A)</option>
+                  <option value="4.0" selected>4.0 mm² (Iz ~28A)</option>
                   <option value="6.0">6.0 mm² (Iz ~36A)</option>
                   <option value="10.0">10.0 mm² (Iz ~50A)</option>
                   <option value="16.0">16.0 mm² (Iz ~66A)</option>
@@ -1297,27 +1632,39 @@
           <div class="board-canvas-card">
             
             <!-- EL GABINETE VISUAL (GENROD, ROKET, GABEXEL, CONEXTUBE) -->
-            <div id="boardOuterEnclosure" class="board-outer-enclosure enc-mount-embutir">
+            <div id="boardOuterEnclosure" class="board-outer-enclosure enc-view-internal">
+              
+              <!-- Cabecera del Gabinete -->
               <div class="enclosure-header">
                 <div class="enclosure-badge">
-                  <span>⚡</span> <span id="enclosureMainTitle">GABINETE GENROD Q-ENERGY • EMBUTIR</span>
+                  <span>⚡</span> <span id="enclosureMainTitle">CHASIS INTERNO • ABB SYSTEM PRO M • 24 MÓDULOS</span>
                 </div>
-                <div class="enclosure-specs" id="enclosureSpecsTag">24 Módulos DIN • IP40 • Norma IRAM</div>
+                <div class="enclosure-specs" id="enclosureSpecsTag">24 Módulos DIN • Riel Omega Perforado • Cableado Realista</div>
               </div>
 
-              <!-- PANEL FRONTAL: VOLTÍMETROS & AMPERÍMETROS DIGITALES 22mm -->
-              <div id="pilotLightsPanel" class="pilot-lights-panel">
+              <!-- BORNERA REPARTIDORA SUPERIOR (VISTA INTERNA) -->
+              <div id="distTerminalBlock" class="dist-terminal-block">
+                <div class="dist-block-header">
+                  <span>🔩 BORNERA REPARTIDORA MODULAR SUPERIOR (TORNILLOS POZIDRIV LATÓN/ACERO)</span>
+                  <span class="mono" style="color: var(--cyan); font-size: 0.7rem;">Norma AEA 90364</span>
+                </div>
+                <div class="dist-terminal-row" id="distTerminalRow">
+                  <!-- Se genera dinámicamente según Monofásico/Trifásico -->
+                </div>
+              </div>
+
+              <!-- PANEL FRONTAL: VOLTÍMETROS & AMPERÍMETROS DIGITALES 22mm (VISTA TAPA) -->
+              <div id="pilotLightsPanel" class="pilot-lights-panel" style="display: none;">
                 <div class="pilot-panel-title">
                   <span>📟</span> <span id="pilotPanelTitle">MONITOREO DIGITAL DE RED (VOLTÍMETRO + AMPERÍMETRO 22mm LED)</span>
                 </div>
-
                 <div class="pilot-lights-cluster" id="pilotLightsCluster">
                   <!-- Render dinámico de voltímetros y amperímetros -->
                 </div>
               </div>
 
-              <!-- BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) BAJO NORMA AEA -->
-              <div class="ground-busbar-container">
+              <!-- BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) BAJO NORMA AEA (VISTA TAPA) -->
+              <div id="groundBusbarContainer" class="ground-busbar-container" style="display: none;">
                 <div class="busbar-item">
                   <span style="font-weight: 800; color: #f59e0b;">⚡ Barra Puesta a Tierra (PE):</span>
                   <div class="busbar-copper">
@@ -1348,8 +1695,8 @@
                 <!-- Se generan dinámicamente según la capacidad (1 a 4 rieles) -->
               </div>
 
-              <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.75rem;">
-                Hacé clic en cualquier térmica para eliminarla o editarla.
+              <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 1rem;">
+                Hacé clic en cualquier térmica para eliminarla • Podés alternar en cualquier momento entre <strong>Vista Interna (Cables y Bornes)</strong> y <strong>Vista Frontal (Tapa y Voltímetros)</strong>.
               </div>
             </div>
           </div>
@@ -1398,87 +1745,76 @@
               <div id="rackContainer" class="rack-cabinet">
                 <!-- Se llena dinámicamente -->
               </div>
-            </div>
-          </div>
 
-          <div class="specs-card">
-            <h3 style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
-              📹 Memoria Técnica del Sistema de Seguridad
-            </h3>
-            <div id="cctvTechSheet" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
-              <!-- Se calcula dinámicamente -->
+              <div class="specs-card" style="margin-top: 1rem;">
+                <h3 style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
+                  📹 Parámetros de Seguridad Electrónica & Grabación
+                </h3>
+                <div id="cctvTechSheet" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+                  <!-- Se llena dinámicamente -->
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
       </div>
-
     </div>
   </div>
 
-  <!-- MODAL DE PRESENTACIÓN AL CLIENTE (LISTA PARA IMPRIMIR O PDF) -->
-  <div id="clientModal" class="modal-backdrop" onclick="if(event.target===this) closeClientModal()">
+  <!-- MODAL DE PRESENTACIÓN TÉCNICA PARA CLIENTES -->
+  <div id="clientModal" class="modal-backdrop">
     <div class="modal-print-sheet">
       <div class="print-header">
         <div class="print-brand">
-          <h2>CONDOR SERVICIOS INTEGRALES</h2>
-          <p>Climatización • Seguridad Electrónica • Instalaciones Eléctricas de Alta Gama</p>
-          <p style="color: #0284c7; font-weight: 700;">Quilmes & Zona Sur • WhatsApp: 11 2613-9527</p>
+          <h2>EL CÓNDOR CLIMATIZACIÓN & ELECTRICIDAD</h2>
+          <p>Ingeniería Eléctrica • Tableros Seccionales Reglamentarios • Seguridad Electrónica</p>
         </div>
         <div class="print-meta">
-          <div><strong>Fecha:</strong> <span id="printDate"></span></div>
-          <div><strong>Normativa:</strong> AEA 90364 / IRAM</div>
-          <div><strong>Garantía:</strong> 12 Meses Escrita</div>
+          <strong>Fecha:</strong> <span id="printDate">12/10/2026</span><br>
+          <strong>Normativa:</strong> AEA 90364 / IRAM-IEC
         </div>
       </div>
 
-      <div class="print-title" id="printReportTitle">MEMORIA DESCRIPTIVA Y PLANILLA DE TABLERO ELÉCTRICO</div>
-      <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1rem;" id="printReportSubtitle">
-        Diseño técnico normalizado con protecciones termomagnéticas, diferencial y conductor adecuado bajo norma para máxima seguridad humana y de la propiedad.
-      </p>
+      <h3 class="print-title" id="printReportTitle">MEMORIA TÉCNICA - TABLERO DE DISTRIBUCIÓN</h3>
+      <p id="printReportSubtitle" style="font-size: 0.85rem; color: #475569; margin-bottom: 1rem;"></p>
 
-      <!-- Ficha Técnica del Gabinete -->
-      <div style="background: #f1f5f9; border-left: 4px solid #0284c7; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.8rem; color: #1e293b;" id="printEnclosureSpecs">
-        <!-- Render dinámico de la caja -->
+      <!-- Ficha de envolvente -->
+      <div id="printEnclosureSpecs" style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:6px; padding:0.75rem 1rem; font-size:0.8rem; margin-bottom:1rem; line-height:1.6;">
+        <!-- Se llena dinámicamente -->
       </div>
 
       <table class="print-table" id="printTable">
-        <!-- Render dinámico -->
+        <!-- Se llena dinámicamente -->
       </table>
-
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-top: 1rem; font-size: 0.8rem;">
-        <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">🛡️ Compromiso de Calidad y Seguridad El Cóndor:</h4>
-        <p style="color: #64748b; line-height: 1.5;">
-          • Solo utilizamos aparamenta original certificada bajo normas IRAM / IEC (Schneider Electric, ABB, Chint, BAW) y envolventes homologadas (Genrod, Roket, Gabexel, Conextube).<br>
-          • Monitoreo permanente con voltímetros y amperímetros digitales de 22mm para control de balanceo de fases.<br>
-          • Barra equipotencial de Puesta a Tierra (PAT) bajo norma IRAM 2281 con jabalina hincada y resistencia comprobada inferior a 10 Ohms.
-        </p>
-      </div>
 
       <div class="print-footer-actions">
         <button class="btn-print-action btn-print-close" onclick="closeClientModal()">Cerrar</button>
-        <button class="btn-print-action btn-print-pdf" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
+        <button class="btn-print-action btn-print-pdf" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
       </div>
     </div>
   </div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast"><span>✅ Tablero actualizado</span></div>
+  <!-- Toast Notificaciones -->
+  <div id="toast" class="toast">
+    <span>Mensaje</span>
+  </div>
 
   <script>
-    // ESTADO DE LA APP
-    let currentMode = "electrico"; // 'electrico' | 'cctv'
-    let supplyType = "trifasico";  // 'monofasico' | 'trifasico'
-    let pilotColorStyle = "ryg";   // 'ryg' | 'white'
+    // ESTADO GENERAL
+    let currentMode = 'electrico';
+    let viewPerspective = 'internal'; // 'internal' (TablerosRealistas) o 'front' (Tapa)
+    let supplyType = 'monofasico';
+    let pilotColorStyle = 'ryg';
+    let activeBrand = 'abb';
+    let enclosureBrand = 'genrod';
+    let mountType = 'embutir';
+    let enclosureCapacity = 24;
     let showPilots = true;
-    let activeBrand = "schneider"; // 'schneider' | 'abb' | 'chint' | 'baw'
-    let enclosureBrand = "genrod"; // 'genrod' | 'roket' | 'gabexel' | 'conextube'
-    let mountType = "embutir";     // 'embutir' | 'superficie' | 'intemperie'
-    let enclosureCapacity = 24;    // 12, 18, 24, 36, 48, 54
-    let elecModules = [];
-    let rackItems = [];
+    let showWiring = true;
+    let mainWireGauge = 4; // 4, 6, 10 mm²
 
-    // LÍMITES DE CORRIENTE ADMISIBLE (IRAM 2183 / 247-3 cañería embutida B1)
+    // Capacidad admisible de conductores según AEA 90364 / IRAM 2183 (B1/B2 cañería embutida)
     const CABLE_IZ = {
       1.5: 15,
       2.5: 21,
@@ -1488,149 +1824,202 @@
       16.0: 66
     };
 
-    // MARCAS DE GABINETES
-    const ENCLOSURE_DATA = {
-      genrod: {
-        name: "Genrod",
-        embutir: { title: "Genrod Q-Energy / Helix Embutir", ip: "IP40", material: "Termoplástico autoextinguible V0" },
-        superficie: { title: "Genrod Box Superficie", ip: "IP40", material: "Termoplástico de alto impacto" },
-        intemperie: { title: "Genrod Tube / Helix Estanco", ip: "IP65", material: "Termoplástico con filtro UV y burlete EPDM" }
-      },
-      roket: {
-        name: "Roket",
-        embutir: { title: "Roket Modular de Embutir", ip: "IP40", material: "Termoplástico ignífugo con puerta fumé" },
-        superficie: { title: "Roket Modular de Superficie", ip: "IP40", material: "Termoplástico reforzado" },
-        intemperie: { title: "Roket Estanco Exterior", ip: "IP65", material: "Polímero resistente a la intemperie" }
-      },
-      gabexel: {
-        name: "Gabexel",
-        embutir: { title: "Gabexel Modular Embutir", ip: "IP40", material: "Chapa de acero 1.2mm con marco esmaltado" },
-        superficie: { title: "Gabexel Metálico Superficie", ip: "IP54", material: "Chapa plegada pintura epoxi electrostática" },
-        intemperie: { title: "Gabexel Gabinete Estanco Metálico", ip: "IP65", material: "Chapa DD 1.6mm con burlete poliuretano y cierre 1/4 vuelta" }
-      },
-      conextube: {
-        name: "Conextube",
-        embutir: { title: "Conextube Eurobox Embutir", ip: "IP40", material: "Termoplástico V0 con chasis desmontable" },
-        superficie: { title: "Conextube Dinbox Superficie", ip: "IP40", material: "Tecnopolímero antiestático" },
-        intemperie: { title: "Conextube Eurobox Estanco IP65", ip: "IP65", material: "Policarbonato libre de halógenos IK08" }
-      }
-    };
-
-    // APARAMENTA
+    // DATOS DE MARCAS DE APARAMENTA
     const BRAND_INFO = {
-      schneider: {
-        name: "Schneider Electric",
-        series: "Acti9 / Easy9",
-        class: "brand-schneider",
-        label: "Schneider",
-        protModel: "RU-40 Digi",
-        diffModel: "iID 4x40A 30mA",
-        contactorModel: "iCT 25A 2NA",
-        dpsModel: "iPRD 20r 350V",
-        vameterModel: "PM2100 Digi",
-        piaPrefix: "iC60N C"
-      },
       abb: {
-        name: "ABB",
-        series: "System pro M compact",
-        class: "brand-abb",
-        label: "ABB",
-        protModel: "E200 Digital",
-        diffModel: "FH204 4x40A 30mA",
-        contactorModel: "ESB25-20N 2NA",
-        dpsModel: "OVR T2 40-275",
-        vameterModel: "DMTME Digi",
-        piaPrefix: "S201 C"
+        label: 'ABB',
+        class: 'brand-abb',
+        bannerClass: 'brand-banner-abb',
+        rockerClass: 'rocker-abb',
+        piaPrefix: 'S20',
+        diffModel: 'FH202 AC 40A 30mA',
+        protModel: 'E200 Digital',
+        vameterModel: 'M4M 20 DIN',
+        contactorModel: 'ESB 24-40',
+        dpsModel: 'OVR T2 40kA'
+      },
+      schneider: {
+        label: 'Schneider',
+        class: 'brand-schneider',
+        bannerClass: 'brand-banner-schneider',
+        rockerClass: 'rocker-schneider',
+        piaPrefix: 'iC60N C',
+        diffModel: 'Acti9 iID 2x40A 30mA',
+        protModel: 'RU-40 Digital',
+        vameterModel: 'PowerLogic PM2200',
+        contactorModel: 'iCT 25A 2NA',
+        dpsModel: 'iPRD 40kA'
       },
       chint: {
-        name: "Chint Electric",
-        series: "Línea NXB-63",
-        class: "brand-chint",
-        label: "CHNT",
-        protModel: "NXJ-40 Digital",
-        diffModel: "NL1-63 4x40A 30mA",
-        contactorModel: "NCH8-25 2NA",
-        dpsModel: "NU6-II 40kA",
-        vameterModel: "PA666-V/A",
-        piaPrefix: "NXB-63 C"
+        label: 'Chint',
+        class: 'brand-chint',
+        bannerClass: 'brand-banner-chint',
+        rockerClass: 'rocker-chint',
+        piaPrefix: 'NXB-63 C',
+        diffModel: 'NL1-63 2x40A 30mA',
+        protModel: 'CH-RU40 Digi',
+        vameterModel: 'DDSU666 DIN',
+        contactorModel: 'NCH8 20A',
+        dpsModel: 'NU6-II 40kA'
       },
       baw: {
-        name: "BAW Electric",
-        series: "Industrial / Línea RU",
-        class: "brand-baw",
-        label: "BAW",
-        protModel: "RU-40 220V",
-        diffModel: "ID 4x40A 30mA",
-        contactorModel: "KNL 25A 220V",
-        dpsModel: "DPS Clase II 40kA",
-        vameterModel: "VA-DIN Digital",
-        piaPrefix: "B100 C"
+        label: 'BAW',
+        class: 'brand-baw',
+        bannerClass: 'brand-banner-baw',
+        rockerClass: 'rocker-baw',
+        piaPrefix: 'K2 C',
+        diffModel: 'ID 2x40A 30mA',
+        protModel: 'V-PRO Digital',
+        vameterModel: 'VAM-100 DIN',
+        contactorModel: 'BC1 25A',
+        dpsModel: 'DPS-40 II'
       }
     };
 
+    // DATOS DE ENVOLVENTES / GABINETES
+    const ENCLOSURE_DATA = {
+      genrod: {
+        name: 'Genrod',
+        embutir: { title: 'Caja Genrod Q-Energy Embutir', ip: 'IP40', material: 'Termoplástico Ignífugo' },
+        superficie: { title: 'Caja Genrod Helix Superficie', ip: 'IP40', material: 'Termoplástico Alto Impacto' },
+        intemperie: { title: 'Gabinete Genrod Estanco Intemperie', ip: 'IP65', material: 'Policarbonato UV' }
+      },
+      roket: {
+        name: 'Roket',
+        embutir: { title: 'Caja Roket Clásica Embutir', ip: 'IP40', material: 'Poliestireno Alto Brillo' },
+        superficie: { title: 'Caja Roket Modular Superficie', ip: 'IP40', material: 'Termoplástico Reforzado' },
+        intemperie: { title: 'Gabinete Roket Estanco IP65', ip: 'IP65', material: 'Policarbonato Gris RAL 7035' }
+      },
+      gabexel: {
+        name: 'Gabexel',
+        embutir: { title: 'Caja Gabexel Chapa Embutir', ip: 'IP41', material: 'Chapa DD Pintura Epoxi' },
+        superficie: { title: 'Gabinete Gabexel Metálico Mural', ip: 'IP55', material: 'Acero Electrozincado Epoxi' },
+        intemperie: { title: 'Gabinete Gabexel Estanco Intemperie', ip: 'IP66', material: 'Acero Estanco con Burlete' }
+      },
+      conextube: {
+        name: 'Conextube',
+        embutir: { title: 'Caja Conextube Plast Embutir', ip: 'IP40', material: 'Tecnopolímero Autoextinguible' },
+        superficie: { title: 'Caja Conextube Stylus Superficie', ip: 'IP41', material: 'Polímero Resistente al Impacto' },
+        intemperie: { title: 'Gabinete Conextube EuroBox IP65', ip: 'IP65', material: 'Policarbonato Reforzado UV' }
+      }
+    };
+
+    // CIRCUITOS ELÉCTRICOS INICIALES (MUESTRA REALISTA ABB IDÉNTICA A LA FOTO)
+    let elecModules = [
+      { id: '1', type: 'termica', name: 'Térmica General Bipolar 2x20A', brand: 'ABB', model: 'S202 C20', amp: 20, width: 2, display: 'termica', cable: 4.0, watts: 4400 },
+      { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Bipolar 40A 30mA', brand: 'ABB', model: 'FH202 AC 40A', amp: 40, width: 2, display: 'disyuntor', cable: 4.0, watts: 0 },
+      { id: '3', type: 'termica', name: 'Iluminación Planta Baja (IUG)', brand: 'ABB', model: 'S201 C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+      { id: '4', type: 'termica', name: 'Tomas de Uso General (TUG)', brand: 'ABB', model: 'S201 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+      { id: '5', type: 'termica', name: 'Aire Acondicionado Split (TUE)', brand: 'ABB', model: 'S201 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
+    ];
+
+    // EQUIPOS CCTV INICIALES
+    let rackItems = [];
+
+    // INICIALIZACIÓN
     window.addEventListener("DOMContentLoaded", () => {
-      loadPreset('trifasico_pro');
-      document.getElementById('printDate').textContent = new Date().toLocaleDateString('es-AR');
+      document.getElementById("printDate").textContent = new Date().toLocaleDateString('es-AR');
+      render();
     });
 
-    // SUMINISTRO: MONOFÁSICO / TRIFÁSICO
+    // CAMBIO DE PERSPECTIVA: VISTA INTERNA REALISTA VS TAPA
+    function setViewPerspective(persp) {
+      viewPerspective = persp;
+      const btnInt = document.getElementById("btnPerspInternal");
+      const btnFront = document.getElementById("btnPerspFront");
+      const tag = document.getElementById("perspectiveInfoTag");
+
+      if (persp === 'internal') {
+        btnInt.className = "btn-perspective active";
+        btnFront.className = "btn-perspective";
+        tag.innerHTML = "⚡ Modo Chasis Abierto • Conexiones Reales (TablerosRealistas)";
+        showToast("🔌 Vista Interna Realista con Cableado y Bornes activada");
+      } else {
+        btnInt.className = "btn-perspective";
+        btnFront.className = "btn-perspective active";
+        tag.innerHTML = "🔘 Modo Tapa Cerrada • Voltímetros y Amperímetros 22mm";
+        showToast("🔘 Vista Frontal (Tapa con Instrumentos) activada");
+      }
+      render();
+    }
+
+    function toggleWiring() {
+      showWiring = !showWiring;
+      const btn = document.getElementById("toggleWiringBtn");
+      btn.className = `pill-btn ${showWiring ? 'active' : ''}`;
+      btn.textContent = showWiring ? '🔌 Cables Curvos: SÍ' : '🔌 Cables Curvos: NO';
+      render();
+      showToast(showWiring ? "✅ Cableado interno visible" : "❌ Cableado interno oculto");
+    }
+
+    function setMainGauge(gauge) {
+      mainWireGauge = gauge;
+      document.getElementById("gauge4Btn").className = `pill-btn ${gauge === 4 ? 'active' : ''}`;
+      document.getElementById("gauge6Btn").className = `pill-btn ${gauge === 6 ? 'active' : ''}`;
+      document.getElementById("gauge10Btn").className = `pill-btn ${gauge === 10 ? 'active' : ''}`;
+      render();
+      showToast(`🟡 Calibre de acometida ajustado a ${gauge} mm²`);
+    }
+
+    // CONTROLADORES DE SUMINISTRO & APARAMENTA
     function setSupplyType(type) {
       supplyType = type;
-      document.getElementById('supplyMono').className = type === 'monofasico' ? 'pill-btn active' : 'pill-btn';
-      document.getElementById('supplyTri').className = type === 'trifasico' ? 'pill-btn active' : 'pill-btn';
-      document.getElementById('supplyBadge').textContent = type === 'monofasico' ? 'Monofásico 220V' : 'Trifásico 380V (R-S-T)';
+      document.getElementById("supplyMono").className = `pill-btn ${type === 'monofasico' ? 'active' : ''}`;
+      document.getElementById("supplyTri").className = `pill-btn ${type === 'trifasico' ? 'active' : ''}`;
+      document.getElementById("supplyBadge").textContent = type === 'trifasico' ? 'Trifásico 380V (R-S-T)' : 'Monofásico 220V';
       render();
-      showToast(type === 'monofasico' ? '⚡ Suministro Monofásico (L-N-PE)' : '⚡⚡⚡ Suministro Trifásico (R-S-T-N-PE)');
+      showToast(`⚡ Suministro cambiado a: ${type.toUpperCase()}`);
     }
 
     function setPilotColorStyle(style) {
       pilotColorStyle = style;
-      document.getElementById('colorRYG').className = style === 'ryg' ? 'pill-btn active' : 'pill-btn';
-      document.getElementById('colorWhite').className = style === 'white' ? 'pill-btn active' : 'pill-btn';
+      document.getElementById("colorRYG").className = `pill-btn ${style === 'ryg' ? 'active' : ''}`;
+      document.getElementById("colorWhite").className = `pill-btn ${style === 'white' ? 'active' : ''}`;
       render();
-      showToast(style === 'ryg' ? '🔴🟡🟢 Ojos de buey R-Y-G' : '⚪⚪⚪ Ojos de buey Blancos IEC');
+      showToast(`🎨 Color de instrumentos: ${style === 'white' ? 'Blanco IEC 60073' : 'R-Y-G Clásico'}`);
     }
 
-    function togglePilots(val) {
-      showPilots = val === 'si';
-      document.getElementById('pilotLightsPanel').style.display = showPilots ? 'flex' : 'none';
-      showToast(showPilots ? '📟 Instrumentos de medición activados' : 'Instrumentos ocultos');
-    }
-
-    // CONTROL DE GABINETES
     function setEnclosureBrand(brand) {
       enclosureBrand = brand;
-      document.querySelectorAll('#encGenrod, #encRoket, #encGabexel, #encConextube').forEach(b => b.classList.remove('active'));
-      document.getElementById(`enc${brand.charAt(0).toUpperCase() + brand.slice(1)}`).classList.add('active');
-      document.getElementById('enclosureBrandLabel').textContent = ENCLOSURE_DATA[brand].name;
+      ['genrod', 'roket', 'gabexel', 'conextube'].forEach(b => {
+        document.getElementById(`enc${b.charAt(0).toUpperCase() + b.slice(1)}`).className = `pill-btn ${b === brand ? 'active' : ''}`;
+      });
+      document.getElementById("enclosureBrandLabel").textContent = ENCLOSURE_DATA[brand].name;
       render();
-      showToast(`📦 Gabinete seleccionado: ${ENCLOSURE_DATA[brand].name}`);
+      showToast(`🏗️ Gabinete cambiado a: ${ENCLOSURE_DATA[brand].name}`);
     }
 
-    function setMountType(type) {
-      mountType = type;
-      document.querySelectorAll('#mountEmbutir, #mountSuperficie, #mountIntemperie').forEach(b => b.classList.remove('active'));
-      document.getElementById(`mount${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
+    function setMountType(mount) {
+      mountType = mount;
+      ['embutir', 'superficie', 'intemperie'].forEach(m => {
+        document.getElementById(`mount${m.charAt(0).toUpperCase() + m.slice(1)}`).className = `pill-btn ${m === mount ? 'active' : ''}`;
+      });
       render();
-      showToast(`🏗️ Tipo de montaje: ${type.toUpperCase()}`);
+      showToast(`📦 Montaje: ${mount.toUpperCase()}`);
     }
 
     function setEnclosureCapacity(cap) {
       enclosureCapacity = parseInt(cap);
+      document.getElementById("enclosureCapacitySelect").value = cap;
       render();
-      showToast(`⚡ Capacidad actualizada: ${enclosureCapacity} Módulos DIN`);
+      showToast(`📐 Capacidad ajustada: ${cap} Módulos DIN`);
     }
 
-    // CONTROL DE MARCAS DE APARAMENTA
+    function togglePilots(val) {
+      showPilots = (val === 'si');
+      render();
+    }
+
     function setActiveBrand(brand) {
       activeBrand = brand;
-      document.querySelectorAll('#pillSchneider, #pillAbb, #pillChint, #pillBaw').forEach(p => p.classList.remove('active'));
-      document.getElementById(`pill${brand.charAt(0).toUpperCase() + brand.slice(1)}`).classList.add('active');
-      document.getElementById('activeBrandLabel').textContent = BRAND_INFO[brand].name;
-      showToast(`🏷️ Marca de protecciones: ${BRAND_INFO[brand].name}`);
+      ['abb', 'schneider', 'chint', 'baw'].forEach(b => {
+        document.getElementById(`pill${b.charAt(0).toUpperCase() + b.slice(1)}`).className = `pill-btn ${b === brand ? 'active' : ''}`;
+      });
+      document.getElementById("activeBrandLabel").textContent = BRAND_INFO[brand].label;
+      render();
+      showToast(`🏷️ Marca activa: ${BRAND_INFO[brand].label}`);
     }
 
-    // MODO SELECTOR
     function setMode(mode) {
       currentMode = mode;
       const tabElec = document.getElementById("tabElec");
@@ -1640,8 +2029,9 @@
       const canvasElec = document.getElementById("canvasElec");
       const canvasCctv = document.getElementById("canvasCctv");
       const cctvStats = document.getElementById("cctvExtraStats");
+      const perspBar = document.getElementById("perspectiveBar");
 
-      if (mode === "electrico") {
+      if (mode === 'electrico') {
         tabElec.className = "mode-tab active elec";
         tabCctv.className = "mode-tab cctv";
         toolsElec.style.display = "block";
@@ -1649,6 +2039,7 @@
         canvasElec.style.display = "block";
         canvasCctv.style.display = "none";
         cctvStats.style.display = "none";
+        perspBar.style.display = "flex";
       } else {
         tabCctv.className = "mode-tab active cctv";
         tabElec.className = "mode-tab elec";
@@ -1657,6 +2048,7 @@
         canvasElec.style.display = "none";
         canvasCctv.style.display = "block";
         cctvStats.style.display = "flex";
+        perspBar.style.display = "none";
         if (rackItems.length === 0) loadPreset('cctv_ip_pro');
       }
       render();
@@ -1666,12 +2058,16 @@
     function addQuick(itemType) {
       const b = BRAND_INFO[activeBrand];
 
-      if (itemType === 'protector') {
+      if (itemType === 'termica_gen') {
+        const modWidth = supplyType === 'trifasico' ? 4 : 2;
+        const amp = supplyType === 'trifasico' ? 40 : 20;
+        addModule('termica', `PIA General ${b.label} ${amp}A`, b.label, `${b.piaPrefix}${amp}`, amp, modWidth, 'termica', 4.0, 4400);
+      } else if (itemType === 'protector') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
         addModule('protector', `Protector Tensión ${supplyType === 'trifasico' ? 'Trifásico' : 'Monofásico'}`, b.label, b.protModel, 40, modWidth, 'display', 10.0, 0);
       } else if (itemType === 'diferencial') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
-        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 10.0, 0);
+        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 4.0, 0);
       } else if (itemType === 'vameter_din') {
         addModule('vameter', `Volt-Amperímetro DIN ${b.label}`, b.label, b.vameterModel, 0, 1, 'vameter_din', 2.5, 5);
       } else if (itemType === 'contactor') {
@@ -1725,30 +2121,27 @@
 
     // PRESETS
     function loadPreset(presetName) {
-      if (presetName === 'trifasico_pro') {
+      if (presetName === 'abb_pro') {
         currentMode = 'electrico';
         setMode('electrico');
-        setSupplyType('trifasico');
-        setActiveBrand('schneider');
+        setViewPerspective('internal');
+        setSupplyType('monofasico');
+        setActiveBrand('abb');
         setEnclosureBrand('genrod');
         setMountType('embutir');
-        setEnclosureCapacity(36);
+        setEnclosureCapacity(24);
         elecModules = [
-          { id: '1', type: 'termica', name: 'Térmica General Tetrapolar 4x40A', brand: 'Schneider', model: 'iC60N 4P C40', amp: 40, width: 4, display: 'termica', cable: 10.0, watts: 0 },
-          { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Tetrapolar 4x40A 30mA', brand: 'Schneider', model: 'Acti9 iID 4P 40A', amp: 40, width: 4, display: 'disyuntor', cable: 10.0, watts: 0 },
-          { id: '3', type: 'dps', name: 'Descargador Atmosférico DPS 40kA (R-S-T-N)', brand: 'Schneider', model: 'iPRD 4P 350V', amp: 40, width: 4, display: 'dps', cable: 6.0, watts: 0 },
-          { id: '4', type: 'termica', name: 'Fase R: Iluminación Planta Baja', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
-          { id: '5', type: 'termica', name: 'Fase R: Tomas Planta Baja (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
-          { id: '6', type: 'termica', name: 'Fase S: Iluminación Planta Alta', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
-          { id: '7', type: 'termica', name: 'Fase S: Tomas Planta Alta (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
-          { id: '8', type: 'termica', name: 'Fase T: Aire Acondicionado Split 1', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
-          { id: '9', type: 'termica', name: 'Fase T: Aire Acondicionado Split 2', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3000 },
-          { id: '10', type: 'contactor', name: 'Contactor Bomba Riego / Parque', brand: 'Schneider', model: 'iCT 25A 2NA', amp: 25, width: 1, display: 'contactor', cable: 4.0, watts: 1500 }
+          { id: '1', type: 'termica', name: 'Térmica General Bipolar 2x20A', brand: 'ABB', model: 'S202 C20', amp: 20, width: 2, display: 'termica', cable: 4.0, watts: 4400 },
+          { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Bipolar 40A 30mA', brand: 'ABB', model: 'FH202 AC 40A', amp: 40, width: 2, display: 'disyuntor', cable: 4.0, watts: 0 },
+          { id: '3', type: 'termica', name: 'Iluminación Planta Baja (IUG)', brand: 'ABB', model: 'S201 C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '4', type: 'termica', name: 'Tomas Uso General (TUG)', brand: 'ABB', model: 'S201 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '5', type: 'termica', name: 'Aire Acondicionado Split (TUE)', brand: 'ABB', model: 'S201 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
         ];
-        showToast("⚡⚡⚡ Tablero Trifásico R-S-T Schneider + Genrod cargado");
+        showToast("🔴 Tablero Realista ABB (Idéntico a Foto) cargado");
       } else if (presetName === 'schneider_pro') {
         currentMode = 'electrico';
         setMode('electrico');
+        setViewPerspective('internal');
         setSupplyType('monofasico');
         setActiveBrand('schneider');
         setEnclosureBrand('genrod');
@@ -1759,27 +2152,30 @@
           { id: '2', type: 'diferencial', name: 'Disyuntor Dif. General 30mA', brand: 'Schneider', model: 'Acti9 iID 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
           { id: '3', type: 'termica', name: 'Iluminación PB (IUG)', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
           { id: '4', type: 'termica', name: 'Tomas Uso General (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
-          { id: '5', type: 'termica', name: 'Aire Acondicionado Comedor', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
-          { id: '6', type: 'contactor', name: 'Contactor Bomba / Luces Parque', brand: 'Schneider', model: 'iCT 25A 2NA', amp: 25, width: 1, display: 'contactor', cable: 4.0, watts: 1500 }
+          { id: '5', type: 'termica', name: 'Aire Acondicionado Comedor', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
         ];
-        showToast("🟢 Preset Schneider Electric + Genrod cargado");
-      } else if (presetName === 'abb_pro') {
+        showToast("🟢 Preset Schneider Electric Acti9 cargado");
+      } else if (presetName === 'trifasico_pro') {
         currentMode = 'electrico';
         setMode('electrico');
-        setSupplyType('monofasico');
-        setActiveBrand('abb');
-        setEnclosureBrand('gabexel');
-        setMountType('superficie');
-        setEnclosureCapacity(24);
+        setViewPerspective('internal');
+        setSupplyType('trifasico');
+        setActiveBrand('schneider');
+        setEnclosureBrand('genrod');
+        setMountType('embutir');
+        setEnclosureCapacity(36);
         elecModules = [
-          { id: '1', type: 'protector', name: 'Protector Tensión General', brand: 'ABB', model: 'E200 Digital', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
-          { id: '2', type: 'diferencial', name: 'Disyuntor Dif. General 30mA', brand: 'ABB', model: 'FH202 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
-          { id: '3', type: 'termica', name: 'Iluminación Planta Baja', brand: 'ABB', model: 'S201 C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
-          { id: '4', type: 'termica', name: 'Tomas Planta Baja (TUG)', brand: 'ABB', model: 'S201 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
-          { id: '5', type: 'termica', name: 'Aire Acondicionado Split', brand: 'ABB', model: 'S201 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3000 },
-          { id: '6', type: 'termica', name: 'Horno / Cocina Eléctrica', brand: 'ABB', model: 'S201 C25', amp: 25, width: 1, display: 'termica', cable: 6.0, watts: 4400 }
+          { id: '1', type: 'termica', name: 'Térmica General Tetrapolar 4x40A', brand: 'Schneider', model: 'iC60N 4P C40', amp: 40, width: 4, display: 'termica', cable: 10.0, watts: 0 },
+          { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Tetrapolar 4x40A 30mA', brand: 'Schneider', model: 'Acti9 iID 4P 40A', amp: 40, width: 4, display: 'disyuntor', cable: 10.0, watts: 0 },
+          { id: '3', type: 'dps', name: 'Descargador Atmosférico DPS 40kA (R-S-T-N)', brand: 'Schneider', model: 'iPRD 4P 350V', amp: 40, width: 4, display: 'dps', cable: 6.0, watts: 0 },
+          { id: '4', type: 'termica', name: 'Fase R: Iluminación PB', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '5', type: 'termica', name: 'Fase R: Tomas PB (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '6', type: 'termica', name: 'Fase S: Iluminación PA', brand: 'Schneider', model: 'iC60N C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '7', type: 'termica', name: 'Fase S: Tomas PA (TUG)', brand: 'Schneider', model: 'iC60N C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '8', type: 'termica', name: 'Fase T: Aire Split 1', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
+          { id: '9', type: 'termica', name: 'Fase T: Aire Split 2', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3000 }
         ];
-        showToast("🔴 Preset ABB + Gabexel cargado");
+        showToast("⚡⚡⚡ Tablero Trifásico R-S-T cargado");
       } else if (presetName === 'cctv_ip_pro') {
         currentMode = 'cctv';
         setMode('cctv');
@@ -1810,7 +2206,7 @@
         id: Date.now().toString(),
         type,
         name,
-        brand: brand || 'Schneider',
+        brand: brand || 'ABB',
         model: model || `C${amp}`,
         amp: parseInt(amp),
         width: parseInt(width),
@@ -1859,22 +2255,33 @@
       }
     }
 
-    // RENDER TABLERO ELÉCTRICO CON VOLTÍMETRO Y AMPERÍMETRO
+    // RENDER TABLERO ELÉCTRICO CON VISTA REALISTA Y CABLEADO
     function renderElectricBoard() {
       const enclosureEl = document.getElementById("boardOuterEnclosure");
       const encData = ENCLOSURE_DATA[enclosureBrand] || ENCLOSURE_DATA['genrod'];
       const currentEncConfig = encData[mountType] || encData['embutir'];
 
-      enclosureEl.className = `board-outer-enclosure enc-mount-${mountType}`;
-      document.getElementById("enclosureMainTitle").textContent = `${currentEncConfig.title.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
-      document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • ${currentEncConfig.ip} • ${currentEncConfig.material}`;
+      // Ajuste de clase según perspectiva
+      if (viewPerspective === 'internal') {
+        enclosureEl.className = "board-outer-enclosure enc-view-internal";
+        document.getElementById("distTerminalBlock").style.display = "block";
+        document.getElementById("pilotLightsPanel").style.display = "none";
+        document.getElementById("groundBusbarContainer").style.display = "none";
+        document.getElementById("enclosureMainTitle").textContent = `CHASIS INTERNO • ${activeBrand.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
+        document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • Riel Omega Perforado • Cableado Realista`;
+      } else {
+        enclosureEl.className = `board-outer-enclosure enc-mount-${mountType}`;
+        document.getElementById("distTerminalBlock").style.display = "none";
+        document.getElementById("pilotLightsPanel").style.display = showPilots ? "flex" : "none";
+        document.getElementById("groundBusbarContainer").style.display = "flex";
+        document.getElementById("enclosureMainTitle").textContent = `${currentEncConfig.title.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
+        document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • ${currentEncConfig.ip} • ${currentEncConfig.material}`;
+      }
 
-      // Sumatorias de cargas
+      // Sumatorias y corrientes
       let totalWatts = 0;
       let totalOccupiedModules = 0;
       let hasAeaWarning = false;
-
-      // Cálculo por fases (R, S, T)
       let wattsR = 0, wattsS = 0, wattsT = 0;
       let circuitCount = 0;
 
@@ -1882,8 +2289,6 @@
         totalOccupiedModules += m.width;
         if (m.type === 'termica' || m.type === 'contactor') {
           totalWatts += m.watts;
-
-          // Distribuir balanceadamente entre fases R, S, T si es trifásico
           const phaseIndex = circuitCount % 3;
           if (phaseIndex === 0) wattsR += m.watts;
           else if (phaseIndex === 1) wattsS += m.watts;
@@ -1896,82 +2301,80 @@
         if (!isSafe) hasAeaWarning = true;
       });
 
-      // Cálculo de corriente en Amperes por fase (I = P / V)
       const currentR = (wattsR / 220).toFixed(1);
       const currentS = (wattsS / 220).toFixed(1);
       const currentT = (wattsT / 220).toFixed(1);
       const currentMono = (totalWatts / 220).toFixed(1);
 
-      // RENDER VOLTÍMETROS Y AMPERÍMETROS EN TAPA
+      // RENDER BORNERA REPARTIDORA SUPERIOR (VISTA INTERNA)
+      const distRow = document.getElementById("distTerminalRow");
+      distRow.innerHTML = "";
+
+      if (supplyType === 'trifasico') {
+        distRow.innerHTML = `
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">R1</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">R2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">S1</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">S2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">T1</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">T2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption neutral">N1</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption neutral">N2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption earth">PE</span></div>
+        `;
+      } else {
+        distRow.innerHTML = `
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">L (Fase Entrada)</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head" id="distScrewL"></div><span class="screw-caption phase">L (Acometida ${mainWireGauge}mm²)</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">L2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption phase">L3</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption neutral">N (Neutro Entrada)</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head" id="distScrewN"></div><span class="screw-caption neutral">N (Acometida ${mainWireGauge}mm²)</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption neutral">N2</span></div>
+          <div class="screw-terminal-item"><div class="screw-terminal-head"></div><span class="screw-caption earth">PE (Tierra Jabalina)</span></div>
+        `;
+      }
+
+      // RENDER INSTRUMENTOS EN TAPA (VOLTÍMETROS Y AMPERÍMETROS 22mm)
       const pilotCluster = document.getElementById("pilotLightsCluster");
       pilotCluster.innerHTML = "";
-
       const colClassR = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-r';
       const colClassS = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-s';
       const colClassT = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-t';
 
       if (supplyType === 'trifasico') {
         document.getElementById("pilotPanelTitle").textContent = "MONITOREO DIGITAL DE RED TRIFÁSICA (VOLTÍMETRO + AMPERÍMETRO 22mm LED)";
-        
         pilotCluster.innerHTML = `
-          <!-- FASE R -->
           <div class="meter-unit-22mm ${colClassR}" title="Fase R (L1): 223V / ${currentR}A">
-            <div class="meter-housing">
-              <div class="meter-display-v">223V</div>
-              <div class="meter-display-a">${currentR}A</div>
-            </div>
+            <div class="meter-housing"><div class="meter-display-v">223V</div><div class="meter-display-a">${currentR}A</div></div>
             <span class="meter-caption">FASE R</span>
           </div>
-
-          <!-- FASE S -->
           <div class="meter-unit-22mm ${colClassS}" title="Fase S (L2): 220V / ${currentS}A">
-            <div class="meter-housing">
-              <div class="meter-display-v">220V</div>
-              <div class="meter-display-a">${currentS}A</div>
-            </div>
+            <div class="meter-housing"><div class="meter-display-v">220V</div><div class="meter-display-a">${currentS}A</div></div>
             <span class="meter-caption">FASE S</span>
           </div>
-
-          <!-- FASE T -->
           <div class="meter-unit-22mm ${colClassT}" title="Fase T (L3): 225V / ${currentT}A">
-            <div class="meter-housing">
-              <div class="meter-display-v">225V</div>
-              <div class="meter-display-a">${currentT}A</div>
-            </div>
+            <div class="meter-housing"><div class="meter-display-v">225V</div><div class="meter-display-a">${currentT}A</div></div>
             <span class="meter-caption">FASE T</span>
-          </div>
-
-          <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:2px; margin-left:0.5rem;">
-            <span>• Red: <strong>380V / 220V</strong></span>
-            <span>• Frecuencia: <strong class="mono" style="color:var(--cyan);">50.0 Hz</strong></span>
-            <span>• Cos φ est.: <strong class="mono" style="color:var(--green);">0.95</strong></span>
           </div>
         `;
       } else {
         document.getElementById("pilotPanelTitle").textContent = "MONITOREO DIGITAL DE RED MONOFÁSICA (VOLTÍMETRO + AMPERÍMETRO 22mm LED)";
-        
         pilotCluster.innerHTML = `
-          <!-- FASE L -->
           <div class="meter-unit-22mm ${colClassR}" title="Línea L: 221V / ${currentMono}A">
-            <div class="meter-housing">
-              <div class="meter-display-v">221V</div>
-              <div class="meter-display-a">${currentMono}A</div>
-            </div>
+            <div class="meter-housing"><div class="meter-display-v">221V</div><div class="meter-display-a">${currentMono}A</div></div>
             <span class="meter-caption">LÍNEA L</span>
           </div>
-
           <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:2px; margin-left:0.5rem;">
             <span>• Red: <strong>Monofásica 220V</strong></span>
             <span>• Consumo Total: <strong class="mono" style="color:var(--gold);">${totalWatts} W</strong></span>
-            <span>• Frecuencia: <strong class="mono" style="color:var(--cyan);">50.0 Hz</strong></span>
           </div>
         `;
       }
 
-      // RIELES DIN
+      // RIELES DIN & MÓDULOS
       let modulesPerRail = 12;
       let totalRailsCount = 1;
-
       if (enclosureCapacity === 12) { modulesPerRail = 12; totalRailsCount = 1; }
       else if (enclosureCapacity === 18) { modulesPerRail = 18; totalRailsCount = 1; }
       else if (enclosureCapacity === 24) { modulesPerRail = 12; totalRailsCount = 2; }
@@ -1981,23 +2384,27 @@
 
       const railsContainer = document.getElementById("railsStackContainer");
       railsContainer.innerHTML = "";
-
       const railsElements = [];
+
       for (let r = 0; r < totalRailsCount; r++) {
         const railRow = document.createElement("div");
         railRow.className = "din-rail-row";
         railRow.innerHTML = `
-          <div class="rail-number-tag">Riel DIN #${r + 1} (${modulesPerRail}M Máx)</div>
+          <div class="rail-number-tag">Riel DIN #${r + 1} (${modulesPerRail}M Máx • 35mm Galvanizado)</div>
+          <svg class="wiring-svg-overlay" id="wiringSvg_${r}"></svg>
           <div class="din-components-container" id="dinRail_${r}"></div>
         `;
         railsContainer.appendChild(railRow);
-        railsElements.push(railRow.querySelector(`#dinRail_${r}`));
+        railsElements.push({
+          container: railRow.querySelector(`#dinRail_${r}`),
+          svg: railRow.querySelector(`#wiringSvg_${r}`)
+        });
       }
 
       let currentRailIndex = 0;
       let currentRailOccupied = 0;
 
-      elecModules.forEach(m => {
+      elecModules.forEach((m, idx) => {
         if (currentRailOccupied + m.width > modulesPerRail && currentRailIndex < totalRailsCount - 1) {
           currentRailIndex++;
           currentRailOccupied = 0;
@@ -2005,72 +2412,125 @@
         currentRailOccupied += m.width;
 
         const targetRail = railsElements[currentRailIndex] || railsElements[railsElements.length - 1];
-
-        const modEl = document.createElement("div");
         const brandKey = m.brand.toLowerCase().includes('abb') ? 'abb' :
-                         m.brand.toLowerCase().includes('chint') || m.brand.toLowerCase().includes('chnt') ? 'chint' :
-                         m.brand.toLowerCase().includes('baw') ? 'baw' : 'schneider';
-        
-        const bStyle = BRAND_INFO[brandKey] || BRAND_INFO['schneider'];
+                         m.brand.toLowerCase().includes('schneider') ? 'schneider' :
+                         m.brand.toLowerCase().includes('chint') || m.brand.toLowerCase().includes('chnt') ? 'chint' : 'baw';
+        const bStyle = BRAND_INFO[brandKey] || BRAND_INFO['abb'];
 
-        modEl.className = `din-module din-${m.width}m ${bStyle.class}`;
+        // Creación del módulo ultra-realista
+        const modEl = document.createElement("div");
+        modEl.className = `din-mod-realistic mod-width-${m.width}m`;
         modEl.title = `Clic para quitar: ${m.name} (${m.brand} ${m.model})`;
+        modEl.id = `mod_${m.id}`;
 
-        let bodyHtml = "";
-        if (m.display === 'display') {
-          bodyHtml = `
-            <div class="din-digital-display mono">${supplyType === 'trifasico' ? '380V' : '220V'}</div>
-            <div style="font-size: 7px; color: #16a34a; font-weight: 900;">NORMAL</div>
+        // Construcción de cavidades de bornes según número de polos
+        let topScrewsHtml = "";
+        let bottomScrewsHtml = "";
+        const ferruleClass = m.cable <= 1.5 ? 'ferrule-15' : m.cable <= 2.5 ? 'ferrule-25' : m.cable <= 4.0 ? 'ferrule-40' : m.cable <= 6.0 ? 'ferrule-60' : 'ferrule-100';
+
+        for (let p = 0; p < m.width; p++) {
+          topScrewsHtml += `
+            <div class="terminal-pole-cavity">
+              ${(viewPerspective === 'internal' && showWiring) ? `<div class="ferrule-indicator ${ferruleClass}"></div>` : ''}
+              <div class="screw-pozidriv"></div>
+            </div>
           `;
-        } else if (m.display === 'disyuntor') {
-          bodyHtml = `
-            <div class="din-test-btn" title="Botón de Prueba Mensual T">T</div>
-            <div class="din-toggle" style="background:#0284c7; border-color:#0369a1;">ON</div>
-            <div class="din-indicator-box"></div>
+          bottomScrewsHtml += `
+            <div class="terminal-pole-cavity">
+              <div class="screw-pozidriv"></div>
+            </div>
           `;
-        } else if (m.display === 'contactor') {
-          bodyHtml = `
-            <div class="din-contactor-window mono">A1-A2</div>
-            <div class="din-toggle" style="background:#475569; border-color:#334155; font-size:7px;">AUTO</div>
-            <div style="font-size:7px; font-weight:800; color:#334155;">220V</div>
+        }
+
+        // Cuerpo Central según tipo de componente
+        let centralContent = "";
+        const bannerHtml = `<div class="${bStyle.bannerClass}">${m.brand.toUpperCase()}</div>`;
+
+        if (m.type === 'diferencial') {
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main">${m.amp} A</div>
+            <div class="mod-print-sub">IΔn = 0.03A • 30mA</div>
+            <div class="mod-test-button">TEST</div>
+            <div class="mod-rocker-switch-container">
+              <div class="mod-rocker-switch rocker-${m.width}p ${bStyle.rockerClass}">ON</div>
+            </div>
+            <div class="mod-schematic-drawing">~230V / 10000A</div>
           `;
-        } else if (m.display === 'dps') {
-          bodyHtml = `
-            <div class="din-dps-cartridge">OK</div>
-            <div style="font-size:7px; font-weight:800; color:#475569;">40kA</div>
+        } else if (m.display === 'display' || m.type === 'protector') {
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main" style="font-size:10px;">PROTECTOR</div>
+            <div class="mod-digital-led-box">
+              <div class="mono" style="color:#22c55e; font-size:12px; font-weight:900;">221 V</div>
+              <div style="font-size:7px; color:#16a34a; font-weight:900;">AUTOMÁTICO</div>
+            </div>
+            <div class="mod-print-sub">40A • V-MAX: 245V</div>
           `;
         } else if (m.display === 'vameter_din') {
-          bodyHtml = `
-            <div class="din-vameter-display">
-              <div class="mono" style="color:#22c55e; font-size:9.5px; font-weight:900;">221 V</div>
-              <div class="mono" style="color:#38bdf8; font-size:9px; font-weight:900;">${currentMono} A</div>
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main" style="font-size:10px;">V/A METER</div>
+            <div class="mod-digital-led-box">
+              <div class="mono" style="color:#22c55e; font-size:10px; font-weight:900;">221 V</div>
+              <div class="mono" style="color:#38bdf8; font-size:9.5px; font-weight:900;">${currentMono} A</div>
             </div>
-            <div style="font-size:7px; font-weight:800; color:#475569;">50.0Hz</div>
+            <div class="mod-print-sub">50.0 Hz • CT INCLUIDO</div>
+          `;
+        } else if (m.type === 'contactor') {
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main" style="font-size:11px;">CONTACTOR</div>
+            <div class="mod-print-sub">25A • BOBINA 220V</div>
+            <div class="mod-rocker-switch-container">
+              <div class="mod-rocker-switch rocker-1p" style="background:#475569;">AUTO</div>
+            </div>
+            <div class="mod-print-sub">A1 - A2 (1M)</div>
+          `;
+        } else if (m.type === 'dps') {
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main" style="font-size:11px;">DPS CLASE II</div>
+            <div class="mod-visitrip-window" style="background:#16a34a;"></div>
+            <div class="mod-print-sub">Imax: 40kA • Up: 1.5kV</div>
+            <div class="mod-print-sub">Cartucho Enchufable</div>
           `;
         } else {
-          bodyHtml = `
-            <div class="din-toggle">ON</div>
-            <div class="din-indicator-box"></div>
+          // Térmica PIA estándar
+          centralContent = `
+            ${bannerHtml}
+            <div class="mod-print-main">${m.amp} A</div>
+            <div class="mod-print-sub">Curva C • ${m.model}</div>
+            <div class="mod-rocker-switch-container">
+              <div class="mod-rocker-switch rocker-${m.width}p ${bStyle.rockerClass}">ON</div>
+            </div>
+            <div class="mod-visitrip-window"></div>
+            <div class="mod-print-sub">6000A • IRAM-IEC</div>
           `;
         }
 
         modEl.innerHTML = `
           <div class="din-remove-tag" onclick="event.stopPropagation(); removeElecModule('${m.id}')">✕</div>
-          <div class="din-top">
-            <div class="din-brand-title">${m.brand}</div>
-            <div class="din-model-name">${m.model}</div>
+          <div class="terminal-zone top">
+            ${topScrewsHtml}
           </div>
-          <div class="din-body">
-            ${bodyHtml}
+          <div class="mod-central-body">
+            ${centralContent}
           </div>
-          <div class="din-bottom">
-            <div>${m.amp > 0 ? m.amp + 'A' : 'MED'}</div>
+          <div class="terminal-zone bottom">
+            ${bottomScrewsHtml}
           </div>
         `;
-        targetRail.appendChild(modEl);
+
+        targetRail.container.appendChild(modEl);
       });
 
-      // Resumen
+      // DIBUJAR CABLES CURVOS REALISTAS SVG Y ETIQUETA AMARILLA (TABLEROSREALISTAS)
+      if (viewPerspective === 'internal' && showWiring && elecModules.length > 0) {
+        setTimeout(drawRealisticWiring, 50);
+      }
+
+      // Resumen y estadísticas
       const v = supplyType === 'trifasico' ? 380 : 220;
       const totalA = (totalWatts / v).toFixed(1);
       document.getElementById("statModules").textContent = `${totalOccupiedModules} / ${enclosureCapacity} DIN`;
@@ -2100,7 +2560,7 @@
         tr.innerHTML = `
           <td><strong>${m.name}</strong></td>
           <td><span style="font-weight: 800; color: #fff;">${m.brand}</span> <span style="color:var(--text-dim); font-size:0.75rem;">(${m.model})</span></td>
-          <td><span class="mono" style="font-weight: 800;">${m.amp > 0 ? m.amp + 'A' : 'Medidor'}</span></td>
+          <td><span class="mono" style="font-weight: 800;">${m.amp > 0 ? m.amp + 'A' : 'Instrumento'}</span></td>
           <td><span class="mono">${m.cable ? m.cable + ' mm²' : '-'}</span></td>
           <td><span class="mono">${m.cable ? iz + ' A' : '-'}</span></td>
           <td><span class="mono">${m.watts ? m.watts + ' W' : '-'}</span></td>
@@ -2116,6 +2576,83 @@
         `;
         tableBody.appendChild(tr);
       });
+    }
+
+    // TRAZADO DE CABLES CURVOS Y ETIQUETA AMARILLA TIPO TABLEROSREALISTAS
+    function drawRealisticWiring() {
+      const svg = document.getElementById("wiringSvg_0");
+      if (!svg) return;
+      const railEl = svg.closest(".din-rail-row");
+      if (!railEl) return;
+
+      const rect = railEl.getBoundingClientRect();
+      svg.setAttribute("viewBox", `0 0 ${rect.width} ${rect.height}`);
+      svg.innerHTML = "";
+
+      // Tomar primer módulo (General) y segundo módulo (Diferencial)
+      const mod1 = railEl.querySelector(".din-mod-realistic");
+      if (!mod1) return;
+
+      const mod1Rect = mod1.getBoundingClientRect();
+      const m1RelX = mod1Rect.left - rect.left;
+      const m1RelY = mod1Rect.top - rect.top;
+
+      // Cable Fase (Rojo) entrando al borne 1
+      const p1X = m1RelX + 18;
+      const p1Y = m1RelY + 12;
+
+      // Cable Neutro (Azul) entrando al borne 2
+      const p2X = m1RelX + 38;
+      const p2Y = m1RelY + 12;
+
+      // Trazar Cable Rojo de Fase con curva suave de 90°
+      const pathRed = `M 30,0 C 30,${p1Y - 25} ${p1X - 25},${p1Y - 25} ${p1X},${p1Y}`;
+      // Trazar Cable Azul de Neutro con curva paralela
+      const pathBlue = `M 15,0 C 15,${p2Y - 15} ${p2X - 20},${p2Y - 15} ${p2X},${p2Y}`;
+
+      let svgHtml = `
+        <defs>
+          <filter id="wireShadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.8"/>
+          </filter>
+        </defs>
+        <!-- Cable Neutro Azul -->
+        <path d="${pathBlue}" fill="none" stroke="#0284c7" stroke-width="7" stroke-linecap="round" filter="url(#wireShadow)"/>
+        <!-- Cable Fase Rojo -->
+        <path d="${pathRed}" fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round" filter="url(#wireShadow)"/>
+      `;
+
+      // Puente entre Térmica General y Diferencial si existe un segundo módulo
+      const allMods = railEl.querySelectorAll(".din-mod-realistic");
+      if (allMods.length > 1) {
+        const mod2 = allMods[1];
+        const mod2Rect = mod2.getBoundingClientRect();
+        const m2RelX = mod2Rect.left - rect.left;
+        const b1X = m2RelX + 18;
+        const b2X = m2RelX + 38;
+
+        // Puente fase rojo y neutro azul con arco curvo superior
+        const bridgeRed = `M ${p1X + 45},${p1Y} C ${p1X + 45},${p1Y - 30} ${b1X},${p1Y - 30} ${b1X},${p1Y}`;
+        const bridgeBlue = `M ${p2X + 45},${p2Y} C ${p2X + 45},${p2Y - 40} ${b2X},${p2Y - 40} ${b2X},${p2Y}`;
+
+        svgHtml += `
+          <path d="${bridgeBlue}" fill="none" stroke="#0284c7" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
+          <path d="${bridgeRed}" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
+        `;
+      }
+
+      svg.innerHTML = svgHtml;
+
+      // ETIQUETA AMARILLA FLOTANTE (Idéntica a "4 mm" de TablerosRealistas.com)
+      const existingTag = railEl.querySelector(".cable-gauge-chip");
+      if (existingTag) existingTag.remove();
+
+      const tagEl = document.createElement("div");
+      tagEl.className = "cable-gauge-chip";
+      tagEl.textContent = `${mainWireGauge} mm`;
+      tagEl.style.left = `${Math.max(10, p1X - 55)}px`;
+      tagEl.style.top = `${Math.max(10, p1Y - 35)}px`;
+      railEl.appendChild(tagEl);
     }
 
     // RENDER RACK CCTV
@@ -2186,10 +2723,10 @@
 
       const sheet = document.getElementById("cctvTechSheet");
       sheet.innerHTML = `
-        <p>• <strong>Topología del Sistema:</strong> ${camType === 'ip_poe' ? 'IP Nativo sobre UTP Cat 6 con Switch PoE+ IEEE 802.3af/at (Hikvision / Dahua / TP-Link Omada)' : 'Analógico HD con baluns pasivos y fuente centralizada con fusibles PTC'}.</p>
+        <p>• <strong>Topología del Sistema:</strong> ${camType === 'ip_poe' ? 'IP Nativo sobre UTP Cat 6 con Switch PoE+ IEEE 802.3af/at (Hikvision / Dahua)' : 'Analógico HD con baluns pasivos y fuente centralizada'}.</p>
         <p>• <strong>Cámaras Conectadas:</strong> ${camQty} Cámaras de Seguridad (${camWatts}W de consumo total).</p>
-        <p>• <strong>Almacenamiento:</strong> Disco Rígido Western Digital Purple ${hddTb}TB con algoritmo de compresión H.265+ (Capacidad estimada: ${recordingDays} días continuos 24/7 sin sobreescritura).</p>
-        <p>• <strong>Respaldo de Energía:</strong> ${hasUps ? `Protección con UPS ante cortes de luz con autonomía de aprox. ${upsMinutes} minutos.` : 'Alimentación directa a línea de 220V (se recomienda agregar UPS de respaldo)'}.</p>
+        <p>• <strong>Almacenamiento:</strong> Disco Western Digital Purple ${hddTb}TB H.265+ (Capacidad estimada: ${recordingDays} días continuos sin sobreescritura).</p>
+        <p>• <strong>Respaldo de Energía:</strong> ${hasUps ? `Protección con UPS ante cortes con aprox. ${upsMinutes} minutos de autonomía.` : 'Alimentación directa a línea de 220V'}.</p>
       `;
     }
 

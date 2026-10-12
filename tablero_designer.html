@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Cóndor - CAD Tableros Eléctricos & Racks CCTV con Marcas Líderes</title>
+  <title>El Cóndor - CAD Tableros Eléctricos & Racks CCTV con Marcas y Gabinetes</title>
   <meta name="theme-color" content="#090e17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -52,7 +52,7 @@
     }
 
     .app-container {
-      max-width: 1240px;
+      max-width: 1260px;
       margin: 0 auto;
       padding: 1rem;
     }
@@ -183,18 +183,18 @@
       color: var(--cyan);
     }
 
-    /* Brand Selector Pills */
-    .brand-pills-row {
+    /* Pills Selectors */
+    .pills-row {
       display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
+      gap: 0.4rem;
+      margin-bottom: 0.75rem;
       flex-wrap: wrap;
     }
 
-    .brand-pill {
+    .pill-btn {
       flex: 1;
       min-width: 75px;
-      padding: 0.55rem 0.4rem;
+      padding: 0.5rem 0.4rem;
       background: var(--surface-card);
       border: 1px solid var(--border);
       color: var(--text-muted);
@@ -205,11 +205,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.3rem;
+      gap: 0.25rem;
       transition: all 0.2s;
     }
 
-    .brand-pill.active {
+    .pill-btn.active {
       border-color: var(--cyan);
       color: #fff;
       background: rgba(0, 210, 255, 0.12);
@@ -219,7 +219,7 @@
     /* Main Grid Layout */
     .designer-grid {
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 390px 1fr;
       gap: 1.25rem;
       align-items: start;
     }
@@ -245,7 +245,7 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -283,7 +283,7 @@
 
     /* Custom Input Form */
     .form-group {
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.65rem;
     }
 
     .form-label {
@@ -300,7 +300,7 @@
       background: var(--surface-card);
       border: 1px solid var(--border);
       color: #fff;
-      padding: 0.6rem 0.75rem;
+      padding: 0.55rem 0.75rem;
       border-radius: var(--radius-sm);
       font-size: 0.85rem;
       outline: none;
@@ -328,7 +328,9 @@
       box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
     }
 
-    /* Board Visual Canvas */
+    /* =========================================================
+       GABINETE REALISTA (GENROD, ROKET, GABEXEL, CONEXTUBE)
+       ========================================================= */
     .board-canvas-card {
       background: #090e18;
       border: 2px solid var(--border-light);
@@ -339,33 +341,68 @@
     }
 
     .board-outer-enclosure {
-      background: linear-gradient(180deg, #1e2638 0%, #151b28 100%);
-      border: 3px solid #2d374d;
       border-radius: 14px;
-      padding: 1.25rem;
+      padding: 1.5rem;
+      position: relative;
+      transition: all 0.3s ease;
       box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    /* 1. Gabinete de Embutir (Marco rasante, pared de mampostería) */
+    .enc-mount-embutir {
+      background: linear-gradient(180deg, #1b2333 0%, #111827 100%);
+      border: 3px solid #334155;
+      box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 0 0 4px #0f172a;
+    }
+
+    /* 2. Gabinete de Superficie (Caja de sobrepared plástica/chapa) */
+    .enc-mount-superficie {
+      background: linear-gradient(180deg, #202b3f 0%, #151e2e 100%);
+      border: 4px solid #475569;
+      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    /* 3. Gabinete Intemperie Estanco IP65 (Gabexel chapa / Genrod Estanco con burlete) */
+    .enc-mount-intemperie {
+      background: linear-gradient(180deg, #2b3548 0%, #1e2738 100%);
+      border: 5px solid #64748b;
+      box-shadow: inset 0 0 0 3px #0f172a, 0 15px 40px rgba(0, 0, 0, 0.8);
       position: relative;
     }
+    .enc-mount-intemperie::before, .enc-mount-intemperie::after {
+      content: "🔒 Cierre 1/4";
+      position: absolute;
+      top: 10px;
+      font-size: 8px;
+      font-weight: 800;
+      color: #94a3b8;
+      background: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #475569;
+    }
+    .enc-mount-intemperie::before { left: 12px; }
+    .enc-mount-intemperie::after { right: 12px; }
 
     .enclosure-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding-bottom: 0.75rem;
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       flex-wrap: wrap;
       gap: 0.5rem;
     }
 
     .enclosure-badge {
-      font-size: 0.75rem;
+      font-size: 0.8rem;
       font-weight: 800;
       letter-spacing: 0.05em;
-      color: var(--text-muted);
+      color: #fff;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
     .enclosure-specs {
@@ -374,15 +411,20 @@
       font-family: 'JetBrains Mono', monospace;
     }
 
-    /* DIN RAIL SYSTEM */
+    /* MULTI-DIN RAILS SYSTEM (1 a 4 Rieles DIN) */
+    .rails-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
     .din-rail-row {
       background: linear-gradient(180deg, #182232 0%, #0e1624 100%);
       border: 1px solid #22334d;
       border-radius: 10px;
-      padding: 1.25rem 0.75rem;
-      margin-bottom: 1.25rem;
+      padding: 1.15rem 0.75rem;
       position: relative;
-      min-height: 195px;
+      min-height: 185px;
       display: flex;
       align-items: center;
     }
@@ -402,6 +444,18 @@
       z-index: 1;
     }
 
+    .rail-number-tag {
+      position: absolute;
+      top: 6px;
+      left: 10px;
+      font-size: 8px;
+      font-weight: 900;
+      color: #64748b;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
     .din-components-container {
       display: flex;
       gap: 5px;
@@ -412,9 +466,7 @@
       width: 100%;
     }
 
-    /* ===================================================
-       REALISTIC BRANDED DIN MODULES (SCHNEIDER, ABB, CHINT, BAW)
-       =================================================== */
+    /* REALISTIC BRANDED DIN MODULES */
     .din-module {
       background: #e2e8f0;
       color: #0f172a;
@@ -436,89 +488,44 @@
       box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
     }
 
-    /* Widths based on DIN modules */
+    /* Module widths */
     .din-1m { width: 44px; height: 155px; }
     .din-2m { width: 88px; height: 155px; }
     .din-3m { width: 132px; height: 155px; }
     .din-4m { width: 176px; height: 155px; }
 
-    /* Brand-Specific Styles */
-    /* 1. Schneider Electric (Signature Emerald Green stripe, Acti9/Easy9 styling) */
+    /* Brands */
     .brand-schneider {
-      border-top: 3px solid #009530; /* Schneider Green */
+      border-top: 3px solid #009530;
       background: #f1f5f9;
     }
-    .brand-schneider .din-brand-title {
-      color: #009530;
-      font-weight: 900;
-      font-size: 7.5px;
-      letter-spacing: -0.02em;
-    }
-    .brand-schneider .din-toggle {
-      background: #ea580c; /* Orange toggle Schneider Acti9 */
-      border-color: #c2410c;
-    }
+    .brand-schneider .din-brand-title { color: #009530; font-weight: 900; font-size: 7.5px; }
+    .brand-schneider .din-toggle { background: #ea580c; border-color: #c2410c; }
 
-    /* 2. ABB (Signature Red logo styling, S200 compact) */
     .brand-abb {
-      border-top: 3px solid #ff000f; /* ABB Red */
+      border-top: 3px solid #ff000f;
       background: #f8fafc;
     }
-    .brand-abb .din-brand-title {
-      color: #ff000f;
-      font-weight: 900;
-      font-size: 8px;
-    }
-    .brand-abb .din-toggle {
-      background: #1e293b; /* Dark toggle ABB S200 */
-      border-color: #0f172a;
-    }
+    .brand-abb .din-brand-title { color: #ff000f; font-weight: 900; font-size: 8px; }
+    .brand-abb .din-toggle { background: #1e293b; border-color: #0f172a; }
 
-    /* 3. Chint Electric (Signature Royal Blue styling, NXB-63) */
     .brand-chint {
-      border-top: 3px solid #005bac; /* Chint Blue */
+      border-top: 3px solid #005bac;
       background: #f1f5f9;
     }
-    .brand-chint .din-brand-title {
-      color: #005bac;
-      font-weight: 900;
-      font-size: 8px;
-    }
-    .brand-chint .din-toggle {
-      background: #0284c7; /* Cyan/Blue toggle Chint */
-      border-color: #0369a1;
-    }
+    .brand-chint .din-brand-title { color: #005bac; font-weight: 900; font-size: 8px; }
+    .brand-chint .din-toggle { background: #0284c7; border-color: #0369a1; }
 
-    /* 4. BAW / RBC Sitel (Protección industrial argentina) */
     .brand-baw {
       border-top: 3px solid #f59e0b;
       background: #f8fafc;
     }
-    .brand-baw .din-brand-title {
-      color: #b45309;
-      font-weight: 900;
-      font-size: 8px;
-    }
-    .brand-baw .din-toggle {
-      background: #dc2626;
-      border-color: #b91c1c;
-    }
+    .brand-baw .din-brand-title { color: #b45309; font-weight: 900; font-size: 8px; }
+    .brand-baw .din-toggle { background: #dc2626; border-color: #b91c1c; }
 
-    /* Module Internal Elements */
-    .din-top {
-      text-align: center;
-      border-bottom: 1px solid #cbd5e1;
-      padding-bottom: 3px;
-    }
-
-    .din-model-name {
-      font-size: 9px;
-      font-weight: 800;
-      color: #0f172a;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+    /* Internal module details */
+    .din-top { text-align: center; border-bottom: 1px solid #cbd5e1; padding-bottom: 3px; }
+    .din-model-name { font-size: 9px; font-weight: 800; color: #0f172a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
     .din-body {
       display: flex;
@@ -547,7 +554,7 @@
     .din-indicator-box {
       width: 14px;
       height: 6px;
-      background: #ef4444; /* Rojo = Cerrado / Paso de corriente */
+      background: #ef4444;
       border-radius: 2px;
       border: 1px solid #991b1b;
     }
@@ -567,7 +574,6 @@
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
-    /* Protector de Tensión Digital */
     .din-digital-display {
       background: #020617;
       border: 1px solid #1e293b;
@@ -582,7 +588,6 @@
       width: 90%;
     }
 
-    /* Contactor DIN / Relé */
     .din-contactor-window {
       background: #0f172a;
       border: 1px solid #334155;
@@ -595,11 +600,10 @@
       width: 90%;
     }
 
-    /* Descargador DPS Cartucho */
     .din-dps-cartridge {
       width: 80%;
       height: 38px;
-      background: #16a34a; /* Verde = Cartucho OK */
+      background: #16a34a;
       border-radius: 3px;
       border: 1px solid #14532d;
       display: flex;
@@ -611,14 +615,7 @@
       text-align: center;
     }
 
-    .din-bottom {
-      border-top: 1px solid #cbd5e1;
-      padding-top: 3px;
-      text-align: center;
-      font-size: 8.5px;
-      font-weight: 800;
-      color: #334155;
-    }
+    .din-bottom { border-top: 1px solid #cbd5e1; padding-top: 3px; text-align: center; font-size: 8.5px; font-weight: 800; color: #334155; }
 
     .din-remove-tag {
       position: absolute;
@@ -640,9 +637,7 @@
       transition: opacity 0.2s;
     }
 
-    .din-module:hover .din-remove-tag {
-      opacity: 1;
-    }
+    .din-module:hover .din-remove-tag { opacity: 1; }
 
     /* CCTV RACK CANVAS */
     .rack-cabinet {
@@ -671,36 +666,14 @@
       position: relative;
     }
 
-    .rack-unit::before, .rack-unit::after {
-      content: "•";
-      position: absolute;
-      color: #64748b;
-      font-size: 16px;
-      line-height: 1;
-    }
+    .rack-unit::before, .rack-unit::after { content: "•"; position: absolute; color: #64748b; font-size: 16px; line-height: 1; }
     .rack-unit::before { left: 6px; }
     .rack-unit::after { right: 6px; }
 
-    .rack-unit-left {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .rack-icon {
-      font-size: 1.5rem;
-    }
-
-    .rack-title {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .rack-desc {
-      font-size: 0.7rem;
-      color: var(--text-dim);
-    }
+    .rack-unit-left { display: flex; align-items: center; gap: 0.75rem; }
+    .rack-icon { font-size: 1.5rem; }
+    .rack-title { font-size: 0.85rem; font-weight: 800; color: #fff; }
+    .rack-desc { font-size: 0.7rem; color: var(--text-dim); }
 
     .rack-ports {
       display: flex;
@@ -756,11 +729,8 @@
       color: var(--text);
     }
 
-    .specs-table tr:hover td {
-      background: rgba(255, 255, 255, 0.02);
-    }
+    .specs-table tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
-    /* Badges */
     .badge-aea {
       display: inline-flex;
       align-items: center;
@@ -771,17 +741,8 @@
       font-weight: 700;
     }
 
-    .aea-ok {
-      background: rgba(16, 185, 129, 0.15);
-      color: var(--green);
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-
-    .aea-warn {
-      background: rgba(239, 68, 68, 0.15);
-      color: var(--red);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
+    .aea-ok { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.3); }
+    .aea-warn { background: rgba(239, 68, 68, 0.15); color: var(--red); border: 1px solid rgba(239, 68, 68, 0.3); }
 
     /* Client Presentation Modal */
     .modal-backdrop {
@@ -799,9 +760,7 @@
       padding: 1rem;
     }
 
-    .modal-backdrop.open {
-      display: flex;
-    }
+    .modal-backdrop.open { display: flex; }
 
     .modal-print-sheet {
       background: #fff;
@@ -825,54 +784,14 @@
       margin-bottom: 1.5rem;
     }
 
-    .print-brand h2 {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: #0f172a;
-      letter-spacing: -0.02em;
-    }
+    .print-brand h2 { font-size: 1.4rem; font-weight: 900; color: #0f172a; letter-spacing: -0.02em; }
+    .print-brand p { font-size: 0.8rem; color: #64748b; font-weight: 600; }
+    .print-meta { text-align: right; font-size: 0.75rem; color: #475569; }
+    .print-title { font-size: 1.15rem; font-weight: 800; color: #0284c7; margin-bottom: 0.75rem; text-transform: uppercase; }
 
-    .print-brand p {
-      font-size: 0.8rem;
-      color: #64748b;
-      font-weight: 600;
-    }
-
-    .print-meta {
-      text-align: right;
-      font-size: 0.75rem;
-      color: #475569;
-    }
-
-    .print-title {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: #0284c7;
-      margin-bottom: 0.75rem;
-      text-transform: uppercase;
-    }
-
-    .print-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1.25rem 0;
-      font-size: 0.8rem;
-    }
-
-    .print-table th {
-      background: #f1f5f9;
-      padding: 0.6rem 0.5rem;
-      border: 1px solid #cbd5e1;
-      text-align: left;
-      font-weight: 800;
-      color: #1e293b;
-    }
-
-    .print-table td {
-      padding: 0.6rem 0.5rem;
-      border: 1px solid #cbd5e1;
-      color: #334155;
-    }
+    .print-table { width: 100%; border-collapse: collapse; margin: 1.25rem 0; font-size: 0.8rem; }
+    .print-table th { background: #f1f5f9; padding: 0.6rem 0.5rem; border: 1px solid #cbd5e1; text-align: left; font-weight: 800; color: #1e293b; }
+    .print-table td { padding: 0.6rem 0.5rem; border: 1px solid #cbd5e1; color: #334155; }
 
     .print-footer-actions {
       display: flex;
@@ -883,37 +802,14 @@
       border-top: 1px solid #e2e8f0;
     }
 
-    .btn-print-action {
-      padding: 0.65rem 1.25rem;
-      border-radius: 6px;
-      font-weight: 700;
-      font-size: 0.85rem;
-      cursor: pointer;
-      border: none;
-    }
-
-    .btn-print-pdf {
-      background: #0284c7;
-      color: #fff;
-    }
-
-    .btn-print-close {
-      background: #e2e8f0;
-      color: #334155;
-    }
+    .btn-print-action { padding: 0.65rem 1.25rem; border-radius: 6px; font-weight: 700; font-size: 0.85rem; cursor: pointer; border: none; }
+    .btn-print-pdf { background: #0284c7; color: #fff; }
+    .btn-print-close { background: #e2e8f0; color: #334155; }
 
     @media print {
       body * { visibility: hidden; }
       .modal-print-sheet, .modal-print-sheet * { visibility: visible; }
-      .modal-print-sheet {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        max-width: 100%;
-        box-shadow: none;
-        padding: 0;
-      }
+      .modal-print-sheet { position: absolute; left: 0; top: 0; width: 100%; max-width: 100%; box-shadow: none; padding: 0; }
       .print-footer-actions { display: none; }
     }
 
@@ -939,10 +835,7 @@
       gap: 0.5rem;
     }
 
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+    .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
   </style>
 </head>
 <body>
@@ -984,31 +877,71 @@
         
         <!-- ELECTRICAL TOOLBAR -->
         <div id="toolsElec">
-          <div class="panel-card">
-            
-            <!-- Selector de Marca Activa -->
+          
+          <!-- SELECCIÓN DE GABINETE / CAJA (GENROD, ROKET, GABEXEL, CONEXTUBE) -->
+          <div class="panel-card" style="border-color: rgba(0, 210, 255, 0.3);">
             <div class="panel-title">
-              <span>🏷️ Marca del Equipamiento</span>
+              <span>🏗️ Gabinete / Caja Eléctrica</span>
+              <span style="font-size: 0.7rem; color: var(--cyan);" id="enclosureBrandLabel">Genrod Q-Energy</span>
+            </div>
+
+            <!-- Marca de Caja -->
+            <label class="form-label">Marca del Gabinete</label>
+            <div class="pills-row">
+              <button class="pill-btn active" id="encGenrod" onclick="setEnclosureBrand('genrod')">Genrod</button>
+              <button class="pill-btn" id="encRoket" onclick="setEnclosureBrand('roket')">Roket</button>
+              <button class="pill-btn" id="encGabexel" onclick="setEnclosureBrand('gabexel')">Gabexel</button>
+              <button class="pill-btn" id="encConextube" onclick="setEnclosureBrand('conextube')">Conextube</button>
+            </div>
+
+            <!-- Tipo de Montaje -->
+            <label class="form-label" style="margin-top: 0.4rem;">Tipo de Montaje</label>
+            <div class="pills-row">
+              <button class="pill-btn active" id="mountEmbutir" onclick="setMountType('embutir')">🧱 Embutir</button>
+              <button class="pill-btn" id="mountSuperficie" onclick="setMountType('superficie')">📦 Superficie</button>
+              <button class="pill-btn" id="mountIntemperie" onclick="setMountType('intemperie')">🌧️ Intemperie IP65</button>
+            </div>
+
+            <!-- Capacidad Módulos DIN -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.4rem;">
+              <div class="form-group">
+                <label class="form-label">Capacidad DIN</label>
+                <select id="enclosureCapacitySelect" class="form-control" onchange="setEnclosureCapacity(this.value)">
+                  <option value="12">12 Módulos (1 Riel)</option>
+                  <option value="18">18 Módulos (1 Riel Ancho)</option>
+                  <option value="24" selected>24 Módulos (2 Rieles)</option>
+                  <option value="36">36 Módulos (3 Rieles)</option>
+                  <option value="48">48 Módulos (4 Rieles)</option>
+                  <option value="54">54 Módulos (3x18)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Puerta</label>
+                <select id="enclosureDoorSelect" class="form-control" onchange="render()">
+                  <option value="fume">Fumé Traslúcida</option>
+                  <option value="blanca">Ciega Blanca</option>
+                  <option value="metalica">Metálica con Cerradura</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- SELECCIÓN DE MARCA DE APARAMENTA -->
+          <div class="panel-card">
+            <div class="panel-title">
+              <span>🏷️ Marca de las Térmicas / Protecciones</span>
               <span style="font-size: 0.7rem; color: var(--cyan);" id="activeBrandLabel">Schneider Electric</span>
             </div>
-            <div class="brand-pills-row">
-              <button class="brand-pill active" id="pillSchneider" onclick="setActiveBrand('schneider')">
-                <span>🟢</span> <span>Schneider</span>
-              </button>
-              <button class="brand-pill" id="pillAbb" onclick="setActiveBrand('abb')">
-                <span>🔴</span> <span>ABB</span>
-              </button>
-              <button class="brand-pill" id="pillChint" onclick="setActiveBrand('chint')">
-                <span>🔵</span> <span>Chint</span>
-              </button>
-              <button class="brand-pill" id="pillBaw" onclick="setActiveBrand('baw')">
-                <span>🟡</span> <span>BAW</span>
-              </button>
+            <div class="pills-row">
+              <button class="pill-btn active" id="pillSchneider" onclick="setActiveBrand('schneider')">🟢 Schneider</button>
+              <button class="pill-btn" id="pillAbb" onclick="setActiveBrand('abb')">🔴 ABB</button>
+              <button class="pill-btn" id="pillChint" onclick="setActiveBrand('chint')">🔵 Chint</button>
+              <button class="pill-btn" id="pillBaw" onclick="setActiveBrand('baw')">🟡 BAW</button>
             </div>
 
             <!-- Botones Rápidos DIN -->
-            <div class="panel-title">
-              <span>⚡ Módulos Rápido DIN</span>
+            <div class="panel-title" style="margin-top: 0.5rem;">
+              <span>⚡ Módulos Rápidos DIN</span>
               <span style="font-size: 0.7rem; color: var(--gold);">Riel 35mm</span>
             </div>
             <div class="quick-add-grid">
@@ -1039,12 +972,12 @@
             </div>
 
             <!-- Custom Circuit Form -->
-            <div class="panel-title" style="margin-top: 1rem;">
+            <div class="panel-title" style="margin-top: 0.8rem;">
               <span>➕ Circuito a Medida</span>
             </div>
             <div class="form-group">
               <label class="form-label">Nombre del Circuito / Carga</label>
-              <input type="text" id="customElecName" class="form-control" placeholder="Ej: Aire Comedor / Bomba Agua">
+              <input type="text" id="customElecName" class="form-control" placeholder="Ej: Aire Comedor / Bomba Pileta">
             </div>
             
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
@@ -1100,10 +1033,9 @@
         <div id="toolsCctv" style="display: none;">
           <div class="panel-card">
             
-            <!-- Marca CCTV -->
             <div class="panel-title">
-              <span>📹 Marca de Seguridad</span>
-              <span style="font-size: 0.7rem; color: var(--cyan);" id="activeCctvBrand">Hikvision / Dahua</span>
+              <span>📹 Gabinete / Rack de Seguridad</span>
+              <span style="font-size: 0.7rem; color: var(--cyan);">Hikvision / Dahua</span>
             </div>
 
             <div class="quick-add-grid">
@@ -1127,7 +1059,6 @@
               </button>
             </div>
 
-            <!-- CCTV Settings -->
             <div class="panel-title" style="margin-top: 1rem;">
               <span>⚙️ Cálculo de Sistema CCTV</span>
             </div>
@@ -1164,8 +1095,12 @@
           </div>
           <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem;">
             <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text-muted);">Módulos Ocupados:</span>
-              <strong id="statModules" class="mono">0 Módulos</strong>
+              <span style="color: var(--text-muted);">Módulos DIN Ocupados:</span>
+              <strong id="statModules" class="mono">0 / 24 DIN</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Gabinete / Caja:</span>
+              <strong id="statEnclosureSummary" class="mono" style="color: var(--cyan);">Genrod Embutir</strong>
             </div>
             <div style="display: flex; justify-content: space-between;">
               <span style="color: var(--text-muted);">Potencia Total:</span>
@@ -1196,23 +1131,23 @@
         <!-- ELECTRICAL DIN RAIL CANVAS -->
         <div id="canvasElec">
           <div class="board-canvas-card">
-            <div class="board-outer-enclosure">
+            
+            <!-- EL GABINETE VISUAL (GENROD, ROKET, GABEXEL, CONEXTUBE) -->
+            <div id="boardOuterEnclosure" class="board-outer-enclosure enc-mount-embutir">
               <div class="enclosure-header">
                 <div class="enclosure-badge">
-                  <span>⚡</span> <span>TABLERO GENERAL SECCIONAL (TGS) - GRUPO CONDOR</span>
+                  <span>⚡</span> <span id="enclosureMainTitle">GABINETE GENROD Q-ENERGY • EMBUTIR</span>
                 </div>
-                <div class="enclosure-specs" id="enclosureCapacity">Capacidad: 24 Módulos DIN • IP40</div>
+                <div class="enclosure-specs" id="enclosureSpecsTag">24 Módulos DIN • IP40 • Norma IRAM</div>
               </div>
 
-              <!-- DIN Rail 1 -->
-              <div class="din-rail-row">
-                <div id="dinRailContainer" class="din-components-container">
-                  <!-- Se llena dinámicamente con las térmicas brandeadas -->
-                </div>
+              <!-- CONTENEDOR MULTI-RIEL DIN -->
+              <div id="railsStackContainer" class="rails-stack">
+                <!-- Se generan dinámicamente según la capacidad (1 a 4 rieles) -->
               </div>
 
-              <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;">
-                Tocá cualquier módulo para eliminarlo o cambiarlo.
+              <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.75rem;">
+                Hacé clic en cualquier térmica para eliminarla o editarla.
               </div>
             </div>
           </div>
@@ -1249,7 +1184,7 @@
         <!-- CCTV RACK CANVAS -->
         <div id="canvasCctv" style="display: none;">
           <div class="board-canvas-card">
-            <div class="board-outer-enclosure">
+            <div class="board-outer-enclosure enc-mount-superficie">
               <div class="enclosure-header">
                 <div class="enclosure-badge">
                   <span>📹</span> <span>GABINETE TÉCNICO CCTV & NETWORKING - CONDOR SEGURIDAD</span>
@@ -1257,14 +1192,12 @@
                 <div class="enclosure-specs" id="rackCapacity">Gabinete Mural 6U Estanco / Ventilado</div>
               </div>
 
-              <!-- Rack Visual Container -->
               <div id="rackContainer" class="rack-cabinet">
                 <!-- Se llena dinámicamente -->
               </div>
             </div>
           </div>
 
-          <!-- CCTV Specs Sheet -->
           <div class="specs-card">
             <h3 style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
               📹 Memoria Técnica del Sistema de Seguridad
@@ -1301,6 +1234,11 @@
         Diseño técnico normalizado con protecciones termomagnéticas, diferencial y conductor adecuado bajo norma para máxima seguridad humana y de la propiedad.
       </p>
 
+      <!-- Ficha Técnica del Gabinete -->
+      <div style="background: #f1f5f9; border-left: 4px solid #0284c7; padding: 0.75rem 1rem; margin-bottom: 1rem; font-size: 0.8rem; color: #1e293b;" id="printEnclosureSpecs">
+        <!-- Render dinámico de la caja -->
+      </div>
+
       <table class="print-table" id="printTable">
         <!-- Render dinámico -->
       </table>
@@ -1308,7 +1246,7 @@
       <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-top: 1rem; font-size: 0.8rem;">
         <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">🛡️ Compromiso de Calidad y Seguridad El Cóndor:</h4>
         <p style="color: #64748b; line-height: 1.5;">
-          • Solo utilizamos aparamenta original certificada bajo normas IRAM / IEC (Schneider Electric, ABB, Chint, BAW).<br>
+          • Solo utilizamos aparamenta original certificada bajo normas IRAM / IEC (Schneider Electric, ABB, Chint, BAW) y envolventes homologadas (Genrod, Roket, Gabexel, Conextube).<br>
           • Todos los tableros se entregan peinados con barras de cobre aisladas, terminales taborados/ojal para evitar puntos calientes, verificación de torque y prueba de disparo diferencial con instrumental calibrado.
         </p>
       </div>
@@ -1327,6 +1265,9 @@
     // ESTADO DE LA APP
     let currentMode = "electrico"; // 'electrico' | 'cctv'
     let activeBrand = "schneider"; // 'schneider' | 'abb' | 'chint' | 'baw'
+    let enclosureBrand = "genrod"; // 'genrod' | 'roket' | 'gabexel' | 'conextube'
+    let mountType = "embutir";     // 'embutir' | 'superficie' | 'intemperie'
+    let enclosureCapacity = 24;    // 12, 18, 24, 36, 48, 54
     let elecModules = [];
     let rackItems = [];
 
@@ -1340,7 +1281,35 @@
       16.0: 66
     };
 
-    // DATOS DE MARCAS
+    // MARCAS DE GABINETES / CAJAS
+    const ENCLOSURE_DATA = {
+      genrod: {
+        name: "Genrod",
+        embutir: { title: "Genrod Q-Energy / Helix Embutir", ip: "IP40", material: "Termoplástico autoextinguible V0" },
+        superficie: { title: "Genrod Box Superficie", ip: "IP40", material: "Termoplástico de alto impacto" },
+        intemperie: { title: "Genrod Tube / Helix Estanco", ip: "IP65", material: "Termoplástico con filtro UV y burlete EPDM" }
+      },
+      roket: {
+        name: "Roket",
+        embutir: { title: "Roket Modular de Embutir", ip: "IP40", material: "Termoplástico ignífugo con puerta fumé" },
+        superficie: { title: "Roket Modular de Superficie", ip: "IP40", material: "Termoplástico reforzado" },
+        intemperie: { title: "Roket Estanco Exterior", ip: "IP65", material: "Polímero resistente a la intemperie" }
+      },
+      gabexel: {
+        name: "Gabexel",
+        embutir: { title: "Gabexel Modular Embutir", ip: "IP40", material: "Chapa de acero 1.2mm con marco esmaltado" },
+        superficie: { title: "Gabexel Metálico Superficie", ip: "IP54", material: "Chapa plegada pintura epoxi electrostática" },
+        intemperie: { title: "Gabexel Gabinete Estanco Metálico", ip: "IP65", material: "Chapa DD 1.6mm con burlete poliuretano y cierre 1/4 vuelta" }
+      },
+      conextube: {
+        name: "Conextube",
+        embutir: { title: "Conextube Eurobox Embutir", ip: "IP40", material: "Termoplástico V0 con chasis desmontable" },
+        superficie: { title: "Conextube Dinbox Superficie", ip: "IP40", material: "Tecnopolímero antiestático" },
+        intemperie: { title: "Conextube Eurobox Estanco IP65", ip: "IP65", material: "Policarbonato libre de halógenos IK08" }
+      }
+    };
+
+    // DATOS DE APARAMENTA
     const BRAND_INFO = {
       schneider: {
         name: "Schneider Electric",
@@ -1393,17 +1362,37 @@
       document.getElementById('printDate').textContent = new Date().toLocaleDateString('es-AR');
     });
 
-    // SELECCIÓN DE MARCA
+    // CONTROL DE GABINETES
+    function setEnclosureBrand(brand) {
+      enclosureBrand = brand;
+      document.querySelectorAll('#encGenrod, #encRoket, #encGabexel, #encConextube').forEach(b => b.classList.remove('active'));
+      document.getElementById(`enc${brand.charAt(0).toUpperCase() + brand.slice(1)}`).classList.add('active');
+      document.getElementById('enclosureBrandLabel').textContent = ENCLOSURE_DATA[brand].name;
+      render();
+      showToast(`📦 Gabinete seleccionado: ${ENCLOSURE_DATA[brand].name}`);
+    }
+
+    function setMountType(type) {
+      mountType = type;
+      document.querySelectorAll('#mountEmbutir, #mountSuperficie, #mountIntemperie').forEach(b => b.classList.remove('active'));
+      document.getElementById(`mount${type.charAt(0).toUpperCase() + type.slice(1)}`).classList.add('active');
+      render();
+      showToast(`🏗️ Tipo de montaje: ${type.toUpperCase()}`);
+    }
+
+    function setEnclosureCapacity(cap) {
+      enclosureCapacity = parseInt(cap);
+      render();
+      showToast(`⚡ Capacidad actualizada: ${enclosureCapacity} Módulos DIN`);
+    }
+
+    // CONTROL DE MARCAS DE APARAMENTA
     function setActiveBrand(brand) {
       activeBrand = brand;
-      document.querySelectorAll('.brand-pill').forEach(p => p.classList.remove('active'));
-      if (brand === 'schneider') document.getElementById('pillSchneider').classList.add('active');
-      if (brand === 'abb') document.getElementById('pillAbb').classList.add('active');
-      if (brand === 'chint') document.getElementById('pillChint').classList.add('active');
-      if (brand === 'baw') document.getElementById('pillBaw').classList.add('active');
-
+      document.querySelectorAll('#pillSchneider, #pillAbb, #pillChint, #pillBaw').forEach(p => p.classList.remove('active'));
+      document.getElementById(`pill${brand.charAt(0).toUpperCase() + brand.slice(1)}`).classList.add('active');
       document.getElementById('activeBrandLabel').textContent = BRAND_INFO[brand].name;
-      showToast(`🏷️ Marca activa: ${BRAND_INFO[brand].name}`);
+      showToast(`🏷️ Marca de protecciones: ${BRAND_INFO[brand].name}`);
     }
 
     // MODO SELECTOR
@@ -1461,7 +1450,6 @@
       }
     }
 
-    // AGREGAR MÓDULO A MEDIDA
     function addCustomElecCircuit() {
       const name = document.getElementById("customElecName").value.trim() || "Circuito Especial";
       const type = document.getElementById("customElecType").value;
@@ -1499,6 +1487,9 @@
         currentMode = 'electrico';
         setMode('electrico');
         setActiveBrand('schneider');
+        setEnclosureBrand('genrod');
+        setMountType('embutir');
+        setEnclosureCapacity(24);
         elecModules = [
           { id: '1', type: 'protector', name: 'Protector Tensión General', brand: 'Schneider', model: 'RU-40 Digi', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
           { id: '2', type: 'diferencial', name: 'Disyuntor Dif. General 30mA', brand: 'Schneider', model: 'Acti9 iID 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
@@ -1507,11 +1498,14 @@
           { id: '5', type: 'termica', name: 'Aire Acondicionado Comedor', brand: 'Schneider', model: 'iC60N C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
           { id: '6', type: 'contactor', name: 'Contactor Bomba / Luces Parque', brand: 'Schneider', model: 'iCT 25A 2NA', amp: 25, width: 1, display: 'contactor', cable: 4.0, watts: 1500 }
         ];
-        showToast("🟢 Preset Schneider Electric cargado");
+        showToast("🟢 Preset Schneider Electric + Genrod cargado");
       } else if (presetName === 'abb_pro') {
         currentMode = 'electrico';
         setMode('electrico');
         setActiveBrand('abb');
+        setEnclosureBrand('gabexel');
+        setMountType('superficie');
+        setEnclosureCapacity(24);
         elecModules = [
           { id: '1', type: 'protector', name: 'Protector Tensión General', brand: 'ABB', model: 'E200 Digital', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
           { id: '2', type: 'diferencial', name: 'Disyuntor Dif. General 30mA', brand: 'ABB', model: 'FH202 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
@@ -1520,11 +1514,14 @@
           { id: '5', type: 'termica', name: 'Aire Acondicionado Split', brand: 'ABB', model: 'S201 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3000 },
           { id: '6', type: 'termica', name: 'Horno / Cocina Eléctrica', brand: 'ABB', model: 'S201 C25', amp: 25, width: 1, display: 'termica', cable: 6.0, watts: 4400 }
         ];
-        showToast("🔴 Preset ABB System pro M cargado");
+        showToast("🔴 Preset ABB + Gabexel cargado");
       } else if (presetName === 'chint_pro') {
         currentMode = 'electrico';
         setMode('electrico');
         setActiveBrand('chint');
+        setEnclosureBrand('roket');
+        setMountType('embutir');
+        setEnclosureCapacity(24);
         elecModules = [
           { id: '1', type: 'protector', name: 'Protector Tensión Chint', brand: 'CHNT', model: 'NXJ-40 Digi', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
           { id: '2', type: 'diferencial', name: 'Disyuntor Dif. Chint 40A', brand: 'CHNT', model: 'NL1-63 2x40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
@@ -1532,7 +1529,7 @@
           { id: '4', type: 'termica', name: 'Tomas TUG', brand: 'CHNT', model: 'NXB-63 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
           { id: '5', type: 'termica', name: 'Aire Acondicionado TUE', brand: 'CHNT', model: 'NXB-63 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
         ];
-        showToast("🔵 Preset Chint NXB cargado");
+        showToast("🔵 Preset Chint + Roket cargado");
       } else if (presetName === 'cctv_ip_pro') {
         currentMode = 'cctv';
         setMode('cctv');
@@ -1558,7 +1555,6 @@
       }
     }
 
-    // AGREGAR MÓDULO ELÉCTRICO
     function addModule(type, name, brand, model, amp, width, display, cable, watts) {
       elecModules.push({
         id: Date.now().toString(),
@@ -1581,7 +1577,6 @@
       render();
     }
 
-    // AGREGAR ITEM RACK CCTV
     function addRackItem(type, name, u, watts, ports, sub) {
       rackItems.push({
         id: Date.now().toString(),
@@ -1614,24 +1609,70 @@
       }
     }
 
-    // RENDER TABLERO ELÉCTRICO
+    // RENDER TABLERO ELÉCTRICO CON MULTI-RIEL Y GABINETES
     function renderElectricBoard() {
-      const rail = document.getElementById("dinRailContainer");
-      rail.innerHTML = "";
+      const enclosureEl = document.getElementById("boardOuterEnclosure");
+      const encData = ENCLOSURE_DATA[enclosureBrand] || ENCLOSURE_DATA['genrod'];
+      const currentEncConfig = encData[mountType] || encData['embutir'];
 
-      let totalModules = 0;
+      // Aplicar clases visuales al gabinete exterior
+      enclosureEl.className = `board-outer-enclosure enc-mount-${mountType}`;
+      document.getElementById("enclosureMainTitle").textContent = `${currentEncConfig.title.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
+      document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • ${currentEncConfig.ip} • ${currentEncConfig.material}`;
+
+      // Configuración de Rieles: cuántos módulos por riel
+      let modulesPerRail = 12;
+      let totalRailsCount = 1;
+
+      if (enclosureCapacity === 12) { modulesPerRail = 12; totalRailsCount = 1; }
+      else if (enclosureCapacity === 18) { modulesPerRail = 18; totalRailsCount = 1; }
+      else if (enclosureCapacity === 24) { modulesPerRail = 12; totalRailsCount = 2; }
+      else if (enclosureCapacity === 36) { modulesPerRail = 12; totalRailsCount = 3; }
+      else if (enclosureCapacity === 48) { modulesPerRail = 12; totalRailsCount = 4; }
+      else if (enclosureCapacity === 54) { modulesPerRail = 18; totalRailsCount = 3; }
+
+      // Preparar Rieles
+      const railsContainer = document.getElementById("railsStackContainer");
+      railsContainer.innerHTML = "";
+
+      const railsElements = [];
+      for (let r = 0; r < totalRailsCount; r++) {
+        const railRow = document.createElement("div");
+        railRow.className = "din-rail-row";
+        railRow.innerHTML = `
+          <div class="rail-number-tag">Riel DIN #${r + 1} (${modulesPerRail}M Máx)</div>
+          <div class="din-components-container" id="dinRail_${r}"></div>
+        `;
+        railsContainer.appendChild(railRow);
+        railsElements.push(railRow.querySelector(`#dinRail_${r}`));
+      }
+
+      // Distribuir componentes secuencialmente entre rieles
+      let currentRailIndex = 0;
+      let currentRailOccupied = 0;
+      let totalOccupiedModules = 0;
       let totalWatts = 0;
       let hasAeaWarning = false;
 
       elecModules.forEach(m => {
-        totalModules += m.width;
+        totalOccupiedModules += m.width;
         if (m.type === 'termica' || m.type === 'contactor') totalWatts += m.watts;
 
-        // Comprobación de norma AEA 90364: In <= Iz
+        // Comprobación AEA
         const iz = CABLE_IZ[m.cable] || 15;
         const isSafe = m.type !== 'termica' || (m.amp <= iz);
         if (!isSafe) hasAeaWarning = true;
 
+        // Verificar si cabe en el riel actual o pasa al siguiente
+        if (currentRailOccupied + m.width > modulesPerRail && currentRailIndex < totalRailsCount - 1) {
+          currentRailIndex++;
+          currentRailOccupied = 0;
+        }
+        currentRailOccupied += m.width;
+
+        const targetRail = railsElements[currentRailIndex] || railsElements[railsElements.length - 1];
+
+        // Crear elemento visual del módulo
         const modEl = document.createElement("div");
         const brandKey = m.brand.toLowerCase().includes('abb') ? 'abb' :
                          m.brand.toLowerCase().includes('chint') || m.brand.toLowerCase().includes('chnt') ? 'chint' :
@@ -1666,7 +1707,6 @@
             <div style="font-size:7px; font-weight:800; color:#475569;">40kA</div>
           `;
         } else {
-          // Térmica estándar con estilo de la marca
           bodyHtml = `
             <div class="din-toggle">ON</div>
             <div class="din-indicator-box"></div>
@@ -1686,12 +1726,13 @@
             <div>${m.amp}A</div>
           </div>
         `;
-        rail.appendChild(modEl);
+        targetRail.appendChild(modEl);
       });
 
       // Actualizar Resumen
       const maxCurrent = (totalWatts / 220).toFixed(1);
-      document.getElementById("statModules").textContent = `${totalModules} / 24 DIN`;
+      document.getElementById("statModules").textContent = `${totalOccupiedModules} / ${enclosureCapacity} DIN`;
+      document.getElementById("statEnclosureSummary").textContent = `${encData.name} ${mountType.toUpperCase()}`;
       document.getElementById("statPower").textContent = `${totalWatts.toLocaleString('es-AR')} W`;
       document.getElementById("statCurrent").textContent = `${maxCurrent} A (220V)`;
 
@@ -1793,6 +1834,7 @@
       const recordingDays = Math.round(totalHddGb / gbPorDia);
 
       document.getElementById("statModules").textContent = `${rackItems.length} Equipos`;
+      document.getElementById("statEnclosureSummary").textContent = `Rack Mural 6U`;
       document.getElementById("statPower").textContent = `${totalSystemWatts} W`;
       document.getElementById("statCurrent").textContent = `${(totalSystemWatts / 220).toFixed(2)} A`;
       document.getElementById("statUpsTime").textContent = hasUps ? `~${upsMinutes} minutos` : 'Sin UPS';
@@ -1813,10 +1855,21 @@
       const title = document.getElementById("printReportTitle");
       const subtitle = document.getElementById("printReportSubtitle");
       const table = document.getElementById("printTable");
+      const encSpecsBox = document.getElementById("printEnclosureSpecs");
+
+      const encData = ENCLOSURE_DATA[enclosureBrand] || ENCLOSURE_DATA['genrod'];
+      const currentEncConfig = encData[mountType] || encData['embutir'];
 
       if (currentMode === 'electrico') {
         title.textContent = "MEMORIA TÉCNICA - TABLERO ELÉCTRICO SECCIONAL";
-        subtitle.textContent = "Especificación de aparamenta de primeras marcas (Schneider, ABB, Chint, BAW) y verificación bajo Reglamentación AEA 90364.";
+        subtitle.textContent = "Especificación de envolventes homologadas (Genrod, Roket, Gabexel, Conextube) y aparamenta bajo Reglamentación AEA 90364.";
+
+        encSpecsBox.style.display = "block";
+        encSpecsBox.innerHTML = `
+          <strong>📦 ESPECIFICACIÓN DEL GABINETE:</strong> ${currentEncConfig.title} (${enclosureCapacity} Módulos DIN)<br>
+          • <strong>Montaje:</strong> ${mountType.toUpperCase()} | <strong>Protección:</strong> ${currentEncConfig.ip}<br>
+          • <strong>Material constructivo:</strong> ${currentEncConfig.material} (Norma IRAM 2006 / IEC 60670).
+        `;
 
         let rowsHtml = `
           <thead>
@@ -1848,6 +1901,7 @@
       } else {
         title.textContent = "MEMORIA TÉCNICA - GABINETE DE SEGURIDAD ELECTRÓNICA & CCTV";
         subtitle.textContent = "Especificación de equipamiento central, respaldo energético y almacenamiento en disco.";
+        encSpecsBox.style.display = "none";
 
         let rowsHtml = `
           <thead>

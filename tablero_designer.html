@@ -1057,6 +1057,23 @@
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.8);
     }
 
+    /* PASTILLA INDICADORA DE CABLE EN CADA MÓDULO */
+    .mod-cable-pill {
+      background: #0f172a;
+      border: 1px solid #334155;
+      border-radius: 4px;
+      padding: 1.5px 5px;
+      font-size: 7.5px;
+      font-weight: 800;
+      color: #facc15;
+      text-align: center;
+      margin: 2px auto 0;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.01em;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+      display: inline-block;
+    }
+
     /* ETIQUETA AMARILLA FLOTANTE DE CALIBRE (4 mm) */
     .cable-gauge-chip {
       background: #facc15;
@@ -1361,9 +1378,9 @@
             </div>
 
             <!-- Ajustes de Cableado Realista -->
-            <label class="form-label" style="margin-top: 0.4rem;">Opciones de Cableado Interno</label>
+            <label class="form-label" style="margin-top: 0.4rem;">Cableado de Riel DIN (Opcional)</label>
             <div class="pills-row">
-              <button class="pill-btn active" id="toggleWiringBtn" onclick="toggleWiring()">🔌 Cables Curvos: SÍ</button>
+              <button class="pill-btn" id="toggleWiringBtn" onclick="toggleWiring()">🔌 Conectar Cables: NO</button>
               <button class="pill-btn active" id="gauge4Btn" onclick="setMainGauge(4)">🟡 4 mm²</button>
               <button class="pill-btn" id="gauge6Btn" onclick="setMainGauge(6)">🟢 6 mm²</button>
               <button class="pill-btn" id="gauge10Btn" onclick="setMainGauge(10)">🟣 10 mm²</button>
@@ -1481,7 +1498,7 @@
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
               <div class="form-group">
                 <label class="form-label">Tipo de Aparato</label>
-                <select id="customElecType" class="form-control">
+                <select id="customElecType" class="form-control" onchange="autoRecommendCable(true)">
                   <option value="termica">Térmica PIA (Curva C)</option>
                   <option value="diferencial">Disyuntor Diferencial (ID)</option>
                   <option value="contactor">Contactor Modular 220V</option>
@@ -1492,7 +1509,7 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Amperaje Nominal (In)</label>
-                <select id="customElecAmp" class="form-control">
+                <select id="customElecAmp" class="form-control" onchange="autoRecommendCable(true)">
                   <option value="10">10A</option>
                   <option value="16">16A</option>
                   <option value="20" selected>20A</option>
@@ -1504,10 +1521,19 @@
               </div>
             </div>
 
+            <!-- RECOMENDACIÓN DINÁMICA DE CABLE SEGÚN AEA 90364 -->
+            <div id="cableRecommendationBox" style="background: rgba(2, 132, 199, 0.15); border: 1px solid var(--cyan); border-radius: 8px; padding: 0.55rem 0.75rem; margin-bottom: 0.65rem; font-size: 0.75rem; display: flex; align-items: center; gap: 0.6rem;">
+              <span style="font-size: 1.2rem;">💡</span>
+              <div>
+                <strong style="color: var(--cyan); display: block;">Recomendación AEA 90364:</strong>
+                <span id="cableRecommendationText" style="color: #fff;">Cable de <strong>4.0 mm²</strong> (Aire Acondicionado TUE • Iz ~28A ≥ Térmica 20A)</span>
+              </div>
+            </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
               <div class="form-group">
                 <label class="form-label">Calibre Cable (AEA)</label>
-                <select id="customElecCable" class="form-control">
+                <select id="customElecCable" class="form-control" onchange="checkCableSafety()">
                   <option value="1.5">1.5 mm² (Iz ~15A)</option>
                   <option value="2.5">2.5 mm² (Iz ~21A)</option>
                   <option value="4.0" selected>4.0 mm² (Iz ~28A)</option>
@@ -1518,8 +1544,13 @@
               </div>
               <div class="form-group">
                 <label class="form-label">Potencia (Watts)</label>
-                <input type="number" id="customElecWatts" class="form-control" placeholder="2200" value="2200" step="100">
+                <input type="number" id="customElecWatts" class="form-control" placeholder="3200" value="3200" step="100">
               </div>
+            </div>
+
+            <!-- ALERTA DE CABLE SUBDIMENSIONADO -->
+            <div id="cableWarningBox" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid var(--red); border-radius: 8px; padding: 0.5rem 0.75rem; margin-bottom: 0.65rem; font-size: 0.75rem; color: #fca5a5;">
+              ⚠️ <strong>CABLE PELIGROSO:</strong> La térmica supera la corriente admisible del cable (In > Iz). Riesgo de recalentamiento e incendio bajo norma AEA 90364.
             </div>
 
             <button class="btn-add-primary" onclick="addCustomElecCircuit()">
@@ -1811,7 +1842,7 @@
     let mountType = 'embutir';
     let enclosureCapacity = 24;
     let showPilots = true;
-    let showWiring = true;
+    let showWiring = false; // Por defecto desactivado para que el usuario elija cuándo colocar cables
     let mainWireGauge = 4; // 4, 6, 10 mm²
 
     // Capacidad admisible de conductores según AEA 90364 / IRAM 2183 (B1/B2 cañería embutida)
@@ -1907,7 +1938,7 @@
     // CIRCUITOS ELÉCTRICOS INICIALES (MUESTRA REALISTA ABB IDÉNTICA A LA FOTO)
     let elecModules = [
       { id: '1', type: 'termica', name: 'Térmica General Bipolar 2x20A', brand: 'ABB', model: 'S202 C20', amp: 20, width: 2, display: 'termica', cable: 4.0, watts: 4400 },
-      { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Bipolar 40A 30mA', brand: 'ABB', model: 'FH202 AC 40A', amp: 40, width: 2, display: 'disyuntor', cable: 4.0, watts: 0 },
+      { id: '2', type: 'diferencial', name: 'Disyuntor Diferencial Bipolar 40A 30mA', brand: 'ABB', model: 'FH202 AC 40A', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
       { id: '3', type: 'termica', name: 'Iluminación Planta Baja (IUG)', brand: 'ABB', model: 'S201 C10', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
       { id: '4', type: 'termica', name: 'Tomas de Uso General (TUG)', brand: 'ABB', model: 'S201 C16', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
       { id: '5', type: 'termica', name: 'Aire Acondicionado Split (TUE)', brand: 'ABB', model: 'S201 C20', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 }
@@ -1919,8 +1950,110 @@
     // INICIALIZACIÓN
     window.addEventListener("DOMContentLoaded", () => {
       document.getElementById("printDate").textContent = new Date().toLocaleDateString('es-AR');
+      autoRecommendCable();
       render();
     });
+
+    // SISTEMA INTELIGENTE DE RECOMENDACIÓN DE CABLES SEGÚN AEA 90364
+    function autoRecommendCable(userTriggered = false) {
+      const type = document.getElementById("customElecType") ? document.getElementById("customElecType").value : 'termica';
+      const amp = parseInt(document.getElementById("customElecAmp") ? document.getElementById("customElecAmp").value : 20) || 20;
+      const cableSelect = document.getElementById("customElecCable");
+      const wattsInput = document.getElementById("customElecWatts");
+      const recText = document.getElementById("cableRecommendationText");
+
+      let recCable = 2.5;
+      let recWatts = 2200;
+      let desc = "";
+
+      if (type === 'vameter') {
+        recCable = 2.5;
+        recWatts = 5;
+        desc = "Medidor de Red (Iz 21A, consumo propio <5W)";
+      } else if (type === 'contactor') {
+        recCable = 4.0;
+        recWatts = 1500;
+        desc = "Bobina 220V + Carga de Fuerza Motriz (Iz 28A ≥ In 25A)";
+      } else if (type === 'dps') {
+        recCable = 6.0;
+        recWatts = 0;
+        desc = "Descarga Atmosférica a Jabalina (Sección mín. 6.0 mm² s/Norma AEA)";
+      } else {
+        // Térmica PIA o Diferencial
+        if (amp <= 10) {
+          recCable = 1.5;
+          recWatts = 1200;
+          desc = "Iluminación IUG (Iz ~15A ≥ Térmica 10A)";
+        } else if (amp <= 16) {
+          recCable = 2.5;
+          recWatts = 2200;
+          desc = "Tomas de Uso General TUG (Iz ~21A ≥ Térmica 16A)";
+        } else if (amp <= 20) {
+          recCable = 4.0;
+          recWatts = 3200;
+          desc = "Aire Acondicionado TUE (Iz ~28A ≥ Térmica 20A)";
+        } else if (amp <= 25) {
+          recCable = 6.0;
+          recWatts = 4500;
+          desc = "Cocina / Anafe / Carga Especial (Iz ~36A ≥ Térmica 25A)";
+        } else if (amp <= 32) {
+          recCable = 10.0;
+          recWatts = 6000;
+          desc = "Línea Seccional Principal (Iz ~50A ≥ Térmica 32A)";
+        } else if (amp <= 40) {
+          recCable = 10.0;
+          recWatts = 8800;
+          desc = "Cabecera General Tablero (Iz ~50A ≥ Térmica 40A)";
+        } else {
+          recCable = 16.0;
+          recWatts = 12000;
+          desc = "Alimentación de Gran Potencia (Iz ~66A ≥ Térmica 63A)";
+        }
+      }
+
+      if (cableSelect) {
+        for (let i = 0; i < cableSelect.options.length; i++) {
+          if (parseFloat(cableSelect.options[i].value) === recCable) {
+            cableSelect.selectedIndex = i;
+            break;
+          }
+        }
+      }
+      if (wattsInput) {
+        wattsInput.value = recWatts;
+      }
+      if (recText) {
+        recText.innerHTML = `Cable de <strong>${recCable} mm²</strong> (${desc})`;
+      }
+      checkCableSafety();
+      if (userTriggered) {
+        showToast(`💡 AEA 90364: Recomendado cable ${recCable} mm² para ${amp}A`);
+      }
+    }
+
+    function checkCableSafety() {
+      const ampEl = document.getElementById("customElecAmp");
+      const cableEl = document.getElementById("customElecCable");
+      const typeEl = document.getElementById("customElecType");
+      if (!ampEl || !cableEl) return;
+
+      const amp = parseInt(ampEl.value) || 16;
+      const cable = parseFloat(cableEl.value) || 2.5;
+      const type = typeEl ? typeEl.value : 'termica';
+      const warnBox = document.getElementById("cableWarningBox");
+
+      const iz = CABLE_IZ[cable] || 15;
+      const isSafe = (type !== 'termica') || (amp <= iz);
+
+      if (warnBox) {
+        if (!isSafe) {
+          warnBox.style.display = "block";
+          warnBox.innerHTML = `⚠️ <strong>CABLE PELIGROSO:</strong> El cable de ${cable} mm² solo soporta ${iz}A. La térmica de ${amp}A no lo protegerá contra sobrecarga (In > Iz). Riesgo de recalentamiento e incendio bajo norma AEA 90364.`;
+        } else {
+          warnBox.style.display = "none";
+        }
+      }
+    }
 
     // CAMBIO DE PERSPECTIVA: VISTA INTERNA REALISTA VS TAPA
     function setViewPerspective(persp) {
@@ -1946,10 +2079,12 @@
     function toggleWiring() {
       showWiring = !showWiring;
       const btn = document.getElementById("toggleWiringBtn");
-      btn.className = `pill-btn ${showWiring ? 'active' : ''}`;
-      btn.textContent = showWiring ? '🔌 Cables Curvos: SÍ' : '🔌 Cables Curvos: NO';
+      if (btn) {
+        btn.className = `pill-btn ${showWiring ? 'active' : ''}`;
+        btn.textContent = showWiring ? '🔌 Conectar Cables: SÍ' : '🔌 Conectar Cables: NO';
+      }
       render();
-      showToast(showWiring ? "✅ Cableado interno visible" : "❌ Cableado interno oculto");
+      showToast(showWiring ? "🔌 Cableado conectado al riel" : "✨ Cableado oculto (módulos limpios)");
     }
 
     function setMainGauge(gauge) {
@@ -2061,13 +2196,15 @@
       if (itemType === 'termica_gen') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
         const amp = supplyType === 'trifasico' ? 40 : 20;
-        addModule('termica', `PIA General ${b.label} ${amp}A`, b.label, `${b.piaPrefix}${amp}`, amp, modWidth, 'termica', 4.0, 4400);
+        const cable = supplyType === 'trifasico' ? 10.0 : 4.0;
+        const watts = supplyType === 'trifasico' ? 8800 : 4400;
+        addModule('termica', `PIA General ${b.label} ${amp}A`, b.label, `${b.piaPrefix}${amp}`, amp, modWidth, 'termica', cable, watts);
       } else if (itemType === 'protector') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
         addModule('protector', `Protector Tensión ${supplyType === 'trifasico' ? 'Trifásico' : 'Monofásico'}`, b.label, b.protModel, 40, modWidth, 'display', 10.0, 0);
       } else if (itemType === 'diferencial') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
-        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 4.0, 0);
+        addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 10.0, 0);
       } else if (itemType === 'vameter_din') {
         addModule('vameter', `Volt-Amperímetro DIN ${b.label}`, b.label, b.vameterModel, 0, 1, 'vameter_din', 2.5, 5);
       } else if (itemType === 'contactor') {
@@ -2215,7 +2352,7 @@
         watts: parseInt(watts) || 1500
       });
       render();
-      showToast(`+ ${name} agregado`);
+      showToast(`+ ${name} agregado • ⚡ Cable: ${parseFloat(cable) || 2.5} mm²`);
     }
 
     function removeElecModule(id) {
@@ -2516,6 +2653,7 @@
           </div>
           <div class="mod-central-body">
             ${centralContent}
+            <div class="mod-cable-pill" title="Cable reglamentario AEA 90364: ${m.cable} mm²">⚡ ${m.cable} mm²</div>
           </div>
           <div class="terminal-zone bottom">
             ${bottomScrewsHtml}
@@ -2525,9 +2663,12 @@
         targetRail.container.appendChild(modEl);
       });
 
-      // DIBUJAR CABLES CURVOS REALISTAS SVG Y ETIQUETA AMARILLA (TABLEROSREALISTAS)
+      // DIBUJAR CABLES CURVOS REALISTAS SVG Y ETIQUETA AMARILLA (SOLO SI EL USUARIO LOS ACTIVA)
       if (viewPerspective === 'internal' && showWiring && elecModules.length > 0) {
         setTimeout(drawRealisticWiring, 50);
+      } else {
+        document.querySelectorAll(".wiring-svg-overlay").forEach(s => s.innerHTML = "");
+        document.querySelectorAll(".cable-gauge-chip").forEach(t => t.remove());
       }
 
       // Resumen y estadísticas
@@ -2580,6 +2721,12 @@
 
     // TRAZADO DE CABLES CURVOS Y ETIQUETA AMARILLA TIPO TABLEROSREALISTAS
     function drawRealisticWiring() {
+      if (!showWiring || viewPerspective !== 'internal') {
+        document.querySelectorAll(".wiring-svg-overlay").forEach(s => s.innerHTML = "");
+        document.querySelectorAll(".cable-gauge-chip").forEach(t => t.remove());
+        return;
+      }
+
       const svg = document.getElementById("wiringSvg_0");
       if (!svg) return;
       const railEl = svg.closest(".din-rail-row");
@@ -2609,29 +2756,28 @@
         startN_X = sN.left + sN.width / 2 - rect.left;
       }
 
-      // Cable Fase (Rojo) entrando al borne 1
+      // Cable Fase (Rojo) entrando al borne 1 (justo en la cavidad superior, sin tapar serigrafía)
       const p1X = m1RelX + 18;
-      const p1Y = m1RelY + 12;
+      const p1Y = m1RelY + 8;
 
       // Cable Neutro (Azul) entrando al borne 2
       const p2X = m1RelX + 38;
-      const p2Y = m1RelY + 12;
+      const p2Y = m1RelY + 8;
 
-      // Trazar Cable Rojo de Fase con curva suave de 90°
-      const pathRed = `M ${startL_X},0 C ${startL_X},${p1Y - 25} ${p1X - 25},${p1Y - 25} ${p1X},${p1Y}`;
-      // Trazar Cable Azul de Neutro con curva paralela
-      const pathBlue = `M ${startN_X},0 C ${startN_X},${p2Y - 15} ${p2X - 20},${p2Y - 15} ${p2X},${p2Y}`;
+      // Curva elegante de alimentación que desciende desde la canaleta superior
+      const pathRed = `M ${startL_X},0 C ${startL_X},${Math.max(5, p1Y - 25)} ${p1X},${Math.max(5, p1Y - 25)} ${p1X},${p1Y}`;
+      const pathBlue = `M ${startN_X},0 C ${startN_X},${Math.max(5, p2Y - 18)} ${p2X},${Math.max(5, p2Y - 18)} ${p2X},${p2Y}`;
 
       let svgHtml = `
         <defs>
           <filter id="wireShadow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#000" flood-opacity="0.8"/>
+            <feDropShadow dx="0" dy="2" stdDeviation="2.5" flood-color="#000" flood-opacity="0.8"/>
           </filter>
         </defs>
         <!-- Cable Neutro Azul -->
-        <path d="${pathBlue}" fill="none" stroke="#0284c7" stroke-width="7" stroke-linecap="round" filter="url(#wireShadow)"/>
+        <path d="${pathBlue}" fill="none" stroke="#0284c7" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
         <!-- Cable Fase Rojo -->
-        <path d="${pathRed}" fill="none" stroke="#ef4444" stroke-width="7" stroke-linecap="round" filter="url(#wireShadow)"/>
+        <path d="${pathRed}" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
       `;
 
       // Puente entre Térmica General y Diferencial si existe un segundo módulo
@@ -2643,27 +2789,28 @@
         const b1X = m2RelX + 18;
         const b2X = m2RelX + 38;
 
-        // Puente fase rojo y neutro azul con arco curvo superior
-        const bridgeRed = `M ${p1X + 45},${p1Y} C ${p1X + 45},${p1Y - 30} ${b1X},${p1Y - 30} ${b1X},${p1Y}`;
-        const bridgeBlue = `M ${p2X + 45},${p2Y} C ${p2X + 45},${p2Y - 40} ${b2X},${p2Y - 40} ${b2X},${p2Y}`;
+        // Puente con arco en la zona de ducto superior para NO tapar el frente de las llaves
+        const archY = Math.max(3, m1RelY - 18);
+        const bridgeRed = `M ${p1X},${p1Y} C ${p1X},${archY} ${b1X},${archY} ${b1X},${p1Y}`;
+        const bridgeBlue = `M ${p2X},${p2Y} C ${p2X},${archY - 6} ${b2X},${archY - 6} ${b2X},${p2Y}`;
 
         svgHtml += `
-          <path d="${bridgeBlue}" fill="none" stroke="#0284c7" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
-          <path d="${bridgeRed}" fill="none" stroke="#ef4444" stroke-width="6" stroke-linecap="round" filter="url(#wireShadow)"/>
+          <path d="${bridgeBlue}" fill="none" stroke="#0284c7" stroke-width="5" stroke-linecap="round" filter="url(#wireShadow)"/>
+          <path d="${bridgeRed}" fill="none" stroke="#ef4444" stroke-width="5" stroke-linecap="round" filter="url(#wireShadow)"/>
         `;
       }
 
       svg.innerHTML = svgHtml;
 
-      // ETIQUETA AMARILLA FLOTANTE (Idéntica a "4 mm" de TablerosRealistas.com)
+      // ETIQUETA AMARILLA FLOTANTE
       const existingTag = railEl.querySelector(".cable-gauge-chip");
       if (existingTag) existingTag.remove();
 
       const tagEl = document.createElement("div");
       tagEl.className = "cable-gauge-chip";
-      tagEl.textContent = `${mainWireGauge} mm`;
-      tagEl.style.left = `${Math.max(10, p1X - 55)}px`;
-      tagEl.style.top = `${Math.max(10, p1Y - 35)}px`;
+      tagEl.textContent = `${mainWireGauge} mm²`;
+      tagEl.style.left = `${Math.max(10, p1X - 50)}px`;
+      tagEl.style.top = `${Math.max(5, m1RelY - 28)}px`;
       railEl.appendChild(tagEl);
     }
 

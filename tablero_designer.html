@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>El Cóndor - Diseñador CAD de Tableros Eléctricos y Racks CCTV</title>
+  <meta name="theme-color" content="#090e17">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #070b12;
+      --surface: #0e1624;
+      --surface-card: #131d2e;
+      --surface-hover: #19263c;
+      --border: #1e2e48;
+      --border-light: #2a3e60;
+      --cyan: #00d2ff;
+      --blue: #0284c7;
+      --green: #10b981;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --purple: #a855f7;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --din-rail: #334155;
+      --din-metal: #475569;
+      --radius: 12px;
+      --radius-sm: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: 60px;
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(0, 210, 255, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 0% 100%, rgba(16, 185, 129, 0.05) 0%, transparent 40%);
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .app-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem 0 1.25rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, #0284c7, #00d2ff);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.25);
+    }
+
+    .brand-info h1 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(to right, #fff, var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-info p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-header {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.5rem 0.85rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+
+    .btn-header:hover {
+      background: var(--surface-hover);
+      border-color: var(--cyan);
+      color: var(--cyan);
+    }
+
+    .btn-header.primary {
+      background: linear-gradient(135deg, #0284c7, #00d2ff);
+      border: none;
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.3);
+    }
+
+    /* Mode Selector (Tablero Eléctrico vs Gabinete CCTV) */
+    .mode-selector {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      background: var(--surface);
+      padding: 0.35rem;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      margin-bottom: 1.25rem;
+    }
+
+    .mode-tab {
+      padding: 0.85rem;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .mode-tab.active {
+      background: var(--surface-card);
+      color: #fff;
+      border: 1px solid var(--border-light);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .mode-tab.active.elec {
+      border-color: rgba(245, 158, 11, 0.5);
+      color: var(--gold);
+    }
+
+    .mode-tab.active.cctv {
+      border-color: rgba(0, 210, 255, 0.5);
+      color: var(--cyan);
+    }
+
+    /* Main Grid Layout */
+    .designer-grid {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    @media (max-width: 950px) {
+      .designer-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Sidebar / Tool Panel */
+    .panel-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem;
+      margin-bottom: 1rem;
+    }
+
+    .panel-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .quick-add-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-quick {
+      padding: 0.65rem 0.5rem;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .btn-quick:hover {
+      background: var(--surface-hover);
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+
+    /* Custom Input Form */
+    .form-group {
+      margin-bottom: 0.75rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 0.6rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-control:focus {
+      border-color: var(--cyan);
+    }
+
+    .btn-add-primary {
+      width: 100%;
+      padding: 0.75rem;
+      background: linear-gradient(135deg, #059669, #10b981);
+      border: none;
+      border-radius: var(--radius-sm);
+      color: #fff;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+    }
+
+    /* Preset Buttons */
+    .presets-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .preset-pill {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.35rem 0.7rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .preset-pill:hover {
+      border-color: var(--cyan);
+      color: #fff;
+    }
+
+    /* Board Visual Canvas (THE WOW ELEMENT) */
+    .board-canvas-card {
+      background: #090e18;
+      border: 2px solid var(--border-light);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      position: relative;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .board-outer-enclosure {
+      background: linear-gradient(180deg, #1e2638 0%, #151b28 100%);
+      border: 3px solid #2d374d;
+      border-radius: 14px;
+      padding: 1.25rem;
+      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6);
+      position: relative;
+    }
+
+    .enclosure-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .enclosure-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .enclosure-specs {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* DIN RAIL SYSTEM */
+    .din-rail-row {
+      background: linear-gradient(180deg, #182232 0%, #0e1624 100%);
+      border: 1px solid #22334d;
+      border-radius: 10px;
+      padding: 1.25rem 0.75rem;
+      margin-bottom: 1.25rem;
+      position: relative;
+      min-height: 180px;
+      display: flex;
+      align-items: center;
+    }
+
+    .din-rail-row::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 24px;
+      background: linear-gradient(180deg, #526078 0%, #334155 50%, #1e293b 100%);
+      border: 1px solid #64748b;
+      border-radius: 3px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .din-components-container {
+      display: flex;
+      gap: 6px;
+      position: relative;
+      z-index: 2;
+      overflow-x: auto;
+      padding: 0.5rem 0;
+      width: 100%;
+    }
+
+    /* REALISTIC DIN MODULE COMPONENTS */
+    .din-module {
+      background: #e2e8f0;
+      color: #0f172a;
+      border-radius: 4px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 6px 4px;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+      cursor: pointer;
+    }
+
+    .din-module:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Width based on DIN modules */
+    .din-1m { width: 44px; height: 140px; }
+    .din-2m { width: 88px; height: 140px; }
+    .din-4m { width: 176px; height: 140px; }
+
+    /* Module Header & Switch Toggle */
+    .din-top {
+      text-align: center;
+      border-bottom: 1px solid #cbd5e1;
+      padding-bottom: 4px;
+    }
+
+    .din-brand {
+      font-size: 8px;
+      font-weight: 800;
+      color: #334155;
+      letter-spacing: 0.05em;
+    }
+
+    .din-model {
+      font-size: 10px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .din-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex: 1;
+      padding: 4px 0;
+    }
+
+    .din-toggle {
+      width: 22px;
+      height: 38px;
+      background: #d97706; /* Naranja/rojo de palanca */
+      border-radius: 3px;
+      border: 1px solid #b45309;
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.3), 0 2px 4px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 8px;
+      font-weight: 900;
+    }
+
+    .din-toggle.blue { background: #0284c7; border-color: #0369a1; }
+    .din-toggle.red { background: #dc2626; border-color: #b91c1c; }
+    .din-toggle.green { background: #16a34a; border-color: #15803d; }
+
+    .din-indicator {
+      width: 14px;
+      height: 6px;
+      background: #ef4444; /* Rojo = Cerrado/Encendido */
+      border-radius: 2px;
+      border: 1px solid #991b1b;
+    }
+
+    .din-test-btn {
+      width: 18px;
+      height: 18px;
+      background: #facc15;
+      border-radius: 50%;
+      border: 1px solid #ca8a04;
+      font-size: 8px;
+      font-weight: 900;
+      color: #713f12;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Protector de Tensión Digital */
+    .din-display {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 3px;
+      padding: 3px 6px;
+      color: #22c55e;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      text-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
+      text-align: center;
+      width: 90%;
+    }
+
+    .din-bottom {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 4px;
+      text-align: center;
+      font-size: 8px;
+      font-weight: 700;
+      color: #475569;
+    }
+
+    .din-remove-tag {
+      position: absolute;
+      top: -8px;
+      right: -6px;
+      background: #ef4444;
+      color: #fff;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .din-module:hover .din-remove-tag {
+      opacity: 1;
+    }
+
+    /* CCTV RACK / CABINET REALISTIC CANVAS */
+    .rack-cabinet {
+      background: #0d121c;
+      border: 3px solid #2d3b55;
+      border-radius: 12px;
+      padding: 1.25rem;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+    }
+
+    .rack-unit {
+      background: #151d2c;
+      border: 1px solid #293852;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      min-height: 65px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .rack-unit::before, .rack-unit::after {
+      content: "•";
+      position: absolute;
+      color: #64748b;
+      font-size: 16px;
+      line-height: 1;
+    }
+    .rack-unit::before { left: 6px; }
+    .rack-unit::after { right: 6px; }
+
+    .rack-unit-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .rack-icon {
+      font-size: 1.5rem;
+    }
+
+    .rack-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .rack-desc {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    .rack-ports {
+      display: flex;
+      gap: 4px;
+      background: #0a0f18;
+      padding: 4px 6px;
+      border-radius: 4px;
+      border: 1px solid #1e2d42;
+    }
+
+    .rj45-port {
+      width: 10px;
+      height: 10px;
+      background: #0284c7;
+      border-radius: 2px;
+      box-shadow: 0 0 5px rgba(2, 132, 199, 0.7);
+    }
+
+    .rj45-port.poe {
+      background: #10b981;
+      box-shadow: 0 0 5px rgba(16, 185, 129, 0.7);
+    }
+
+    /* Electrical Specs & Calculations Table */
+    .specs-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.15rem;
+      margin-top: 1.25rem;
+    }
+
+    .specs-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .specs-table th {
+      text-align: left;
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid var(--border-light);
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    .specs-table td {
+      padding: 0.65rem 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--text);
+    }
+
+    .specs-table tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    /* Compliance Badges */
+    .badge-aea {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .aea-ok {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--green);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    .aea-warn {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--red);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Presentation Modal for Client */
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-print-sheet {
+      background: #fff;
+      color: #0f172a;
+      width: 100%;
+      max-width: 850px;
+      max-height: 90vh;
+      overflow-y: auto;
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .print-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid #0284c7;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .print-brand h2 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+    }
+
+    .print-brand p {
+      font-size: 0.8rem;
+      color: #64748b;
+      font-weight: 600;
+    }
+
+    .print-meta {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #475569;
+    }
+
+    .print-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #0284c7;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .print-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.25rem 0;
+      font-size: 0.8rem;
+    }
+
+    .print-table th {
+      background: #f1f5f9;
+      padding: 0.6rem 0.5rem;
+      border: 1px solid #cbd5e1;
+      text-align: left;
+      font-weight: 800;
+      color: #1e293b;
+    }
+
+    .print-table td {
+      padding: 0.6rem 0.5rem;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+    }
+
+    .print-footer-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .btn-print-action {
+      padding: 0.65rem 1.25rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .btn-print-pdf {
+      background: #0284c7;
+      color: #fff;
+    }
+
+    .btn-print-close {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      .modal-print-sheet, .modal-print-sheet * { visibility: visible; }
+      .modal-print-sheet {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none;
+        padding: 0;
+      }
+      .print-footer-actions { display: none; }
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 75px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      padding: 0.75rem 1.25rem;
+      border-radius: 30px;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-info">
+          <h1>EL CÓNDOR</h1>
+          <p>CAD Diseñador de Tableros & Racks CCTV</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-header" onclick="loadPreset('hogar_seguro')">⚡ Preset Hogar AEA</button>
+        <button class="btn-header" onclick="loadPreset('cctv_ip_pro')">📹 Preset CCTV IP</button>
+        <button class="btn-header" onclick="clearBoard()">🗑️ Limpiar</button>
+        <button class="btn-header primary" onclick="openClientPresentation()">📄 Presentar al Cliente</button>
+      </div>
+    </header>
+
+    <!-- Mode Selector -->
+    <div class="mode-selector">
+      <button id="tabElec" class="mode-tab active elec" onclick="setMode('electrico')">
+        <span>⚡ Tablero Eléctrico DIN (Norma AEA 90364)</span>
+      </button>
+      <button id="tabCctv" class="mode-tab cctv" onclick="setMode('cctv')">
+        <span>📹 Gabinete / Rack CCTV (IP PoE & Analógico)</span>
+      </button>
+    </div>
+
+    <!-- Main Workspace Grid -->
+    <div class="designer-grid">
+      
+      <!-- Left Tool Panel -->
+      <div class="sidebar">
+        
+        <!-- ELECTRICAL TOOLBAR -->
+        <div id="toolsElec">
+          <div class="panel-card">
+            <div class="panel-title">
+              <span>⚡ Módulos DIN Rápidos</span>
+              <span style="font-size: 0.7rem; color: var(--gold);">Riel DIN 35mm</span>
+            </div>
+            <div class="quick-add-grid">
+              <button class="btn-quick" onclick="addModule('protector', 'Protector Tensión 40A', 40, 2, 'display', 0, 0)">
+                <span>📟</span> <span>Protector Tensión (2M)</span>
+              </button>
+              <button class="btn-quick" onclick="addModule('diferencial', 'Disyuntor Dif. 2x40A 30mA', 40, 2, 'disyuntor', 0, 0)">
+                <span>🛡️</span> <span>Disyuntor 40A (2M)</span>
+              </button>
+              <button class="btn-quick" onclick="addModule('termica', 'Iluminación IUG (C10)', 10, 1, 'termica', 1.5, 1500)">
+                <span>💡</span> <span>Ilum. C10 / 1.5mm²</span>
+              </button>
+              <button class="btn-quick" onclick="addModule('termica', 'Tomas TUG (C16)', 16, 1, 'termica', 2.5, 2200)">
+                <span>🔌</span> <span>Tomas C16 / 2.5mm²</span>
+              </button>
+              <button class="btn-quick" onclick="addModule('termica', 'Aire Split TUE (C20)', 20, 1, 'termica', 4.0, 3200)">
+                <span>❄️</span> <span>Aire C20 / 4.0mm²</span>
+              </button>
+              <button class="btn-quick" onclick="addModule('termica', 'Cocina / Horno (C25)', 25, 1, 'termica', 6.0, 4400)">
+                <span>🍳</span> <span>Horno C25 / 6.0mm²</span>
+              </button>
+            </div>
+
+            <!-- Custom Circuit Form -->
+            <div class="panel-title" style="margin-top: 1rem;">
+              <span>➕ Agregar Circuito a Medida</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nombre del Circuito</label>
+              <input type="text" id="customElecName" class="form-control" placeholder="Ej: Aire Comedor / Taller">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div class="form-group">
+                <label class="form-label">Térmica PIA (In)</label>
+                <select id="customElecAmp" class="form-control">
+                  <option value="10">10A (Curva C)</option>
+                  <option value="16" selected>16A (Curva C)</option>
+                  <option value="20">20A (Curva C)</option>
+                  <option value="25">25A (Curva C)</option>
+                  <option value="32">32A (Curva C)</option>
+                  <option value="40">40A (Curva C)</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Calibre Cable</label>
+                <select id="customElecCable" class="form-control">
+                  <option value="1.5">1.5 mm² (Iz ~15A)</option>
+                  <option value="2.5" selected>2.5 mm² (Iz ~21A)</option>
+                  <option value="4.0">4.0 mm² (Iz ~28A)</option>
+                  <option value="6.0">6.0 mm² (Iz ~36A)</option>
+                  <option value="10.0">10.0 mm² (Iz ~50A)</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Potencia Estimada (Watts)</label>
+              <input type="number" id="customElecWatts" class="form-control" placeholder="2200" value="2200" step="100">
+            </div>
+            <button class="btn-add-primary" onclick="addCustomElecCircuit()">
+              <span>+</span> <span>Insertar en Riel DIN</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- CCTV TOOLBAR -->
+        <div id="toolsCctv" style="display: none;">
+          <div class="panel-card">
+            <div class="panel-title">
+              <span>📹 Equipamiento CCTV & Red</span>
+              <span style="font-size: 0.7rem; color: var(--cyan);">Rack / Gabinete</span>
+            </div>
+            <div class="quick-add-grid">
+              <button class="btn-quick" onclick="addRackItem('nvr', 'NVR 8 Ch 4K IP', '1U', 25, 8, 'ip')">
+                <span>📼</span> <span>NVR 8 Ch IP (1U)</span>
+              </button>
+              <button class="btn-quick" onclick="addRackItem('switch_poe', 'Switch PoE 8 Puertos Gig', '1U', 120, 8, 'ip')">
+                <span>🔀</span> <span>Switch 8 PoE (120W)</span>
+              </button>
+              <button class="btn-quick" onclick="addRackItem('dvr', 'DVR 8 Ch 1080p HD', '1U', 20, 8, 'analog')">
+                <span>📹</span> <span>DVR 8 Ch HD (1U)</span>
+              </button>
+              <button class="btn-quick" onclick="addRackItem('fuente', 'Fuente 12V 10A 9 Ch', '1U', 120, 9, 'analog')">
+                <span>🔌</span> <span>Fuente 12V 10A CCTV</span>
+              </button>
+              <button class="btn-quick" onclick="addRackItem('ups', 'UPS 800VA Respaldo', '1.5U', 480, 0, 'power')">
+                <span>🔋</span> <span>UPS 800VA (Batería)</span>
+              </button>
+              <button class="btn-quick" onclick="addRackItem('pdu', 'PDU Zapatilla 6 Tomas', '1U', 10, 0, 'power')">
+                <span>⚡</span> <span>PDU Térmica 220V</span>
+              </button>
+            </div>
+
+            <!-- CCTV Calculation Settings -->
+            <div class="panel-title" style="margin-top: 1rem;">
+              <span>⚙️ Cálculo de Sistema CCTV</span>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Tipo de Cámaras</label>
+              <select id="cctvCamType" class="form-control" onchange="recalculateCctv()">
+                <option value="ip_poe">Cámaras IP PoE (15W c/u con IR)</option>
+                <option value="analog_hd">Cámaras Analógicas HD 1080p (12V 0.8A)</option>
+              </select>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
+              <div class="form-group">
+                <label class="form-label">Cant. Cámaras</label>
+                <input type="number" id="cctvCamQty" class="form-control" value="4" min="1" max="32" onchange="recalculateCctv()">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Disco HDD (TB)</label>
+                <select id="cctvHdd" class="form-control" onchange="recalculateCctv()">
+                  <option value="1">1 TB Purple</option>
+                  <option value="2" selected>2 TB Purple</option>
+                  <option value="4">4 TB Purple</option>
+                  <option value="6">6 TB Purple</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Summary & Engineering Specs Box -->
+        <div class="panel-card">
+          <div class="panel-title">
+            <span>📊 Resumen Técnico</span>
+            <span id="complianceBadge" class="badge-aea aea-ok">✅ AEA OK</span>
+          </div>
+          <div style="display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.8rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Módulos / Altura:</span>
+              <strong id="statModules" class="mono">0 Módulos</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Potencia Total:</span>
+              <strong id="statPower" class="mono" style="color: var(--gold);">0 W</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-muted);">Corriente Máxima:</span>
+              <strong id="statCurrent" class="mono" style="color: var(--cyan);">0.0 A</strong>
+            </div>
+            <div id="cctvExtraStats" style="display: none; flex-direction: column; gap: 0.4rem; border-top: 1px solid var(--border); padding-top: 0.4rem; margin-top: 0.2rem;">
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">Autonomía UPS est.:</span>
+                <strong id="statUpsTime" class="mono" style="color: var(--green);">~45 min</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between;">
+                <span style="color: var(--text-muted);">Días Grabación:</span>
+                <strong id="statHddDays" class="mono" style="color: var(--purple);">~14 días</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Visual Canvas Panel -->
+      <div class="canvas-area">
+        
+        <!-- ELECTRICAL DIN RAIL CANVAS -->
+        <div id="canvasElec">
+          <div class="board-canvas-card">
+            <div class="board-outer-enclosure">
+              <div class="enclosure-header">
+                <div class="enclosure-badge">
+                  <span>⚡</span> <span>TABLERO GENERAL SECCIONAL (TGS) - GRUPO CONDOR</span>
+                </div>
+                <div class="enclosure-specs" id="enclosureCapacity">Capacidad: 24 Módulos DIN • IP40</div>
+              </div>
+
+              <!-- DIN Rail 1 -->
+              <div class="din-rail-row">
+                <div id="dinRailContainer" class="din-components-container">
+                  <!-- Se llena dinámicamente -->
+                </div>
+              </div>
+
+              <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.5rem;">
+                Hacé clic en cualquier térmica o módulo para quitarla o editarla.
+              </div>
+            </div>
+          </div>
+
+          <!-- Tabla de Cargas Eléctricas & Coordinación AEA 90364 -->
+          <div class="specs-card">
+            <h3 style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
+              📋 Planilla de Circuitos y Coordinación Conductor vs Térmica (AEA 90364)
+            </h3>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.75rem;">
+              Verificación de condición de seguridad: <span class="mono">Ib ≤ In ≤ Iz</span> (Corriente del circuito ≤ Calibre Térmica ≤ Corriente admisible del cable).
+            </p>
+
+            <table class="specs-table">
+              <thead>
+                <tr>
+                  <th>Circuito</th>
+                  <th>Térmica</th>
+                  <th>Cable (mm²)</th>
+                  <th>Iz Cable</th>
+                  <th>Potencia</th>
+                  <th>Estado AEA</th>
+                  <th>Acción</th>
+                </tr>
+              </thead>
+              <tbody id="specsTableBody">
+                <!-- Se llena dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CCTV RACK CANVAS -->
+        <div id="canvasCctv" style="display: none;">
+          <div class="board-canvas-card">
+            <div class="board-outer-enclosure">
+              <div class="enclosure-header">
+                <div class="enclosure-badge">
+                  <span>📹</span> <span>GABINETE TÉCNICO CCTV & NETWORKING - CONDOR SEGURIDAD</span>
+                </div>
+                <div class="enclosure-specs" id="rackCapacity">Gabinete Mural 6U Estanco / Ventilado</div>
+              </div>
+
+              <!-- Rack Visual Container -->
+              <div id="rackContainer" class="rack-cabinet">
+                <!-- Se llena dinámicamente -->
+              </div>
+            </div>
+          </div>
+
+          <!-- CCTV Specs Sheet -->
+          <div class="specs-card">
+            <h3 style="font-size: 0.95rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem;">
+              📹 Memoria Técnica del Sistema de Seguridad
+            </h3>
+            <div id="cctvTechSheet" style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.6;">
+              <!-- Se calcula dinámicamente -->
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL DE PRESENTACIÓN AL CLIENTE (LISTA PARA IMPRIMIR O PDF) -->
+  <div id="clientModal" class="modal-backdrop" onclick="if(event.target===this) closeClientModal()">
+    <div class="modal-print-sheet">
+      <div class="print-header">
+        <div class="print-brand">
+          <h2>CONDOR SERVICIOS INTEGRALES</h2>
+          <p>Climatización • Seguridad Electrónica • Instalaciones Eléctricas</p>
+          <p style="color: #0284c7; font-weight: 700;">Quilmes & Zona Sur • WhatsApp: 11 2613-9527</p>
+        </div>
+        <div class="print-meta">
+          <div><strong>Fecha:</strong> <span id="printDate"></span></div>
+          <div><strong>Normativa:</strong> AEA 90364 / IRAM</div>
+          <div><strong>Garantía:</strong> 12 Meses Escrita</div>
+        </div>
+      </div>
+
+      <div class="print-title" id="printReportTitle">MEMORIA DESCRIPTIVA Y PLANILLA DE TABLERO ELÉCTRICO</div>
+      <p style="font-size: 0.85rem; color: #475569; margin-bottom: 1rem;" id="printReportSubtitle">
+        Diseño técnico normalizado con protecciones termomagnéticas, diferencial y conductor adecuado bajo norma para máxima seguridad humana y de la propiedad.
+      </p>
+
+      <table class="print-table" id="printTable">
+        <!-- Render dinámico -->
+      </table>
+
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 1rem; margin-top: 1rem; font-size: 0.8rem;">
+        <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">🛡️ Compromiso de Calidad y Seguridad El Cóndor:</h4>
+        <p style="color: #64748b;">
+          Todos los tableros se entregan rotulados, peinados con terminales taborados/ojal, verificación de torque con torquímetro y prueba de disparo de disyuntor con instrumental calibrado.
+        </p>
+      </div>
+
+      <div class="print-footer-actions">
+        <button class="btn-print-action btn-print-close" onclick="closeClientModal()">Cerrar</button>
+        <button class="btn-print-action btn-print-pdf" onclick="window.print()">🖨️ Imprimir / Guardar en PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"><span>✅ Tablero actualizado</span></div>
+
+  <script>
+    // ESTADO DE LA APP
+    let currentMode = "electrico"; // 'electrico' | 'cctv'
+    let elecModules = [];
+    let rackItems = [];
+
+    // LÍMITES DE CORRIENTE ADMISIBLE DE CONDUCTORES (IRAM 2183 / 247-3 cañería embutida B1 2 conductores con carga)
+    const CABLE_IZ = {
+      1.5: 15,
+      2.5: 21,
+      4.0: 28,
+      6.0: 36,
+      10.0: 50,
+      16.0: 66
+    };
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadPreset('hogar_seguro');
+      document.getElementById('printDate').textContent = new Date().toLocaleDateString('es-AR');
+    });
+
+    // MODO SELECTOR
+    function setMode(mode) {
+      currentMode = mode;
+      const tabElec = document.getElementById("tabElec");
+      const tabCctv = document.getElementById("tabCctv");
+      const toolsElec = document.getElementById("toolsElec");
+      const toolsCctv = document.getElementById("toolsCctv");
+      const canvasElec = document.getElementById("canvasElec");
+      const canvasCctv = document.getElementById("canvasCctv");
+      const cctvStats = document.getElementById("cctvExtraStats");
+
+      if (mode === "electrico") {
+        tabElec.className = "mode-tab active elec";
+        tabCctv.className = "mode-tab cctv";
+        toolsElec.style.display = "block";
+        toolsCctv.style.display = "none";
+        canvasElec.style.display = "block";
+        canvasCctv.style.display = "none";
+        cctvStats.style.display = "none";
+      } else {
+        tabCctv.className = "mode-tab active cctv";
+        tabElec.className = "mode-tab elec";
+        toolsElec.style.display = "none";
+        toolsCctv.style.display = "block";
+        canvasElec.style.display = "none";
+        canvasCctv.style.display = "block";
+        cctvStats.style.display = "flex";
+        if (rackItems.length === 0) loadPreset('cctv_ip_pro');
+      }
+      render();
+    }
+
+    // PRESETS
+    function loadPreset(presetName) {
+      if (presetName === 'hogar_seguro') {
+        currentMode = 'electrico';
+        setMode('electrico');
+        elecModules = [
+          { id: '1', type: 'protector', name: 'Protector Tensión 40A', amp: 40, width: 2, display: 'display', cable: 10.0, watts: 0 },
+          { id: '2', type: 'diferencial', name: 'Disyuntor Dif. 2x40A 30mA', amp: 40, width: 2, display: 'disyuntor', cable: 10.0, watts: 0 },
+          { id: '3', type: 'termica', name: 'Iluminación PB (IUG)', amp: 10, width: 1, display: 'termica', cable: 1.5, watts: 1200 },
+          { id: '4', type: 'termica', name: 'Tomas Uso General (TUG)', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2200 },
+          { id: '5', type: 'termica', name: 'Aire Acondicionado Comedor', amp: 20, width: 1, display: 'termica', cable: 4.0, watts: 3200 },
+          { id: '6', type: 'termica', name: 'Aire Acondicionado Dormitorio', amp: 16, width: 1, display: 'termica', cable: 2.5, watts: 2000 }
+        ];
+        showToast("⚡ Preset Hogar Seguro AEA cargado");
+      } else if (presetName === 'cctv_ip_pro') {
+        currentMode = 'cctv';
+        setMode('cctv');
+        rackItems = [
+          { id: 'r1', type: 'pdu', name: 'PDU Zapatilla Rackeable con Térmica', u: '1U', watts: 10, ports: 0, sub: 'power' },
+          { id: 'r2', type: 'switch_poe', name: 'Switch 8 Puertos PoE+ Gigabit 120W', u: '1U', watts: 120, ports: 8, sub: 'ip' },
+          { id: 'r3', type: 'nvr', name: 'NVR 8 Canales 4K H.265+ (1 HDD 2TB)', u: '1U', watts: 25, ports: 8, sub: 'ip' },
+          { id: 'r4', type: 'ups', name: 'UPS 800VA Regulada con Autonomía', u: '1.5U', watts: 480, ports: 0, sub: 'power' }
+        ];
+        document.getElementById('cctvCamType').value = 'ip_poe';
+        document.getElementById('cctvCamQty').value = '4';
+        showToast("📹 Preset CCTV IP Profesional cargado");
+      }
+      render();
+    }
+
+    function clearBoard() {
+      if (confirm("¿Deseás vaciar el diseño actual?")) {
+        if (currentMode === 'electrico') elecModules = [];
+        else rackItems = [];
+        render();
+        showToast("🗑️ Tablero vaciado");
+      }
+    }
+
+    // AGREGAR MÓDULO ELÉCTRICO
+    function addModule(type, name, amp, width, display, cable, watts) {
+      elecModules.push({
+        id: Date.now().toString(),
+        type,
+        name,
+        amp: parseInt(amp),
+        width: parseInt(width),
+        display,
+        cable: parseFloat(cable) || 2.5,
+        watts: parseInt(watts) || 1500
+      });
+      render();
+      showToast(`+ ${name} agregado`);
+    }
+
+    function addCustomElecCircuit() {
+      const name = document.getElementById("customElecName").value.trim() || "Circuito Especial";
+      const amp = parseInt(document.getElementById("customElecAmp").value);
+      const cable = parseFloat(document.getElementById("customElecCable").value);
+      const watts = parseInt(document.getElementById("customElecWatts").value) || 2200;
+
+      addModule('termica', name, amp, 1, 'termica', cable, watts);
+      document.getElementById("customElecName").value = "";
+    }
+
+    function removeElecModule(id) {
+      elecModules = elecModules.filter(m => m.id !== id);
+      render();
+    }
+
+    // AGREGAR ITEM RACK CCTV
+    function addRackItem(type, name, u, watts, ports, sub) {
+      rackItems.push({
+        id: Date.now().toString(),
+        type,
+        name,
+        u,
+        watts: parseInt(watts),
+        ports: parseInt(ports),
+        sub
+      });
+      render();
+      showToast(`+ ${name} agregado`);
+    }
+
+    function removeRackItem(id) {
+      rackItems = rackItems.filter(r => r.id !== id);
+      render();
+    }
+
+    function recalculateCctv() {
+      render();
+    }
+
+    // RENDERIZADO GENERAL
+    function render() {
+      if (currentMode === 'electrico') {
+        renderElectricBoard();
+      } else {
+        renderCctvRack();
+      }
+    }
+
+    // RENDER TABLERO ELÉCTRICO
+    function renderElectricBoard() {
+      const rail = document.getElementById("dinRailContainer");
+      rail.innerHTML = "";
+
+      let totalModules = 0;
+      let totalWatts = 0;
+      let hasAeaWarning = false;
+
+      elecModules.forEach(m => {
+        totalModules += m.width;
+        if (m.type === 'termica') totalWatts += m.watts;
+
+        // Comprobación de norma AEA 90364: In <= Iz
+        const iz = CABLE_IZ[m.cable] || 15;
+        const isSafe = m.type !== 'termica' || (m.amp <= iz);
+        if (!isSafe) hasAeaWarning = true;
+
+        const modEl = document.createElement("div");
+        modEl.className = `din-module din-${m.width}m`;
+        modEl.title = `Clic para quitar: ${m.name}`;
+
+        let bodyHtml = "";
+        if (m.display === 'display') {
+          bodyHtml = `
+            <div class="din-display mono">220V</div>
+            <div style="font-size: 7px; color: #16a34a; font-weight: 800;">NORMAL</div>
+          `;
+        } else if (m.display === 'disyuntor') {
+          bodyHtml = `
+            <div class="din-test-btn" title="Botón de Prueba Mensual">T</div>
+            <div class="din-toggle blue">ON</div>
+            <div class="din-indicator"></div>
+          `;
+        } else {
+          bodyHtml = `
+            <div class="din-toggle">ON</div>
+            <div class="din-indicator"></div>
+          `;
+        }
+
+        modEl.innerHTML = `
+          <div class="din-remove-tag" onclick="event.stopPropagation(); removeElecModule('${m.id}')">✕</div>
+          <div class="din-top">
+            <div class="din-brand">CONDOR</div>
+            <div class="din-model">${m.type === 'diferencial' ? 'ID 30mA' : m.type === 'protector' ? 'PROT' : 'C' + m.amp}</div>
+          </div>
+          <div class="din-body">
+            ${bodyHtml}
+          </div>
+          <div class="din-bottom">
+            <div>${m.amp}A</div>
+          </div>
+        `;
+        rail.appendChild(modEl);
+      });
+
+      // Actualizar Resumen
+      const maxCurrent = (totalWatts / 220).toFixed(1);
+      document.getElementById("statModules").textContent = `${totalModules} / 24 DIN`;
+      document.getElementById("statPower").textContent = `${totalWatts.toLocaleString('es-AR')} W`;
+      document.getElementById("statCurrent").textContent = `${maxCurrent} A (220V)`;
+
+      const badge = document.getElementById("complianceBadge");
+      if (hasAeaWarning) {
+        badge.className = "badge-aea aea-warn";
+        badge.innerHTML = "⚠️ PELIGRO AEA (Cable Chico)";
+      } else {
+        badge.className = "badge-aea aea-ok";
+        badge.innerHTML = "✅ AEA 90364 CONFORME";
+      }
+
+      // Tabla de Planilla Eléctrica
+      const tableBody = document.getElementById("specsTableBody");
+      tableBody.innerHTML = "";
+
+      elecModules.forEach(m => {
+        const tr = document.createElement("tr");
+        const iz = CABLE_IZ[m.cable] || 15;
+        const isSafe = m.type !== 'termica' || (m.amp <= iz);
+
+        tr.innerHTML = `
+          <td><strong>${m.name}</strong></td>
+          <td><span class="mono" style="font-weight: 800;">${m.type === 'diferencial' ? 'ID ' : 'PIA C'}${m.amp}A</span></td>
+          <td><span class="mono">${m.cable ? m.cable + ' mm²' : '-'}</span></td>
+          <td><span class="mono">${m.cable ? iz + ' A' : '-'}</span></td>
+          <td><span class="mono">${m.watts ? m.watts + ' W' : '-'}</span></td>
+          <td>
+            ${isSafe 
+              ? '<span class="badge-aea aea-ok">Conforme</span>' 
+              : '<span class="badge-aea aea-warn">Incompatible (Riesgo Incendio)</span>'}
+          </td>
+          <td>
+            <button style="background:transparent; border:none; color:var(--red); cursor:pointer; font-weight:bold;" onclick="removeElecModule('${m.id}')">✕</button>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    // RENDER GABINETE / RACK CCTV
+    function renderCctvRack() {
+      const rack = document.getElementById("rackContainer");
+      rack.innerHTML = "";
+
+      const camType = document.getElementById("cctvCamType").value;
+      const camQty = parseInt(document.getElementById("cctvCamQty").value) || 4;
+      const hddTb = parseInt(document.getElementById("cctvHdd").value) || 2;
+
+      let totalWatts = 0;
+      let hasUps = false;
+      let upsWatts = 480;
+
+      rackItems.forEach(r => {
+        totalWatts += r.watts;
+        if (r.type === 'ups') {
+          hasUps = true;
+          upsWatts = r.watts;
+        }
+
+        const unitEl = document.createElement("div");
+        unitEl.className = "rack-unit";
+
+        let portsHtml = "";
+        if (r.ports > 0) {
+          portsHtml = `<div class="rack-ports">`;
+          for (let i = 0; i < r.ports; i++) {
+            portsHtml += `<div class="rj45-port ${r.sub === 'ip' ? 'poe' : ''}"></div>`;
+          }
+          portsHtml += `</div>`;
+        }
+
+        let icon = r.type === 'nvr' ? '📼' : r.type === 'switch_poe' ? '🔀' : r.type === 'dvr' ? '📹' : r.type === 'fuente' ? '🔌' : r.type === 'ups' ? '🔋' : '⚡';
+
+        unitEl.innerHTML = `
+          <div class="rack-unit-left">
+            <span class="rack-icon">${icon}</span>
+            <div>
+              <div class="rack-title">${r.name}</div>
+              <div class="rack-desc">Consumo: ${r.watts}W • Ocupación: ${r.u}</div>
+            </div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            ${portsHtml}
+            <button style="background:transparent; border:none; color:var(--red); cursor:pointer; font-weight:bold;" onclick="removeRackItem('${r.id}')">✕</button>
+          </div>
+        `;
+        rack.appendChild(unitEl);
+      });
+
+      // Sumar consumo de cámaras
+      const camWatts = camType === 'ip_poe' ? (camQty * 15) : (camQty * 10);
+      const totalSystemWatts = totalWatts + camWatts;
+
+      // Calcular autonomía de UPS
+      let upsMinutes = 0;
+      if (hasUps && totalSystemWatts > 0) {
+        // Fórmula práctica: (Batería 12V 7Ah = ~84Wh * rendimiento 0.7) / Watts
+        upsMinutes = Math.round((60 * 60) / totalSystemWatts);
+        if (upsMinutes > 180) upsMinutes = 180;
+      }
+
+      // Calcular días de disco HDD
+      // En H.265+ cada cámara 1080p gasta aprox 20GB al día
+      const gbPorDia = camQty * 22;
+      const totalHddGb = hddTb * 930;
+      const recordingDays = Math.round(totalHddGb / gbPorDia);
+
+      // Actualizar UI
+      document.getElementById("statModules").textContent = `${rackItems.length} Equipos`;
+      document.getElementById("statPower").textContent = `${totalSystemWatts} W`;
+      document.getElementById("statCurrent").textContent = `${(totalSystemWatts / 220).toFixed(2)} A`;
+      document.getElementById("statUpsTime").textContent = hasUps ? `~${upsMinutes} minutos` : 'Sin UPS';
+      document.getElementById("statHddDays").textContent = `~${recordingDays} días continuos`;
+
+      // Tech Sheet
+      const sheet = document.getElementById("cctvTechSheet");
+      sheet.innerHTML = `
+        <p>• <strong>Topología del Sistema:</strong> ${camType === 'ip_poe' ? 'IP Nativo sobre UTP Cat 6 con Switch PoE IEEE 802.3af/at' : 'Analógico HD con baluns pasivos y fuente centralizada multicanal'}.</p>
+        <p>• <strong>Cámaras Conectadas:</strong> ${camQty} Cámaras (${camWatts}W de consumo total).</p>
+        <p>• <strong>Almacenamiento:</strong> Disco WD Purple ${hddTb}TB con algoritmo de compresión H.265+ (Capacidad estimada: ${recordingDays} días de grabación continua 24/7).</p>
+        <p>• <strong>Respaldo de Energía:</strong> ${hasUps ? `Protección con UPS ante cortes de luz con autonomía de aprox. ${upsMinutes} minutos.` : 'Alimentación directa a línea de 220V (se recomienda agregar UPS de respaldo)'}.</p>
+      `;
+    }
+
+    // MODAL DE PRESENTACIÓN
+    function openClientPresentation() {
+      const modal = document.getElementById("clientModal");
+      const title = document.getElementById("printReportTitle");
+      const subtitle = document.getElementById("printReportSubtitle");
+      const table = document.getElementById("printTable");
+
+      if (currentMode === 'electrico') {
+        title.textContent = "MEMORIA TÉCNICA - TABLERO ELÉCTRICO SECCIONAL";
+        subtitle.textContent = "Diseño de protecciones y dimensionamiento de conductores bajo Reglamentación AEA 90364.";
+
+        let rowsHtml = `
+          <thead>
+            <tr>
+              <th>Circuito</th>
+              <th>Protección</th>
+              <th>Conductor</th>
+              <th>Capacidad Cable (Iz)</th>
+              <th>Potencia Asignada</th>
+            </tr>
+          </thead>
+          <tbody>
+        `;
+        elecModules.forEach(m => {
+          rowsHtml += `
+            <tr>
+              <td><strong>${m.name}</strong></td>
+              <td>${m.type === 'diferencial' ? 'Diferencial 30mA ' : 'Térmica Curva C '}${m.amp}A</td>
+              <td>${m.cable ? m.cable + ' mm²' : '-'}</td>
+              <td>${m.cable ? (CABLE_IZ[m.cable] || 15) + ' A' : '-'}</td>
+              <td>${m.watts ? m.watts + ' W' : '-'}</td>
+            </tr>
+          `;
+        });
+        rowsHtml += `</tbody>`;
+        table.innerHTML = rowsHtml;
+      } else {
+        title.textContent = "MEMORIA TÉCNICA - GABINETE DE SEGURIDAD ELECTRÓNICA & CCTV";
+        subtitle.textContent = "Especificación de equipamiento central, respaldo energético y almacenamiento en disco.";
+
+        let rowsHtml = `
+          <thead>
+            <tr>
+              <th>Equipo / Módulo</th>
+              <th>Ocupación</th>
+              <th>Consumo</th>
+              <th>Función en el Sistema</th>
+            </tr>
+          </thead>
+          <tbody>
+        `;
+        rackItems.forEach(r => {
+          rowsHtml += `
+            <tr>
+              <td><strong>${r.name}</strong></td>
+              <td>${r.u}</td>
+              <td>${r.watts} W</td>
+              <td>${r.sub === 'ip' ? 'Procesamiento y Transmisión IP' : r.sub === 'power' ? 'Respaldo y Distribución Eléctrica' : 'Grabación y Video'}</td>
+            </tr>
+          `;
+        });
+        rowsHtml += `</tbody>`;
+        table.innerHTML = rowsHtml;
+      }
+
+      modal.classList.add("open");
+    }
+
+    function closeClientModal() {
+      document.getElementById("clientModal").classList.remove("open");
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById("toast");
+      t.innerHTML = `<span>${msg}</span>`;
+      t.classList.add("show");
+      setTimeout(() => t.classList.remove("show"), 2500);
+    }
+  </script>
+</body>
+</html>

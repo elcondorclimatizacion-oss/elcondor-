@@ -2597,6 +2597,18 @@
       const m1RelX = mod1Rect.left - rect.left;
       const m1RelY = mod1Rect.top - rect.top;
 
+      // Alinear origen de cables con los tornillos de la bornera repartidora superior si existen
+      const distScrewL = document.getElementById("distScrewL");
+      const distScrewN = document.getElementById("distScrewN");
+      let startL_X = 60;
+      let startN_X = 30;
+      if (distScrewL && distScrewN) {
+        const sL = distScrewL.getBoundingClientRect();
+        const sN = distScrewN.getBoundingClientRect();
+        startL_X = sL.left + sL.width / 2 - rect.left;
+        startN_X = sN.left + sN.width / 2 - rect.left;
+      }
+
       // Cable Fase (Rojo) entrando al borne 1
       const p1X = m1RelX + 18;
       const p1Y = m1RelY + 12;
@@ -2606,9 +2618,9 @@
       const p2Y = m1RelY + 12;
 
       // Trazar Cable Rojo de Fase con curva suave de 90°
-      const pathRed = `M 30,0 C 30,${p1Y - 25} ${p1X - 25},${p1Y - 25} ${p1X},${p1Y}`;
+      const pathRed = `M ${startL_X},0 C ${startL_X},${p1Y - 25} ${p1X - 25},${p1Y - 25} ${p1X},${p1Y}`;
       // Trazar Cable Azul de Neutro con curva paralela
-      const pathBlue = `M 15,0 C 15,${p2Y - 15} ${p2X - 20},${p2Y - 15} ${p2X},${p2Y}`;
+      const pathBlue = `M ${startN_X},0 C ${startN_X},${p2Y - 15} ${p2X - 20},${p2Y - 15} ${p2X},${p2Y}`;
 
       let svgHtml = `
         <defs>
@@ -2654,6 +2666,12 @@
       tagEl.style.top = `${Math.max(10, p1Y - 35)}px`;
       railEl.appendChild(tagEl);
     }
+
+    window.addEventListener("resize", () => {
+      if (viewPerspective === 'internal' && showWiring) {
+        setTimeout(drawRealisticWiring, 50);
+      }
+    });
 
     // RENDER RACK CCTV
     function renderCctvRack() {

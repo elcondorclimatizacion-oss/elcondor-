@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>El Cóndor - CAD Tableros Eléctricos & CCTV con Ojos de Buey R-S-T-N-T</title>
+  <title>El Cóndor - CAD Tableros Eléctricos con Voltímetro, Amperímetro y Ojos de Buey</title>
   <meta name="theme-color" content="#090e17">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #070b12;
@@ -52,7 +52,7 @@
     }
 
     .app-container {
-      max-width: 1280px;
+      max-width: 1300px;
       margin: 0 auto;
       padding: 1rem;
     }
@@ -173,15 +173,8 @@
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     }
 
-    .mode-tab.active.elec {
-      border-color: rgba(245, 158, 11, 0.5);
-      color: var(--gold);
-    }
-
-    .mode-tab.active.cctv {
-      border-color: rgba(0, 210, 255, 0.5);
-      color: var(--cyan);
-    }
+    .mode-tab.active.elec { border-color: rgba(245, 158, 11, 0.5); color: var(--gold); }
+    .mode-tab.active.cctv { border-color: rgba(0, 210, 255, 0.5); color: var(--cyan); }
 
     /* Pills Selectors */
     .pills-row {
@@ -219,7 +212,7 @@
     /* Main Grid Layout */
     .designer-grid {
       display: grid;
-      grid-template-columns: 400px 1fr;
+      grid-template-columns: 410px 1fr;
       gap: 1.25rem;
       align-items: start;
     }
@@ -307,9 +300,7 @@
       transition: border-color 0.2s;
     }
 
-    .form-control:focus {
-      border-color: var(--cyan);
-    }
+    .form-control:focus { border-color: var(--cyan); }
 
     .btn-add-primary {
       width: 100%;
@@ -348,21 +339,18 @@
       box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.05), 0 10px 30px rgba(0, 0, 0, 0.6);
     }
 
-    /* 1. Embutir */
     .enc-mount-embutir {
       background: linear-gradient(180deg, #1b2333 0%, #111827 100%);
       border: 3px solid #334155;
       box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.6), 0 0 0 4px #0f172a;
     }
 
-    /* 2. Superficie */
     .enc-mount-superficie {
       background: linear-gradient(180deg, #202b3f 0%, #151e2e 100%);
       border: 4px solid #475569;
       box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
     }
 
-    /* 3. Intemperie IP65 */
     .enc-mount-intemperie {
       background: linear-gradient(180deg, #2b3548 0%, #1e2738 100%);
       border: 5px solid #64748b;
@@ -412,7 +400,7 @@
     }
 
     /* =========================================================
-       PANEL DE OJOS DE BUEY 22mm (R - S - T - N - T/PE)
+       INSTRUMENTOS DE MEDICIÓN: VOLTÍMETRO Y AMPERÍMETRO
        ========================================================= */
     .pilot-lights-panel {
       background: linear-gradient(180deg, #101726 0%, #090e1a 100%);
@@ -442,98 +430,132 @@
     .pilot-lights-cluster {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1.5rem;
       flex-wrap: wrap;
     }
 
-    /* El Ojo de Buey Industrial de 22mm */
-    .pilot-bezel {
+    /* Ojo de Buey 22mm Volt-Amperímetro Digital */
+    .meter-unit-22mm {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
-      cursor: pointer;
       user-select: none;
       transition: transform 0.2s;
     }
 
-    .pilot-bezel:hover {
-      transform: scale(1.08);
+    .meter-unit-22mm:hover {
+      transform: scale(1.05);
     }
 
-    .pilot-lamp-housing {
-      width: 36px;
-      height: 36px;
+    .meter-housing {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      background: #1e293b;
-      border: 3px solid #64748b; /* Bisel cromado */
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.4);
+      background: #020617;
+      border: 3px solid #64748b; /* Bisel metálico roscado */
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 2px 4px rgba(255, 255, 255, 0.2);
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       position: relative;
+      padding: 2px;
     }
 
-    .pilot-lens {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
+    .meter-display-v {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
       font-weight: 900;
-      color: #fff;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.6);
+      line-height: 1.1;
+      text-align: center;
     }
 
-    /* Colores y Efecto Glow de los Ojos de Buey */
-    /* FASE R (Rojo) */
-    .pilot-lens.phase-r {
-      background: radial-gradient(circle at 35% 35%, #ff4d4d, #dc2626 70%, #991b1b);
-      box-shadow: 0 0 16px rgba(239, 68, 68, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
+    .meter-display-a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9.5px;
+      font-weight: 900;
+      line-height: 1.1;
+      text-align: center;
     }
 
-    /* FASE S (Amarillo) */
-    .pilot-lens.phase-s {
-      background: radial-gradient(circle at 35% 35%, #fef08a, #eab308 70%, #a16207);
-      color: #713f12;
-      box-shadow: 0 0 16px rgba(234, 179, 8, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
-    }
+    /* Colores LED de Displays Volt-Amperímetro */
+    /* Color Style: Clásico Rojo-Amarillo-Verde */
+    .meter-color-r .meter-display-v { color: #ff4d4d; text-shadow: 0 0 6px rgba(239, 68, 68, 0.8); }
+    .meter-color-r .meter-display-a { color: #fca5a5; text-shadow: 0 0 5px rgba(239, 68, 68, 0.6); }
 
-    /* FASE T (Verde / Azul) */
-    .pilot-lens.phase-t {
-      background: radial-gradient(circle at 35% 35%, #4ade80, #16a34a 70%, #14532d);
-      box-shadow: 0 0 16px rgba(34, 197, 94, 0.9), inset 0 2px 4px rgba(255, 255, 255, 0.7);
-    }
+    .meter-color-s .meter-display-v { color: #facc15; text-shadow: 0 0 6px rgba(250, 204, 21, 0.8); }
+    .meter-color-s .meter-display-a { color: #fef08a; text-shadow: 0 0 5px rgba(250, 204, 21, 0.6); }
 
-    /* NEUTRO N (Azul) */
-    .pilot-lens.line-n {
-      background: radial-gradient(circle at 35% 35%, #38bdf8, #0284c7 70%, #0369a1);
-      box-shadow: 0 0 14px rgba(2, 132, 199, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.7);
-    }
+    .meter-color-t .meter-display-v { color: #22c55e; text-shadow: 0 0 6px rgba(34, 197, 94, 0.8); }
+    .meter-color-t .meter-display-a { color: #86efac; text-shadow: 0 0 5px rgba(34, 197, 94, 0.6); }
 
-    /* TIERRA PE / T (Verde-Amarillo PAT) */
-    .pilot-lens.line-pe {
-      background: linear-gradient(135deg, #16a34a 50%, #facc15 50%);
-      color: #000;
-      box-shadow: 0 0 14px rgba(22, 163, 74, 0.8), inset 0 2px 4px rgba(255, 255, 255, 0.7);
-    }
+    /* Color Style: Blancos Normalizados IEC 60073 */
+    .meter-color-white .meter-display-v { color: #f8fafc; text-shadow: 0 0 6px rgba(248, 250, 252, 0.9); }
+    .meter-color-white .meter-display-a { color: #38bdf8; text-shadow: 0 0 6px rgba(56, 189, 248, 0.9); }
 
-    .pilot-label {
-      font-size: 9px;
+    .meter-caption {
+      font-size: 8.5px;
       font-weight: 900;
       color: #fff;
       letter-spacing: 0.05em;
     }
 
-    .pilot-volts {
-      font-size: 8px;
-      color: #38bdf8;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 700;
+    /* BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) REGLAMENTARIAS */
+    .ground-busbar-container {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px dashed #334155;
+      border-radius: 8px;
+      padding: 0.6rem 1rem;
+      margin-bottom: 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.75rem;
+    }
+
+    .busbar-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .busbar-copper {
+      height: 12px;
+      width: 140px;
+      background: linear-gradient(90deg, #b45309 0%, #f59e0b 50%, #b45309 100%);
+      border: 1px solid #78350f;
+      border-radius: 3px;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 4px;
+    }
+
+    .busbar-screw {
+      width: 4px;
+      height: 4px;
+      background: #475569;
+      border-radius: 50%;
+      border: 1px solid #1e293b;
+    }
+
+    .busbar-blue {
+      height: 12px;
+      width: 140px;
+      background: linear-gradient(90deg, #0369a1 0%, #38bdf8 50%, #0369a1 100%);
+      border: 1px solid #075985;
+      border-radius: 3px;
+      box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 2px 4px rgba(0, 0, 0, 0.4);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 4px;
     }
 
     /* MULTI-DIN RAILS SYSTEM (1 a 4 Rieles DIN) */
@@ -727,12 +749,14 @@
       text-align: center;
     }
 
-    /* Ojo de buey en Riel DIN */
-    .din-pilot-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+    /* Volt-Amperímetro de Riel DIN */
+    .din-vameter-display {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 3px;
+      padding: 2px 4px;
+      width: 92%;
+      text-align: center;
     }
 
     .din-bottom { border-top: 1px solid #cbd5e1; padding-top: 3px; text-align: center; font-size: 8.5px; font-weight: 800; color: #334155; }
@@ -886,7 +910,7 @@
       background: #fff;
       color: #0f172a;
       width: 100%;
-      max-width: 880px;
+      max-width: 900px;
       max-height: 90vh;
       overflow-y: auto;
       border-radius: 12px;
@@ -971,7 +995,7 @@
         </div>
       </div>
       <div class="header-actions">
-        <button class="btn-header" onclick="loadPreset('trifasico_pro')">⚡⚡⚡ Preset Trifásico R-S-T</button>
+        <button class="btn-header" onclick="loadPreset('trifasico_pro')">⚡⚡⚡ Trifásico R-S-T</button>
         <button class="btn-header" onclick="loadPreset('schneider_pro')">🟢 Schneider Premium</button>
         <button class="btn-header" onclick="loadPreset('abb_pro')">🔴 ABB Compact</button>
         <button class="btn-header" onclick="clearBoard()">🗑️ Limpiar</button>
@@ -998,10 +1022,10 @@
         <!-- ELECTRICAL TOOLBAR -->
         <div id="toolsElec">
           
-          <!-- TIPO DE SUMINISTRO: MONOFÁSICO VS TRIFÁSICO -->
+          <!-- SUMINISTRO: MONOFÁSICO VS TRIFÁSICO -->
           <div class="panel-card" style="border-color: rgba(245, 158, 11, 0.4);">
             <div class="panel-title">
-              <span>⚡ Tipo de Suministro Eléctrico</span>
+              <span>⚡ Suministro & Medición</span>
               <span id="supplyBadge" style="font-size: 0.7rem; color: var(--gold);">Trifásico 380V</span>
             </div>
             <div class="pills-row">
@@ -1012,6 +1036,13 @@
                 <span>⚡⚡⚡</span> <span>Trifásico 380V (R-S-T)</span>
               </button>
             </div>
+
+            <!-- Estilo de Ojos de Buey / Medición -->
+            <label class="form-label" style="margin-top: 0.4rem;">Color de Instrumentos Ojo de Buey 22mm</label>
+            <div class="pills-row">
+              <button class="pill-btn active" id="colorRYG" onclick="setPilotColorStyle('ryg')">🔴🟡🟢 R-Y-G Clásico</button>
+              <button class="pill-btn" id="colorWhite" onclick="setPilotColorStyle('white')">⚪⚪⚪ IEC Blanco</button>
+            </div>
           </div>
 
           <!-- SELECCIÓN DE GABINETE / CAJA -->
@@ -1021,7 +1052,6 @@
               <span style="font-size: 0.7rem; color: var(--cyan);" id="enclosureBrandLabel">Genrod Q-Energy</span>
             </div>
 
-            <!-- Marca de Caja -->
             <label class="form-label">Marca del Gabinete</label>
             <div class="pills-row">
               <button class="pill-btn active" id="encGenrod" onclick="setEnclosureBrand('genrod')">Genrod</button>
@@ -1030,7 +1060,6 @@
               <button class="pill-btn" id="encConextube" onclick="setEnclosureBrand('conextube')">Conextube</button>
             </div>
 
-            <!-- Tipo de Montaje -->
             <label class="form-label" style="margin-top: 0.4rem;">Tipo de Montaje</label>
             <div class="pills-row">
               <button class="pill-btn active" id="mountEmbutir" onclick="setMountType('embutir')">🧱 Embutir</button>
@@ -1038,7 +1067,6 @@
               <button class="pill-btn" id="mountIntemperie" onclick="setMountType('intemperie')">🌧️ Intemperie IP65</button>
             </div>
 
-            <!-- Capacidad Módulos DIN -->
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.4rem;">
               <div class="form-group">
                 <label class="form-label">Capacidad DIN</label>
@@ -1052,10 +1080,10 @@
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-label">Ojos de Buey en Tapa</label>
+                <label class="form-label">Instrumentos Tapa</label>
                 <select id="togglePilotLights" class="form-control" onchange="togglePilots(this.value)">
-                  <option value="si" selected>Sí (Luces LED 22mm)</option>
-                  <option value="no">Sin Ojos de Buey</option>
+                  <option value="si" selected>Sí (Voltímetro + Amperímetro)</option>
+                  <option value="no">Sin Instrumentos en Tapa</option>
                 </select>
               </div>
             </div>
@@ -1064,7 +1092,7 @@
           <!-- SELECCIÓN DE MARCA DE APARAMENTA -->
           <div class="panel-card">
             <div class="panel-title">
-              <span>🏷️ Marca de las Térmicas / Protecciones</span>
+              <span>🏷️ Marca de Protecciones</span>
               <span style="font-size: 0.7rem; color: var(--cyan);" id="activeBrandLabel">Schneider Electric</span>
             </div>
             <div class="pills-row">
@@ -1081,13 +1109,13 @@
             </div>
             <div class="quick-add-grid">
               <button class="btn-quick" onclick="addQuick('protector')">
-                <span>📟</span> <span>Prot. Tensión (2M)</span>
+                <span>📟</span> <span>Prot. Tensión (2M/4M)</span>
               </button>
               <button class="btn-quick" onclick="addQuick('diferencial')">
                 <span>🛡️</span> <span>Disyuntor Dif. (2M/4M)</span>
               </button>
-              <button class="btn-quick" onclick="addQuick('ojo_din')">
-                <span>🔴🟡🟢</span> <span>Ojo Buey DIN (1M)</span>
+              <button class="btn-quick" onclick="addQuick('vameter_din')">
+                <span>📊</span> <span>Volt-Amperímetro DIN</span>
               </button>
               <button class="btn-quick" onclick="addQuick('contactor')">
                 <span>🧲</span> <span>Contactor 25A (1M)</span>
@@ -1121,9 +1149,10 @@
                 <select id="customElecType" class="form-control">
                   <option value="termica">Térmica PIA (Curva C)</option>
                   <option value="diferencial">Disyuntor Diferencial (ID)</option>
-                  <option value="contactor">Contactor Modular Bobina 220V</option>
+                  <option value="contactor">Contactor Modular 220V</option>
+                  <option value="vameter">Volt-Amperímetro DIN</option>
                   <option value="protector">Protector Tensión Digital</option>
-                  <option value="dps">Descargador Atmosférico DPS</option>
+                  <option value="dps">Descargador DPS 40kA</option>
                 </select>
               </div>
               <div class="form-group">
@@ -1242,7 +1271,7 @@
               <strong id="statPower" class="mono" style="color: var(--gold);">0 W</strong>
             </div>
             <div style="display: flex; justify-content: space-between;">
-              <span style="color: var(--text-muted);">Corriente de Cálculo:</span>
+              <span style="color: var(--text-muted);">Corriente Máxima:</span>
               <strong id="statCurrent" class="mono" style="color: var(--cyan);">0.0 A (220V)</strong>
             </div>
             <div id="cctvExtraStats" style="display: none; flex-direction: column; gap: 0.4rem; border-top: 1px solid var(--border); padding-top: 0.4rem; margin-top: 0.2rem;">
@@ -1276,14 +1305,41 @@
                 <div class="enclosure-specs" id="enclosureSpecsTag">24 Módulos DIN • IP40 • Norma IRAM</div>
               </div>
 
-              <!-- PANEL FRONTAL DE OJOS DE BUEY (R - S - T - N - T) -->
+              <!-- PANEL FRONTAL: VOLTÍMETROS & AMPERÍMETROS DIGITALES 22mm -->
               <div id="pilotLightsPanel" class="pilot-lights-panel">
                 <div class="pilot-panel-title">
-                  <span>💡</span> <span id="pilotPanelTitle">LUCES TESTIGO DE FASE & ESTADO (OJOS DE BUEY 22mm)</span>
+                  <span>📟</span> <span id="pilotPanelTitle">MONITOREO DIGITAL DE RED (VOLTÍMETRO + AMPERÍMETRO 22mm LED)</span>
                 </div>
 
                 <div class="pilot-lights-cluster" id="pilotLightsCluster">
-                  <!-- Render dinámico según Monofásico o Trifásico -->
+                  <!-- Render dinámico de voltímetros y amperímetros -->
+                </div>
+              </div>
+
+              <!-- BARRAS COLECTORAS DE TIERRA (PE) Y NEUTRO (N) BAJO NORMA AEA -->
+              <div class="ground-busbar-container">
+                <div class="busbar-item">
+                  <span style="font-weight: 800; color: #f59e0b;">⚡ Barra Puesta a Tierra (PE):</span>
+                  <div class="busbar-copper">
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                  </div>
+                  <span class="mono" style="color: var(--green); font-size: 0.7rem; font-weight: 700;">Jabalina PAT &lt; 10Ω</span>
+                </div>
+
+                <div class="busbar-item">
+                  <span style="font-weight: 800; color: #38bdf8;">🌐 Bornera Neutro (N):</span>
+                  <div class="busbar-blue">
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                    <div class="busbar-screw"></div>
+                  </div>
+                  <span class="mono" style="color: var(--cyan); font-size: 0.7rem; font-weight: 700;">Aisladores 1000V</span>
                 </div>
               </div>
 
@@ -1293,7 +1349,7 @@
               </div>
 
               <div style="font-size: 0.7rem; color: var(--text-dim); text-align: center; margin-top: 0.75rem;">
-                Hacé clic en cualquier térmica o piloto para interactuar.
+                Hacé clic en cualquier térmica para eliminarla o editarla.
               </div>
             </div>
           </div>
@@ -1316,6 +1372,7 @@
                   <th>Cable (mm²)</th>
                   <th>Iz Cable</th>
                   <th>Potencia</th>
+                  <th>Amperaje (A)</th>
                   <th>Estado AEA</th>
                   <th>Acción</th>
                 </tr>
@@ -1393,7 +1450,8 @@
         <h4 style="font-weight: 800; color: #0f172a; margin-bottom: 0.3rem;">🛡️ Compromiso de Calidad y Seguridad El Cóndor:</h4>
         <p style="color: #64748b; line-height: 1.5;">
           • Solo utilizamos aparamenta original certificada bajo normas IRAM / IEC (Schneider Electric, ABB, Chint, BAW) y envolventes homologadas (Genrod, Roket, Gabexel, Conextube).<br>
-          • Tablero equipado con señalización óptica frontal (Ojos de buey LED 22mm para control de fases y presencia de neutro/tierra), peinado con barras de cobre aisladas y prueba de disparo diferencial con instrumental calibrado.
+          • Monitoreo permanente con voltímetros y amperímetros digitales de 22mm para control de balanceo de fases.<br>
+          • Barra equipotencial de Puesta a Tierra (PAT) bajo norma IRAM 2281 con jabalina hincada y resistencia comprobada inferior a 10 Ohms.
         </p>
       </div>
 
@@ -1411,6 +1469,7 @@
     // ESTADO DE LA APP
     let currentMode = "electrico"; // 'electrico' | 'cctv'
     let supplyType = "trifasico";  // 'monofasico' | 'trifasico'
+    let pilotColorStyle = "ryg";   // 'ryg' | 'white'
     let showPilots = true;
     let activeBrand = "schneider"; // 'schneider' | 'abb' | 'chint' | 'baw'
     let enclosureBrand = "genrod"; // 'genrod' | 'roket' | 'gabexel' | 'conextube'
@@ -1468,6 +1527,7 @@
         diffModel: "iID 4x40A 30mA",
         contactorModel: "iCT 25A 2NA",
         dpsModel: "iPRD 20r 350V",
+        vameterModel: "PM2100 Digi",
         piaPrefix: "iC60N C"
       },
       abb: {
@@ -1479,6 +1539,7 @@
         diffModel: "FH204 4x40A 30mA",
         contactorModel: "ESB25-20N 2NA",
         dpsModel: "OVR T2 40-275",
+        vameterModel: "DMTME Digi",
         piaPrefix: "S201 C"
       },
       chint: {
@@ -1490,6 +1551,7 @@
         diffModel: "NL1-63 4x40A 30mA",
         contactorModel: "NCH8-25 2NA",
         dpsModel: "NU6-II 40kA",
+        vameterModel: "PA666-V/A",
         piaPrefix: "NXB-63 C"
       },
       baw: {
@@ -1501,6 +1563,7 @@
         diffModel: "ID 4x40A 30mA",
         contactorModel: "KNL 25A 220V",
         dpsModel: "DPS Clase II 40kA",
+        vameterModel: "VA-DIN Digital",
         piaPrefix: "B100 C"
       }
     };
@@ -1520,10 +1583,18 @@
       showToast(type === 'monofasico' ? '⚡ Suministro Monofásico (L-N-PE)' : '⚡⚡⚡ Suministro Trifásico (R-S-T-N-PE)');
     }
 
+    function setPilotColorStyle(style) {
+      pilotColorStyle = style;
+      document.getElementById('colorRYG').className = style === 'ryg' ? 'pill-btn active' : 'pill-btn';
+      document.getElementById('colorWhite').className = style === 'white' ? 'pill-btn active' : 'pill-btn';
+      render();
+      showToast(style === 'ryg' ? '🔴🟡🟢 Ojos de buey R-Y-G' : '⚪⚪⚪ Ojos de buey Blancos IEC');
+    }
+
     function togglePilots(val) {
       showPilots = val === 'si';
       document.getElementById('pilotLightsPanel').style.display = showPilots ? 'flex' : 'none';
-      showToast(showPilots ? '💡 Ojos de buey activados' : 'Ojos de buey ocultos');
+      showToast(showPilots ? '📟 Instrumentos de medición activados' : 'Instrumentos ocultos');
     }
 
     // CONTROL DE GABINETES
@@ -1601,8 +1672,8 @@
       } else if (itemType === 'diferencial') {
         const modWidth = supplyType === 'trifasico' ? 4 : 2;
         addModule('diferencial', `Disyuntor Dif. ${b.label} 40A 30mA`, b.label, b.diffModel, 40, modWidth, 'disyuntor', 10.0, 0);
-      } else if (itemType === 'ojo_din') {
-        addModule('ojo_din', `Ojo de Buey DIN R-S-T ${b.label}`, b.label, 'LED 230V DIN', 0, 1, 'pilot_din', 1.5, 5);
+      } else if (itemType === 'vameter_din') {
+        addModule('vameter', `Volt-Amperímetro DIN ${b.label}`, b.label, b.vameterModel, 0, 1, 'vameter_din', 2.5, 5);
       } else if (itemType === 'contactor') {
         addModule('contactor', `Contactor Modular ${b.label} 25A`, b.label, b.contactorModel, 25, 1, 'contactor', 4.0, 50);
       } else if (itemType === 'dps') {
@@ -1614,8 +1685,6 @@
         addModule('termica', 'Tomas Uso General TUG', b.label, `${b.piaPrefix}16`, 16, 1, 'termica', 2.5, 2200);
       } else if (itemType === 'termica_aire') {
         addModule('termica', 'Aire Split TUE', b.label, `${b.piaPrefix}20`, 20, 1, 'termica', 4.0, 3200);
-      } else if (itemType === 'termica_horno') {
-        addModule('termica', 'Cocina / Horno Eléctrico', b.label, `${b.piaPrefix}25`, 25, 1, 'termica', 6.0, 4400);
       }
     }
 
@@ -1641,6 +1710,10 @@
       } else if (type === 'contactor') {
         model = `${b.contactorModel}`;
         width = 1;
+      } else if (type === 'vameter') {
+        model = `${b.vameterModel}`;
+        width = 1;
+        display = 'vameter_din';
       } else if (type === 'dps') {
         model = `${b.dpsModel}`;
         width = supplyType === 'trifasico' ? 4 : 2;
@@ -1786,7 +1859,7 @@
       }
     }
 
-    // RENDER TABLERO ELÉCTRICO CON OJOS DE BUEY R-S-T-N-T
+    // RENDER TABLERO ELÉCTRICO CON VOLTÍMETRO Y AMPERÍMETRO
     function renderElectricBoard() {
       const enclosureEl = document.getElementById("boardOuterEnclosure");
       const encData = ENCLOSURE_DATA[enclosureBrand] || ENCLOSURE_DATA['genrod'];
@@ -1796,88 +1869,101 @@
       document.getElementById("enclosureMainTitle").textContent = `${currentEncConfig.title.toUpperCase()} • ${enclosureCapacity} MÓDULOS`;
       document.getElementById("enclosureSpecsTag").textContent = `${enclosureCapacity} Módulos DIN • ${currentEncConfig.ip} • ${currentEncConfig.material}`;
 
-      // RENDER OJOS DE BUEY (R - S - T - N - T)
+      // Sumatorias de cargas
+      let totalWatts = 0;
+      let totalOccupiedModules = 0;
+      let hasAeaWarning = false;
+
+      // Cálculo por fases (R, S, T)
+      let wattsR = 0, wattsS = 0, wattsT = 0;
+      let circuitCount = 0;
+
+      elecModules.forEach(m => {
+        totalOccupiedModules += m.width;
+        if (m.type === 'termica' || m.type === 'contactor') {
+          totalWatts += m.watts;
+
+          // Distribuir balanceadamente entre fases R, S, T si es trifásico
+          const phaseIndex = circuitCount % 3;
+          if (phaseIndex === 0) wattsR += m.watts;
+          else if (phaseIndex === 1) wattsS += m.watts;
+          else wattsT += m.watts;
+          circuitCount++;
+        }
+
+        const iz = CABLE_IZ[m.cable] || 15;
+        const isSafe = m.type !== 'termica' || (m.amp <= iz);
+        if (!isSafe) hasAeaWarning = true;
+      });
+
+      // Cálculo de corriente en Amperes por fase (I = P / V)
+      const currentR = (wattsR / 220).toFixed(1);
+      const currentS = (wattsS / 220).toFixed(1);
+      const currentT = (wattsT / 220).toFixed(1);
+      const currentMono = (totalWatts / 220).toFixed(1);
+
+      // RENDER VOLTÍMETROS Y AMPERÍMETROS EN TAPA
       const pilotCluster = document.getElementById("pilotLightsCluster");
       pilotCluster.innerHTML = "";
 
+      const colClassR = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-r';
+      const colClassS = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-s';
+      const colClassT = pilotColorStyle === 'white' ? 'meter-color-white' : 'meter-color-t';
+
       if (supplyType === 'trifasico') {
-        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DE RED TRIFÁSICA (OJOS DE BUEY 22mm: R - S - T + N + PE)";
+        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DIGITAL DE RED TRIFÁSICA (VOLTÍMETRO + AMPERÍMETRO 22mm LED)";
         
         pilotCluster.innerHTML = `
           <!-- FASE R -->
-          <div class="pilot-bezel" title="Fase R (L1) - 223V">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens phase-r">R</div>
+          <div class="meter-unit-22mm ${colClassR}" title="Fase R (L1): 223V / ${currentR}A">
+            <div class="meter-housing">
+              <div class="meter-display-v">223V</div>
+              <div class="meter-display-a">${currentR}A</div>
             </div>
-            <span class="pilot-label">FASE R</span>
-            <span class="pilot-volts mono">223V</span>
+            <span class="meter-caption">FASE R</span>
           </div>
 
           <!-- FASE S -->
-          <div class="pilot-bezel" title="Fase S (L2) - 220V">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens phase-s">S</div>
+          <div class="meter-unit-22mm ${colClassS}" title="Fase S (L2): 220V / ${currentS}A">
+            <div class="meter-housing">
+              <div class="meter-display-v">220V</div>
+              <div class="meter-display-a">${currentS}A</div>
             </div>
-            <span class="pilot-label">FASE S</span>
-            <span class="pilot-volts mono">220V</span>
+            <span class="meter-caption">FASE S</span>
           </div>
 
           <!-- FASE T -->
-          <div class="pilot-bezel" title="Fase T (L3) - 225V">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens phase-t">T</div>
+          <div class="meter-unit-22mm ${colClassT}" title="Fase T (L3): 225V / ${currentT}A">
+            <div class="meter-housing">
+              <div class="meter-display-v">225V</div>
+              <div class="meter-display-a">${currentT}A</div>
             </div>
-            <span class="pilot-label">FASE T</span>
-            <span class="pilot-volts mono">225V</span>
+            <span class="meter-caption">FASE T</span>
           </div>
 
-          <!-- NEUTRO N -->
-          <div class="pilot-bezel" title="Neutro de Red (N)">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens line-n">N</div>
-            </div>
-            <span class="pilot-label">NEUTRO</span>
-            <span class="pilot-volts mono" style="color:var(--cyan);">0V</span>
-          </div>
-
-          <!-- TIERRA T / PE -->
-          <div class="pilot-bezel" title="Puesta a Tierra (PE / Jabalina)">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens line-pe">PE</div>
-            </div>
-            <span class="pilot-label">TIERRA</span>
-            <span class="pilot-volts mono" style="color:var(--green);">PAT OK</span>
+          <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:2px; margin-left:0.5rem;">
+            <span>• Red: <strong>380V / 220V</strong></span>
+            <span>• Frecuencia: <strong class="mono" style="color:var(--cyan);">50.0 Hz</strong></span>
+            <span>• Cos φ est.: <strong class="mono" style="color:var(--green);">0.95</strong></span>
           </div>
         `;
       } else {
-        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DE RED MONOFÁSICA (OJOS DE BUEY 22mm: L - N - TIERRA)";
+        document.getElementById("pilotPanelTitle").textContent = "MONITOREO DIGITAL DE RED MONOFÁSICA (VOLTÍMETRO + AMPERÍMETRO 22mm LED)";
         
         pilotCluster.innerHTML = `
-          <!-- LÍNEA FASE -->
-          <div class="pilot-bezel" title="Fase L - 220V Normal">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens phase-r">L</div>
+          <!-- FASE L -->
+          <div class="meter-unit-22mm ${colClassR}" title="Línea L: 221V / ${currentMono}A">
+            <div class="meter-housing">
+              <div class="meter-display-v">221V</div>
+              <div class="meter-display-a">${currentMono}A</div>
             </div>
-            <span class="pilot-label">FASE L</span>
-            <span class="pilot-volts mono">221V</span>
+            <span class="meter-caption">LÍNEA L</span>
           </div>
 
-          <!-- NEUTRO N -->
-          <div class="pilot-bezel" title="Neutro N">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens line-n">N</div>
-            </div>
-            <span class="pilot-label">NEUTRO</span>
-            <span class="pilot-volts mono" style="color:var(--cyan);">0V</span>
-          </div>
-
-          <!-- TIERRA T / PE -->
-          <div class="pilot-bezel" title="Puesta a Tierra (Jabalina)">
-            <div class="pilot-lamp-housing">
-              <div class="pilot-lens line-pe">PE</div>
-            </div>
-            <span class="pilot-label">TIERRA</span>
-            <span class="pilot-volts mono" style="color:var(--green);">PAT OK</span>
+          <div style="font-size:0.75rem; color:var(--text-dim); display:flex; flex-direction:column; gap:2px; margin-left:0.5rem;">
+            <span>• Red: <strong>Monofásica 220V</strong></span>
+            <span>• Consumo Total: <strong class="mono" style="color:var(--gold);">${totalWatts} W</strong></span>
+            <span>• Frecuencia: <strong class="mono" style="color:var(--cyan);">50.0 Hz</strong></span>
           </div>
         `;
       }
@@ -1910,18 +1996,8 @@
 
       let currentRailIndex = 0;
       let currentRailOccupied = 0;
-      let totalOccupiedModules = 0;
-      let totalWatts = 0;
-      let hasAeaWarning = false;
 
       elecModules.forEach(m => {
-        totalOccupiedModules += m.width;
-        if (m.type === 'termica' || m.type === 'contactor') totalWatts += m.watts;
-
-        const iz = CABLE_IZ[m.cable] || 15;
-        const isSafe = m.type !== 'termica' || (m.amp <= iz);
-        if (!isSafe) hasAeaWarning = true;
-
         if (currentRailOccupied + m.width > modulesPerRail && currentRailIndex < totalRailsCount - 1) {
           currentRailIndex++;
           currentRailOccupied = 0;
@@ -1963,19 +2039,13 @@
             <div class="din-dps-cartridge">OK</div>
             <div style="font-size:7px; font-weight:800; color:#475569;">40kA</div>
           `;
-        } else if (m.display === 'pilot_din') {
+        } else if (m.display === 'vameter_din') {
           bodyHtml = `
-            <div class="din-pilot-body">
-              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
-                <div class="pilot-lens phase-r" style="width:18px; height:18px; font-size:8px;">R</div>
-              </div>
-              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
-                <div class="pilot-lens phase-s" style="width:18px; height:18px; font-size:8px;">S</div>
-              </div>
-              <div class="pilot-lamp-housing" style="width:26px; height:26px;">
-                <div class="pilot-lens phase-t" style="width:18px; height:18px; font-size:8px;">T</div>
-              </div>
+            <div class="din-vameter-display">
+              <div class="mono" style="color:#22c55e; font-size:9.5px; font-weight:900;">221 V</div>
+              <div class="mono" style="color:#38bdf8; font-size:9px; font-weight:900;">${currentMono} A</div>
             </div>
+            <div style="font-size:7px; font-weight:800; color:#475569;">50.0Hz</div>
           `;
         } else {
           bodyHtml = `
@@ -1994,7 +2064,7 @@
             ${bodyHtml}
           </div>
           <div class="din-bottom">
-            <div>${m.amp > 0 ? m.amp + 'A' : 'LED'}</div>
+            <div>${m.amp > 0 ? m.amp + 'A' : 'MED'}</div>
           </div>
         `;
         targetRail.appendChild(modEl);
@@ -2002,11 +2072,11 @@
 
       // Resumen
       const v = supplyType === 'trifasico' ? 380 : 220;
-      const maxCurrent = (totalWatts / v).toFixed(1);
+      const totalA = (totalWatts / v).toFixed(1);
       document.getElementById("statModules").textContent = `${totalOccupiedModules} / ${enclosureCapacity} DIN`;
       document.getElementById("statEnclosureSummary").textContent = `${encData.name} ${mountType.toUpperCase()}`;
       document.getElementById("statPower").textContent = `${totalWatts.toLocaleString('es-AR')} W`;
-      document.getElementById("statCurrent").textContent = `${maxCurrent} A (${v}V)`;
+      document.getElementById("statCurrent").textContent = `${totalA} A (${v}V)`;
 
       const badge = document.getElementById("complianceBadge");
       if (hasAeaWarning) {
@@ -2025,14 +2095,16 @@
         const tr = document.createElement("tr");
         const iz = CABLE_IZ[m.cable] || 15;
         const isSafe = m.type !== 'termica' || (m.amp <= iz);
+        const circuitAmps = m.watts ? (m.watts / 220).toFixed(1) + ' A' : '-';
 
         tr.innerHTML = `
           <td><strong>${m.name}</strong></td>
           <td><span style="font-weight: 800; color: #fff;">${m.brand}</span> <span style="color:var(--text-dim); font-size:0.75rem;">(${m.model})</span></td>
-          <td><span class="mono" style="font-weight: 800;">${m.amp > 0 ? m.amp + 'A' : 'Testigo'}</span></td>
+          <td><span class="mono" style="font-weight: 800;">${m.amp > 0 ? m.amp + 'A' : 'Medidor'}</span></td>
           <td><span class="mono">${m.cable ? m.cable + ' mm²' : '-'}</span></td>
           <td><span class="mono">${m.cable ? iz + ' A' : '-'}</span></td>
           <td><span class="mono">${m.watts ? m.watts + ' W' : '-'}</span></td>
+          <td><span class="mono" style="color:var(--cyan); font-weight:800;">${circuitAmps}</span></td>
           <td>
             ${isSafe 
               ? '<span class="badge-aea aea-ok">Conforme</span>' 
@@ -2141,8 +2213,8 @@
           <strong>📦 ESPECIFICACIÓN DEL GABINETE:</strong> ${currentEncConfig.title} (${enclosureCapacity} Módulos DIN)<br>
           • <strong>Suministro:</strong> ${supplyType === 'trifasico' ? 'Trifásico 380V (Fases R, S, T + Neutro N + Tierra PE)' : 'Monofásico 220V (Fase L + Neutro N + Tierra PE)'}<br>
           • <strong>Montaje:</strong> ${mountType.toUpperCase()} | <strong>Protección:</strong> ${currentEncConfig.ip}<br>
-          • <strong>Señalización Frontal:</strong> ${showPilots ? 'Ojos de buey LED 22mm de alta visibilidad para monitoreo de fases R-S-T, neutro y puesta a tierra' : 'Sin señalización óptica'}<br>
-          • <strong>Material constructivo:</strong> ${currentEncConfig.material} (Norma IRAM 2006 / IEC 60670).
+          • <strong>Instrumentación de Medida:</strong> Voltímetros y Amperímetros Digitales 22mm LED para control de carga en tiempo real.<br>
+          • <strong>Puesta a Tierra:</strong> Barra colectora de cobre con jabalina reglamentaria PAT (Resistencia menor a 10 Ohms según IRAM 2281).
         `;
 
         let rowsHtml = `
@@ -2150,10 +2222,11 @@
             <tr>
               <th>Circuito</th>
               <th>Marca y Serie</th>
-              <th>Modelo / Calibre</th>
+              <th>Protección</th>
               <th>Conductor</th>
               <th>Iz Cable</th>
               <th>Potencia</th>
+              <th>Corriente (A)</th>
             </tr>
           </thead>
           <tbody>
@@ -2162,11 +2235,12 @@
           rowsHtml += `
             <tr>
               <td><strong>${m.name}</strong></td>
-              <td><strong>${m.brand}</strong></td>
-              <td>${m.model} (${m.amp > 0 ? m.amp + 'A' : 'Testigo'})</td>
+              <td><strong>${m.brand}</strong> (${m.model})</td>
+              <td>${m.amp > 0 ? m.amp + 'A' : 'Instrumento'}</td>
               <td>${m.cable ? m.cable + ' mm²' : '-'}</td>
               <td>${m.cable ? (CABLE_IZ[m.cable] || 15) + ' A' : '-'}</td>
               <td>${m.watts ? m.watts + ' W' : '-'}</td>
+              <td>${m.watts ? (m.watts / 220).toFixed(1) + ' A' : '-'}</td>
             </tr>
           `;
         });

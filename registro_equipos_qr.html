@@ -8,15 +8,15 @@
     <style>
         :root { --bg: #0f172a; --card: #1e293b; --accent: #38bdf8; --whatsapp: #25D366; --text: #f8fafc; }
         body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text); padding: 1rem; margin: 0; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; }
-        .container { width: 100%; max-width: 500px; margin-top: 2rem; }
+        .container { width: 100%; max-width: 500px; margin-top: 1.5rem; }
         .panel { display: none; background: var(--card); border-radius: 24px; padding: 2rem; box-shadow: 0 20px 50px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); }
         .btn { border: none; border-radius: 12px; padding: 1rem; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; }
-        input, select, textarea { width: 100%; padding: 1rem; margin-top: 0.8rem; background: #000; color: white; border: 1px solid #444; border-radius: 12px; font-family: 'JetBrains Mono', monospace; }
+        input, select, textarea { width: 100%; padding: 1rem; margin-top: 0.8rem; background: #000; color: white; border: 1px solid #444; border-radius: 12px; font-family: 'JetBrains Mono', monospace; box-sizing: border-box; }
 
         /* Estilo exclusivo Ficha Cliente */
         #clientFicha { border: 2px solid var(--accent); }
-        .data-label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 1.5rem; }
-        .data-value { font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; }
+        .data-label { font-size: 0.7rem; color: var(--accent); text-transform: uppercase; display: block; margin-top: 1.3rem; letter-spacing: 0.5px; font-weight: 700; }
+        .data-value { font-family: 'JetBrains Mono', monospace; font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px; color: #fff; }
         .btn-wpp { background: var(--whatsapp); color: white; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 2rem; }
 
         /* Timeline & Loading Styles */
@@ -33,7 +33,7 @@
         }
         .timeline-item {
             position: relative;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.3rem;
         }
         .timeline-item::before {
             content: '';
@@ -71,7 +71,7 @@
     <div class="container">
         <!-- 1. LOGIN -->
         <div id="view_login" class="panel" style="display: block; text-align: center;">
-            <img src="logocondor.jpeg" width="100" style="border-radius: 50%; margin-bottom: 1.5rem; border: 3px solid var(--accent);">
+            <img src="logocondor.jpeg" width="100" style="border-radius: 50%; margin-bottom: 1.5rem; border: 3px solid var(--accent);" onerror="this.style.display='none'">
             <h2>ACCESO PRIVADO</h2>
             <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 2rem;">Solo para personal técnico de El Cóndor.</p>
             <input type="password" id="pin_input" placeholder="Ingrese PIN Técnico">
@@ -80,7 +80,10 @@
 
         <!-- 2. ADMIN PANEL (CARGA) -->
         <div id="view_admin" class="panel">
-            <h2 style="color: var(--accent);">NUEVO REGISTRO DE EQUIPO</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <h2 style="color: var(--accent); margin: 0; font-size: 1.3rem;">REGISTRO DE EQUIPO</h2>
+                <span style="font-size: 0.7rem; background: rgba(56,189,248,0.15); color: var(--accent); padding: 4px 8px; border-radius: 6px; font-weight: bold;">QR HÍBRIDO</span>
+            </div>
             
             <input type="text" id="in_id" placeholder="ID del Equipo (Vacío para generar nuevo)">
             <input type="text" id="in_cli" placeholder="Nombre del Cliente">
@@ -95,22 +98,24 @@
                 <option value="Sin fecha">Sin fecha programada</option>
             </select>
             
-            <button class="btn" style="background: var(--accent); color: #000; margin-top: 2rem;" onclick="generate()">GENERAR QR INTERACTIVO</button>
+            <button class="btn" style="background: var(--accent); color: #000; margin-top: 1.5rem;" onclick="generate()">GENERAR QR INTERACTIVO</button>
             
-            <div id="qr_result" style="display: none; text-align: center; margin-top: 2rem; background: white; padding: 1rem; border-radius: 15px;">
-                <div id="status_sheets" style="color: #65a30d; font-size: 0.8rem; font-weight: bold; margin-bottom: 10px;"></div>
-                <img id="qr_img" src="">
-                <p id="qr_url_txt" style="color: #000; font-size: 10px; word-break: break-all; margin-top: 10px;"></p>
-                <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 15px;">
-                    <button class="btn" style="background: #0284c7; color: #fff; padding: 0.6rem; font-size: 0.8rem;" onclick="copyLink()">COPIAR ENLACE</button>
-                    <button class="btn" style="background: #0f766e; color: #fff; padding: 0.6rem; font-size: 0.8rem;" onclick="downloadQR()">DESCARGAR QR</button>
+            <div id="qr_result" style="display: none; text-align: center; margin-top: 2rem; background: white; padding: 1.2rem; border-radius: 18px;">
+                <div id="status_sheets" style="font-size: 0.85rem; font-weight: bold; margin-bottom: 12px; line-height: 1.4;"></div>
+                <img id="qr_img" src="" style="width: 200px; height: 200px; border-radius: 8px; border: 1px solid #e2e8f0;">
+                <p id="qr_url_txt" style="color: #64748b; font-size: 9px; word-break: break-all; margin-top: 10px;"></p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px;">
+                    <button class="btn" style="background: #0284c7; color: #fff; padding: 0.7rem 0.5rem; font-size: 0.75rem;" onclick="copyLink()">COPIAR ENLACE</button>
+                    <button class="btn" style="background: #0f766e; color: #fff; padding: 0.7rem 0.5rem; font-size: 0.75rem;" onclick="downloadQR()">DESCARGAR QR</button>
                 </div>
-                <button class="btn" style="background: #000; color: #fff; margin-top: 1rem;" onclick="location.reload()">NUEVA CARGA</button>
+                <button class="btn" id="btn_preview_client" style="background: #4f46e5; color: #fff; padding: 0.7rem 0.5rem; font-size: 0.8rem; margin-top: 8px;">PROBAR VISTA CLIENTE</button>
+                <button class="btn" style="background: #000; color: #fff; margin-top: 0.8rem; font-size: 0.85rem;" onclick="location.reload()">NUEVA CARGA</button>
             </div>
 
             <!-- BUSCADOR INTERNO PARA EL TÉCNICO -->
             <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 2rem 0;">
-            <h3 style="color: var(--accent); font-size: 1rem; margin-bottom: 0.5rem;">CONSULTAR HISTORIAL TÉCNICO (INTERNO)</h3>
+            <h3 style="color: var(--accent); font-size: 0.95rem; margin-bottom: 0.5rem;">CONSULTAR HISTORIAL TÉCNICO (INTERNO)</h3>
             <div style="display: flex; gap: 8px;">
                 <input type="text" id="search_id" placeholder="Ej: EC-8888" style="margin-top: 0; flex: 1;">
                 <button class="btn" style="background: var(--accent); color: #000; width: auto; padding: 0.5rem 1rem;" onclick="searchTechnicalHistory()">BUSCAR</button>
@@ -124,24 +129,27 @@
 
         <!-- 3. CLIENTE (VISTA QR) -->
         <div id="view_client" class="panel">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem;">
-                <img src="logocondor.jpeg" width="50" style="border-radius: 50%;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                <img src="logocondor.jpeg" width="50" style="border-radius: 50%; border: 2px solid var(--accent);" onerror="this.style.display='none'">
                 <div>
-                    <h3 style="margin: 0;">EL CÓNDOR</h3>
+                    <h3 style="margin: 0; font-size: 1.1rem;">EL CÓNDOR</h3>
                     <p style="margin: 0; font-size: 0.7rem; color: var(--accent);">HISTORIAL TÉCNICO DIGITAL</p>
                 </div>
             </div>
 
+            <!-- Badge de estado de sincronización -->
+            <div id="sync_badge" style="margin-bottom: 1rem; text-align: center;"></div>
+
             <!-- Cargando -->
-            <div id="client_loading" style="text-align: center; padding: 2rem 0; color: #94a3b8;">
+            <div id="client_loading" style="text-align: center; padding: 2rem 0; color: #94a3b8; display: none;">
                 <div style="font-size: 2rem; animation: spin 1s infinite linear; display: inline-block;">⏳</div>
-                <p style="margin-top: 10px; font-size: 0.9rem;">Consultando historial técnico en la nube...</p>
+                <p style="margin-top: 10px; font-size: 0.9rem;">Consultando historial técnico...</p>
             </div>
 
             <!-- Error -->
-            <div id="client_error" style="display: none; text-align: center; padding: 2rem 0; color: #f87171;">
+            <div id="client_error" style="display: none; text-align: center; padding: 1.5rem 0; color: #f87171;">
                 <div style="font-size: 2rem;">⚠️</div>
-                <p id="error_msg" style="margin-top: 10px; font-size: 0.9rem;"></p>
+                <p id="error_msg" style="margin-top: 10px; font-size: 0.85rem; line-height: 1.4;"></p>
             </div>
 
             <!-- Contenido Principal -->
@@ -183,58 +191,90 @@
             const p = new URLSearchParams(window.location.search);
             if (p.has('id')) {
                 const id = p.get('id');
-                // MODO CLIENTE: Ocultar todo y mostrar cargando
+                // MODO CLIENTE: Ocultar login/admin y mostrar ficha cliente
                 document.getElementById('view_login').style.display = 'none';
                 document.getElementById('view_admin').style.display = 'none';
                 document.getElementById('view_client').style.display = 'block';
                 document.getElementById('out_id').innerText = id;
 
-                // Consultar Google Sheets vía fetch
-                fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`)
-                    .then(res => {
-                        if (!res.ok) throw new Error("Error en la conexión con la nube.");
-                        return res.json();
-                    })
-                    .then(data => {
-                        document.getElementById('client_loading').style.display = 'none';
-                        if (!data || data.length === 0 || data.error) {
-                            showError(data.error || "No se encontró ningún historial para este ID. El técnico aún no ha cargado los datos o la planilla se está sincronizando.");
-                            return;
-                        }
-                        
-                        // Cargar datos generales del último registro
-                        const latest = data[data.length - 1];
-                        document.getElementById('out_cli').innerText = latest.cliente || '---';
-                        document.getElementById('out_dir').innerText = latest.direccion || '---';
-                        document.getElementById('out_eq').innerText = latest.equipo || '---';
-                        document.getElementById('out_nx').innerText = latest.proximo_service || '---';
+                // ¿Viene con datos autónomos grabados directamente en el QR?
+                const hasOfflineData = p.has('cli') || p.has('eq');
+                
+                if (hasOfflineData) {
+                    // Mostrar de inmediato sin esperar a internet
+                    const cli = p.get('cli') || '---';
+                    const dir = p.get('dir') || '---';
+                    const eq = p.get('eq') || '---';
+                    const dt = p.get('dt') || 'Instalación / Service Registrado';
+                    const nx = p.get('nx') || '---';
+                    const fecha = p.get('f') || new Date().toLocaleDateString('es-AR');
 
-                        // Renderizar línea de tiempo (sin notas internas para el cliente)
-                        const timeline = document.getElementById('out_timeline');
-                        timeline.innerHTML = '';
-                        
-                        data.forEach(visit => {
-                            const item = document.createElement('div');
-                            item.className = 'timeline-item';
-                            
-                            item.innerHTML = `
-                                <div class="timeline-date">${visit.fecha}</div>
-                                <div class="timeline-title">${visit.trabajo}</div>
-                            `;
-                            timeline.appendChild(item);
+                    document.getElementById('out_cli').innerText = cli;
+                    document.getElementById('out_dir').innerText = dir;
+                    document.getElementById('out_eq').innerText = eq;
+                    document.getElementById('out_nx').innerText = nx;
+
+                    const timeline = document.getElementById('out_timeline');
+                    timeline.innerHTML = `
+                        <div class="timeline-item">
+                            <div class="timeline-date">${fecha}</div>
+                            <div class="timeline-title">${dt}</div>
+                        </div>
+                    `;
+
+                    // Enlace WhatsApp listo
+                    const msg = `Hola El Cóndor, solicito service para mi equipo ID: ${id} (${eq}) en la dirección ${dir}.`;
+                    document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
+
+                    document.getElementById('sync_badge').innerHTML = `<span style="display:inline-block; padding:4px 10px; border-radius:12px; background:rgba(56,189,248,0.15); color:var(--accent); font-size:0.75rem; font-weight:600;">⚡ Ficha grabada en QR (Acceso inmediato)</span>`;
+                    document.getElementById('client_content').style.display = 'block';
+                } else {
+                    // Si no tiene datos en el QR (QR antiguo), mostrar spinner de carga
+                    document.getElementById('client_loading').style.display = 'block';
+                }
+
+                // Sincronizar en segundo plano con Google Sheets si el script responde
+                if (SCRIPT_URL && SCRIPT_URL.trim() !== '') {
+                    fetch(`${SCRIPT_URL}?id=${encodeURIComponent(id)}`)
+                        .then(res => {
+                            if (!res.ok) throw new Error("HTTP " + res.status);
+                            return res.json();
+                        })
+                        .then(data => {
+                            document.getElementById('client_loading').style.display = 'none';
+                            if (data && Array.isArray(data) && data.length > 0) {
+                                const latest = data[data.length - 1];
+                                document.getElementById('out_cli').innerText = latest.cliente || document.getElementById('out_cli').innerText;
+                                document.getElementById('out_dir').innerText = latest.direccion || document.getElementById('out_dir').innerText;
+                                document.getElementById('out_eq').innerText = latest.equipo || document.getElementById('out_eq').innerText;
+                                document.getElementById('out_nx').innerText = latest.proximo_service || document.getElementById('out_nx').innerText;
+
+                                const timeline = document.getElementById('out_timeline');
+                                timeline.innerHTML = '';
+                                data.forEach(visit => {
+                                    const item = document.createElement('div');
+                                    item.className = 'timeline-item';
+                                    item.innerHTML = `
+                                        <div class="timeline-date">${visit.fecha}</div>
+                                        <div class="timeline-title">${visit.trabajo}</div>
+                                    `;
+                                    timeline.appendChild(item);
+                                });
+
+                                document.getElementById('sync_badge').innerHTML = `<span style="display:inline-block; padding:4px 10px; border-radius:12px; background:rgba(34,197,94,0.15); color:#22c55e; font-size:0.75rem; font-weight:600;">☁️ Sincronizado con la nube</span>`;
+                                document.getElementById('client_content').style.display = 'block';
+                            } else if (!hasOfflineData) {
+                                showError("No se encontró ningún historial para este ID.");
+                            }
+                        })
+                        .catch(err => {
+                            document.getElementById('client_loading').style.display = 'none';
+                            // Si ya tenemos datos del QR offline, no molestamos al usuario con un error
+                            if (!hasOfflineData) {
+                                showError("No se pudo conectar con la nube. Si estás en una zona sin cobertura o la planilla requiere permisos, comunicate con el soporte técnico.");
+                            }
                         });
-
-                        document.getElementById('client_content').style.display = 'block';
-
-                        // Configurar enlace de WhatsApp
-                        const msg = `Hola El Cóndor, solicito service para mi equipo ID: ${id} (${latest.equipo}) en la dirección ${latest.direccion}.`;
-                        document.getElementById('link_wpp').href = `https://wa.me/5491126139527?text=${encodeURIComponent(msg)}`;
-                    })
-                    .catch(err => {
-                        document.getElementById('client_loading').style.display = 'none';
-                        showError("Error de conexión al cargar la ficha técnica. Intenta actualizar la página.");
-                        console.error(err);
-                    });
+                }
             }
         }
 
@@ -271,19 +311,28 @@
             const dt = document.getElementById('in_dt').value.trim();
             const obs = document.getElementById('in_obs').value.trim();
             const nx = document.getElementById('in_nx').value;
+            const fecha = new Date().toLocaleDateString('es-AR');
 
             if (!eq || !dt) {
                 alert("Por favor ingresa al menos el Equipo/Modelo y el Detalle del Trabajo.");
                 return;
             }
 
-            // URL Limpia y corta para el QR (Solo pasa el ID)
-            const final = `${GHP_URL}?id=${id}`;
+            // URL HÍBRIDA AUTÓNOMA: Lleva el ID y además todos los datos embebidos para funcionar 100% OFFLINE
+            const params = new URLSearchParams({
+                id: id,
+                cli: cli,
+                dir: dir,
+                eq: eq,
+                dt: dt,
+                nx: nx,
+                f: fecha
+            });
+            const final = `${GHP_URL}?${params.toString()}`;
             
-            // Mostrar estado de carga
+            // Mostrar estado
             const statusSheets = document.getElementById('status_sheets');
-            statusSheets.innerText = "Guardando en Google Sheets...";
-            statusSheets.style.color = "#d97706";
+            statusSheets.innerHTML = "<span style='color: #0284c7;'>⚡ QR generado con datos autónomos.</span><br><span style='font-size: 0.75rem; color: #64748b;'>Enviando respaldo a Google Sheets...</span>";
 
             // Datos para Sheets
             const datos = {
@@ -295,25 +344,33 @@
                 trabajo: dt,
                 observacion: obs,
                 proximo_service: nx,
-                fecha: new Date().toLocaleDateString()
+                fecha: fecha
             };
 
-            // Enviar datos vía POST al Apps Script
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(datos)
-            }).then(() => {
-                statusSheets.innerText = "✅ Guardado en Google Sheets!";
-                statusSheets.style.color = "#65a30d";
-            }).catch(err => {
-                statusSheets.innerText = "⚠️ Error al guardar en Sheets. El QR fue generado igual.";
-                statusSheets.style.color = "#dc2626";
-            });
+            // Enviar datos vía POST al Apps Script en segundo plano
+            if (SCRIPT_URL && SCRIPT_URL.trim() !== '') {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    body: JSON.stringify(datos)
+                }).then(() => {
+                    statusSheets.innerHTML = "<span style='color: #15803d;'>✅ ¡QR Híbrido Generado con Éxito!</span><br><span style='font-size: 0.75rem; color: #475569;'>Los datos quedan grabados en el QR (offline) y respaldados en la nube.</span>";
+                }).catch(err => {
+                    statusSheets.innerHTML = "<span style='color: #0284c7;'>⚡ ¡QR Autónomo Generado!</span><br><span style='font-size: 0.75rem; color: #475569;'>Funciona al 100% aunque no haya internet ni Google Sheets.</span>";
+                });
+            }
 
             document.getElementById('qr_result').style.display = 'block';
-            document.getElementById('qr_img').src = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(final)}`;
+            document.getElementById('qr_img').src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(final)}`;
             document.getElementById('qr_url_txt').innerText = final;
+
+            // Botón de prueba directa para el técnico
+            const previewBtn = document.getElementById('btn_preview_client');
+            if (previewBtn) {
+                previewBtn.onclick = function() {
+                    window.open(final, '_blank');
+                };
+            }
         }
 
         function copyLink() {
@@ -328,6 +385,7 @@
         function downloadQR() {
             const img = document.getElementById('qr_img');
             const eqName = document.getElementById('in_eq').value || 'Equipo';
+            const id = document.getElementById('in_id').value || 'ID';
             
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -343,7 +401,7 @@
                     const url = window.URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = `QR_${eqName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
+                    a.download = `QR_${id}_${eqName.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.png`;
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
@@ -368,7 +426,7 @@
                 .then(res => res.json())
                 .then(data => {
                     if (!data || data.length === 0 || data.error) {
-                        detailsDiv.innerHTML = "<span style='color: #f87171;'>No se encontró historial para este ID.</span>";
+                        detailsDiv.innerHTML = "<span style='color: #f87171;'>No se encontró historial en la nube para este ID.</span>";
                         return;
                     }
                     
@@ -393,7 +451,7 @@
                     detailsDiv.innerHTML = html;
                 })
                 .catch(err => {
-                    detailsDiv.innerHTML = "<span style='color: #f87171;'>Error de conexión.</span>";
+                    detailsDiv.innerHTML = "<span style='color: #f87171;'>Error de conexión con la nube.</span>";
                     console.error(err);
                 });
         }

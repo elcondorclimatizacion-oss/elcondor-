@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector y Presupuestador de Materiales - El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --panel-bg: #131a2b;
+            --border-color: rgba(56, 189, 248, 0.15);
+            --accent-color: #38bdf8; /* Azul Conectividad */
+            --accent-hover: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --danger-color: #ef4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-color), #8b5cf6);
+        }
+
+        /* Cabecera */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .brand-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .brand-sub {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .doc-type {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Panel Grid Principal */
+        .app-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .app-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Columna Izquierda: Listas de Materiales */
+        .materials-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section-title {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--accent-color);
+            padding-left: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Tarjeta de Item */
+        .item-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            transition: all 0.2s;
+        }
+
+        .item-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            background: rgba(56, 189, 248, 0.02);
+        }
+
+        .item-card.selected {
+            border-color: var(--accent-color);
+            background: rgba(56, 189, 248, 0.03);
+        }
+
+        .item-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .item-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        .item-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #fff;
+        }
+
+        .item-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            align-items: center;
+        }
+
+        .badge-prov {
+            background: rgba(255,255,255,0.06);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+        }
+
+        .badge-prov.leirax { color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+        .badge-prov.starx { color: #10b981; background: rgba(16, 185, 129, 0.1); }
+        .badge-prov.bulonera { color: #38bdf8; background: rgba(56, 189, 248, 0.1); }
+
+        .item-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Controles de cantidad */
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .qty-input {
+            width: 35px;
+            height: 28px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .price-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            min-width: 100px;
+        }
+
+        .price-editable {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: bold;
+            color: #fff;
+            font-size: 0.9rem;
+            border: none;
+            background: transparent;
+            text-align: right;
+            width: 80px;
+            border-bottom: 1px dashed rgba(255,255,255,0.2);
+        }
+
+        .price-editable:focus {
+            outline: none;
+            border-bottom-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .price-subtotal {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Formulario para agregar custom */
+        .add-custom-box {
+            background: rgba(0, 0, 0, 0.15);
+            border: 1px dashed rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+        }
+
+        .custom-form {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr auto;
+            gap: 10px;
+            align-items: end;
+        }
+
+        @media (max-width: 576px) {
+            .custom-form {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .form-control {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: #fff;
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn-add-custom {
+            background: var(--accent-color);
+            color: #0b0f19;
+            border: none;
+            border-radius: 8px;
+            padding: 9px 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add-custom:hover {
+            background: var(--accent-hover);
+        }
+
+        /* Columna Derecha: Totales y Acciones */
+        .totals-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            position: sticky;
+            top: 20px;
+        }
+
+        .summary-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 1.5rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .summary-row.total-row {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            padding-top: 12px;
+            margin-top: 12px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .summary-val {
+            font-family: 'JetBrains Mono', monospace;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .summary-row.total-row .summary-val {
+            color: var(--accent-color);
+        }
+
+        /* Panel Config */
+        .config-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding-bottom: 1.2rem;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.75rem;
+            color: var(--warning-color);
+            line-height: 1.4;
+            display: none;
+            gap: 8px;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        /* Botones de acción */
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .btn-action {
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            padding: 0.9rem 1.5rem;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #20ba5a;
+            transform: translateY(-2px);
+        }
+
+        .btn-print {
+            background: var(--accent-color);
+            color: #0b0f19;
+            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-print:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Estilos de Impresión */
+        @media print {
+            @page {
+                margin: 0;
+            }
+            body {
+                background: #fff;
+                color: #000;
+                padding: 0;
+                margin: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                border: none;
+                box-shadow: none;
+                background: #fff;
+                padding: 2.5cm 2cm 2cm 2cm;
+                box-sizing: border-box;
+                border-radius: 0;
+            }
+
+            .container::before {
+                display: none;
+            }
+
+            header {
+                border-bottom: 2px solid #000;
+            }
+
+            .brand-sub {
+                color: #000;
+            }
+
+            .doc-type {
+                border: 1px solid #000;
+                color: #000;
+                background: none;
+            }
+
+            .app-grid {
+                display: block;
+            }
+
+            .materials-column {
+                display: block;
+            }
+
+            .section-title {
+                color: #000;
+                border-left-color: #000;
+                margin-top: 1.5rem;
+                page-break-after: avoid;
+            }
+
+            /* Mostrar solo los ítems seleccionados de forma prolija en tabla */
+            .item-card:not(.selected),
+            .add-custom-box,
+            .config-box,
+            .action-buttons,
+            .totals-column .summary-card .summary-row:not(.total-row) {
+                display: none !important;
+            }
+
+            .item-card.selected {
+                background: none !important;
+                border: none !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                border-radius: 0 !important;
+                padding: 6px 0 !important;
+                display: flex !important;
+                margin-bottom: 0 !important;
+                page-break-inside: avoid;
+            }
+
+            .item-checkbox {
+                display: none !important;
+            }
+
+            .item-name {
+                color: #000 !important;
+            }
+
+            .price-editable {
+                border: none !important;
+                color: #000 !important;
+                font-family: Arial, sans-serif !important;
+            }
+
+            .price-subtotal {
+                color: #333 !important;
+            }
+
+            .qty-controls {
+                border: none !important;
+                background: none !important;
+            }
+
+            .qty-btn {
+                display: none !important;
+            }
+
+            .qty-input {
+                color: #000 !important;
+                font-family: Arial, sans-serif !important;
+                text-align: right;
+                width: auto;
+            }
+
+            .totals-column {
+                display: block !important;
+                margin-top: 2rem;
+                page-break-inside: avoid;
+            }
+
+            .summary-card {
+                border: none !important;
+                background: none !important;
+                padding: 0 !important;
+            }
+
+            .summary-row.total-row {
+                border-top: 2px solid #000 !important;
+                color: #000 !important;
+            }
+
+            .summary-row.total-row .summary-val {
+                color: #000 !important;
+                font-size: 1.3rem !important;
+            }
+
+            .print-footer-doc {
+                display: flex !important;
+            }
+        }
+
+        /* Footer del documento de impresión */
+        .print-footer-doc {
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px dashed #ccc;
+            padding-top: 10px;
+            margin-top: 30px;
+            font-size: 11px;
+            color: #333;
+            font-family: Arial, sans-serif;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- CABECERA -->
+        <header>
+            <div class="brand">
+                <div class="brand-title">El Cóndor</div>
+                <div class="brand-sub">Servicios Integrales</div>
+            </div>
+            <div class="doc-type">Selector de Presupuesto</div>
+        </header>
+
+        <div class="app-grid">
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="materials-column">
+                
+                <!-- CÁMARAS -->
+                <div class="category-section">
+                    <div class="section-title">📸 Cámaras de Seguridad</div>
+                    <div class="items-container" id="cat-camaras"></div>
+                </div>
+
+                <!-- GRABADORES (NVR) -->
+                <div class="category-section">
+                    <div class="section-title">📼 Grabadores (NVR)</div>
+                    <div class="items-container" id="cat-nvr"></div>
+                </div>
+
+                <!-- DISCOS -->
+                <div class="category-section">
+                    <div class="section-title">💿 Almacenamiento (HDD)</div>
+                    <div class="items-container" id="cat-hdd"></div>
+                </div>
+
+                <!-- SWITCHES -->
+                <div class="category-section">
+                    <div class="section-title">🔌 Switches y Enlace</div>
+                    <div class="items-container" id="cat-switch"></div>
+                </div>
+
+                <!-- RACKS Y GABINETES -->
+                <div class="category-section">
+                    <div class="section-title">📦 Gabinetes y Racks</div>
+                    <div class="items-container" id="cat-racks"></div>
+                </div>
+
+                <!-- BULONERÍA -->
+                <div class="category-section">
+                    <div class="section-title">🔩 Bulonería y Fijaciones</div>
+                    <div class="items-container" id="cat-buloneria"></div>
+                </div>
+
+                <!-- CABLES Y CONECTORES -->
+                <div class="category-section">
+                    <div class="section-title">🧵 Cables y Conectores</div>
+                    <div class="items-container" id="cat-cables"></div>
+                </div>
+
+                <!-- AGREGAR PERSONALIZADO -->
+                <div class="add-custom-box">
+                    <div style="font-size: 0.85rem; font-weight: bold; color: #fff; margin-bottom: 0.8rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase;">
+                        ＋ Agregar Item Personalizado
+                    </div>
+                    <div class="custom-form">
+                        <div class="form-group">
+                            <label>Descripción / Producto</label>
+                            <input type="text" id="cust-name" placeholder="Ej. Tarugo Fischer SX 8mm" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoría</label>
+                            <select id="cust-cat" class="form-control">
+                                <option value="buloneria">Bulonería</option>
+                                <option value="cables">Cables/Fichas</option>
+                                <option value="camaras">Cámaras</option>
+                                <option value="nvr">Grabadores</option>
+                                <option value="hdd">Discos</option>
+                                <option value="switch">Switches</option>
+                                <option value="racks">Gabinetes</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Cant.</label>
+                            <input type="number" id="cust-qty" value="1" min="1" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Precio Unit.</label>
+                            <input type="number" id="cust-price" placeholder="0.00" step="0.01" class="form-control">
+                        </div>
+                        <div class="form-group" style="flex-direction: row; gap: 5px; align-items: center;">
+                            <select id="cust-curr" class="form-control" style="padding: 8px 5px; min-width: 60px;">
+                                <option value="USD">USD</option>
+                                <option value="ARS">ARS</option>
+                            </select>
+                            <button class="btn-add-custom" onclick="addCustomItem()">Añadir</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- COLUMNA DERECHA -->
+            <div class="totals-column">
+                <div class="summary-card">
+                    <!-- Configuración de tipo de cambio -->
+                    <div class="config-box">
+                        <div class="summary-row" style="align-items: center; margin-bottom: 0;">
+                            <span style="font-weight: 700; color: #fff;">Tipo de Cambio (1 USD)</span>
+                            <div style="display: flex; align-items: center; gap: 5px;">
+                                <span style="font-family: 'JetBrains Mono', monospace; font-weight: bold; color: var(--accent-color);">$</span>
+                                <input type="number" id="usd-rate" value="1520" step="10" onchange="updateExchangeRate()" class="form-control" style="width: 90px; text-align: right; padding: 4px 8px; font-family: 'JetBrains Mono', monospace; font-weight: bold;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banner de Alerta NVR / HDD -->
+                    <div class="warning-banner" id="nvr-warning">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink: 0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                        <span><strong>Recomendación:</strong> Has seleccionado el NVR Prime de 8 bahías ($1264.58 USD) pero solo 1 disco duro. Recordá que para 1 solo disco te sugerimos el NVR502-16B-IQ ($363.67 USD). ¡Ahorrás USD 900.91!</span>
+                    </div>
+
+                    <div style="font-size: 0.85rem; font-weight: bold; color: #fff; margin-bottom: 1rem; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                        Resumen de Selección
+                    </div>
+
+                    <div class="summary-row">
+                        <span>Items Seleccionados</span>
+                        <span class="summary-val" id="summary-count">0</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal en Dólares</span>
+                        <span class="summary-val" id="summary-sub-usd">USD $0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Subtotal en Pesos (ARS)</span>
+                        <span class="summary-val" id="summary-sub-ars">ARS $0.00</span>
+                    </div>
+
+                    <!-- IVA Selector -->
+                    <div class="summary-row" style="align-items: center; margin-bottom: 12px;">
+                        <span>Impuesto / IVA</span>
+                        <select id="iva-rate" onchange="recalculateTotals()" class="form-control" style="padding: 4px 8px; width: 110px; font-size: 0.8rem; background: rgba(0,0,0,0.3); font-weight: bold;">
+                            <option value="0">Exento (0%)</option>
+                            <option value="10.5">IVA 10.5%</option>
+                            <option value="21" selected>IVA 21%</option>
+                        </select>
+                    </div>
+
+                    <div class="summary-row total-row">
+                        <span>TOTAL ESTIMADO (USD)</span>
+                        <span class="summary-val" id="total-usd">USD $0.00</span>
+                    </div>
+                    <div class="summary-row total-row" style="margin-top: 5px; border-top: none; padding-top: 0; font-size: 0.95rem;">
+                        <span style="color: var(--text-muted); font-weight: normal;">TOTAL ESTIMADO (ARS)</span>
+                        <span class="summary-val" id="total-ars" style="color: var(--text-muted);">ARS $0.00</span>
+                    </div>
+                </div>
+
+                <!-- ACCIONES -->
+                <div class="action-buttons">
+                    <button class="btn-action btn-whatsapp" onclick="copyWhatsAppBudget()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.248 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.739-1.446L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.37 9.864-9.799.002-2.63-1.023-5.101-2.885-6.963C16.59 2.023 14.12 1 11.5 1c-5.44 0-9.866 4.372-9.87 9.802 0 1.714.463 3.39 1.34 4.869l-.973 3.55 3.65-.957zm11.587-4.493c-.322-.16-1.897-.918-2.194-1.024-.297-.106-.513-.16-.729.16-.216.32-.835 1.024-1.024 1.233-.19.209-.38.233-.7.073-.32-.16-1.35-.497-2.57-1.57-.949-.838-1.59-1.873-1.777-2.189-.187-.317-.02-.49.14-.65.143-.143.32-.37.48-.557.16-.188.216-.32.322-.533.107-.213.054-.399-.027-.56-.08-.16-.729-1.734-1.002-2.384-.266-.64-.537-.55-.729-.56-.189-.01-.405-.01-.621-.01-.216 0-.568.08-.865.4-.297.32-1.135 1.092-1.135 2.663 0 1.571 1.162 3.09 1.324 3.303.16.213 2.288 3.456 5.54 4.838.773.328 1.378.524 1.848.672.778.243 1.488.209 2.048.127.625-.092 1.897-.761 2.164-1.46.267-.699.267-1.3.189-1.46-.078-.16-.297-.266-.621-.426z"/></svg>
+                        Copiar Presupuesto (WhatsApp)
+                    </button>
+                    <button class="btn-action btn-print" onclick="window.print()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z"/></svg>
+                        Imprimir / Guardar en PDF
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PIE DE PÁGINA IMPRESIÓN (OCULTO EN PANTALLA) -->
+        <div class="print-footer-doc">
+            <div><strong>El Cóndor Servicios Integrales</strong> | Cel: 11 2613-9527</div>
+            <div><strong>Web:</strong> elcondorclimatizacion-oss.github.io/elcondor-/</div>
+        </div>
+    </div>
+
+    <script>
+        // Catálogo de materiales default extraídos de las cotizaciones y bulonera
+        let defaultProducts = [
+            // CÁMARAS
+            { id: 1, name: 'Cámara Varifocal 4MP (IPC2324LB-ADZK-G)', category: 'camaras', price: 148.44, currency: 'USD', qty: 14, provider: 'Leirax', selected: true },
+            { id: 2, name: 'Cámara Varifocal 2MP (IPC2322LB-ADZK-G)', category: 'camaras', price: 123.76, currency: 'USD', qty: 8, provider: 'Starx', selected: false },
+            
+            // GRABADORES
+            { id: 3, name: 'NVR Prime 16 Canales 8 SATA (NVR508-16)', category: 'nvr', price: 1264.58, currency: 'USD', qty: 1, provider: 'Leirax', selected: false },
+            { id: 4, name: 'NVR Prime 16 Canales con IA (NVR502-16B-IQ)', category: 'nvr', price: 363.67, currency: 'USD', qty: 1, provider: 'Starx', selected: true },
+            
+            // DISCOS
+            { id: 5, name: 'Disco Rígido Toshiba 4TB Surveillance (DT02ABA400)', category: 'hdd', price: 347.83, currency: 'USD', qty: 1, provider: 'Leirax', selected: false },
+            { id: 6, name: 'Disco Rígido WD Purple 4TB (WD42PURU)', category: 'hdd', price: 238.50, currency: 'USD', qty: 1, provider: 'Starx', selected: true },
+            
+            // SWITCHES
+            { id: 7, name: 'Switch PoE 8 Puertos + 2 Uplink Gigabit (NSW3000-8T2CT-POE-IN)', category: 'switch', price: 58.24, currency: 'USD', qty: 1, provider: 'Starx', selected: true },
+            { id: 8, name: 'Switch PoE 4 Puertos + 2 Uplink (NSW2020-6T-POE-IN) - Starx', category: 'switch', price: 47.29, currency: 'USD', qty: 1, provider: 'Starx', selected: false },
+            { id: 9, name: 'Switch PoE 4 Puertos + 2 Uplink (NSW2020-6T-POE-IN) - Leirax', category: 'switch', price: 32.21, currency: 'USD', qty: 1, provider: 'Leirax', selected: false },
+            { id: 10, name: 'Switch PoE 8 Puertos + 2 Uplink 100M (NSW2020-10T-POE-IN)', category: 'switch', price: 47.68, currency: 'USD', qty: 1, provider: 'Leirax', selected: false },
+            { id: 11, name: 'Switch PoE+ Rack 8 Puertos Gigabit (TL-SG1008MP)', category: 'switch', price: 295.00, currency: 'USD', qty: 1, provider: 'ML/Omada', selected: false },
+            { id: 12, name: 'Access Point Exterior AC1200 (EAP225-Outdoor)', category: 'switch', price: 115.00, currency: 'USD', qty: 1, provider: 'ML/Omada', selected: false },
+            { id: 13, name: 'Access Point Interior Wi-Fi 6 AX1800 (EAP620 HD)', category: 'switch', price: 185.00, currency: 'USD', qty: 2, provider: 'ML/Omada', selected: false },
+            
+            // GABINETES Y RACKS
+            { id: 14, name: 'Gabinete Metálico Intelbras (coc4038P)', category: 'racks', price: 44.89, currency: 'USD', qty: 1, provider: 'Leirax', selected: true },
+            { id: 15, name: 'Rack Mural 40x40x16 cm', category: 'racks', price: 78468.55, currency: 'ARS', qty: 1, provider: 'Bulonera', selected: false },
+
+            // BULONERÍA
+            { id: 16, name: 'Tornillo Drywall Negro Madera 6x1 1/2 (Skyhard x 500)', category: 'buloneria', price: 8350.00, currency: 'ARS', qty: 1, provider: 'ML/Bulonera', selected: true },
+            { id: 17, name: 'Tarugo Fischer SX 6 Ladrillo Hueco (Caja x 100)', category: 'buloneria', price: 6200.00, currency: 'ARS', qty: 2, provider: 'ML/Bulonera', selected: true },
+            { id: 18, name: 'T2 Tornillo Punta Mecha Perfilería 6x1 1/8 (Skyhard x 500)', category: 'buloneria', price: 9800.00, currency: 'ARS', qty: 1, provider: 'ML/Bulonera', selected: false },
+
+            // CABLES Y CONECTORES
+            { id: 19, name: 'Cable UTP Exterior 100% Cobre 4P X305 mts (Signotel)', category: 'cables', price: 188400.33, currency: 'ARS', qty: 4, provider: 'Bulonera', selected: true },
+            { id: 20, name: 'Ficha RJ45 Metálica Blindada (Unidad)', category: 'cables', price: 0.0560, currency: 'USD', qty: 100, provider: 'Bulonera', selected: true }
+        ];
+
+        let exchangeRate = 1520;
+
+        // Renderizar items al cargar
+        function renderItems() {
+            // Limpiar contenedores
+            const categories = ['camaras', 'nvr', 'hdd', 'switch', 'racks', 'buloneria', 'cables'];
+            categories.forEach(cat => {
+                document.getElementById(`cat-${cat}`).innerHTML = '';
+            });
+
+            // Agrupar y dibujar
+            defaultProducts.forEach(prod => {
+                const container = document.getElementById(`cat-${prod.category}`);
+                if (!container) return;
+
+                const card = document.createElement('div');
+                card.className = `item-card ${prod.selected ? 'selected' : ''}`;
+                card.id = `card-${prod.id}`;
+
+                // Formatear precio
+                const symbol = prod.currency === 'USD' ? '$' : '$';
+                const formattedPrice = prod.price.toFixed(prod.currency === 'USD' ? 2 : 0);
+
+                card.innerHTML = `
+                    <div class="item-left">
+                        <input type="checkbox" class="item-checkbox" ${prod.selected ? 'checked' : ''} onchange="toggleSelect(${prod.id}, this.checked)">
+                        <div class="item-info">
+                            <span class="item-name">${prod.name}</span>
+                            <div class="item-meta">
+                                <span class="badge-prov ${prod.provider.toLowerCase().replace('/', '')}">${prod.provider}</span>
+                                <span>Unit: ${prod.currency} ${symbol}${formattedPrice}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-right">
+                        <div class="qty-controls">
+                            <button class="qty-btn" onclick="changeQty(${prod.id}, -1)">-</button>
+                            <input type="text" class="qty-input" id="qty-${prod.id}" value="${prod.qty}" onchange="updateQty(${prod.id}, this.value)">
+                            <button class="qty-btn" onclick="changeQty(${prod.id}, 1)">+</button>
+                        </div>
+                        <div class="price-box">
+                            <div style="display:flex; align-items:center; gap:2px;">
+                                <span style="font-size:0.8rem; font-family:'JetBrains Mono';">${prod.currency} $</span>
+                                <input type="number" class="price-editable" id="price-${prod.id}" value="${prod.price}" step="any" onchange="updatePrice(${prod.id}, this.value)">
+                            </div>
+                            <span class="price-subtotal" id="sub-${prod.id}">Sub: USD $0.00</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            recalculateTotals();
+        }
+
+        function toggleSelect(id, isChecked) {
+            const prod = defaultProducts.find(p => p.id === id);
+            if (prod) {
+                prod.selected = isChecked;
+                const card = document.getElementById(`card-${id}`);
+                if (card) {
+                    if (isChecked) card.classList.add('selected');
+                    else card.classList.remove('selected');
+                }
+                recalculateTotals();
+            }
+        }
+
+        function changeQty(id, delta) {
+            const prod = defaultProducts.find(p => p.id === id);
+            if (prod) {
+                prod.qty = Math.max(1, prod.qty + delta);
+                document.getElementById(`qty-${id}`).value = prod.qty;
+                recalculateTotals();
+            }
+        }
+
+        function updateQty(id, val) {
+            const prod = defaultProducts.find(p => p.id === id);
+            if (prod) {
+                let num = parseInt(val);
+                if (isNaN(num) || num < 1) num = 1;
+                prod.qty = num;
+                document.getElementById(`qty-${id}`).value = num;
+                recalculateTotals();
+            }
+        }
+
+        function updatePrice(id, val) {
+            const prod = defaultProducts.find(p => p.id === id);
+            if (prod) {
+                let price = parseFloat(val);
+                if (isNaN(price) || price < 0) price = 0;
+                prod.price = price;
+                recalculateTotals();
+            }
+        }
+
+        function updateExchangeRate() {
+            let rate = parseFloat(document.getElementById('usd-rate').value);
+            if (isNaN(rate) || rate < 1) rate = 1520;
+            exchangeRate = rate;
+            recalculateTotals();
+        }
+
+        // Recalcular subtotales de cada item y los totales generales
+        function recalculateTotals() {
+            let totalUSD = 0;
+            let totalARS = 0;
+            let selectedCount = 0;
+
+            // Verificar si hay 8-SATA NVR y solo 1 disco duro
+            let has8SataNVR = false;
+            let hddCount = 0;
+
+            defaultProducts.forEach(prod => {
+                let itemSubUSD = 0;
+                let itemSubARS = 0;
+
+                if (prod.currency === 'USD') {
+                    itemSubUSD = prod.price * prod.qty;
+                    itemSubARS = itemSubUSD * exchangeRate;
+                } else {
+                    itemSubARS = prod.price * prod.qty;
+                    itemSubUSD = itemSubARS / exchangeRate;
+                }
+
+                // Escribir subtotal unitario en la tarjeta
+                const subSpan = document.getElementById(`sub-${prod.id}`);
+                if (subSpan) {
+                    subSpan.innerText = `Sub: USD $${itemSubUSD.toLocaleString('es-AR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                }
+
+                if (prod.selected) {
+                    totalUSD += itemSubUSD;
+                    totalARS += itemSubARS;
+                    selectedCount++;
+
+                    // Analizar warnings
+                    if (prod.id === 3) has8SataNVR = true; // EAP / NVR 8 SATA
+                    if (prod.category === 'hdd') hddCount += prod.qty;
+                }
+            });
+
+            // Mostrar u ocultar warning de NVR
+            const warningBanner = document.getElementById('nvr-warning');
+            if (has8SataNVR && hddCount === 1) {
+                warningBanner.style.display = 'flex';
+            } else {
+                warningBanner.style.display = 'none';
+            }
+
+            // Aplicar IVA
+            const ivaRate = parseFloat(document.getElementById('iva-rate').value);
+            const factor = 1 + (ivaRate / 100);
+            
+            const subtotalUSD = totalUSD;
+            const subtotalARS = totalARS;
+            
+            totalUSD = subtotalUSD * factor;
+            totalARS = subtotalARS * factor;
+
+            // Escribir en resumen
+            document.getElementById('summary-count').innerText = selectedCount;
+            document.getElementById('summary-sub-usd').innerText = `USD $${subtotalUSD.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            document.getElementById('summary-sub-ars').innerText = `ARS $${subtotalARS.toLocaleString('es-AR', {minimumFractionDigits:0, maximumFractionDigits:0})}`;
+            
+            document.getElementById('total-usd').innerText = `USD $${totalUSD.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
+            document.getElementById('total-ars').innerText = `ARS $${totalARS.toLocaleString('es-AR', {minimumFractionDigits:0, maximumFractionDigits:0})}`;
+        }
+
+        // Agregar ítem personalizado
+        function addCustomItem() {
+            const name = document.getElementById('cust-name').value.trim();
+            const cat = document.getElementById('cust-cat').value;
+            const qty = parseInt(document.getElementById('cust-qty').value);
+            const price = parseFloat(document.getElementById('cust-price').value);
+            const curr = document.getElementById('cust-curr').value;
+
+            if (!name) {
+                alert('Por favor, ingresa una descripción del producto.');
+                return;
+            }
+            if (isNaN(price) || price < 0) {
+                alert('Por favor, ingresa un precio válido.');
+                return;
+            }
+
+            const newId = defaultProducts.length + 1;
+            defaultProducts.push({
+                id: newId,
+                name: name,
+                category: cat,
+                price: price,
+                currency: curr,
+                qty: qty,
+                provider: 'Personalizado',
+                selected: true
+            });
+
+            // Limpiar campos
+            document.getElementById('cust-name').value = '';
+            document.getElementById('cust-price').value = '';
+            document.getElementById('cust-qty').value = '1';
+
+            renderItems();
+        }
+
+        // Generar y copiar resumen de WhatsApp
+        function copyWhatsAppBudget() {
+            const rate = exchangeRate;
+            const iva = parseFloat(document.getElementById('iva-rate').value);
+            
+            let text = `*EL CÓNDOR - PRESUPUESTO DE MATERIALES*\n`;
+            text += `----------------------------------------\n`;
+
+            // Agrupar seleccionados por categoría
+            const categoriesNames = {
+                camaras: '📸 CÁMARAS Y GRABACIÓN',
+                nvr: '📼 GRABADORES (NVR)',
+                hdd: '💿 ALMACENAMIENTO (HDD)',
+                switch: '🔌 SWITCHES Y CONECTIVIDAD',
+                racks: '📦 GABINETES Y RACKS',
+                buloneria: '🔩 BULONERÍA Y FIJACIONES',
+                cables: '🧵 CABLES Y CONECTORES'
+            };
+
+            let totalUSD = 0;
+            let totalARS = 0;
+
+            for (let cat in categoriesNames) {
+                const selectedInCat = defaultProducts.filter(p => p.selected && p.category === cat);
+                if (selectedInCat.length > 0) {
+                    text += `\n*${categoriesNames[cat]}:*\n`;
+                    selectedInCat.forEach(p => {
+                        let unitPriceStr = p.currency === 'USD' ? `USD $${p.price.toFixed(2)}` : `ARS $${p.price.toFixed(0)}`;
+                        let subUSD = p.currency === 'USD' ? (p.price * p.qty) : ((p.price * p.qty) / rate);
+                        let subARS = p.currency === 'USD' ? (p.price * p.qty * rate) : (p.price * p.qty);
+
+                        totalUSD += subUSD;
+                        totalARS += subARS;
+
+                        text += `• ${p.qty}x - ${p.name} (${unitPriceStr} c/u)\n`;
+                    });
+                }
+            }
+
+            text += `\n----------------------------------------\n`;
+            
+            // Subtotal e impuestos
+            let finalUSD = totalUSD * (1 + (iva / 100));
+            let finalARS = totalARS * (1 + (iva / 100));
+
+            text += `*SUBTOTAL:* USD $${totalUSD.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})} (ARS $${totalARS.toLocaleString('es-AR', {maximumFractionDigits:0})})\n`;
+            if (iva > 0) {
+                text += `*IMPUESTO (IVA ${iva}%):* Incluido\n`;
+            }
+            text += `*TOTAL ESTIMADO:* *USD $${finalUSD.toLocaleString('es-AR', {minimumFractionDigits:2, maximumFractionDigits:2})}*\n`;
+            text += `*EQUIVALENTE EN PESOS:* *ARS $${finalARS.toLocaleString('es-AR', {maximumFractionDigits:0})}*\n\n`;
+            text += `_Cotización de Referencia: 1 USD = ${rate} ARS_\n`;
+            text += `_El Cóndor - Soluciones Técnicas Integrales_`;
+
+            // Copiar al portapapeles
+            navigator.clipboard.writeText(text).then(() => {
+                alert('¡Presupuesto copiado al portapapeles! Listo para pegar en WhatsApp.');
+            }).catch(err => {
+                console.error('Error al copiar: ', err);
+                alert('No se pudo copiar automáticamente. Copia el texto desde la consola.');
+            });
+        }
+
+        // Inicializar al cargar la página
+        window.onload = renderItems;
+    </script>
+</body>
+</html>

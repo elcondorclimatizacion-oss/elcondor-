@@ -416,7 +416,7 @@
             </div>
             <button id="quickMicBtn" class="mic-btn" style="padding:12px;margin-bottom:8px;" onclick="toggleQuickVoice()">
                 <span>🎙️</span>
-                <span id="quickMicLabel">TOCAR PARA HABLAR (Ej: "Agregar 2 caños de Nora")</span>
+                <span id="quickMicLabel">TOCÁ PARA HABLAR</span>
             </button>
             <div style="display:flex;gap:8px;">
                 <input type="text" id="quickVoiceInput" placeholder="O escribí rápido acá..." oninput="detectAndSwitchObra(this.value)">
@@ -1334,7 +1334,7 @@
             quickRec.onend = () => {
                 isQuickRec = false;
                 document.getElementById("quickMicBtn").classList.remove("recording");
-                document.getElementById("quickMicLabel").textContent = 'TOCAR PARA HABLAR (Ej: "Agregar 2 caños de Nora")';
+                document.getElementById("quickMicLabel").textContent = "TOCÁ PARA HABLAR";
             };
             quickRec.start();
         }

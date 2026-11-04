@@ -1074,6 +1074,23 @@
                     listaMateriales: "",
                     estrategia: "Pago diferido hasta aviso del cliente.",
                     movimientos: []
+                },
+                {
+                    id: "bandeja_general",
+                    nombre: "Bandeja General",
+                    caja: "CONDOR_50_50",
+                    rubro: "📥 A Clasificar",
+                    estado: "📥 Notas / Nuevos",
+                    fechas: "A clasificar con Paul",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Acá caen automáticamente los dictados rápidos cuando no nombrás ningún cliente existente, para no ensuciar ninguna otra obra.",
+                    movimientos: []
                 }
             ],
             gastosJornadas: [],
@@ -1094,6 +1111,10 @@
                     parsed.obras.forEach(o => {
                         if (o.caja === "AUGUSTO_50_50") o.caja = "AUGUSTO_PABLO";
                     });
+                    if (!parsed.obras.some(o => o.id === "bandeja_general")) {
+                        const defBandeja = DEFAULT_STATE.obras.find(o => o.id === "bandeja_general");
+                        if (defBandeja) parsed.obras.push(JSON.parse(JSON.stringify(defBandeja)));
+                    }
                 }
                 if (Array.isArray(parsed.gastosJornadas)) {
                     parsed.gastosJornadas.forEach(j => {
@@ -1260,10 +1281,59 @@
             return nowStamp();
         }
 
-        // AUTODETECCIÓN DE OBRA AL HABLAR O ESCRIBIR
+        // MOTOR ANTI-ECO PARA ANDROID CHROME + AUTODETECCIÓN DE OBRA
         function normalizeStr(s) {
             return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         }
+
+        function extractCleanSpeech(results) {
+            const parts = [];
+            for (let i = 0; i < results.length; i++) {
+                const seg = (results[i][0].transcript || "").trim();
+                if (!seg) continue;
+                if (parts.length > 0) {
+                    const prev = parts[parts.length - 1];
+                    const pLow = normalizeStr(prev);
+                    const sLow = normalizeStr(seg);
+                    const pWords = pLow.split(/\s+/);
+                    const sWords = sLow.split(/\s+/);
+                    const sameOpening = pWords.length >= 2 && sWords.length >= 2 &&
+                        pWords[0] === sWords[0] && pWords[1] === sWords[1] && sLow.length >= pLow.length - 4;
+
+                    // En Android Chrome cada evento vuelve a mandar toda la oración acumulada:
+                    if (sLow.startsWith(pLow) || sameOpening) {
+                        parts[parts.length - 1] = seg;
+                        continue;
+                    }
+                    if (pLow === sLow || pLow.endsWith(" " + sLow)) {
+                        continue;
+                    }
+                }
+                parts.push(seg);
+            }
+            return parts.join(" ").replace(/\s+/g, " ").trim();
+        }
+
+        function ensureBandejaGeneral() {
+            let b = state.obras.find(o => o.id === "bandeja_general");
+            if (!b) {
+                b = {
+                    id: "bandeja_general",
+                    nombre: "Bandeja General",
+                    caja: "CONDOR_50_50",
+                    rubro: "📥 A Clasificar",
+                    estado: "📥 Notas / Nuevos",
+                    fechas: "A clasificar con Paul",
+                    totalMO: 0, cobradoAntes: 0, diferidoDic: 0, cobradoMes: 0, adicionalesMO: 0, reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Acá caen automáticamente los dictados rápidos cuando no nombrás ningún cliente existente, para no ensuciar ninguna otra obra.",
+                    movimientos: []
+                };
+                state.obras.push(b);
+            }
+            return b;
+        }
+
         function detectAndSwitchObra(rawText) {
             const t = normalizeStr(rawText);
             const badge = document.getElementById("detectedObraBadge");
@@ -1281,6 +1351,7 @@
             };
 
             for (const o of state.obras) {
+                if (o.id === "bandeja_general") continue;
                 const keys = aliases[o.id] || [normalizeStr(o.nombre)];
                 for (const k of keys) {
                     if (k.length >= 3 && t.includes(k)) {
@@ -1288,17 +1359,20 @@
                             activeObraId = o.id;
                             renderObras();
                         }
-                        badge.textContent = "🎯 Detectado: " + o.nombre;
+                        badge.style.color = "#34d399";
+                        badge.textContent = "🎯 Va directo a: " + o.nombre;
                         return o;
                     }
                 }
             }
-            badge.textContent = "📍 Guardará en: " + getActiveObra().nombre;
+            badge.style.color = "#fbbf24";
+            badge.textContent = "📥 Sin obra nombrada ➔ Bandeja General";
             return null;
         }
 
         let quickRec = null;
         let isQuickRec = false;
+        let quickBaseText = "";
         function toggleQuickVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -1308,28 +1382,23 @@
             }
             if (isQuickRec && quickRec) { quickRec.stop(); return; }
 
+            const isAndroid = /Android/i.test(navigator.userAgent);
             quickRec = new SpeechRecognition();
             quickRec.lang = "es-AR";
-            quickRec.continuous = true;
+            quickRec.continuous = !isAndroid;
             quickRec.interimResults = true;
 
             quickRec.onstart = () => {
                 isQuickRec = true;
+                quickBaseText = document.getElementById("quickVoiceInput").value.trim();
                 document.getElementById("quickMicBtn").classList.add("recording");
                 document.getElementById("quickMicLabel").textContent = "ESCUCHANDO... TOCÁ PARA CORTAR";
             };
             quickRec.onresult = (e) => {
-                let finalChunk = "";
-                let interimChunk = "";
-                for (let i = e.resultIndex; i < e.results.length; i++) {
-                    if (e.results[i].isFinal) finalChunk += e.results[i][0].transcript + " ";
-                    else interimChunk += e.results[i][0].transcript;
-                }
-                const box = document.getElementById("quickVoiceInput");
-                if (finalChunk) {
-                    box.value = (box.value ? box.value.trim() + " " : "") + finalChunk.trim();
-                }
-                detectAndSwitchObra((box.value + " " + interimChunk).trim());
+                const spoken = extractCleanSpeech(e.results);
+                const full = (quickBaseText ? quickBaseText + " " + spoken : spoken).trim();
+                document.getElementById("quickVoiceInput").value = full;
+                detectAndSwitchObra(full);
             };
             quickRec.onend = () => {
                 isQuickRec = false;
@@ -1343,14 +1412,22 @@
             if (isQuickRec && quickRec) quickRec.stop();
             const txt = document.getElementById("quickVoiceInput").value.trim();
             if (txt.length < 3) { showToast("Hablá o escribí primero el mensaje.", "warn"); return; }
-            detectAndSwitchObra(txt);
-            const o = getActiveObra();
-            o.movimientos.unshift({ id: "m_" + Date.now(), fecha: getSelectedStamp(), tipo: "🎙️ Voz Rápida", resumen: txt });
+
+            const matchedObra = detectAndSwitchObra(txt);
+            const targetObra = matchedObra || ensureBandejaGeneral();
+            activeObraId = targetObra.id;
+
+            targetObra.movimientos.unshift({ id: "m_" + Date.now(), fecha: getSelectedStamp(), tipo: "🎙️ Voz Rápida", resumen: txt });
             saveState();
-            await syncToBitacora(o.nombre, "🎙️ Voz Rápida", txt);
+            await syncToBitacora(targetObra.nombre, "🎙️ Voz Rápida", txt);
+
             document.getElementById("quickVoiceInput").value = "";
             document.getElementById("detectedObraBadge").textContent = "";
-            showToast("✅ Guardado directo en " + o.nombre);
+            if (matchedObra) {
+                showToast("✅ Guardado directo en " + targetObra.nombre);
+            } else {
+                showToast("📥 Sin cliente nombrado: guardado en Bandeja General");
+            }
         }
 
         // BORRAR UN MOVIMIENTO INDIVIDUAL (CON REVERSIÓN DE NÚMEROS) Y RESETEAR PRUEBAS
@@ -1604,6 +1681,7 @@
         }
 
         // VOZ Y NOTAS TÉCNICAS
+        let tecBaseText = "";
         function toggleVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -1613,23 +1691,21 @@
             }
             if (isRecording && recognition) { recognition.stop(); return; }
 
+            const isAndroid = /Android/i.test(navigator.userAgent);
             recognition = new SpeechRecognition();
             recognition.lang = "es-AR";
-            recognition.continuous = true;
-            recognition.interimResults = false;
+            recognition.continuous = !isAndroid;
+            recognition.interimResults = true;
 
             recognition.onstart = () => {
                 isRecording = true;
+                tecBaseText = document.getElementById("tecNota").value.trim();
                 document.getElementById("micBtn").classList.add("recording");
                 document.getElementById("micLabel").textContent = "ESCUCHANDO... TOCÁ PARA DETENER";
             };
             recognition.onresult = (e) => {
-                let chunk = "";
-                for (let i = e.resultIndex; i < e.results.length; i++) {
-                    if (e.results[i].isFinal) chunk += e.results[i][0].transcript + " ";
-                }
-                const box = document.getElementById("tecNota");
-                box.value = (box.value ? box.value.trim() + " " : "") + chunk.trim();
+                const spoken = extractCleanSpeech(e.results);
+                document.getElementById("tecNota").value = (tecBaseText ? tecBaseText + " " + spoken : spoken).trim();
             };
             recognition.onend = () => {
                 isRecording = false;
@@ -1847,6 +1923,7 @@
             // Rubros
             const rubrosMap = {};
             state.obras.forEach(o => {
+                if (o.id === "bandeja_general") return;
                 const k = o.rubro || "Otros";
                 rubrosMap[k] = (rubrosMap[k] || 0) + (o.totalMO + o.adicionalesMO);
             });

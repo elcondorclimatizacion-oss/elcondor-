@@ -921,7 +921,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v1";
+        const STORAGE_KEY = "sgo_el_condor_v2";
 
         const DEFAULT_STATE = {
             config: {
@@ -953,7 +953,9 @@
                     listaMateriales: "",
                     estrategia: "6 semisubsuelos + PB (60m caño) + 3 semipisos. 28 cámaras totales (+4 sobre las 24 originales). Miércoles liquidar 2 semisubsuelos + cañería PB y rotular cables en Rack. Jueves crimpear, probar con dueño y cobrar.",
                     movimientos: [
-                        { fecha: "03/11 21:45", tipo: "🛠️ Nota", resumen: "Obra mal replanteada por Augusto: son 28 cámaras (no 24) + 60m cañería PB + 3 mechas rotas en vigas duras. Nafta Tiggo la paga Augusto directo. Reclamar adicional.", impacto: 0 }
+                        { id: "j_arm_0311", fecha: "03/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $40.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0211", fecha: "02/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $25.000", revert: { kind: "jornada" } },
+                        { id: "n_arm_0311", fecha: "03/11 21:45", tipo: "🛠️ Nota", resumen: "Obra mal replanteada por Augusto: son 28 cámaras (no 24) + 60m cañería PB + 3 mechas rotas en vigas duras. Nafta Tiggo la paga Augusto directo. Reclamar adicional." }
                     ]
                 },
                 {
@@ -1093,7 +1095,18 @@
                     movimientos: []
                 }
             ],
-            gastosJornadas: [],
+            gastosJornadas: [
+                {
+                    movId: "j_arm_0211", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "02/11 (Lunes)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 25000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0311", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "03/11 (Martes)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 40000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                }
+            ],
             reintegrosSocios: { pablo: 0, cristian: 0, desgasteGol: 0, desgasteTiggo: 0 }
         };
 

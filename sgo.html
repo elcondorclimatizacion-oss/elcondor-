@@ -835,8 +835,7 @@
                     <label>Caja / Destino de Ganancia</label>
                     <select id="mCaja">
                         <option value="CONDOR_50_50">🦅 El Cóndor (50% Pablo / 50% Cristian)</option>
-                        <option value="AUGUSTO_PABLO">🤝 Augusto Individual (100% Pablo)</option>
-                        <option value="AUGUSTO_50_50">🤝 Augusto con Cristian (50% / 50%)</option>
+                        <option value="AUGUSTO_PABLO">🤝 Augusto (100% Tuya - Cobro Individual)</option>
                     </select>
                 </div>
                 <div class="field">
@@ -911,7 +910,7 @@
                 {
                     id: "armenia",
                     nombre: "Estacionamiento Armenia",
-                    caja: "AUGUSTO_50_50",
+                    caja: "AUGUSTO_PABLO",
                     rubro: "📹 CCTV",
                     estado: "4-En Obra",
                     fechas: "Lun 02/11 al Jue 05/11 • 08 a 17 hs",
@@ -1061,6 +1060,16 @@
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
                 const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed.obras)) {
+                    parsed.obras.forEach(o => {
+                        if (o.caja === "AUGUSTO_50_50") o.caja = "AUGUSTO_PABLO";
+                    });
+                }
+                if (Array.isArray(parsed.gastosJornadas)) {
+                    parsed.gastosJornadas.forEach(j => {
+                        if (j.caja === "AUGUSTO_50_50") j.caja = "AUGUSTO_PABLO";
+                    });
+                }
                 return { ...DEFAULT_STATE, ...parsed, config: { ...DEFAULT_STATE.config, ...(parsed.config || {}) } };
             } catch {
                 return JSON.parse(JSON.stringify(DEFAULT_STATE));
@@ -1610,7 +1619,7 @@
 
             // Caja 100% Pablo (Augusto)
             document.getElementById("cajaAugustoBody").innerHTML = `
-                <div class="stat-line"><span>Cobrado en mano (Virrey/Villa Luro/etc):</span><b class="mono val-green">${fmt(f.cobradoPablo100)}</b></div>
+                <div class="stat-line"><span>Cobrado en mano (Armenia/Virrey/V.Luro):</span><b class="mono val-green">${fmt(f.cobradoPablo100)}</b></div>
                 <div class="stat-line"><span>A cobrar en Noviembre:</span><b class="mono val-gold">${fmt(f.porCobrarNovPablo100)}</b></div>
                 <div class="stat-line"><span>- Gastos directos en esas obras:</span><span class="mono">-${fmt(f.gastosDirectosPablo100)}</span></div>
                 <div class="stat-line" style="border-top:1px solid rgba(245,158,11,0.35);margin-top:4px;padding-top:10px;">

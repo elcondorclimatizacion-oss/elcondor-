@@ -408,6 +408,22 @@
     <!-- ================================================================= -->
     <div id="view-obras" class="view-section active">
 
+        <!-- BARRA RÁPIDA DE VOZ CON DETECCIÓN AUTOMÁTICA DE CLIENTE -->
+        <div class="card card-accent" style="margin-bottom:14px;padding:13px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;">🎙️ Dictado Rápido Inteligente (Detecta el cliente al hablar)</span>
+                <span id="detectedObraBadge" style="font-size:11.5px;color:#34d399;font-weight:700;"></span>
+            </div>
+            <button id="quickMicBtn" class="mic-btn" style="padding:12px;margin-bottom:8px;" onclick="toggleQuickVoice()">
+                <span>🎙️</span>
+                <span id="quickMicLabel">TOCAR PARA HABLAR (Ej: "Agregar 2 caños de Nora")</span>
+            </button>
+            <div style="display:flex;gap:8px;">
+                <input type="text" id="quickVoiceInput" placeholder="O escribí rápido acá..." oninput="detectAndSwitchObra(this.value)">
+                <button class="btn-gold" style="white-space:nowrap;padding:0 16px;" onclick="guardarDictadoRapido()">GUARDAR ⚡</button>
+            </div>
+        </div>
+
         <div class="section-label">
             <span>1. Seleccionar Obra Activa (o cargar nuevo llamado)</span>
         </div>
@@ -433,6 +449,16 @@
             <div class="panel-title">
                 <span>👷 Parte Diario de Equipo, Viáticos y Vehículos</span>
                 <span class="mono" style="font-size:12px;color:var(--muted);" id="todayLabel"></span>
+            </div>
+
+            <!-- SELECTOR DE FECHA: HOY / AYER / ELEGIR DÍA -->
+            <div class="person-row" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <span style="font-weight:700;font-size:13px;">📅 ¿De qué día es este gasto / parte?</span>
+                <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;" id="fechaPills">
+                    <button class="mini-pill active" onclick="setFechaModo('hoy', this)">Hoy</button>
+                    <button class="mini-pill" onclick="setFechaModo('ayer', this)">⏪ Ayer</button>
+                    <input type="date" id="customFechaInput" style="width:142px;padding:5px 8px;font-size:12.5px;" onchange="setFechaCustom()">
+                </div>
             </div>
 
             <div class="person-row">
@@ -815,6 +841,10 @@
                 </div>
             </div>
             <button class="btn-primary" onclick="guardarConfig()">GUARDAR PARÁMETROS FIJOS ⚡</button>
+            <div style="border-top:1px solid var(--border-soft);margin-top:16px;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                <div style="font-size:12.5px;color:var(--muted);">¿Hiciste pruebas y querés dejar este equipo limpio de fábrica?</div>
+                <button class="btn-secondary" style="border-color:rgba(239,68,68,0.45);color:#fca5a5;" onclick="resetearPruebas()">🧹 Borrar Pruebas / Restaurar Base Limpia</button>
+            </div>
         </div>
     </div>
 
@@ -1180,11 +1210,14 @@
             if (movs.length === 0) {
                 hList.innerHTML = `<div style="font-size:13px;color:var(--muted);">Sin movimientos diarios cargados todavía en esta obra.</div>`;
             } else {
-                hList.innerHTML = movs.map(m => `
+                hList.innerHTML = movs.map((m, idx) => `
                     <div class="log-item">
                         <div class="log-meta">
                             <span style="color:var(--accent);font-weight:700;">${m.tipo}</span>
-                            <span class="mono">${m.fecha}</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span class="mono">${m.fecha}</span>
+                                <button onclick="borrarMovimiento('${o.id}', ${idx})" title="Borrar este registro" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:0.75;">🗑️</button>
+                            </div>
                         </div>
                         <div>${m.resumen}</div>
                     </div>
@@ -1195,6 +1228,169 @@
         function selectObra(id) {
             activeObraId = id;
             renderObras();
+        }
+
+        // FECHA SELECCIONADA (HOY / AYER / CUSTOM)
+        let fechaModoActual = "hoy";
+        function setFechaModo(modo, btn) {
+            fechaModoActual = modo;
+            document.querySelectorAll("#fechaPills .mini-pill").forEach(p => p.classList.remove("active"));
+            if (btn) btn.classList.add("active");
+            if (modo !== "custom") document.getElementById("customFechaInput").value = "";
+        }
+        function setFechaCustom() {
+            fechaModoActual = "custom";
+            document.querySelectorAll("#fechaPills .mini-pill").forEach(p => p.classList.remove("active"));
+        }
+        function getSelectedStamp() {
+            const now = new Date();
+            const hm = now.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+            if (fechaModoActual === "ayer") {
+                const y = new Date(now);
+                y.setDate(now.getDate() - 1);
+                return y.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" }) + " (Ayer)";
+            }
+            if (fechaModoActual === "custom") {
+                const val = document.getElementById("customFechaInput").value;
+                if (val) {
+                    const [yr, mo, da] = val.split("-");
+                    return `${da}/${mo} (${yr})`;
+                }
+            }
+            return nowStamp();
+        }
+
+        // AUTODETECCIÓN DE OBRA AL HABLAR O ESCRIBIR
+        function normalizeStr(s) {
+            return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+        function detectAndSwitchObra(rawText) {
+            const t = normalizeStr(rawText);
+            const badge = document.getElementById("detectedObraBadge");
+            if (!t || t.length < 3) { badge.textContent = ""; return null; }
+
+            const aliases = {
+                armenia: ["armenia", "estacionamiento", "cochera", "garage"],
+                karina: ["karina", "carina"],
+                nora: ["nora"],
+                virrey: ["virrey", "leo"],
+                flash: ["en un flash", "flash"],
+                mariano: ["mariano"],
+                villaluro: ["villa luro", "luro"],
+                noely: ["noely", "noeli"]
+            };
+
+            for (const o of state.obras) {
+                const keys = aliases[o.id] || [normalizeStr(o.nombre)];
+                for (const k of keys) {
+                    if (k.length >= 3 && t.includes(k)) {
+                        if (activeObraId !== o.id) {
+                            activeObraId = o.id;
+                            renderObras();
+                        }
+                        badge.textContent = "🎯 Detectado: " + o.nombre;
+                        return o;
+                    }
+                }
+            }
+            badge.textContent = "📍 Guardará en: " + getActiveObra().nombre;
+            return null;
+        }
+
+        let quickRec = null;
+        let isQuickRec = false;
+        function toggleQuickVoice() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showToast("Usá el micrófono 🎙️ del teclado de tu celular en la cajita de al lado.", "warn");
+                document.getElementById("quickVoiceInput").focus();
+                return;
+            }
+            if (isQuickRec && quickRec) { quickRec.stop(); return; }
+
+            quickRec = new SpeechRecognition();
+            quickRec.lang = "es-AR";
+            quickRec.continuous = true;
+            quickRec.interimResults = true;
+
+            quickRec.onstart = () => {
+                isQuickRec = true;
+                document.getElementById("quickMicBtn").classList.add("recording");
+                document.getElementById("quickMicLabel").textContent = "ESCUCHANDO... TOCÁ PARA CORTAR";
+            };
+            quickRec.onresult = (e) => {
+                let finalChunk = "";
+                let interimChunk = "";
+                for (let i = e.resultIndex; i < e.results.length; i++) {
+                    if (e.results[i].isFinal) finalChunk += e.results[i][0].transcript + " ";
+                    else interimChunk += e.results[i][0].transcript;
+                }
+                const box = document.getElementById("quickVoiceInput");
+                if (finalChunk) {
+                    box.value = (box.value ? box.value.trim() + " " : "") + finalChunk.trim();
+                }
+                detectAndSwitchObra((box.value + " " + interimChunk).trim());
+            };
+            quickRec.onend = () => {
+                isQuickRec = false;
+                document.getElementById("quickMicBtn").classList.remove("recording");
+                document.getElementById("quickMicLabel").textContent = 'TOCAR PARA HABLAR (Ej: "Agregar 2 caños de Nora")';
+            };
+            quickRec.start();
+        }
+
+        async function guardarDictadoRapido() {
+            if (isQuickRec && quickRec) quickRec.stop();
+            const txt = document.getElementById("quickVoiceInput").value.trim();
+            if (txt.length < 3) { showToast("Hablá o escribí primero el mensaje.", "warn"); return; }
+            detectAndSwitchObra(txt);
+            const o = getActiveObra();
+            o.movimientos.unshift({ id: "m_" + Date.now(), fecha: getSelectedStamp(), tipo: "🎙️ Voz Rápida", resumen: txt });
+            saveState();
+            await syncToBitacora(o.nombre, "🎙️ Voz Rápida", txt);
+            document.getElementById("quickVoiceInput").value = "";
+            document.getElementById("detectedObraBadge").textContent = "";
+            showToast("✅ Guardado directo en " + o.nombre);
+        }
+
+        // BORRAR UN MOVIMIENTO INDIVIDUAL (CON REVERSIÓN DE NÚMEROS) Y RESETEAR PRUEBAS
+        function borrarMovimiento(obraId, idx) {
+            const o = state.obras.find(x => x.id === obraId);
+            if (!o || !o.movimientos[idx]) return;
+            const m = o.movimientos[idx];
+            if (!confirm(`¿Seguro querés borrar este registro de ${o.nombre}?\n"${m.resumen}"`)) return;
+
+            if (m.revert) {
+                if (m.revert.kind === "jornada") {
+                    state.gastosJornadas = state.gastosJornadas.filter(j => j.movId !== m.id);
+                } else if (m.revert.kind === "cobro_mo") {
+                    o.cobradoMes = Math.max(0, (o.cobradoMes || 0) - m.revert.monto);
+                } else if (m.revert.kind === "adicional_mo") {
+                    o.adicionalesMO = Math.max(0, (o.adicionalesMO || 0) - m.revert.monto);
+                } else if (m.revert.kind === "cobro_reintegro") {
+                    o.reintegrosPendientes = (o.reintegrosPendientes || 0) + m.revert.monto;
+                } else if (m.revert.kind === "ticket_reintegro") {
+                    o.reintegrosPendientes = Math.max(0, (o.reintegrosPendientes || 0) - m.revert.monto);
+                    if (m.revert.quien === "Pablo") state.reintegrosSocios.pablo = Math.max(0, (state.reintegrosSocios.pablo || 0) - m.revert.monto);
+                    if (m.revert.quien === "Cristian") state.reintegrosSocios.cristian = Math.max(0, (state.reintegrosSocios.cristian || 0) - m.revert.monto);
+                } else if (m.revert.kind === "ticket_gasto") {
+                    state.gastosJornadas = state.gastosJornadas.filter(j => j.movId !== m.id);
+                    if (m.revert.quien === "Pablo") state.reintegrosSocios.pablo = Math.max(0, (state.reintegrosSocios.pablo || 0) - m.revert.monto);
+                    if (m.revert.quien === "Cristian") state.reintegrosSocios.cristian = Math.max(0, (state.reintegrosSocios.cristian || 0) - m.revert.monto);
+                }
+            }
+            o.movimientos.splice(idx, 1);
+            saveState();
+            showToast("🗑️ Registro eliminado y números actualizados");
+        }
+
+        function resetearPruebas() {
+            if (!confirm("¿Seguro querés borrar las pruebas cargadas en este equipo y volver a la base limpia inicial?")) return;
+            localStorage.removeItem(STORAGE_KEY);
+            state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+            activeObraId = state.obras[0].id;
+            saveState();
+            showToast("🧹 Equipo restaurado limpio sin pruebas!");
         }
 
         // EQUIPO & VEHÍCULOS
@@ -1220,6 +1416,8 @@
 
         async function guardarJornada() {
             const o = getActiveObra();
+            const movId = "j_" + Date.now();
+            const stamp = getSelectedStamp();
             const pablo = document.getElementById("chkPablo").checked;
             const cristian = document.getElementById("chkCristian").checked;
             const axel = Number(document.getElementById("axelMonto").value) || 0;
@@ -1239,10 +1437,11 @@
             const tiggoPea = salioTiggo ? (Number(document.getElementById("tiggoPeaje").value) || 0) : 0;
 
             const registro = {
+                movId,
                 obraId: o.id,
                 obraNombre: o.nombre,
                 caja: o.caja,
-                fecha: nowStamp(),
+                fecha: stamp,
                 pablo, cristian, axel, benja, comida,
                 golDesg, golNaf, golPea,
                 tiggoDesg, tiggoNaf: tiggoNafCaja, tiggoPea
@@ -1262,17 +1461,17 @@
             ].filter(Boolean).join(" | ");
 
             const resumen = `Equipo: ${equipoTxt || 'Sin marcar'} • Comida: ${fmt(comida)}${autosTxt ? ' • ' + autosTxt : ''}`;
-            o.movimientos.unshift({ fecha: nowStamp(), tipo: "👷 Jornada", resumen });
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "👷 Jornada", resumen, revert: { kind: "jornada" } });
 
             saveState();
-            await syncToBitacora(o.nombre, "👷 Jornada y Autos", resumen);
+            await syncToBitacora(o.nombre, `👷 Jornada (${stamp})`, resumen);
 
             document.getElementById("comidaDia").value = "";
             document.getElementById("golNafta").value = "";
             document.getElementById("golPeaje").value = "";
             document.getElementById("tiggoNafta").value = "";
             document.getElementById("tiggoPeaje").value = "";
-            showToast("✅ Jornada y gastos del día registrados en " + o.nombre);
+            showToast("✅ Jornada (" + stamp + ") registrada en " + o.nombre);
         }
 
         // MATERIALES
@@ -1303,6 +1502,8 @@
 
         async function guardarCompraMaterial() {
             const o = getActiveObra();
+            const movId = "t_" + Date.now();
+            const stamp = getSelectedStamp();
             const monto = Number(document.getElementById("matTicketMonto").value) || 0;
             const quien = document.getElementById("matQuienPago").value;
             const destino = document.getElementById("matReintegro").value;
@@ -1310,22 +1511,25 @@
 
             if (monto <= 0) { showToast("Ingresá el monto del ticket.", "warn"); return; }
 
+            let revertObj = null;
             if (quien !== "Cliente" && destino === "cobrar_cliente") {
                 o.reintegrosPendientes = (o.reintegrosPendientes || 0) + monto;
+                revertObj = { kind: "ticket_reintegro", monto, quien };
             }
             if (quien === "Pablo") state.reintegrosSocios.pablo += monto;
             if (quien === "Cristian") state.reintegrosSocios.cristian += monto;
 
             if (destino === "gasto_obra" && quien !== "Cliente") {
                 state.gastosJornadas.push({
-                    obraId: o.id, obraNombre: o.nombre, caja: o.caja, fecha: nowStamp(),
+                    movId, obraId: o.id, obraNombre: o.nombre, caja: o.caja, fecha: stamp,
                     pablo: false, cristian: false, axel: 0, benja: 0, comida: monto,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 });
+                revertObj = { kind: "ticket_gasto", monto, quien };
             }
 
             const resumen = `Ticket ${fmt(monto)} (${det}) • Pagó: ${quien} • ${destino === 'cobrar_cliente' ? 'A reintegrar por Cliente' : 'Absorbido por obra'}`;
-            o.movimientos.unshift({ fecha: nowStamp(), tipo: "📦 Material", resumen });
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "📦 Material", resumen, revert: revertObj });
             saveState();
             await syncToBitacora(o.nombre, "📦 Ticket Material", resumen);
 
@@ -1345,6 +1549,8 @@
 
         async function guardarMovimientoDinero() {
             const o = getActiveObra();
+            const movId = "d_" + Date.now();
+            const stamp = getSelectedStamp();
             const tipo = document.getElementById("cobroTipo").value;
             const monto = Number(document.getElementById("cobroMonto").value) || 0;
             const medio = document.getElementById("cobroMedio").value;
@@ -1365,7 +1571,7 @@
                 resumen = `Reintegro Materiales cobrado: ${fmt(monto)} (${medio}) - ${det}`;
             }
 
-            o.movimientos.unshift({ fecha: nowStamp(), tipo: "💰 Dinero", resumen });
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "💰 Dinero", resumen, revert: { kind: tipo, monto } });
             saveState();
             await syncToBitacora(o.nombre, "💰 Finanzas", resumen);
 

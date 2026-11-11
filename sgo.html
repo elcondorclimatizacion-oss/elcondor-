@@ -942,20 +942,42 @@
                     nombre: "Estacionamiento Armenia",
                     caja: "AUGUSTO_PABLO",
                     rubro: "📹 CCTV",
-                    estado: "4-En Obra",
-                    fechas: "Lun 02/11 al Jue 05/11 • 08 a 17 hs",
+                    estado: "5-Terminada",
+                    fechas: "Lun 02/11 al Jue 05/11 • TERMINADA Y COBRADA",
                     totalMO: 700000,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 750000,
+                    adicionalesMO: 50000,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra finalizada y cobrada ($750.000 totales con adicional de +$50.000). 6 semisubsuelos + PB (60m caño) + 3 semipisos. 28 cámaras totales.",
+                    movimientos: [
+                        { id: "c_arm_1011", fecha: "10/11", tipo: "💰 Dinero", resumen: "Cobro Mano de Obra + Adicional: $750.000 (Pagado por Augusto - Obra Cerrada)", revert: { kind: "cobro_mo", monto: 750000 } },
+                        { id: "j_arm_0511", fecha: "05/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $18.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0411", fecha: "04/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $20.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0311", fecha: "03/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $40.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0211", fecha: "02/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $25.000", revert: { kind: "jornada" } },
+                        { id: "n_arm_0311", fecha: "03/11 21:45", tipo: "🛠️ Nota", resumen: "Obra mal replanteada por Augusto: son 28 cámaras (no 24) + 60m cañería PB + 3 mechas rotas en vigas duras. Nafta Tiggo la paga Augusto directo. Reclamar adicional." }
+                    ]
+                },
+                {
+                    id: "hector",
+                    nombre: "Héctor (Félix de Álzaga 2914)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "3-Agendada",
+                    fechas: "Jue 12/11 • 10:00 hs",
+                    totalMO: 803999,
                     cobradoAntes: 0,
                     diferidoDic: 0,
                     cobradoMes: 0,
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
-                    listaMateriales: "",
-                    estrategia: "6 semisubsuelos + PB (60m caño) + 3 semipisos. 28 cámaras totales (+4 sobre las 24 originales). Miércoles liquidar 2 semisubsuelos + cañería PB y rotular cables en Rack. Jueves crimpear, probar con dueño y cobrar.",
+                    listaMateriales: "Presupuesto GL Materiales Eléctricos N° 0005-00044957 ($335.618,01):\n• 20m Cable Subterráneo 2x4mm Marvic ($98.834,87)\n• 1 Térmica Bipolar 2x16A Sica + 1 Caja Ext 2 bocas Genrod\n• 20m Unipolar 2.5mm Celeste + 20m Marrón + 5m 1.5mm Rojo + 5m Celeste\n• 7 Caños D20 Semipesado Gris Genrod + 35 Grampas + 10 Curvas + 5 Uniones + 20 Conectores\n• 7 Cajas Rect. Ext. Genrod + 2 Cajas Pase IP65 115x115x65 + 5 Cajas Octogonales\n• 5 Módulos Toma Doble Cambre SXXI-XXII + 3 Puntos + Bastidores y Tapas\n• 10 Conectores Wago 221-412 hasta 4mm",
+                    estrategia: "Ubicación: Félix de Álzaga 2914 (Cliente cargador híbrido). Corto quemó cables de cocina (instalación vieja mal hecha). Llevar desde TP 20m de Sintenax 2x4mm engrampado (Media Altura Nivel 2) hasta entrar y alimentar Lavadero (tablero seccional 1x16A) y seguir a Cocina con caño D20 semipesado a la vista (7 bocas nuevas: 5 tomas dobles 10A + 2 puntos simples). Condición: 60% anticipo ($482.400) / 40% al finalizar ($321.599). Materiales GL: $335.618,01 a cargo del cliente.",
                     movimientos: [
-                        { id: "j_arm_0311", fecha: "03/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $40.000", revert: { kind: "jornada" } },
-                        { id: "j_arm_0211", fecha: "02/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $25.000", revert: { kind: "jornada" } },
-                        { id: "n_arm_0311", fecha: "03/11 21:45", tipo: "🛠️ Nota", resumen: "Obra mal replanteada por Augusto: son 28 cámaras (no 24) + 60m cañería PB + 3 mechas rotas en vigas duras. Nafta Tiggo la paga Augusto directo. Reclamar adicional." }
+                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 (60% anticipo / 40% fin) + Presupuesto GL Materiales $335.618,01. Agendado Jueves 12/11 10:00 hs." }
                     ]
                 },
                 {
@@ -963,8 +985,8 @@
                     nombre: "Karina",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Vie 06/11 y Lun 09/11 • 08 a 17 hs",
+                    estado: "4-En Obra",
+                    fechas: "Vie 06/11 (Mitad 1) y Vie 13/11 • 08 a 17 hs",
                     totalMO: 3496276,
                     cobradoAntes: 500000,
                     diferidoDic: 1498138,
@@ -972,16 +994,18 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra prioritaria El Cóndor. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138).",
-                    movimientos: []
+                    estrategia: "Obra en 50% de avance. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Continuación reprogramada para el Viernes 13/11.",
+                    movimientos: [
+                        { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
+                    ]
                 },
                 {
                     id: "nora",
                     nombre: "Nora",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Sáb 07/11 • 09 a 17 hs",
+                    estado: "5-Terminada",
+                    fechas: "Sáb 07/11 • TERMINADA",
                     totalMO: 300000,
                     cobradoAntes: 300000,
                     diferidoDic: 0,
@@ -989,16 +1013,18 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra ya abonada ($300.000 cobrados previamente). Ejecutar jornada limpia el sábado 07/11.",
-                    movimientos: []
+                    estrategia: "Obra terminada el sábado 07/11 ($300.000 abonados previamente).",
+                    movimientos: [
+                        { id: "n_nor_0711", fecha: "07/11 (Sábado)", tipo: "✅ Cierre", resumen: "Obra ejecutada y terminada." }
+                    ]
                 },
                 {
                     id: "virrey",
                     nombre: "Virrey del Pino (Leo)",
                     caja: "AUGUSTO_PABLO",
                     rubro: "📹 CCTV",
-                    estado: "3-Agendada",
-                    fechas: "Mar 10/11 • 07 a 13 hs",
+                    estado: "5-Terminada",
+                    fechas: "Mar 10/11 • TERMINADA",
                     totalMO: 400000,
                     cobradoAntes: 200000,
                     diferidoDic: 0,
@@ -1006,8 +1032,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra vía Augusto (100% Pablo). Adelanto $200.000 ya cobrado; resta cobrar $200.000 al finalizar.",
-                    movimientos: []
+                    estrategia: "Obra vía Augusto (100% Pablo) terminada el Martes 10/11. Adelanto $200.000 ya cobrado; saldo $200.000 al cierre.",
+                    movimientos: [
+                        { id: "n_vir_1011", fecha: "10/11 (Martes)", tipo: "✅ Cierre", resumen: "Obra Virrey del Pino finalizada hoy." }
+                    ]
                 },
                 {
                     id: "flash",
@@ -1015,7 +1043,7 @@
                     caja: "CONDOR_50_50",
                     rubro: "📹 CCTV",
                     estado: "3-Agendada",
-                    fechas: "Mié 11/11 y Jue 12/11 • 08 a 17 hs",
+                    fechas: "Mar 17/11 y Mié 18/11 • 08 a 17 hs",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
@@ -1023,7 +1051,7 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "2 jornadas completas asignadas. Cargar monto de Mano de Obra desde 'Editar Obra'.",
+                    estrategia: "Reprogramada para Martes 17/11 y Miércoles 18/11 (2 jornadas completas).",
                     movimientos: []
                 },
                 {
@@ -1031,8 +1059,8 @@
                     nombre: "Mariano",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Vie 13/11 • 08 a 17 hs",
+                    estado: "4-En Obra",
+                    fechas: "Lun 09/11 y Mié 11/11 (Mediodía) • 08 a 13 hs",
                     totalMO: 760849,
                     cobradoAntes: 760849,
                     diferidoDic: 0,
@@ -1040,8 +1068,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra ya 100% paga ($760.849 abonados antes; postergada en su momento por temas laborales del cliente).",
-                    movimientos: []
+                    estrategia: "Obra ya 100% paga ($760.849 abonados antes). Se arrancó el Lunes 09/11 y se liquida el Miércoles 11/11 al mediodía.",
+                    movimientos: [
+                        { id: "n_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Avance", resumen: "Jornada ejecutada Lunes 09/11. Continúa Miércoles 11/11 hasta el mediodía." }
+                    ]
                 },
                 {
                     id: "villaluro",
@@ -1065,8 +1095,8 @@
                     nombre: "Noely",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "⏳ Pago Diferido",
-                    fechas: "Lun 16/11 • 08 a 17 hs",
+                    estado: "4-En Obra",
+                    fechas: "Mié 11/11 (Tarde: Portón) y Lun 16/11 (Pozo Ciego)",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
@@ -1074,8 +1104,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Pago diferido hasta aviso del cliente.",
-                    movimientos: []
+                    estrategia: "Miércoles 11/11 por la tarde: urgencia portón de auto caído. Lunes 16/11 jornada completa: seguir con pozo ciego.",
+                    movimientos: [
+                        { id: "n_noe_1011", fecha: "10/11", tipo: "📅 Agenda", resumen: "Agendado Mié 11/11 tarde (portón caído) + Lun 16/11 (seguir con pozo ciego)." }
+                    ]
                 },
                 {
                     id: "bandeja_general",
@@ -1105,6 +1137,21 @@
                     movId: "j_arm_0311", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "03/11 (Martes)",
                     pablo: true, cristian: false, axel: 0, benja: 0, comida: 40000,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0411", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "04/11 (Miércoles)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 20000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0511", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "05/11 (Jueves)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 18000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_0611", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "06/11 (Viernes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 100000,
+                    golDesg: 3500, golNaf: 10000, golPea: 0, tiggoDesg: 4500, tiggoNaf: 10000, tiggoPea: 0
                 }
             ],
             reintegrosSocios: { pablo: 0, cristian: 0, desgasteGol: 0, desgasteTiggo: 0 }
@@ -1128,10 +1175,37 @@
                         const defBandeja = DEFAULT_STATE.obras.find(o => o.id === "bandeja_general");
                         if (defBandeja) parsed.obras.push(JSON.parse(JSON.stringify(defBandeja)));
                     }
+                    // Auto-hidratar obras nuevas y sincronizar estados/cronogramas base de Noviembre
+                    DEFAULT_STATE.obras.forEach(defObra => {
+                        let target = parsed.obras.find(o => o.id === defObra.id);
+                        if (!target) {
+                            parsed.obras.splice(1, 0, JSON.parse(JSON.stringify(defObra)));
+                            return;
+                        }
+                        target.estado = defObra.estado;
+                        target.fechas = defObra.fechas;
+                        target.estrategia = defObra.estrategia;
+                        if (defObra.listaMateriales && !target.listaMateriales) target.listaMateriales = defObra.listaMateriales;
+                        if ((defObra.cobradoMes || 0) > (target.cobradoMes || 0)) target.cobradoMes = defObra.cobradoMes;
+                        if ((defObra.adicionalesMO || 0) > (target.adicionalesMO || 0)) target.adicionalesMO = defObra.adicionalesMO;
+                        if (Array.isArray(defObra.movimientos)) {
+                            if (!Array.isArray(target.movimientos)) target.movimientos = [];
+                            defObra.movimientos.forEach(defMov => {
+                                if (defMov.id && !target.movimientos.some(m => m.id === defMov.id)) {
+                                    target.movimientos.unshift(JSON.parse(JSON.stringify(defMov)));
+                                }
+                            });
+                        }
+                    });
                 }
                 if (Array.isArray(parsed.gastosJornadas)) {
                     parsed.gastosJornadas.forEach(j => {
                         if (j.caja === "AUGUSTO_50_50") j.caja = "AUGUSTO_PABLO";
+                    });
+                    DEFAULT_STATE.gastosJornadas.forEach(defJ => {
+                        if (defJ.movId && !parsed.gastosJornadas.some(j => j.movId === defJ.movId)) {
+                            parsed.gastosJornadas.push(JSON.parse(JSON.stringify(defJ)));
+                        }
                     });
                 }
                 return { ...DEFAULT_STATE, ...parsed, config: { ...DEFAULT_STATE.config, ...(parsed.config || {}) } };
@@ -1354,6 +1428,7 @@
 
             const aliases = {
                 armenia: ["armenia", "estacionamiento", "cochera", "garage"],
+                hector: ["hector", "alzaga", "hibrido", "sintenax"],
                 karina: ["karina", "carina"],
                 nora: ["nora"],
                 virrey: ["virrey", "leo"],

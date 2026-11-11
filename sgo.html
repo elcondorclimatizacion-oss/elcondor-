@@ -975,9 +975,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "Presupuesto GL Materiales Eléctricos N° 0005-00044957 ($335.618,01):\n• 20m Cable Subterráneo 2x4mm Marvic ($98.834,87)\n• 1 Térmica Bipolar 2x16A Sica + 1 Caja Ext 2 bocas Genrod\n• 20m Unipolar 2.5mm Celeste + 20m Marrón + 5m 1.5mm Rojo + 5m Celeste\n• 7 Caños D20 Semipesado Gris Genrod + 35 Grampas + 10 Curvas + 5 Uniones + 20 Conectores\n• 7 Cajas Rect. Ext. Genrod + 2 Cajas Pase IP65 115x115x65 + 5 Cajas Octogonales\n• 5 Módulos Toma Doble Cambre SXXI-XXII + 3 Puntos + Bastidores y Tapas\n• 10 Conectores Wago 221-412 hasta 4mm",
-                    estrategia: "Ubicación: Félix de Álzaga 2914 (Cliente cargador híbrido). Corto quemó cables de cocina (instalación vieja mal hecha). Llevar desde TP 20m de Sintenax 2x4mm engrampado (Media Altura Nivel 2) hasta entrar y alimentar Lavadero (tablero seccional 1x16A) y seguir a Cocina con caño D20 semipesado a la vista (7 bocas nuevas: 5 tomas dobles 10A + 2 puntos simples). Condición: 60% anticipo ($482.400) / 40% al finalizar ($321.599). Materiales GL: $335.618,01 a cargo del cliente.",
+                    estrategia: "Ubicación: Félix de Álzaga 2914 (Cliente cargador híbrido). Equipo: Pablo, Cristian y Axel ($100.000). Corto quemó cables de cocina (instalación vieja mal hecha). Llevar desde TP 20m de Sintenax 2x4mm engrampado (Media Altura Nivel 2) hasta entrar y alimentar Lavadero (tablero seccional 1x16A) y seguir a Cocina con caño D20 semipesado a la vista (7 bocas nuevas: 5 tomas dobles 10A + 2 puntos simples). Condición: 60% anticipo ($482.400) / 40% al finalizar ($321.599). Materiales GL: $335.618,01 a cargo del cliente.",
                     movimientos: [
-                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 (60% anticipo / 40% fin) + Presupuesto GL Materiales $335.618,01. Agendado Jueves 12/11 10:00 hs." }
+                        { id: "j_hec_1211", fecha: "12/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo asignado: Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
+                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 (60% anticipo / 40% fin) + Presupuesto GL Materiales $335.618,01. Agendado Jueves 12/11 10:00 hs con Axel." }
                     ]
                 },
                 {
@@ -1013,9 +1014,9 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra terminada el sábado 07/11 ($300.000 abonados previamente).",
+                    estrategia: "Obra terminada el sábado 07/11 ($300.000 abonados previamente). Equipo: Pablo, Cristian y Axel ($100.000).",
                     movimientos: [
-                        { id: "n_nor_0711", fecha: "07/11 (Sábado)", tipo: "✅ Cierre", resumen: "Obra ejecutada y terminada." }
+                        { id: "j_nor_0711", fecha: "07/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Obra terminada", revert: { kind: "jornada" } }
                     ]
                 },
                 {
@@ -1051,8 +1052,11 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Reprogramada para Martes 17/11 y Miércoles 18/11 (2 jornadas completas).",
-                    movimientos: []
+                    estrategia: "Reprogramada para Martes 17/11 y Miércoles 18/11 (2 jornadas completas). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000).",
+                    movimientos: [
+                        { id: "j_fla_1811", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
+                        { id: "j_fla_1711", fecha: "17/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } }
+                    ]
                 },
                 {
                     id: "mariano",
@@ -1068,9 +1072,9 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra ya 100% paga ($760.849 abonados antes). Se arrancó el Lunes 09/11 y se liquida el Miércoles 11/11 al mediodía.",
+                    estrategia: "Obra ya 100% paga ($760.849 abonados antes). Equipo: Pablo, Cristian y Axel ($100.000). Se arrancó el Lunes 09/11 y se liquida el Miércoles 11/11 al mediodía.",
                     movimientos: [
-                        { id: "n_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Avance", resumen: "Jornada ejecutada Lunes 09/11. Continúa Miércoles 11/11 hasta el mediodía." }
+                        { id: "j_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Continúa Mié 11/11 al mediodía", revert: { kind: "jornada" } }
                     ]
                 },
                 {
@@ -1152,6 +1156,31 @@
                     movId: "j_kar_0611", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "06/11 (Viernes)",
                     pablo: true, cristian: true, axel: 100000, benja: 0, comida: 100000,
                     golDesg: 3500, golNaf: 10000, golPea: 0, tiggoDesg: 4500, tiggoNaf: 10000, tiggoPea: 0
+                },
+                {
+                    movId: "j_nor_0711", obraId: "nora", obraNombre: "Nora", caja: "CONDOR_50_50", fecha: "07/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_mar_0911", obraId: "mariano", obraNombre: "Mariano", caja: "CONDOR_50_50", fecha: "09/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_hec_1211", obraId: "hector", obraNombre: "Héctor (Félix de Álzaga 2914)", caja: "CONDOR_50_50", fecha: "12/11 (Jueves)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_1711", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "17/11 (Martes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_1811", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 }
             ],
             reintegrosSocios: { pablo: 0, cristian: 0, desgasteGol: 0, desgasteTiggo: 0 }

@@ -921,7 +921,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v6_1311";
+        const STORAGE_KEY = "sgo_el_condor_v7_1311";
 
         const DEFAULT_STATE = {
             config: {
@@ -1099,23 +1099,6 @@
                         { id: "j_mar_1111", fecha: "11/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $50.000 • Obra Mariano terminada + Urgencia Noely", revert: { kind: "jornada" } },
                         { id: "j_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Inicio de obra", revert: { kind: "jornada" } }
                     ]
-                },
-                {
-                    id: "villaluro",
-                    nombre: "Villa Luro",
-                    caja: "AUGUSTO_PABLO",
-                    rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Sáb 14/11 • 09 a 15 hs",
-                    totalMO: 140000,
-                    cobradoAntes: 0,
-                    diferidoDic: 0,
-                    cobradoMes: 0,
-                    adicionalesMO: 0,
-                    reintegrosPendientes: 0,
-                    listaMateriales: "",
-                    estrategia: "Obra vía Augusto (100% Pablo). A cobrar $140.000.",
-                    movimientos: []
                 },
                 {
                     id: "noely",
@@ -1493,7 +1476,6 @@
                 virrey: ["virrey", "leo"],
                 flash: ["en un flash", "flash"],
                 mariano: ["mariano"],
-                villaluro: ["villa luro", "luro"],
                 noely: ["noely", "noeli"]
             };
 
@@ -2048,22 +2030,28 @@
 
             // Caja 100% Pablo (Augusto)
             document.getElementById("cajaAugustoBody").innerHTML = `
-                <div class="stat-line"><span>Cobrado en mano (Armenia/Virrey/V.Luro):</span><b class="mono val-green">${fmt(f.cobradoPablo100)}</b></div>
-                <div class="stat-line"><span>A cobrar en Noviembre:</span><b class="mono val-gold">${fmt(f.porCobrarNovPablo100)}</b></div>
-                <div class="stat-line"><span>- Gastos directos en esas obras:</span><span class="mono">-${fmt(f.gastosDirectosPablo100)}</span></div>
+                <div class="stat-line"><span>Cobrado en mano (Armenia $750k + Virrey $275k):</span><b class="mono val-green">${fmt(f.cobradoPablo100)}</b></div>
+                <div class="stat-line"><span>A cobrar pendiente de Augusto:</span><b class="mono val-gold">${fmt(f.porCobrarNovPablo100)}</b></div>
+                <div class="stat-line"><span>- Gastos directos en esas obras (Comidas Armenia):</span><span class="mono">-${fmt(f.gastosDirectosPablo100)}</span></div>
                 <div class="stat-line" style="border-top:1px solid rgba(245,158,11,0.35);margin-top:4px;padding-top:10px;">
-                    <span><b>100% Neto Exclusivo PABLO:</b></span><b class="mono val-gold">${fmt(f.netoProyPablo100)}</b>
+                    <span><b>100% CASH NETO EN TU MANO (Augusto Cerrado):</b></span><b class="mono val-gold" style="font-size:15.5px;">${fmt(f.netoProyPablo100)}</b>
                 </div>
                 <div style="font-size:11.5px;color:var(--muted);margin-top:8px;">
-                    * Ideal para mandar derecho a tu Meta Cubiertas + Service del Gol (${fmt(f.cfg.metaGol)}).
+                    * Ciclo Augusto cerrado (sin saldos pendientes). Cubre el 100% de tu Meta Gol (${fmt(f.cfg.metaGol)}) y te sobran ${fmt(f.netoProyPablo100 - f.cfg.metaGol)}.
                 </div>
             `;
 
-            // Resumen Total Bolsillo Pablo
+            // Resumen Total Bolsillo Pablo (Separando CASH HOY vs PROYECTADO)
+            const cashBrutoHoyPablo = f.cobradoPablo100 + (f.cobrado5050 / 2);
+            const cashNetoAugustoHoy = f.cobradoPablo100 - f.gastosDirectosPablo100;
             const totalBolsilloPabloNov = f.mitadCadaSocioProy + f.netoProyPablo100;
             document.getElementById("resumenBolsilloBody").innerHTML = `
-                <div class="stat-line"><span>Tu 50% Sociedad + Tu 100% Augusto (Nov):</span><b class="mono val-green" style="font-size:16px;">${fmt(totalBolsilloPabloNov)}</b></div>
-                <div class="stat-line"><span>Si apartás los ${fmt(f.cfg.metaGol)} completos del Gol, te quedan limpios:</span><b class="mono val-accent">${fmt(totalBolsilloPabloNov - f.cfg.metaGol)}</b></div>
+                <div class="stat-line" style="background:rgba(16,185,129,0.12);padding:8px 10px;border-radius:9px;margin-bottom:6px;">
+                    <span>🟢 <b>YA COBRADO CASH EN MANO HOY (Neto Augusto $922k + 50% Héctor $402k):</b></span>
+                    <b class="mono val-green" style="font-size:16px;">${fmt(cashNetoAugustoHoy + (f.cobrado5050 / 2))}</b>
+                </div>
+                <div class="stat-line"><span>🔵 Proyectado Fin de Noviembre (cuando entre Karina $1.498.138):</span><b class="mono val-accent" style="font-size:15px;">${fmt(totalBolsilloPabloNov)}</b></div>
+                <div class="stat-line"><span>🚗 Si apartás los ${fmt(f.cfg.metaGol)} completos del Gol, te quedan limpios:</span><b class="mono val-green">${fmt(totalBolsilloPabloNov - f.cfg.metaGol)}</b></div>
                 <div class="stat-line"><span>📆 Ya asegurado para cobrar en Diciembre (Karina Cuota 2):</span><b class="mono val-gold">${fmt(f.diferidoDicTotal)}</b></div>
             `;
 

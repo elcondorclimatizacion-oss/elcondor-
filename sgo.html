@@ -921,7 +921,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v3_1011";
+        const STORAGE_KEY = "sgo_el_condor_v4_1311";
 
         const DEFAULT_STATE = {
             config: {
@@ -966,19 +966,20 @@
                     nombre: "Héctor (Félix de Álzaga 2914)",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Jue 12/11 • 10:00 hs",
+                    estado: "5-Terminada",
+                    fechas: "Jue 12/11 • TERMINADA Y COBRADA",
                     totalMO: 803999,
                     cobradoAntes: 0,
                     diferidoDic: 0,
-                    cobradoMes: 0,
+                    cobradoMes: 803999,
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "Presupuesto GL Materiales Eléctricos N° 0005-00044957 ($335.618,01):\n• 20m Cable Subterráneo 2x4mm Marvic ($98.834,87)\n• 1 Térmica Bipolar 2x16A Sica + 1 Caja Ext 2 bocas Genrod\n• 20m Unipolar 2.5mm Celeste + 20m Marrón + 5m 1.5mm Rojo + 5m Celeste\n• 7 Caños D20 Semipesado Gris Genrod + 35 Grampas + 10 Curvas + 5 Uniones + 20 Conectores\n• 7 Cajas Rect. Ext. Genrod + 2 Cajas Pase IP65 115x115x65 + 5 Cajas Octogonales\n• 5 Módulos Toma Doble Cambre SXXI-XXII + 3 Puntos + Bastidores y Tapas\n• 10 Conectores Wago 221-412 hasta 4mm",
-                    estrategia: "Ubicación: Félix de Álzaga 2914 (Cliente cargador híbrido). Equipo: Pablo, Cristian y Axel ($100.000). Corto quemó cables de cocina (instalación vieja mal hecha). Llevar desde TP 20m de Sintenax 2x4mm engrampado (Media Altura Nivel 2) hasta entrar y alimentar Lavadero (tablero seccional 1x16A) y seguir a Cocina con caño D20 semipesado a la vista (7 bocas nuevas: 5 tomas dobles 10A + 2 puntos simples). Condición: 60% anticipo ($482.400) / 40% al finalizar ($321.599). Materiales GL: $335.618,01 a cargo del cliente.",
+                    estrategia: "Obra ejecutada, terminada y 100% cobrada ($803.999). Equipo: Pablo, Cristian y Axel ($100.000) + Comida y bebida $70.000 (compartido 50/50 con Cristian). Tendido 20m Sintenax 2x4mm desde TP a Lavadero (tablero seccional 1x16A) + cañería D20 a la vista hacia Cocina (7 bocas nuevas).",
                     movimientos: [
-                        { id: "j_hec_1211", fecha: "12/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo asignado: Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
-                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 (60% anticipo / 40% fin) + Presupuesto GL Materiales $335.618,01. Agendado Jueves 12/11 10:00 hs con Axel." }
+                        { id: "c_hec_1311", fecha: "12/11 (Jueves)", tipo: "💰 Dinero", resumen: "Cobro Total Mano de Obra: $803.999 (Trabajo terminado y cobrado)", revert: { kind: "cobro_mo", monto: 803999 } },
+                        { id: "j_hec_1211", fecha: "12/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida y bebida: $70.000 (mitad con Cristian)", revert: { kind: "jornada" } },
+                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 + Presupuesto GL Materiales $335.618,01." }
                     ]
                 },
                 {
@@ -995,7 +996,7 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra en 50% de avance. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Continuación reprogramada para el Viernes 13/11.",
+                    estrategia: "Obra en ejecución. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Continuación Viernes 13/11.",
                     movimientos: [
                         { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
                     ]
@@ -1025,17 +1026,18 @@
                     caja: "AUGUSTO_PABLO",
                     rubro: "📹 CCTV",
                     estado: "5-Terminada",
-                    fechas: "Mar 10/11 • TERMINADA",
+                    fechas: "Mar 10/11 • TERMINADA Y COBRADA",
                     totalMO: 400000,
                     cobradoAntes: 200000,
                     diferidoDic: 0,
-                    cobradoMes: 0,
-                    adicionalesMO: 0,
+                    cobradoMes: 275000,
+                    adicionalesMO: 75000,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra vía Augusto (100% Pablo) terminada el Martes 10/11. Adelanto $200.000 ya cobrado; saldo $200.000 al cierre.",
+                    estrategia: "Obra vía Augusto (100% Pablo) terminada el Martes 10/11 y cobrada el Miércoles 11/11 ($200.000 adelanto previo + $275.000 cobrados en Noviembre = $475.000 totales).",
                     movimientos: [
-                        { id: "n_vir_1011", fecha: "10/11 (Martes)", tipo: "✅ Cierre", resumen: "Obra Virrey del Pino finalizada hoy." }
+                        { id: "c_vir_1111", fecha: "11/11 (Miércoles)", tipo: "💰 Dinero", resumen: "Cobro de Augusto: $275.000 (Saldo $200.000 + Adicional $75.000)", revert: { kind: "cobro_mo", monto: 275000 } },
+                        { id: "n_vir_1011", fecha: "10/11 (Martes)", tipo: "✅ Cierre", resumen: "Obra Virrey del Pino finalizada." }
                     ]
                 },
                 {
@@ -1063,8 +1065,8 @@
                     nombre: "Mariano",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "4-En Obra",
-                    fechas: "Lun 09/11 y Mié 11/11 (Mediodía) • 08 a 13 hs",
+                    estado: "5-Terminada",
+                    fechas: "Lun 09/11 y Mié 11/11 • TERMINADA",
                     totalMO: 760849,
                     cobradoAntes: 760849,
                     diferidoDic: 0,
@@ -1072,9 +1074,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra ya 100% paga ($760.849 abonados antes). Equipo: Pablo, Cristian y Axel ($100.000). Se arrancó el Lunes 09/11 y se liquida el Miércoles 11/11 al mediodía.",
+                    estrategia: "Obra 100% terminada el Miércoles 11/11 ($760.849 abonados antes). Equipo: Pablo, Cristian y Axel (Lun 09/11 y Mié 11/11).",
                     movimientos: [
-                        { id: "j_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Continúa Mié 11/11 al mediodía", revert: { kind: "jornada" } }
+                        { id: "j_mar_1111", fecha: "11/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $50.000 • Obra Mariano terminada + Urgencia Noely", revert: { kind: "jornada" } },
+                        { id: "j_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Inicio de obra", revert: { kind: "jornada" } }
                     ]
                 },
                 {
@@ -1100,7 +1103,7 @@
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
                     estado: "4-En Obra",
-                    fechas: "Mié 11/11 (Tarde: Portón) y Lun 16/11 (Pozo Ciego)",
+                    fechas: "Mié 11/11 (Portón Resuelto) y Lun 16/11 (Pozo Ciego)",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
@@ -1108,8 +1111,9 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Miércoles 11/11 por la tarde: urgencia portón de auto caído. Lunes 16/11 jornada completa: seguir con pozo ciego.",
+                    estrategia: "Miércoles 11/11 por la tarde: se resolvió urgencia de portón de auto caído (con Axel). Lunes 16/11 jornada completa: seguir con pozo ciego.",
                     movimientos: [
+                        { id: "n_noe_1111", fecha: "11/11 (Miércoles)", tipo: "✅ Avance", resumen: "Urgencia de portón caído arreglada en la tarde del miércoles (junto con cierre de Mariano)." },
                         { id: "n_noe_1011", fecha: "10/11", tipo: "📅 Agenda", resumen: "Agendado Mié 11/11 tarde (portón caído) + Lun 16/11 (seguir con pozo ciego)." }
                     ]
                 },
@@ -1168,8 +1172,13 @@
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {
+                    movId: "j_mar_1111", obraId: "mariano", obraNombre: "Mariano", caja: "CONDOR_50_50", fecha: "11/11 (Miércoles)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 50000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
                     movId: "j_hec_1211", obraId: "hector", obraNombre: "Héctor (Félix de Álzaga 2914)", caja: "CONDOR_50_50", fecha: "12/11 (Jueves)",
-                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 70000,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {

@@ -921,7 +921,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v4_1311";
+        const STORAGE_KEY = "sgo_el_condor_v5_1311";
 
         const DEFAULT_STATE = {
             config: {
@@ -983,12 +983,31 @@
                     ]
                 },
                 {
+                    id: "olga",
+                    nombre: "Olga (Guayquiraró - Cuadra Vecinal)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "3-Agendada",
+                    fechas: "Sáb 14/11 • Mañana",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Cuadra de las cámaras vecinales en Guayquiraró: colocar un reflector y reparar luces. Al terminar, pasar a replantear instalación de Aire Acondicionado a nuevo.",
+                    movimientos: [
+                        { id: "n_olg_1311", fecha: "13/11", tipo: "📅 Agenda", resumen: "Agendado Sábado 14/11: colocar reflector + arreglo de luces en lo de Olga (Guayquiraró) + replanteo instalación de AA a nuevo." }
+                    ]
+                },
+                {
                     id: "karina",
                     nombre: "Karina",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
                     estado: "4-En Obra",
-                    fechas: "Vie 06/11 (Mitad 1) y Vie 13/11 • 08 a 17 hs",
+                    fechas: "Vie 06/11 (Mitad 1) y Lun 16/11 • 08 a 17 hs",
                     totalMO: 3496276,
                     cobradoAntes: 500000,
                     diferidoDic: 1498138,
@@ -996,8 +1015,9 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra en ejecución. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Continuación Viernes 13/11.",
+                    estrategia: "Obra en 50% de avance. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Viernes 13/11 no podía la clienta, pasa al Lunes 16/11.",
                     movimientos: [
+                        { id: "n_kar_1311", fecha: "13/11 (Viernes)", tipo: "📅 Agenda", resumen: "Karina no podía el viernes 13/11; se reprograma continuación para el Lunes 16/11." },
                         { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
                     ]
                 },
@@ -1046,7 +1066,7 @@
                     caja: "CONDOR_50_50",
                     rubro: "📹 CCTV",
                     estado: "3-Agendada",
-                    fechas: "Mar 17/11 y Mié 18/11 • 08 a 17 hs",
+                    fechas: "Mié 18/11 y Jue 19/11 • 08 a 17 hs",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
@@ -1054,10 +1074,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Reprogramada para Martes 17/11 y Miércoles 18/11 (2 jornadas completas). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000).",
+                    estrategia: "Agendada para Miércoles 18/11 y Jueves 19/11 (Martes 17/11 libre por casamiento cuñada). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000).",
                     movimientos: [
-                        { id: "j_fla_1811", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
-                        { id: "j_fla_1711", fecha: "17/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } }
+                        { id: "j_fla_1811", fecha: "19/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
+                        { id: "j_fla_1711", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } }
                     ]
                 },
                 {
@@ -1103,7 +1123,7 @@
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
                     estado: "4-En Obra",
-                    fechas: "Mié 11/11 (Portón Resuelto) y Lun 16/11 (Pozo Ciego)",
+                    fechas: "Portón Flama (Mié 11/11) • Pozo Ciego a reprogramar",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
@@ -1111,10 +1131,10 @@
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Miércoles 11/11 por la tarde: se resolvió urgencia de portón de auto caído (con Axel). Lunes 16/11 jornada completa: seguir con pozo ciego.",
+                    estrategia: "Miércoles 11/11 por la tarde: portón de auto solucionado, quedó flama. Queda coordinar fecha para seguir con pozo ciego (Lunes 16/11 va Karina).",
                     movimientos: [
-                        { id: "n_noe_1111", fecha: "11/11 (Miércoles)", tipo: "✅ Avance", resumen: "Urgencia de portón caído arreglada en la tarde del miércoles (junto con cierre de Mariano)." },
-                        { id: "n_noe_1011", fecha: "10/11", tipo: "📅 Agenda", resumen: "Agendado Mié 11/11 tarde (portón caído) + Lun 16/11 (seguir con pozo ciego)." }
+                        { id: "n_noe_1111", fecha: "11/11 (Miércoles)", tipo: "✅ Avance", resumen: "Portón caído solucionado el miércoles a la tarde (quedó flama)." },
+                        { id: "n_noe_1011", fecha: "10/11", tipo: "📅 Agenda", resumen: "Pendiente coordinar día para seguir con pozo ciego." }
                     ]
                 },
                 {
@@ -1182,12 +1202,12 @@
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {
-                    movId: "j_fla_1711", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "17/11 (Martes)",
+                    movId: "j_fla_1711", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
                     pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {
-                    movId: "j_fla_1811", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
+                    movId: "j_fla_1811", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "19/11 (Jueves)",
                     pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 }
@@ -1467,6 +1487,7 @@
             const aliases = {
                 armenia: ["armenia", "estacionamiento", "cochera", "garage"],
                 hector: ["hector", "alzaga", "hibrido", "sintenax"],
+                olga: ["olga", "guayquiraro", "vecinal", "reflector"],
                 karina: ["karina", "carina"],
                 nora: ["nora"],
                 virrey: ["virrey", "leo"],

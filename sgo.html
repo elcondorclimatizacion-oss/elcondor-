@@ -921,7 +921,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v7_1311";
+        const STORAGE_KEY = "sgo_el_condor_v9_1911";
 
         const DEFAULT_STATE = {
             config: {
@@ -987,17 +987,19 @@
                     nombre: "Olga (Guayquiraró - Cuadra Vecinal)",
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
-                    estado: "3-Agendada",
-                    fechas: "Sáb 14/11 • Mañana",
-                    totalMO: 0,
+                    estado: "5-Terminada",
+                    fechas: "Sáb 14/11 • TERMINADA Y COBRADA",
+                    totalMO: 250000,
                     cobradoAntes: 0,
                     diferidoDic: 0,
-                    cobradoMes: 0,
+                    cobradoMes: 250000,
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Cuadra de las cámaras vecinales en Guayquiraró: colocar un reflector y reparar luces. Al terminar, pasar a replantear instalación de Aire Acondicionado a nuevo.",
+                    estrategia: "Obra ejecutada, terminada y cobrada el Sábado 14/11 ($250.000). Equipo: Pablo, Cristian y Axel ($50.000). Neto repartible: $200.000 ($100.000 Pablo / $100.000 Cristian).",
                     movimientos: [
+                        { id: "c_olg_1411", fecha: "14/11 (Sábado)", tipo: "💰 Dinero", resumen: "Cobro Total Mano de Obra: $250.000 (Terminado y cobrado)", revert: { kind: "cobro_mo", monto: 250000 } },
+                        { id: "j_olg_1411", fecha: "14/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($50.000) • Neto 50/50: $100k c/u", revert: { kind: "jornada" } },
                         { id: "n_olg_1311", fecha: "13/11", tipo: "📅 Agenda", resumen: "Agendado Sábado 14/11: colocar reflector + arreglo de luces en lo de Olga (Guayquiraró) + replanteo instalación de AA a nuevo." }
                     ]
                 },
@@ -1007,18 +1009,62 @@
                     caja: "CONDOR_50_50",
                     rubro: "⚡ Eléctrica",
                     estado: "4-En Obra",
-                    fechas: "Vie 06/11 (Mitad 1) y Lun 16/11 • 08 a 17 hs",
+                    fechas: "Vie 06/11, Lun 16/11, Mié 18/11, Jue 19/11 y Cierre Vie 20/11 (Mediodía)",
                     totalMO: 3496276,
                     cobradoAntes: 500000,
                     diferidoDic: 1498138,
+                    cobradoMes: 600000,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Cierre mañana Viernes 20/11 al mediodía (08:00 a 13:00 hs). Equipo: Pablo, Cristian y Axel ($100.000 jornal completo). Hoy Jue 19/11 Karina adelantó $600.000 ($100.000 pagados a Axel por el día de hoy + $250.000 Pablo + $250.000 Cristian). Saldo a cobrar mañana al terminar la 1ra mitad de Noviembre: $898.138 (y quedan $1.498.138 diferidos para Diciembre).",
+                    movimientos: [
+                        { id: "j_kar_2011", fecha: "20/11 (Viernes - Mediodía)", tipo: "👷 Jornada", resumen: "Equipo (Día 5 - Cierre Mediodía): Pablo, Cristian, Axel ($100.000 jornal completo) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "c_kar_1911", fecha: "19/11 (Jueves)", tipo: "💰 Dinero", resumen: "Cobro Adelanto en Obra: $600.000 ($100.000 pagados a Axel hoy + $250.000 Pablo + $250.000 Cristian)", revert: { kind: "cobro_mo", monto: 600000 } },
+                        { id: "j_kar_1911", fecha: "19/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo (Día 4): Pablo, Cristian, Axel ($100.000 - Pagado hoy) • Comida real: $50.000", revert: { kind: "jornada" } },
+                        { id: "j_kar_1811", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo (Día 3): Pablo, Cristian, Axel ($100.000) • Comida real: $40.000", revert: { kind: "jornada" } },
+                        { id: "j_kar_1611", fecha: "16/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo (Día 2): Pablo, Cristian, Axel ($100.000) • Comida: $30.000", revert: { kind: "jornada" } },
+                        { id: "n_kar_1311", fecha: "13/11 (Viernes)", tipo: "📅 Agenda", resumen: "Karina no podía el viernes 13/11; se reprograma continuación para el Lunes 16/11, Miércoles 18/11 y Jueves 19/11." },
+                        { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
+                    ]
+                },
+                {
+                    id: "celeste",
+                    nombre: "Celeste (40m Cañería 25mm + Sintenax 2x6 + Tablero 12M)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "3-Agendada",
+                    fechas: "Sáb 21/11 • 08:00 a 17:00 hs (CONFIRMADA)",
+                    totalMO: 847151,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "LISTA DE MATERIALES - OBRA CELESTE (Casa de Electricidad / GL):\n• 42 metros de Cable Subterráneo Sintenax 2x6 mm² normalizado IRAM 2178\n• 14 tiras (42 metros) de Caño Rígido PVC Semipesado Gris Genrod Ø 25mm (1\")\n• 70 Grampas de fijación rápida Genrod grises Ø 25mm\n• 15 Uniones / Cuplas de PVC rígido Genrod grises Ø 25mm\n• 6 Curvas a 90° de PVC rígido Genrod grises Ø 25mm\n• 10 Conectores de PVC a caja Genrod grises Ø 25mm\n• 3 Cajas de pase estancas IP65 (10x10 / 115x115x65 mm) Genrod\n• 100 Tarugos de nylon N° 6 con tope + 100 Tornillos Fix 4.5x40 mm\n• 1 Gabinete para Tablero Seccional de 12 módulos DIN con puerta (Genrod / Roker)\n• 1 Llave Térmica Bipolar 2x25A Curva C normalizada (corte general en tablero depto)",
+                    estrategia: "Confirmada para este Sábado 21/11 ($847.151 MO con Trabajo en Altura hasta 4m+ x1.30). Equipo: Pablo, Cristian y Axel ($100.000 jornal). Canalización exterior/superficie de 40m con caño PVC rígido Ø 25mm desde medidor hasta tablero del departamento, enhebrado de 40m de Sintenax 2x6 mm² y colocación de tablero seccional de 12 módulos DIN en el depto con llave térmica general de 2x25A.",
+                    movimientos: [
+                        { id: "j_cel_2111", fecha: "21/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo asignado: Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "n_cel_1911", fecha: "19/11 (Jueves)", tipo: "✅ Aprobada", resumen: "Presupuesto aceptado por Celeste ($847.150,72 MO): 40m cañería PVC 25mm en altura (4m+) desde medidor a depto + 40m Sintenax 2x6mm² + Tablero 12 módulos con térmica 2x25A. Agendada Sábado 21/11 con Axel." }
+                    ]
+                },
+                {
+                    id: "varela_aire",
+                    nombre: "Varela (Relevamiento Aire Acondicionado)",
+                    caja: "CONDOR_50_50",
+                    rubro: "❄️ Climatización",
+                    estado: "1-Relevamiento",
+                    fechas: "Vie 20/11 • 14:00 a 17:30 hs (Después de Karina)",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
                     cobradoMes: 0,
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
                     listaMateriales: "",
-                    estrategia: "Obra en 50% de avance. Paga saldo en 2 partes: mitad ahora en Noviembre ($1.498.138) y mitad en Diciembre ($1.498.138). Viernes 13/11 no podía la clienta, pasa al Lunes 16/11.",
+                    estrategia: "Viernes 20/11 por la tarde después de terminar Karina: ir a Florencio Varela a replantear la colocación de un aire acondicionado (falta definir nombre, dirección, frigorías/watts, metros de cañería, altura y alimentación eléctrica).",
                     movimientos: [
-                        { id: "n_kar_1311", fecha: "13/11 (Viernes)", tipo: "📅 Agenda", resumen: "Karina no podía el viernes 13/11; se reprograma continuación para el Lunes 16/11." },
-                        { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
+                        { id: "n_var_1911", fecha: "19/11 (Jueves)", tipo: "📅 Agenda", resumen: "Agendado relevamiento en Florencio Varela mañana Viernes 20/11 a la tarde (después de Karina) para ver colocación de aire acondicionado." }
                     ]
                 },
                 {
@@ -1066,18 +1112,18 @@
                     caja: "CONDOR_50_50",
                     rubro: "📹 CCTV",
                     estado: "3-Agendada",
-                    fechas: "Mié 18/11 y Jue 19/11 • 08 a 17 hs",
+                    fechas: "Lun 23/11 y Mar 24/11 • 08:00 a 17:00 hs",
                     totalMO: 0,
                     cobradoAntes: 0,
                     diferidoDic: 0,
                     cobradoMes: 0,
                     adicionalesMO: 0,
                     reintegrosPendientes: 0,
-                    listaMateriales: "",
-                    estrategia: "Agendada para Miércoles 18/11 y Jueves 19/11 (Martes 17/11 libre por casamiento cuñada). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000).",
+                    listaMateriales: "CÓMPUTO DE CAÑERÍA, FIJACIONES Y POE - EN UN FLASH (MURO NORTE):\n• 45 tiras de Caño PVC rígido 25mm x 3m (135m lineales: Tramo #1 36m + Tramo #2 9m + Tramo #3 90m)\n• 25 unidades de Caja Estanca 10x10 IP65 (23 de paso c/2 tiras + 2 en cámaras TIC2621SR-F3-4F4AC-VD)\n• 1 unidad de Caja Estanca 20x20x10 cm IP65 + 1 Toma Hembra 220V (para alojar Switch Omada ES205GP + Fuente 53.5V)\n• 1 unidad de Switch TP-Link Omada ES205GP 5P Gigabit PoE+ (65W)\n• 51 unidades de Conector PVC 25mm para caja\n• 22 unidades de Unión / Cupla PVC 25mm\n• 6 unidades de Curva 90° PVC 25mm\n• 135 unidades de Grampa de sujeción 25mm (3 por tira)\n• 239 unidades de Tarugo Fischer SX6 + Tornillo (3 cajas x 100 unid.)\n• 149 metros de Cable UTP Exterior 100% Cobre (135m netos + 10% rulo)\n• 6 unidades de Ficha RJ45 Blindada (3 cables nuevos x 2 puntas)",
+                    estrategia: "Reprogramada para Lunes 23/11 y Martes 24/11 (pago a definir). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000) + Comida $30.000/día. Montaje sobre Muro Norte (lado derecho del plano) con cámaras térmicas biespectrales Uniview TIC2621SR-F3-4F4AC-VD y Switch Omada ES205GP en caja 20x20.",
                     movimientos: [
-                        { id: "j_fla_1811", fecha: "19/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } },
-                        { id: "j_fla_1711", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000)", revert: { kind: "jornada" } }
+                        { id: "j_fla_2411", fecha: "24/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "j_fla_2311", fecha: "23/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } }
                     ]
                 },
                 {
@@ -1118,6 +1164,25 @@
                     movimientos: [
                         { id: "n_noe_1111", fecha: "11/11 (Miércoles)", tipo: "✅ Avance", resumen: "Portón caído solucionado el miércoles a la tarde (quedó flama)." },
                         { id: "n_noe_1011", fecha: "13/11", tipo: "📅 Agenda", resumen: "Pozo ciego pasa a estado indefinido por ahora (Lunes 16/11 asignado a Karina)." }
+                    ]
+                },
+                {
+                    id: "debora",
+                    nombre: "Débora (Prima de Cristian)",
+                    caja: "CONDOR_50_50",
+                    rubro: "❄️ Climatización",
+                    estado: "2-Presupuestada",
+                    fechas: "A coordinar fecha (1 Jornada con Pablo, Cristian y Axel)",
+                    totalMO: 1241000,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "CASA DE REFRIGERACIÓN (Trabajo 1 - Aire BGH 5400W R32):\n• 7m Caño Cobre 1/4\" (0.8mm Eluma/Halcor)\n• 7m Caño Cobre 1/2\" (0.8mm Eluma/Halcor)\n• 7m Aislación negra Armacell/Isotube de 1/4\"\n• 7m Aislación negra Armacell/Isotube de 1/2\"\n• 1 par de Bases de Piso / Pies de Apoyo para Unidad Exterior sobre Losa (PVC/Caucho 45cm o Pie Metálico de piso c/tacos antivibración)\n• 5m Cablecanal Interior ancho para Aire (3 tiras de 2m de 80x60mm o 100x50mm) + 2 curvas + 1 tapa pasamuro\n• 7m Manguera Cristal desagüe interior\n• 2 rollos Cinta PVC blanca s/adhesivo UV Tacsa\n• 1 rollo Cinta PVC blanca c/adhesivo\n• 1 rollo Cinta de Aluminio (protección tramo exterior a losa)\n\nCASA DE ELECTRICIDAD (Trabajo 1 + Trabajo 2):\n• 15m Cable Subterráneo Sintenax 3x4mm² (TP a Seccional)\n• 18m Cable Subterráneo Sintenax 3x2.5mm² (Tablero a Aire BGH)\n• 8m Cable Tipo Taller 5x1.5mm² (Interconexión UI-UE)\n• 5m Cablecanal Interior ancho para Aire (3 tiras de 2m de 80x60mm o 100x50mm)\n• 1 Gabinete exterior/estanco de 4 módulos DIN (Tablero Principal)\n• 1 Disyuntor Diferencial Bipolar 2x40A 30mA (Seccional empotrado)\n• 1 Térmica Bipolar 2x25A Curva C (Seccional)\n• 3 Térmicas Bipolares 2x16A Curva C (2 Seccional + 1 Aire BGH)\n• 1 Térmica Bipolar 2x10A Curva C (Seccional)\n• 1 Peine bipolar de cobre 12 polos\n• 1 Caja exterior + Toma 20A (Aire BGH)\n• 60 Grampas (30 p/Sintenax 3x4 y 30 p/3x2.5) + 1 caja Tarugos Fischer S6 c/tornillos",
+                    estrategia: "Ejecución en 1 Jornada completa con Pablo, Cristian y Axel ($100.000 jornal incluido en el presupuesto). Tarifa Familiar ($1.241.000 MO Total): Trabajo 1 ($668.000): Instalación Aire BGH Silent Air 5400W R32 con 7m cañería a losa sobre patas antivibración, 5m cablecanal interior + 7m manguera cristal + 18m Sintenax 3x2.5mm exterior + térmica 16A. Trabajo 2 ($573.000 - Altura hasta 4m): Cambio Tablero Principal por 4 módulos + 15m Sintenax 3x4mm hasta Seccional empotrado + recambio de disyuntor 25A y 4 térmicas de 25A mal dimensionadas por 1 Disyuntor 2x40A + Térmicas de 25A, 16A, 16A y 10A.",
+                    movimientos: [
+                        { id: "n_deb_1811", fecha: "18/11 (Miércoles)", tipo: "💰 Presupuesto", resumen: "Presupuesto Tarifa Familiar (1 Jornada c/Axel $100k incluido): Trabajo 1 (Aire BGH 5400W R32 + 7m a losa + 18m Sintenax 3x2.5): $668.000 MO | Trabajo 2 (TP 4 mód + 15m Sintenax 3x4 + recambio protecciones en Seccional empotrado a 4m altura): $573.000 MO. Total MO: $1.241.000 + Materiales." }
                     ]
                 },
                 {
@@ -1185,13 +1250,43 @@
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {
-                    movId: "j_fla_1711", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
-                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    movId: "j_olg_1411", obraId: "olga", obraNombre: "Olga (Guayquiraró - Cuadra Vecinal)", caja: "CONDOR_50_50", fecha: "14/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 50000, benja: 0, comida: 0,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 },
                 {
-                    movId: "j_fla_1811", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "19/11 (Jueves)",
-                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    movId: "j_kar_1611", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "16/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_1811", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 40000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_1911", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "19/11 (Jueves)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 50000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_2011", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "20/11 (Viernes - Mediodía)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_cel_2111", obraId: "celeste", obraNombre: "Celeste (40m Cañería 25mm + Sintenax 2x6 + Tablero 12M)", caja: "CONDOR_50_50", fecha: "21/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_2311", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "23/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_2411", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "24/11 (Martes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
                     golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
                 }
             ],
@@ -1472,11 +1567,14 @@
                 hector: ["hector", "alzaga", "hibrido", "sintenax"],
                 olga: ["olga", "guayquiraro", "vecinal", "reflector"],
                 karina: ["karina", "carina"],
+                celeste: ["celeste"],
+                varela_aire: ["varela", "florencio varela"],
                 nora: ["nora"],
                 virrey: ["virrey", "leo"],
                 flash: ["en un flash", "flash"],
                 mariano: ["mariano"],
-                noely: ["noely", "noeli"]
+                noely: ["noely", "noeli"],
+                debora: ["debora", "deborah", "prima"]
             };
 
             for (const o of state.obras) {
@@ -2047,10 +2145,10 @@
             const totalBolsilloPabloNov = f.mitadCadaSocioProy + f.netoProyPablo100;
             document.getElementById("resumenBolsilloBody").innerHTML = `
                 <div class="stat-line" style="background:rgba(16,185,129,0.12);padding:8px 10px;border-radius:9px;margin-bottom:6px;">
-                    <span>🟢 <b>YA COBRADO CASH EN MANO HOY (Neto Augusto $922k + 50% Héctor $402k):</b></span>
+                    <span>🟢 <b>YA COBRADO CASH EN MANO HOY (Neto Augusto $922k + 50% Héctor/Olga/Karina $600k):</b></span>
                     <b class="mono val-green" style="font-size:16px;">${fmt(cashNetoAugustoHoy + (f.cobrado5050 / 2))}</b>
                 </div>
-                <div class="stat-line"><span>🔵 Proyectado Fin de Noviembre (cuando entre Karina $1.498.138):</span><b class="mono val-accent" style="font-size:15px;">${fmt(totalBolsilloPabloNov)}</b></div>
+                <div class="stat-line"><span>🔵 Proyectado Noviembre (con Karina saldo $898.138 mañana + Celeste $847.151 sáb + Débora):</span><b class="mono val-accent" style="font-size:15px;">${fmt(totalBolsilloPabloNov)}</b></div>
                 <div class="stat-line"><span>🚗 Si apartás los ${fmt(f.cfg.metaGol)} completos del Gol, te quedan limpios:</span><b class="mono val-green">${fmt(totalBolsilloPabloNov - f.cfg.metaGol)}</b></div>
                 <div class="stat-line"><span>📆 Ya asegurado para cobrar en Diciembre (Karina Cuota 2):</span><b class="mono val-gold">${fmt(f.diferidoDicTotal)}</b></div>
             `;

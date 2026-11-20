@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#070b14">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SGO Cóndor">
+    <title>SGO • Sistema de Gestión de Obra | El Cóndor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #060a12;
+            --card: #0f172a;
+            --card-2: #1e293b;
+            --card-3: #0b1120;
+            --border: rgba(56, 189, 248, 0.22);
+            --border-soft: rgba(255, 255, 255, 0.08);
+            --accent: #38bdf8;
+            --gold: #f59e0b;
+            --green: #10b981;
+            --red: #ef4444;
+            --purple: #a855f7;
+            --text: #f8fafc;
+            --muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Outfit', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body {
+            background: radial-gradient(circle at top, #0f1c36 0%, #060a12 65%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 12px 12px 60px;
+            max-width: 960px;
+            margin: 0 auto;
+        }
+        .mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* HEADER */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 14px 16px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            margin-bottom: 12px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.5);
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-logo {
+            width: 42px; height: 42px; border-radius: 12px;
+            background: linear-gradient(135deg, rgba(56,189,248,0.22), rgba(245,158,11,0.18));
+            border: 1px solid var(--accent);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 22px; font-weight: 800;
+        }
+        .brand-title { font-size: 17px; font-weight: 800; letter-spacing: 0.5px; color: #fff; }
+        .brand-sub { font-size: 12px; color: var(--muted); }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .pill-btn {
+            background: rgba(56, 189, 248, 0.14);
+            color: var(--accent);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 6px 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .net-badge {
+            font-size: 11px; font-weight: 700; padding: 6px 10px; border-radius: 999px;
+        }
+        .net-online { background: rgba(16, 185, 129, 0.15); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.35); }
+        .net-offline { background: rgba(245, 158, 11, 0.18); color: var(--gold); border: 1px solid rgba(245, 158, 11, 0.45); }
+
+        /* TOP NAV TABS */
+        .main-nav {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .nav-tab {
+            background: var(--card);
+            border: 1px solid var(--border-soft);
+            color: var(--muted);
+            padding: 12px 8px;
+            border-radius: 14px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s ease;
+        }
+        .nav-tab.active {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(14, 165, 233, 0.08));
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
+        }
+
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        /* QR & QUEUE BANNERS */
+        .qr-panel {
+            display: none;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 14px;
+            text-align: center;
+        }
+        .qr-panel.visible { display: block; }
+        .qr-panel img {
+            border-radius: 12px; background: #fff; padding: 8px;
+            margin: 10px auto; width: 165px; height: 165px; display: block;
+        }
+        .queue-banner {
+            margin-bottom: 12px; padding: 11px 14px; border-radius: 12px;
+            background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.4);
+            display: none; align-items: center; justify-content: space-between; gap: 10px;
+            font-size: 13px; color: #fde68a;
+        }
+        .queue-banner.visible { display: flex; }
+
+        /* CARDS & LABELS */
+        .section-label {
+            font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--muted); font-weight: 700; margin: 14px 4px 8px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border-soft);
+            border-radius: 16px;
+            padding: 15px;
+            margin-bottom: 12px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.35);
+        }
+        .card-accent { border-color: var(--border); }
+
+        /* CHIPS */
+        .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+        .chip {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 9px 13px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .chip.active {
+            background: rgba(56, 189, 248, 0.22);
+            border-color: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25);
+        }
+        .chip-new {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(16, 185, 129, 0.45);
+            color: #6ee7b7;
+        }
+
+        /* OBRA SUMMARY CARD */
+        .obra-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #13203a 100%);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin-top: 10px;
+        }
+        .obra-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; flex-wrap: wrap; }
+        .obra-name { font-size: 18px; font-weight: 800; color: #fff; }
+        .badge {
+            font-size: 11px; font-weight: 700; padding: 4px 9px; border-radius: 8px; display: inline-block;
+        }
+        .badge-condor { background: rgba(56, 189, 248, 0.18); color: var(--accent); border: 1px solid rgba(56,189,248,0.4); }
+        .badge-augusto { background: rgba(245, 158, 11, 0.18); color: #fcd34d; border: 1px solid rgba(245,158,11,0.4); }
+        .badge-mixto { background: rgba(168, 85, 247, 0.18); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.4); }
+
+        .obra-kpis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .kpi-mini {
+            background: rgba(6, 10, 18, 0.65);
+            border: 1px solid var(--border-soft);
+            border-radius: 11px;
+            padding: 9px 11px;
+        }
+        .kpi-mini .lbl { font-size: 10.5px; color: var(--muted); text-transform: uppercase; }
+        .kpi-mini .val { font-size: 15px; font-weight: 800; margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+        .val-green { color: #34d399; }
+        .val-gold { color: #fbbf24; }
+        .val-accent { color: var(--accent); }
+
+        /* 5 DEPLOYABLE ACTION MODULES */
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .mod-btn {
+            background: var(--card);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--text);
+            padding: 12px 10px;
+            border-radius: 13px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+        .mod-btn.active {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--gold);
+            color: #fff;
+            box-shadow: 0 0 14px rgba(245, 158, 11, 0.22);
+        }
+
+        .deploy-panel {
+            display: none;
+            margin-top: 12px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 16px;
+            animation: fadeIn 0.18s ease;
+        }
+        .deploy-panel.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+
+        .panel-title {
+            font-size: 15px; font-weight: 800; color: var(--gold);
+            margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* FORM CONTROLS */
+        .field-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 10px; }
+        .field { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+        .field label { font-size: 12px; color: var(--muted); font-weight: 600; }
+        input[type="text"], input[type="number"], input[type="date"], select, textarea {
+            width: 100%;
+            background: var(--card-3);
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 11px;
+            padding: 10px 12px;
+            color: var(--text);
+            font-size: 14.5px;
+        }
+        textarea { min-height: 90px; resize: vertical; line-height: 1.45; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent); }
+
+        .person-row {
+            background: var(--card-3);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+        }
+        .person-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .mini-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 7px; }
+        .mini-pill {
+            background: var(--card-2); color: var(--muted); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px; padding: 6px 10px; font-size: 12px; font-weight: 700; cursor: pointer;
+        }
+        .mini-pill.active { background: rgba(16, 185, 129, 0.2); border-color: var(--green); color: #fff; }
+
+        .car-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 12px;
+            padding: 11px 12px;
+            margin-bottom: 8px;
+        }
+        .car-details { display: none; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border-soft); }
+        .car-details.visible { display: block; }
+
+        /* VOICE & BUTTONS */
+        .mic-btn {
+            width: 100%; padding: 14px; border-radius: 12px;
+            border: 2px solid rgba(56, 189, 248, 0.45);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(14, 165, 233, 0.08));
+            color: #fff; font-size: 15px; font-weight: 800; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;
+        }
+        .mic-btn.recording {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.35), rgba(220, 38, 38, 0.18));
+            border-color: var(--red);
+        }
+        .btn-primary {
+            width: 100%; background: linear-gradient(135deg, #0284c7, #0ea5e9);
+            color: #fff; border: none; border-radius: 12px; padding: 14px;
+            font-weight: 800; font-size: 15px; cursor: pointer;
+            box-shadow: 0 6px 18px rgba(14, 165, 233, 0.3);
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #d97706, #f59e0b);
+            color: #000; border: none; border-radius: 11px; padding: 11px 14px;
+            font-weight: 800; font-size: 13.5px; cursor: pointer;
+        }
+        .btn-secondary {
+            background: var(--card-2); color: var(--text); border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 11px; padding: 10px 14px; font-weight: 700; font-size: 13px; cursor: pointer;
+        }
+
+        .toast {
+            position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%);
+            z-index: 9999; max-width: 92%; padding: 12px 18px; border-radius: 12px;
+            font-size: 14px; font-weight: 700; display: none; box-shadow: 0 10px 30px rgba(0,0,0,0.65);
+        }
+        .toast.ok { display: block; background: #065f46; border: 1px solid #34d399; color: #ecfdf5; }
+        .toast.warn { display: block; background: #78350f; border: 1px solid #fbbf24; color: #fef3c7; }
+
+        /* PROGRESS BARS */
+        .prog-wrap { background: #060a12; border-radius: 999px; height: 12px; overflow: hidden; margin: 8px 0; border: 1px solid var(--border-soft); }
+        .prog-bar { height: 100%; background: linear-gradient(90deg, var(--accent), var(--green)); transition: width 0.3s ease; }
+        .prog-bar-gold { background: linear-gradient(90deg, #f59e0b, #10b981); }
+
+        /* DASHBOARD GRIDS */
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 12px; }
+        .stat-line { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13.5px; }
+        .stat-line:last-child { border-bottom: none; }
+
+        /* HISTORY LOG */
+        .log-item { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 13px; }
+        .log-item:last-child { border-bottom: none; }
+        .log-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+
+        /* MODAL */
+        .modal-bg {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.78);
+            z-index: 2000; align-items: center; justify-content: center; padding: 14px;
+        }
+        .modal-bg.visible { display: flex; }
+        .modal-card {
+            background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+            padding: 18px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+        }
+
+        @media print {
+            body { background: #fff; color: #000; max-width: 100%; }
+            .main-nav, .header-right, .module-grid, .deploy-panel { display: none !important; }
+            .card, .obra-banner { border: 1px solid #ccc; box-shadow: none; background: #fff; color: #000; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <div class="header">
+        <div class="brand">
+            <div class="brand-logo">🦅</div>
+            <div>
+                <div class="brand-title">SGO • SISTEMA DE GESTIÓN DE OBRA</div>
+                <div class="brand-sub">El Cóndor Climatización y Soluciones Integrales</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <button class="pill-btn" onclick="document.getElementById('qrPanel').classList.toggle('visible')">📱 Instalar en Celu</button>
+            <div id="netBadge" class="net-badge net-online">● EN LÍNEA</div>
+        </div>
+    </div>
+
+    <!-- QR PANEL -->
+    <div id="qrPanel" class="qr-panel">
+        <div style="font-weight:800;font-size:14.5px;">SGO El Cóndor en tu Celular (Sincronizado en Vivo)</div>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://elcondorclimatizacion-oss.github.io/elcondor-/sgo.html" alt="QR SGO El Cóndor">
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.5;">
+            Escaneá con la cámara → En Chrome tocá <b>⋮</b> → <b>"Agregar a la pantalla principal"</b>.<br>
+            Link directo: <a href="https://elcondorclimatizacion-oss.github.io/elcondor-/sgo.html" target="_blank" style="color:var(--accent);">elcondorclimatizacion-oss.github.io/elcondor-/sgo.html</a>
+        </div>
+    </div>
+
+    <!-- OFFLINE QUEUE BANNER -->
+    <div id="queueBanner" class="queue-banner">
+        <span id="queueText">⏳ Movimientos en Modo Subsuelo pendientes de subir: 0</span>
+        <button class="btn-gold" style="padding:6px 12px;font-size:12px;" onclick="flushOfflineQueue()">SINCRONIZAR</button>
+    </div>
+
+    <!-- TOP NAVIGATION -->
+    <div class="main-nav">
+        <button class="nav-tab active" onclick="switchView('obras', this)">🏗️ OBRAS Y CAMPO</button>
+        <button class="nav-tab" onclick="switchView('numeros', this)">📊 NÚMEROS DEL MES</button>
+        <button class="nav-tab" onclick="switchView('config', this)">⚙️ FIJOS Y EQUIPO</button>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- VISTA 1: OPERACIONES DE OBRA                                      -->
+    <!-- ================================================================= -->
+    <div id="view-obras" class="view-section active">
+
+        <!-- BARRA RÁPIDA DE VOZ CON DETECCIÓN AUTOMÁTICA DE CLIENTE -->
+        <div class="card card-accent" style="margin-bottom:14px;padding:13px 14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">
+                <span style="font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.6px;">🎙️ Dictado Rápido Inteligente (Detecta el cliente al hablar)</span>
+                <span id="detectedObraBadge" style="font-size:11.5px;color:#34d399;font-weight:700;"></span>
+            </div>
+            <button id="quickMicBtn" class="mic-btn" style="padding:12px;margin-bottom:8px;" onclick="toggleQuickVoice()">
+                <span>🎙️</span>
+                <span id="quickMicLabel">TOCÁ PARA HABLAR</span>
+            </button>
+            <div style="display:flex;gap:8px;">
+                <input type="text" id="quickVoiceInput" placeholder="O escribí rápido acá..." oninput="detectAndSwitchObra(this.value)">
+                <button class="btn-gold" style="white-space:nowrap;padding:0 16px;" onclick="guardarDictadoRapido()">GUARDAR ⚡</button>
+            </div>
+        </div>
+
+        <div class="section-label">
+            <span>1. Seleccionar Obra Activa (o cargar nuevo llamado)</span>
+        </div>
+        <div class="chips" id="obrasChips"></div>
+
+        <!-- FICHA VIVA DE LA OBRA SELECCIONADA -->
+        <div id="obraBanner" class="obra-banner"></div>
+
+        <!-- 5 BOTONES DESPLEGABLES -->
+        <div class="section-label">
+            <span>2. Registrar Movimiento en esta Obra (tocá para desplegar)</span>
+        </div>
+        <div class="module-grid">
+            <button class="mod-btn active" onclick="openModule('equipo', this)">👷 Equipo y Autos</button>
+            <button class="mod-btn" onclick="openModule('materiales', this)">📦 Materiales</button>
+            <button class="mod-btn" onclick="openModule('cobros', this)">💰 Presup. / Cobros</button>
+            <button class="mod-btn" onclick="openModule('agenda', this)">📅 Agenda / Equipo</button>
+            <button class="mod-btn" onclick="openModule('tecnica', this)">🛠️ Nota / Dictado</button>
+        </div>
+
+        <!-- PANEL 1: EQUIPO Y VEHÍCULOS DEL DÍA -->
+        <div id="mod-equipo" class="deploy-panel active">
+            <div class="panel-title">
+                <span>👷 Parte Diario de Equipo, Viáticos y Vehículos</span>
+                <span class="mono" style="font-size:12px;color:var(--muted);" id="todayLabel"></span>
+            </div>
+
+            <!-- SELECTOR DE FECHA: HOY / AYER / ELEGIR DÍA -->
+            <div class="person-row" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <span style="font-weight:700;font-size:13px;">📅 ¿De qué día es este gasto / parte?</span>
+                <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;" id="fechaPills">
+                    <button class="mini-pill active" onclick="setFechaModo('hoy', this)">Hoy</button>
+                    <button class="mini-pill" onclick="setFechaModo('ayer', this)">⏪ Ayer</button>
+                    <input type="date" id="customFechaInput" style="width:142px;padding:5px 8px;font-size:12.5px;" onchange="setFechaCustom()">
+                </div>
+            </div>
+
+            <div class="person-row">
+                <div class="person-head">
+                    <span style="font-weight:700;">Socios Técnicos hoy en obra:</span>
+                    <div style="display:flex;gap:14px;">
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;">
+                            <input type="checkbox" id="chkPablo" checked> Pablo
+                        </label>
+                        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;">
+                            <input type="checkbox" id="chkCristian" checked> Cristian
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AXEL -->
+            <div class="person-row">
+                <div class="person-head">
+                    <span style="font-weight:700;">👷 Axel (Ayudante):</span>
+                    <input type="number" id="axelMonto" value="0" style="width:125px;padding:6px 10px;text-align:right;" class="mono">
+                </div>
+                <div class="mini-pills" id="axelPills">
+                    <button class="mini-pill active" onclick="setHelper('axel', 0, this)">No vino ($0)</button>
+                    <button class="mini-pill" onclick="setHelper('axel', 'STD', this)">Jornal Pago ($100k)</button>
+                    <button class="mini-pill" onclick="setHelper('axel', 0, this)">Solo Comida ($0)</button>
+                </div>
+            </div>
+
+            <!-- BENJA -->
+            <div class="person-row">
+                <div class="person-head">
+                    <span style="font-weight:700;">👷 Benjamín (Aprendiz):</span>
+                    <input type="number" id="benjaMonto" value="0" style="width:125px;padding:6px 10px;text-align:right;" class="mono">
+                </div>
+                <div class="mini-pills" id="benjaPills">
+                    <button class="mini-pill active" onclick="setHelper('benja', 0, this)">No vino ($0)</button>
+                    <button class="mini-pill" onclick="setHelper('benja', 'STD', this)">Jornal Pago ($50k)</button>
+                    <button class="mini-pill" onclick="setHelper('benja', 0, this)">Aprendizaje / Solo Comida ($0)</button>
+                </div>
+            </div>
+
+            <div class="field">
+                <label>🍽️ Comida / Bebida del equipo en el día ($)</label>
+                <input type="number" id="comidaDia" placeholder="Ej: 28000" value="">
+            </div>
+
+            <!-- VEHÍCULO PABLO: GOL 1.6 -->
+            <div class="car-box">
+                <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:700;">
+                    <span>🚗 Salió VW Gol 1.6 (Pablo)</span>
+                    <input type="checkbox" id="chkGol" onchange="toggleCar('Gol')">
+                </label>
+                <div id="detailsGol" class="car-details">
+                    <div class="field-row">
+                        <div class="field" style="margin-bottom:0;">
+                            <label>1. Fijo Desgaste (Aceite/Frenos/Gomas)</label>
+                            <input type="number" id="golDesgaste" value="3500" class="mono">
+                        </div>
+                        <div class="field" style="margin-bottom:0;">
+                            <label>2. Nafta cargada hoy ($)</label>
+                            <input type="number" id="golNafta" placeholder="0" class="mono">
+                        </div>
+                        <div class="field" style="margin-bottom:0;">
+                            <label>3. Peajes hoy ($)</label>
+                            <input type="number" id="golPeaje" placeholder="0" class="mono">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VEHÍCULO CRISTIAN: CHERY TIGGO -->
+            <div class="car-box">
+                <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:700;">
+                    <span>🚙 Salió Chery Tiggo 2016 (Cristian)</span>
+                    <input type="checkbox" id="chkTiggo" onchange="toggleCar('Tiggo')">
+                </label>
+                <div id="detailsTiggo" class="car-details">
+                    <div class="field-row">
+                        <div class="field" style="margin-bottom:0;">
+                            <label>1. Fijo Desgaste SUV (Aceite/Gomas)</label>
+                            <input type="number" id="tiggoDesgaste" value="4500" class="mono">
+                        </div>
+                        <div class="field" style="margin-bottom:0;">
+                            <label>2. Nafta cargada hoy ($)</label>
+                            <input type="number" id="tiggoNafta" placeholder="0" class="mono">
+                        </div>
+                        <div class="field" style="margin-bottom:0;">
+                            <label>3. Peajes hoy ($)</label>
+                            <input type="number" id="tiggoPeaje" placeholder="0" class="mono">
+                        </div>
+                    </div>
+                    <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--gold);margin-top:8px;cursor:pointer;">
+                        <input type="checkbox" id="chkNaftaContratista"> La nafta de hoy la pagó directo Augusto / Cliente (no descontar de caja)
+                    </label>
+                </div>
+            </div>
+
+            <button class="btn-primary" onclick="guardarJornada()">REGISTRAR JORNADA Y VIÁTICOS ⚡</button>
+        </div>
+
+        <!-- PANEL 2: MATERIALES -->
+        <div id="mod-materiales" class="deploy-panel">
+            <div class="panel-title">📦 Materiales: Casa de Electricidad / Faltantes en Obra</div>
+
+            <div class="section-label" style="margin-top:0;">A) Armador rápido de pedido para Casa de Electricidad (Transparente al Cliente)</div>
+            <div class="chips" style="margin-bottom:10px;">
+                <button class="chip" onclick="addMatChip('Caño PVC 20mm (tiras)')">+ Caño 20mm</button>
+                <button class="chip" onclick="addMatChip('Caño PVC 25mm (tiras)')">+ Caño 25mm</button>
+                <button class="chip" onclick="addMatChip('Curvas PVC')">+ Curvas</button>
+                <button class="chip" onclick="addMatChip('Cajas Estancas 10x10')">+ Cajas Estancas</button>
+                <button class="chip" onclick="addMatChip('Grampas Omega + Tarugo S6/Tornillo')">+ Grampas/Fijac.</button>
+                <button class="chip" onclick="addMatChip('Bobina UTP Cat6 100% Cobre')">+ Cable UTP</button>
+                <button class="chip" onclick="addMatChip('Fichas RJ45 / Balunes / Plugs')">+ RJ45/Plugs</button>
+                <button class="chip" onclick="addMatChip('Mechas SDS-Plus 4 Filos Expert 6mm')">+ Mechas 4 Filos</button>
+                <button class="chip" onclick="addMatChip('Térmica / Diferencial DIN')">+ Protecciones DIN</button>
+            </div>
+            <textarea id="matListaTexto" placeholder="Escribí o tocá los botones de arriba para armar la lista de materiales para cotizar en la Casa de Electricidad..."></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px;margin-bottom:18px;flex-wrap:wrap;">
+                <button class="btn-secondary" style="flex:1;" onclick="copiarPedidoElectricidad()">📲 Copiar Lista para WhatsApp Casa de Electricidad</button>
+                <button class="btn-secondary" onclick="guardarListaEnObra()">💾 Guardar Lista en Obra</button>
+            </div>
+
+            <div style="border-top:1px solid var(--border-soft);padding-top:14px;">
+                <div class="section-label" style="margin-top:0;">B) Compré un faltante / insumo hoy en obra (Control de Reintegro)</div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>Monto del Ticket ($)</label>
+                        <input type="number" id="matTicketMonto" placeholder="Ej: 45000" class="mono">
+                    </div>
+                    <div class="field">
+                        <label>¿Quién puso la plata en mostrador?</label>
+                        <select id="matQuienPago">
+                            <option value="Pablo">Adelantó Pablo de su bolsillo</option>
+                            <option value="Cristian">Adelantó Cristian de su bolsillo</option>
+                            <option value="Cliente">Lo pagó directo el Cliente / Augusto</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label>¿Quién absorbe este gasto?</label>
+                        <select id="matReintegro">
+                            <option value="cobrar_cliente">Se le cobra aparte al Cliente / Augusto (Reintegro)</option>
+                            <option value="gasto_obra">Lo absorbe la obra (ej. consumible / mecha no reconocida)</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label>Detalle (ej. 10 caños / 3 mechas Bosch)</label>
+                        <input type="text" id="matTicketDetalle" placeholder="Ej: 3 mechas 4 filos + tarugos Fischer">
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="guardarCompraMaterial()">REGISTRAR TICKET DE MATERIAL ⚡</button>
+            </div>
+        </div>
+
+        <!-- PANEL 3: PRESUPUESTO / ADICIONALES / COBROS -->
+        <div id="mod-cobros" class="deploy-panel">
+            <div class="panel-title">
+                <span>💰 Mano de Obra, Adicionales y Cobros</span>
+                <a href="https://elcondorclimatizacion-oss.github.io/elcondor-/calculadora_materiales.html" target="_blank" style="font-size:12px;color:var(--accent);text-decoration:none;">🧮 Abrir Calculadora El Cóndor ↗</a>
+            </div>
+
+            <!-- MINI CALCULADOR RÁPIDO 15% VIÁTICO + 35% GANANCIA -->
+            <div style="background:var(--card-3);border:1px solid var(--border-soft);border-radius:12px;padding:11px;margin-bottom:14px;">
+                <div style="font-size:12px;color:var(--muted);margin-bottom:6px;font-weight:700;">⚡ Simulador Rápido Mano de Obra (Base + 15% Viático + 35% Ganancia):</div>
+                <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+                    <input type="number" id="simBase" placeholder="Costo Base MO ($)" style="width:160px;" oninput="simularMO()">
+                    <span id="simResultado" class="mono" style="font-size:13px;color:var(--green);font-weight:700;">Sugerido: $0 (Viático 15%: $0)</span>
+                </div>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Tipo de Movimiento Económico</label>
+                    <select id="cobroTipo">
+                        <option value="cobro_mo">💵 Cobro recibido (Seña / Cuota / Saldo Mano de Obra)</option>
+                        <option value="adicional_mo">➕ Sumar Adicional de Mano de Obra a cobrar</option>
+                        <option value="cobro_reintegro">🧾 Cobro de Reintegro de Materiales adelantados</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Importe ($)</label>
+                    <input type="number" id="cobroMonto" placeholder="Ej: 700000" class="mono">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Medio / Condición</label>
+                    <select id="cobroMedio">
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Efectivo">Efectivo</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Detalle o Concepto</label>
+                    <input type="text" id="cobroDetalle" placeholder="Ej: +4 cámaras y 60m caño PB / Cuota 1 Nov">
+                </div>
+            </div>
+            <label style="display:flex;align-items:center;gap:8px;font-size:13px;margin-bottom:12px;cursor:pointer;">
+                <input type="checkbox" id="chkFactura"> Lleva Factura emitida (control tope Monotributo)
+            </label>
+            <button class="btn-primary" onclick="guardarMovimientoDinero()">REGISTRAR MOVIMIENTO ECONÓMICO ⚡</button>
+        </div>
+
+        <!-- PANEL 4: AGENDA Y ESTRATEGIA PARA EL EQUIPO -->
+        <div id="mod-agenda" class="deploy-panel">
+            <div class="panel-title">📅 Agenda y Hoja de Estrategia para el Equipo</div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>Días / Fechas Asignadas</label>
+                    <input type="text" id="agFechas" placeholder="Ej: Mié 11/11 y Jue 12/11 • 08 a 17 hs">
+                </div>
+                <div class="field">
+                    <label>Estado de la Obra</label>
+                    <select id="agEstado">
+                        <option value="1-Relevamiento">1 • En Relevamiento</option>
+                        <option value="2-Presupuestada">2 • Presupuesto Enviado</option>
+                        <option value="3-Agendada">3 • Aprobada y Agendada</option>
+                        <option value="4-En Obra">4 • En Ejecución (En Obra)</option>
+                        <option value="5-Terminada">5 • Terminada / Cerrada</option>
+                        <option value="⏳ Pago Diferido">⏳ Terminada / Pago Diferido</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field">
+                <label>Plan de Ataque / Estrategia para mandar a Cristian, Axel y Benja</label>
+                <textarea id="agEstrategia" placeholder="Ej: Día 1 canalización PB y pase UTP. Llevar mechas 4 filos 6mm, rotomartillo SDS+, escalera grande, tester RJ45..."></textarea>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn-primary" style="flex:1;" onclick="guardarAgendaObra()">ACTUALIZAR AGENDA Y AVISAR A PAUL ⚡</button>
+                <button class="btn-gold" onclick="copiarEstrategiaWhatsApp()">📲 Copiar Estrategia Grupo WhatsApp</button>
+            </div>
+        </div>
+
+        <!-- PANEL 5: NOTA TÉCNICA Y DICTADO POR VOZ -->
+        <div id="mod-tecnica" class="deploy-panel">
+            <div class="panel-title">🛠️ Nota Técnica de Campo / Dictado por Voz</div>
+            <div class="field">
+                <label>Especialidad Técnica</label>
+                <select id="tecRubro">
+                    <option value="📹 CCTV">📹 CCTV / Redes IP</option>
+                    <option value="⚡ Eléctrica / AEA">⚡ Eléctrica / Tableros AEA</option>
+                    <option value="🚨 Alarma / Cerco">🚨 Alarma Intelbras / Cerco</option>
+                    <option value="❄️ Climatización">❄️ Climatización / AA</option>
+                </select>
+            </div>
+            <button id="micBtn" class="mic-btn" onclick="toggleVoice()">
+                <span>🎙️</span>
+                <span id="micLabel">TOCAR PARA DICTAR POR VOZ (es-AR)</span>
+            </button>
+            <textarea id="tecNota" placeholder="Dictá o escribí cambios en obra, direcciones IP, medidas, sensores a presupuestar o recordatorios para ver a la noche con Paul..."></textarea>
+            <button class="btn-primary" style="margin-top:10px;" onclick="guardarNotaTecnica()">GUARDAR NOTA TÉCNICA EN SGO ⚡</button>
+        </div>
+
+        <!-- HISTORIAL DE ESTA OBRA -->
+        <div class="card" style="margin-top:16px;">
+            <div class="section-label" style="margin-top:0;">
+                <span>Historial de Movimientos de esta Obra</span>
+                <span id="obraMovCount" class="mono" style="color:var(--accent);"></span>
+            </div>
+            <div id="obraHistoryList"></div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- VISTA 2: NÚMEROS DEL MES Y REPARTO                                -->
+    <!-- ================================================================= -->
+    <div id="view-numeros" class="view-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+            <div>
+                <h2 style="font-size:19px;font-weight:800;">📊 Tablero Financiero • Noviembre 2026</h2>
+                <p style="font-size:12.5px;color:var(--muted);">Control exacto de Quincena, Cajas Separadas y Meta Gol Diciembre</p>
+            </div>
+            <button class="btn-gold" onclick="copiarResumenReunion()">📋 Copiar Balance para Reunión</button>
+        </div>
+
+        <!-- SEMÁFORO PRIMERA QUINCENA: GASTOS FIJOS DEL MES -->
+        <div class="card card-accent">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                <span style="font-weight:800;font-size:15px;">🛡️ Meta 1ra Quincena: Cubrir Fijos del Mes (Seguro + Monotributo)</span>
+                <span id="fijosStatusBadge" class="badge badge-condor">Calculando...</span>
+            </div>
+            <div class="prog-wrap"><div id="fijosBar" class="prog-bar" style="width:0%"></div></div>
+            <div id="fijosDetalleText" style="font-size:12.5px;color:var(--muted);"></div>
+        </div>
+
+        <!-- META PERSONAL PABLO: GOL DICIEMBRE ($550.000) -->
+        <div class="card" style="border-color: rgba(245, 158, 11, 0.4);">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;">
+                <span style="font-weight:800;font-size:15px;color:#fbbf24;">🚗 Tu Meta Personal 1° Diciembre: Puesta a Punto VW Gol 1.6</span>
+                <span id="golMetaBadge" class="mono" style="font-weight:800;color:#fbbf24;">$0 / $550.000</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);margin-top:4px;">
+                4 Cubiertas colocadas ($400.000) + Service eléctrico, 4 bujías y junta Sabó de goma ($150.000) • <i>Próximo aceite ($130k): Julio 2027</i>
+            </div>
+            <div class="prog-wrap"><div id="golMetaBar" class="prog-bar prog-bar-gold" style="width:0%"></div></div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">
+                <input type="number" id="aporteGolInput" placeholder="Apartar $ de tu cobro..." style="width:190px;padding:8px 10px;" class="mono">
+                <button class="btn-gold" style="padding:8px 12px;font-size:12.5px;" onclick="sumarAporteGol()">+ Guardar en Alcancía Gol</button>
+                <span id="golDesgasteAcumText" style="font-size:12px;color:var(--muted);"></span>
+            </div>
+        </div>
+
+        <!-- DOS CAJAS BLINDADAS -->
+        <div class="dash-grid">
+            <!-- CAJA 1: SOCIEDAD EL CÓNDOR 50/50 -->
+            <div class="card card-accent">
+                <div style="font-weight:800;font-size:15px;color:var(--accent);margin-bottom:8px;">🦅 CAJA COMPARTIDA (50% Pablo / 50% Cristian)</div>
+                <div id="cajaCondorBody"></div>
+            </div>
+
+            <!-- CAJA 2: EXCLUSIVA PABLO (AUGUSTO 100%) -->
+            <div class="card" style="border-color: rgba(245, 158, 11, 0.35);">
+                <div style="font-weight:800;font-size:15px;color:#fbbf24;margin-bottom:8px;">🤝 CAJA EXCLUSIVA PABLO (Augusto 100%)</div>
+                <div id="cajaAugustoBody"></div>
+            </div>
+        </div>
+
+        <!-- RESUMEN DE BOLSILLO Y CUENTAS POR COBRAR -->
+        <div class="dash-grid" style="margin-top:4px;">
+            <div class="card">
+                <div style="font-weight:800;font-size:15px;color:#34d399;margin-bottom:8px;">💵 RESUMEN TOTAL EN MANO + POR ENTRAR</div>
+                <div id="resumenBolsilloBody"></div>
+            </div>
+            <div class="card">
+                <div style="font-weight:800;font-size:15px;color:var(--text);margin-bottom:8px;">📈 RENDIMIENTO POR RUBRO TÉCNICO</div>
+                <div id="rubrosBody"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
+    <!-- VISTA 3: CONFIGURACIÓN, VENCIMIENTOS Y EQUIPO                     -->
+    <!-- ================================================================= -->
+    <div id="view-config" class="view-section">
+        <div class="card card-accent">
+            <div class="panel-title">⚙️ Parámetros Fijos Mensuales y Vencimientos</div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Seguro Mensual de los 4 ($)</label>
+                    <input type="number" id="cfgSeguro" value="60000" class="mono">
+                </div>
+                <div class="field">
+                    <label>Día del mes que vence el Seguro</label>
+                    <input type="number" id="cfgDiaSeguro" value="10" min="1" max="31" class="mono">
+                </div>
+                <div class="field">
+                    <label>Monotributo Mensual ($) (Vence día 20)</label>
+                    <input type="number" id="cfgMono" value="100000" class="mono">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Presupuesto Nafta Mensual Ref. ($)</label>
+                    <input type="number" id="cfgNaftaMes" value="300000" class="mono">
+                </div>
+                <div class="field">
+                    <label>Jornal Estándar Axel ($)</label>
+                    <input type="number" id="cfgAxel" value="100000" class="mono">
+                </div>
+                <div class="field">
+                    <label>Jornal Estándar Benjamín ($)</label>
+                    <input type="number" id="cfgBenja" value="50000" class="mono">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Fijo Desgaste Diario Gol 1.6 ($)</label>
+                    <input type="number" id="cfgGolDia" value="3500" class="mono">
+                </div>
+                <div class="field">
+                    <label>Fijo Desgaste Diario Tiggo SUV ($)</label>
+                    <input type="number" id="cfgTiggoDia" value="4500" class="mono">
+                </div>
+                <div class="field">
+                    <label>Meta Cubiertas + Service Gol Dic ($)</label>
+                    <input type="number" id="cfgMetaGol" value="550000" class="mono">
+                </div>
+            </div>
+            <button class="btn-primary" onclick="guardarConfig()">GUARDAR PARÁMETROS FIJOS ⚡</button>
+            <div style="border-top:1px solid var(--border-soft);margin-top:16px;padding-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+                <div style="font-size:12.5px;color:var(--muted);">¿Hiciste pruebas y querés dejar este equipo limpio de fábrica?</div>
+                <button class="btn-secondary" style="border-color:rgba(239,68,68,0.45);color:#fca5a5;" onclick="resetearPruebas()">🧹 Borrar Pruebas / Restaurar Base Limpia</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: NUEVA OBRA O EDITAR OBRA -->
+    <div id="obraModal" class="modal-bg">
+        <div class="modal-card">
+            <div class="panel-title">
+                <span id="modalTitle">➕ Nueva Obra / Relevamiento</span>
+                <button class="btn-secondary" style="padding:4px 10px;" onclick="closeObraModal()">✕</button>
+            </div>
+            <input type="hidden" id="editObraId">
+            <div class="field">
+                <label>Nombre Cliente / Obra</label>
+                <input type="text" id="mNombre" placeholder="Ej: Juan - 10 Cámaras IP">
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Caja / Destino de Ganancia</label>
+                    <select id="mCaja">
+                        <option value="CONDOR_50_50">🦅 El Cóndor (50% Pablo / 50% Cristian)</option>
+                        <option value="AUGUSTO_PABLO">🤝 Augusto (100% Tuya - Cobro Individual)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Rubro Principal</label>
+                    <select id="mRubro">
+                        <option value="📹 CCTV">📹 CCTV / Redes</option>
+                        <option value="⚡ Eléctrica">⚡ Eléctrica / Tableros</option>
+                        <option value="🚨 Alarmas/Cercos">🚨 Alarmas / Cercos</option>
+                        <option value="❄️ Climatización">❄️ Climatización</option>
+                    </select>
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Mano de Obra Total Pactada ($)</label>
+                    <input type="number" id="mTotalMO" placeholder="0" class="mono">
+                </div>
+                <div class="field">
+                    <label>Ya Cobrado ANTES de Noviembre ($)</label>
+                    <input type="number" id="mCobradoAntes" placeholder="0" class="mono">
+                </div>
+            </div>
+            <div class="field-row">
+                <div class="field">
+                    <label>Diferido para Diciembre u otro mes ($)</label>
+                    <input type="number" id="mDiferidoDic" placeholder="0" class="mono">
+                </div>
+                <div class="field">
+                    <label>Fechas en Agenda</label>
+                    <input type="text" id="mFechas" placeholder="Ej: Jue 19/11 y Vie 20/11">
+                </div>
+            </div>
+            <div class="field">
+                <label>Estado Inicial</label>
+                <select id="mEstado">
+                    <option value="1-Relevamiento">1 • En Relevamiento</option>
+                    <option value="2-Presupuestada">2 • Presupuesto Enviado</option>
+                    <option value="3-Agendada">3 • Aprobada y Agendada</option>
+                    <option value="4-En Obra">4 • En Obra</option>
+                    <option value="5-Terminada">5 • Terminada</option>
+                    <option value="⏳ Pago Diferido">⏳ Pago Diferido</option>
+                </select>
+            </div>
+            <div class="field">
+                <label>Notas de Relevamiento / Condiciones</label>
+                <textarea id="mNotas" placeholder="Detalles técnicos, materiales vistos, condiciones de pago..."></textarea>
+            </div>
+            <button class="btn-primary" onclick="salvarObraModal()">GUARDAR FICHA DE OBRA ⚡</button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
+        const STORAGE_KEY = "sgo_el_condor_v9_1911";
+
+        const DEFAULT_STATE = {
+            config: {
+                seguro: 60000,
+                diaSeguro: 10,
+                monotributo: 100000,
+                naftaMes: 300000,
+                axelStd: 100000,
+                benjaStd: 50000,
+                golDesgasteDia: 3500,
+                tiggoDesgasteDia: 4500,
+                metaGol: 550000,
+                ahorroManualGol: 0
+            },
+            obras: [
+                {
+                    id: "armenia",
+                    nombre: "Estacionamiento Armenia",
+                    caja: "AUGUSTO_PABLO",
+                    rubro: "📹 CCTV",
+                    estado: "5-Terminada",
+                    fechas: "Lun 02/11 al Jue 05/11 • TERMINADA Y COBRADA",
+                    totalMO: 700000,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 750000,
+                    adicionalesMO: 50000,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra finalizada y cobrada ($750.000 totales con adicional de +$50.000). 6 semisubsuelos + PB (60m caño) + 3 semipisos. 28 cámaras totales.",
+                    movimientos: [
+                        { id: "c_arm_1011", fecha: "10/11", tipo: "💰 Dinero", resumen: "Cobro Mano de Obra + Adicional: $750.000 (Pagado por Augusto - Obra Cerrada)", revert: { kind: "cobro_mo", monto: 750000 } },
+                        { id: "j_arm_0511", fecha: "05/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $18.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0411", fecha: "04/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $20.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0311", fecha: "03/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $40.000", revert: { kind: "jornada" } },
+                        { id: "j_arm_0211", fecha: "02/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo • Comida: $25.000", revert: { kind: "jornada" } },
+                        { id: "n_arm_0311", fecha: "03/11 21:45", tipo: "🛠️ Nota", resumen: "Obra mal replanteada por Augusto: son 28 cámaras (no 24) + 60m cañería PB + 3 mechas rotas en vigas duras. Nafta Tiggo la paga Augusto directo. Reclamar adicional." }
+                    ]
+                },
+                {
+                    id: "hector",
+                    nombre: "Héctor (Félix de Álzaga 2914)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "5-Terminada",
+                    fechas: "Jue 12/11 • TERMINADA Y COBRADA",
+                    totalMO: 803999,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 803999,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "Presupuesto GL Materiales Eléctricos N° 0005-00044957 ($335.618,01):\n• 20m Cable Subterráneo 2x4mm Marvic ($98.834,87)\n• 1 Térmica Bipolar 2x16A Sica + 1 Caja Ext 2 bocas Genrod\n• 20m Unipolar 2.5mm Celeste + 20m Marrón + 5m 1.5mm Rojo + 5m Celeste\n• 7 Caños D20 Semipesado Gris Genrod + 35 Grampas + 10 Curvas + 5 Uniones + 20 Conectores\n• 7 Cajas Rect. Ext. Genrod + 2 Cajas Pase IP65 115x115x65 + 5 Cajas Octogonales\n• 5 Módulos Toma Doble Cambre SXXI-XXII + 3 Puntos + Bastidores y Tapas\n• 10 Conectores Wago 221-412 hasta 4mm",
+                    estrategia: "Obra ejecutada, terminada y 100% cobrada ($803.999). Equipo: Pablo, Cristian y Axel ($100.000) + Comida y bebida $70.000 (compartido 50/50 con Cristian). Tendido 20m Sintenax 2x4mm desde TP a Lavadero (tablero seccional 1x16A) + cañería D20 a la vista hacia Cocina (7 bocas nuevas).",
+                    movimientos: [
+                        { id: "c_hec_1311", fecha: "12/11 (Jueves)", tipo: "💰 Dinero", resumen: "Cobro Total Mano de Obra: $803.999 (Trabajo terminado y cobrado)", revert: { kind: "cobro_mo", monto: 803999 } },
+                        { id: "j_hec_1211", fecha: "12/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida y bebida: $70.000 (mitad con Cristian)", revert: { kind: "jornada" } },
+                        { id: "n_hec_1011", fecha: "10/11", tipo: "🆕 Relevamiento", resumen: "Presupuesto MO aprobado: $803.999,04 + Presupuesto GL Materiales $335.618,01." }
+                    ]
+                },
+                {
+                    id: "olga",
+                    nombre: "Olga (Guayquiraró - Cuadra Vecinal)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "5-Terminada",
+                    fechas: "Sáb 14/11 • TERMINADA Y COBRADA",
+                    totalMO: 250000,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 250000,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra ejecutada, terminada y cobrada el Sábado 14/11 ($250.000). Equipo: Pablo, Cristian y Axel ($50.000). Neto repartible: $200.000 ($100.000 Pablo / $100.000 Cristian).",
+                    movimientos: [
+                        { id: "c_olg_1411", fecha: "14/11 (Sábado)", tipo: "💰 Dinero", resumen: "Cobro Total Mano de Obra: $250.000 (Terminado y cobrado)", revert: { kind: "cobro_mo", monto: 250000 } },
+                        { id: "j_olg_1411", fecha: "14/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($50.000) • Neto 50/50: $100k c/u", revert: { kind: "jornada" } },
+                        { id: "n_olg_1311", fecha: "13/11", tipo: "📅 Agenda", resumen: "Agendado Sábado 14/11: colocar reflector + arreglo de luces en lo de Olga (Guayquiraró) + replanteo instalación de AA a nuevo." }
+                    ]
+                },
+                {
+                    id: "karina",
+                    nombre: "Karina",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "4-En Obra",
+                    fechas: "Vie 06/11, Lun 16/11, Mié 18/11, Jue 19/11 y Cierre Vie 20/11 (Mediodía)",
+                    totalMO: 3496276,
+                    cobradoAntes: 500000,
+                    diferidoDic: 1498138,
+                    cobradoMes: 600000,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Cierre mañana Viernes 20/11 al mediodía (08:00 a 13:00 hs). Equipo: Pablo, Cristian y Axel ($100.000 jornal completo). Hoy Jue 19/11 Karina adelantó $600.000 ($100.000 pagados a Axel por el día de hoy + $250.000 Pablo + $250.000 Cristian). Saldo a cobrar mañana al terminar la 1ra mitad de Noviembre: $898.138 (y quedan $1.498.138 diferidos para Diciembre).",
+                    movimientos: [
+                        { id: "j_kar_2011", fecha: "20/11 (Viernes - Mediodía)", tipo: "👷 Jornada", resumen: "Equipo (Día 5 - Cierre Mediodía): Pablo, Cristian, Axel ($100.000 jornal completo) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "c_kar_1911", fecha: "19/11 (Jueves)", tipo: "💰 Dinero", resumen: "Cobro Adelanto en Obra: $600.000 ($100.000 pagados a Axel hoy + $250.000 Pablo + $250.000 Cristian)", revert: { kind: "cobro_mo", monto: 600000 } },
+                        { id: "j_kar_1911", fecha: "19/11 (Jueves)", tipo: "👷 Jornada", resumen: "Equipo (Día 4): Pablo, Cristian, Axel ($100.000 - Pagado hoy) • Comida real: $50.000", revert: { kind: "jornada" } },
+                        { id: "j_kar_1811", fecha: "18/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo (Día 3): Pablo, Cristian, Axel ($100.000) • Comida real: $40.000", revert: { kind: "jornada" } },
+                        { id: "j_kar_1611", fecha: "16/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo (Día 2): Pablo, Cristian, Axel ($100.000) • Comida: $30.000", revert: { kind: "jornada" } },
+                        { id: "n_kar_1311", fecha: "13/11 (Viernes)", tipo: "📅 Agenda", resumen: "Karina no podía el viernes 13/11; se reprograma continuación para el Lunes 16/11, Miércoles 18/11 y Jueves 19/11." },
+                        { id: "j_kar_0611", fecha: "06/11 (Viernes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $100.000 • Gol [Desg $3.500 + Naf $10.000 + Pea $0] | Tiggo [Desg $4.500 + Naf $10.000 + Pea $0]", revert: { kind: "jornada" } }
+                    ]
+                },
+                {
+                    id: "celeste",
+                    nombre: "Celeste (40m Cañería 25mm + Sintenax 2x6 + Tablero 12M)",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "3-Agendada",
+                    fechas: "Sáb 21/11 • 08:00 a 17:00 hs (CONFIRMADA)",
+                    totalMO: 847151,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "LISTA DE MATERIALES - OBRA CELESTE (Casa de Electricidad / GL):\n• 42 metros de Cable Subterráneo Sintenax 2x6 mm² normalizado IRAM 2178\n• 14 tiras (42 metros) de Caño Rígido PVC Semipesado Gris Genrod Ø 25mm (1\")\n• 70 Grampas de fijación rápida Genrod grises Ø 25mm\n• 15 Uniones / Cuplas de PVC rígido Genrod grises Ø 25mm\n• 6 Curvas a 90° de PVC rígido Genrod grises Ø 25mm\n• 10 Conectores de PVC a caja Genrod grises Ø 25mm\n• 3 Cajas de pase estancas IP65 (10x10 / 115x115x65 mm) Genrod\n• 100 Tarugos de nylon N° 6 con tope + 100 Tornillos Fix 4.5x40 mm\n• 1 Gabinete para Tablero Seccional de 12 módulos DIN con puerta (Genrod / Roker)\n• 1 Llave Térmica Bipolar 2x25A Curva C normalizada (corte general en tablero depto)",
+                    estrategia: "Confirmada para este Sábado 21/11 ($847.151 MO con Trabajo en Altura hasta 4m+ x1.30). Equipo: Pablo, Cristian y Axel ($100.000 jornal). Canalización exterior/superficie de 40m con caño PVC rígido Ø 25mm desde medidor hasta tablero del departamento, enhebrado de 40m de Sintenax 2x6 mm² y colocación de tablero seccional de 12 módulos DIN en el depto con llave térmica general de 2x25A.",
+                    movimientos: [
+                        { id: "j_cel_2111", fecha: "21/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo asignado: Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "n_cel_1911", fecha: "19/11 (Jueves)", tipo: "✅ Aprobada", resumen: "Presupuesto aceptado por Celeste ($847.150,72 MO): 40m cañería PVC 25mm en altura (4m+) desde medidor a depto + 40m Sintenax 2x6mm² + Tablero 12 módulos con térmica 2x25A. Agendada Sábado 21/11 con Axel." }
+                    ]
+                },
+                {
+                    id: "varela_aire",
+                    nombre: "Varela (Relevamiento Aire Acondicionado)",
+                    caja: "CONDOR_50_50",
+                    rubro: "❄️ Climatización",
+                    estado: "1-Relevamiento",
+                    fechas: "Vie 20/11 • 14:00 a 17:30 hs (Después de Karina)",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Viernes 20/11 por la tarde después de terminar Karina: ir a Florencio Varela a replantear la colocación de un aire acondicionado (falta definir nombre, dirección, frigorías/watts, metros de cañería, altura y alimentación eléctrica).",
+                    movimientos: [
+                        { id: "n_var_1911", fecha: "19/11 (Jueves)", tipo: "📅 Agenda", resumen: "Agendado relevamiento en Florencio Varela mañana Viernes 20/11 a la tarde (después de Karina) para ver colocación de aire acondicionado." }
+                    ]
+                },
+                {
+                    id: "nora",
+                    nombre: "Nora",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "5-Terminada",
+                    fechas: "Sáb 07/11 • TERMINADA",
+                    totalMO: 300000,
+                    cobradoAntes: 300000,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra terminada el sábado 07/11 ($300.000 abonados previamente). Equipo: Pablo, Cristian y Axel ($100.000).",
+                    movimientos: [
+                        { id: "j_nor_0711", fecha: "07/11 (Sábado)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Obra terminada", revert: { kind: "jornada" } }
+                    ]
+                },
+                {
+                    id: "virrey",
+                    nombre: "Virrey del Pino (Leo)",
+                    caja: "AUGUSTO_PABLO",
+                    rubro: "📹 CCTV",
+                    estado: "5-Terminada",
+                    fechas: "Mar 10/11 • TERMINADA Y COBRADA",
+                    totalMO: 400000,
+                    cobradoAntes: 200000,
+                    diferidoDic: 0,
+                    cobradoMes: 275000,
+                    adicionalesMO: 75000,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra vía Augusto (100% Pablo) terminada el Martes 10/11 y cobrada el Miércoles 11/11 ($200.000 adelanto previo + $275.000 cobrados en Noviembre = $475.000 totales).",
+                    movimientos: [
+                        { id: "c_vir_1111", fecha: "11/11 (Miércoles)", tipo: "💰 Dinero", resumen: "Cobro de Augusto: $275.000 (Saldo $200.000 + Adicional $75.000)", revert: { kind: "cobro_mo", monto: 275000 } },
+                        { id: "n_vir_1011", fecha: "10/11 (Martes)", tipo: "✅ Cierre", resumen: "Obra Virrey del Pino finalizada." }
+                    ]
+                },
+                {
+                    id: "flash",
+                    nombre: "En un Flash",
+                    caja: "CONDOR_50_50",
+                    rubro: "📹 CCTV",
+                    estado: "3-Agendada",
+                    fechas: "Lun 23/11 y Mar 24/11 • 08:00 a 17:00 hs",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "CÓMPUTO DE CAÑERÍA, FIJACIONES Y POE - EN UN FLASH (MURO NORTE):\n• 45 tiras de Caño PVC rígido 25mm x 3m (135m lineales: Tramo #1 36m + Tramo #2 9m + Tramo #3 90m)\n• 25 unidades de Caja Estanca 10x10 IP65 (23 de paso c/2 tiras + 2 en cámaras TIC2621SR-F3-4F4AC-VD)\n• 1 unidad de Caja Estanca 20x20x10 cm IP65 + 1 Toma Hembra 220V (para alojar Switch Omada ES205GP + Fuente 53.5V)\n• 1 unidad de Switch TP-Link Omada ES205GP 5P Gigabit PoE+ (65W)\n• 51 unidades de Conector PVC 25mm para caja\n• 22 unidades de Unión / Cupla PVC 25mm\n• 6 unidades de Curva 90° PVC 25mm\n• 135 unidades de Grampa de sujeción 25mm (3 por tira)\n• 239 unidades de Tarugo Fischer SX6 + Tornillo (3 cajas x 100 unid.)\n• 149 metros de Cable UTP Exterior 100% Cobre (135m netos + 10% rulo)\n• 6 unidades de Ficha RJ45 Blindada (3 cables nuevos x 2 puntas)",
+                    estrategia: "Reprogramada para Lunes 23/11 y Martes 24/11 (pago a definir). Equipo: Pablo, Cristian y Axel ($100.000 x 2 días = $200.000) + Comida $30.000/día. Montaje sobre Muro Norte (lado derecho del plano) con cámaras térmicas biespectrales Uniview TIC2621SR-F3-4F4AC-VD y Switch Omada ES205GP en caja 20x20.",
+                    movimientos: [
+                        { id: "j_fla_2411", fecha: "24/11 (Martes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 2/2): Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } },
+                        { id: "j_fla_2311", fecha: "23/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo asignado (Día 1/2): Pablo, Cristian, Axel ($100.000) • Comida est.: $30.000", revert: { kind: "jornada" } }
+                    ]
+                },
+                {
+                    id: "mariano",
+                    nombre: "Mariano",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "5-Terminada",
+                    fechas: "Lun 09/11 y Mié 11/11 • TERMINADA",
+                    totalMO: 760849,
+                    cobradoAntes: 760849,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Obra 100% terminada el Miércoles 11/11 ($760.849 abonados antes). Equipo: Pablo, Cristian y Axel (Lun 09/11 y Mié 11/11).",
+                    movimientos: [
+                        { id: "j_mar_1111", fecha: "11/11 (Miércoles)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Comida: $50.000 • Obra Mariano terminada + Urgencia Noely", revert: { kind: "jornada" } },
+                        { id: "j_mar_0911", fecha: "09/11 (Lunes)", tipo: "👷 Jornada", resumen: "Equipo: Pablo, Cristian, Axel ($100.000) • Inicio de obra", revert: { kind: "jornada" } }
+                    ]
+                },
+                {
+                    id: "noely",
+                    nombre: "Noely",
+                    caja: "CONDOR_50_50",
+                    rubro: "⚡ Eléctrica",
+                    estado: "⏳ Pago Diferido",
+                    fechas: "Portón Flama (Mié 11/11) • Pozo Ciego INDEFINIDO",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Miércoles 11/11 por la tarde: portón de auto solucionado, quedó flama. Pozo ciego: fecha indefinida por ahora hasta nuevo aviso.",
+                    movimientos: [
+                        { id: "n_noe_1111", fecha: "11/11 (Miércoles)", tipo: "✅ Avance", resumen: "Portón caído solucionado el miércoles a la tarde (quedó flama)." },
+                        { id: "n_noe_1011", fecha: "13/11", tipo: "📅 Agenda", resumen: "Pozo ciego pasa a estado indefinido por ahora (Lunes 16/11 asignado a Karina)." }
+                    ]
+                },
+                {
+                    id: "debora",
+                    nombre: "Débora (Prima de Cristian)",
+                    caja: "CONDOR_50_50",
+                    rubro: "❄️ Climatización",
+                    estado: "2-Presupuestada",
+                    fechas: "A coordinar fecha (1 Jornada con Pablo, Cristian y Axel)",
+                    totalMO: 1241000,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "CASA DE REFRIGERACIÓN (Trabajo 1 - Aire BGH 5400W R32):\n• 7m Caño Cobre 1/4\" (0.8mm Eluma/Halcor)\n• 7m Caño Cobre 1/2\" (0.8mm Eluma/Halcor)\n• 7m Aislación negra Armacell/Isotube de 1/4\"\n• 7m Aislación negra Armacell/Isotube de 1/2\"\n• 1 par de Bases de Piso / Pies de Apoyo para Unidad Exterior sobre Losa (PVC/Caucho 45cm o Pie Metálico de piso c/tacos antivibración)\n• 5m Cablecanal Interior ancho para Aire (3 tiras de 2m de 80x60mm o 100x50mm) + 2 curvas + 1 tapa pasamuro\n• 7m Manguera Cristal desagüe interior\n• 2 rollos Cinta PVC blanca s/adhesivo UV Tacsa\n• 1 rollo Cinta PVC blanca c/adhesivo\n• 1 rollo Cinta de Aluminio (protección tramo exterior a losa)\n\nCASA DE ELECTRICIDAD (Trabajo 1 + Trabajo 2):\n• 15m Cable Subterráneo Sintenax 3x4mm² (TP a Seccional)\n• 18m Cable Subterráneo Sintenax 3x2.5mm² (Tablero a Aire BGH)\n• 8m Cable Tipo Taller 5x1.5mm² (Interconexión UI-UE)\n• 5m Cablecanal Interior ancho para Aire (3 tiras de 2m de 80x60mm o 100x50mm)\n• 1 Gabinete exterior/estanco de 4 módulos DIN (Tablero Principal)\n• 1 Disyuntor Diferencial Bipolar 2x40A 30mA (Seccional empotrado)\n• 1 Térmica Bipolar 2x25A Curva C (Seccional)\n• 3 Térmicas Bipolares 2x16A Curva C (2 Seccional + 1 Aire BGH)\n• 1 Térmica Bipolar 2x10A Curva C (Seccional)\n• 1 Peine bipolar de cobre 12 polos\n• 1 Caja exterior + Toma 20A (Aire BGH)\n• 60 Grampas (30 p/Sintenax 3x4 y 30 p/3x2.5) + 1 caja Tarugos Fischer S6 c/tornillos",
+                    estrategia: "Ejecución en 1 Jornada completa con Pablo, Cristian y Axel ($100.000 jornal incluido en el presupuesto). Tarifa Familiar ($1.241.000 MO Total): Trabajo 1 ($668.000): Instalación Aire BGH Silent Air 5400W R32 con 7m cañería a losa sobre patas antivibración, 5m cablecanal interior + 7m manguera cristal + 18m Sintenax 3x2.5mm exterior + térmica 16A. Trabajo 2 ($573.000 - Altura hasta 4m): Cambio Tablero Principal por 4 módulos + 15m Sintenax 3x4mm hasta Seccional empotrado + recambio de disyuntor 25A y 4 térmicas de 25A mal dimensionadas por 1 Disyuntor 2x40A + Térmicas de 25A, 16A, 16A y 10A.",
+                    movimientos: [
+                        { id: "n_deb_1811", fecha: "18/11 (Miércoles)", tipo: "💰 Presupuesto", resumen: "Presupuesto Tarifa Familiar (1 Jornada c/Axel $100k incluido): Trabajo 1 (Aire BGH 5400W R32 + 7m a losa + 18m Sintenax 3x2.5): $668.000 MO | Trabajo 2 (TP 4 mód + 15m Sintenax 3x4 + recambio protecciones en Seccional empotrado a 4m altura): $573.000 MO. Total MO: $1.241.000 + Materiales." }
+                    ]
+                },
+                {
+                    id: "bandeja_general",
+                    nombre: "Bandeja General",
+                    caja: "CONDOR_50_50",
+                    rubro: "📥 A Clasificar",
+                    estado: "📥 Notas / Nuevos",
+                    fechas: "A clasificar con Paul",
+                    totalMO: 0,
+                    cobradoAntes: 0,
+                    diferidoDic: 0,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Acá caen automáticamente los dictados rápidos cuando no nombrás ningún cliente existente, para no ensuciar ninguna otra obra.",
+                    movimientos: []
+                }
+            ],
+            gastosJornadas: [
+                {
+                    movId: "j_arm_0211", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "02/11 (Lunes)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 25000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0311", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "03/11 (Martes)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 40000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0411", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "04/11 (Miércoles)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 20000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_arm_0511", obraId: "armenia", obraNombre: "Estacionamiento Armenia", caja: "AUGUSTO_PABLO", fecha: "05/11 (Jueves)",
+                    pablo: true, cristian: false, axel: 0, benja: 0, comida: 18000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_0611", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "06/11 (Viernes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 100000,
+                    golDesg: 3500, golNaf: 10000, golPea: 0, tiggoDesg: 4500, tiggoNaf: 10000, tiggoPea: 0
+                },
+                {
+                    movId: "j_nor_0711", obraId: "nora", obraNombre: "Nora", caja: "CONDOR_50_50", fecha: "07/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_mar_0911", obraId: "mariano", obraNombre: "Mariano", caja: "CONDOR_50_50", fecha: "09/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_mar_1111", obraId: "mariano", obraNombre: "Mariano", caja: "CONDOR_50_50", fecha: "11/11 (Miércoles)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 50000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_hec_1211", obraId: "hector", obraNombre: "Héctor (Félix de Álzaga 2914)", caja: "CONDOR_50_50", fecha: "12/11 (Jueves)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 70000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_olg_1411", obraId: "olga", obraNombre: "Olga (Guayquiraró - Cuadra Vecinal)", caja: "CONDOR_50_50", fecha: "14/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 50000, benja: 0, comida: 0,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_1611", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "16/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_1811", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "18/11 (Miércoles)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 40000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_1911", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "19/11 (Jueves)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 50000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_kar_2011", obraId: "karina", obraNombre: "Karina", caja: "CONDOR_50_50", fecha: "20/11 (Viernes - Mediodía)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_cel_2111", obraId: "celeste", obraNombre: "Celeste (40m Cañería 25mm + Sintenax 2x6 + Tablero 12M)", caja: "CONDOR_50_50", fecha: "21/11 (Sábado)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_2311", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "23/11 (Lunes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                },
+                {
+                    movId: "j_fla_2411", obraId: "flash", obraNombre: "En un Flash", caja: "CONDOR_50_50", fecha: "24/11 (Martes)",
+                    pablo: true, cristian: true, axel: 100000, benja: 0, comida: 30000,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                }
+            ],
+            reintegrosSocios: { pablo: 0, cristian: 0, desgasteGol: 0, desgasteTiggo: 0 }
+        };
+
+        let state = loadState();
+        let activeObraId = state.obras[0]?.id || "armenia";
+        let recognition = null;
+        let isRecording = false;
+
+        function loadState() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE));
+                const parsed = JSON.parse(raw);
+                if (Array.isArray(parsed.obras)) {
+                    parsed.obras.forEach(o => {
+                        if (o.caja === "AUGUSTO_50_50") o.caja = "AUGUSTO_PABLO";
+                    });
+                    if (!parsed.obras.some(o => o.id === "bandeja_general")) {
+                        const defBandeja = DEFAULT_STATE.obras.find(o => o.id === "bandeja_general");
+                        if (defBandeja) parsed.obras.push(JSON.parse(JSON.stringify(defBandeja)));
+                    }
+                    // Auto-hidratar obras nuevas y sincronizar estados/cronogramas base de Noviembre
+                    DEFAULT_STATE.obras.forEach(defObra => {
+                        let target = parsed.obras.find(o => o.id === defObra.id);
+                        if (!target) {
+                            parsed.obras.splice(1, 0, JSON.parse(JSON.stringify(defObra)));
+                            return;
+                        }
+                        target.estado = defObra.estado;
+                        target.fechas = defObra.fechas;
+                        target.estrategia = defObra.estrategia;
+                        if (defObra.listaMateriales && !target.listaMateriales) target.listaMateriales = defObra.listaMateriales;
+                        if ((defObra.cobradoMes || 0) > (target.cobradoMes || 0)) target.cobradoMes = defObra.cobradoMes;
+                        if ((defObra.adicionalesMO || 0) > (target.adicionalesMO || 0)) target.adicionalesMO = defObra.adicionalesMO;
+                        if (Array.isArray(defObra.movimientos)) {
+                            if (!Array.isArray(target.movimientos)) target.movimientos = [];
+                            defObra.movimientos.forEach(defMov => {
+                                if (defMov.id && !target.movimientos.some(m => m.id === defMov.id)) {
+                                    target.movimientos.unshift(JSON.parse(JSON.stringify(defMov)));
+                                }
+                            });
+                        }
+                    });
+                }
+                if (Array.isArray(parsed.gastosJornadas)) {
+                    parsed.gastosJornadas.forEach(j => {
+                        if (j.caja === "AUGUSTO_50_50") j.caja = "AUGUSTO_PABLO";
+                    });
+                    DEFAULT_STATE.gastosJornadas.forEach(defJ => {
+                        if (defJ.movId && !parsed.gastosJornadas.some(j => j.movId === defJ.movId)) {
+                            parsed.gastosJornadas.push(JSON.parse(JSON.stringify(defJ)));
+                        }
+                    });
+                }
+                return { ...DEFAULT_STATE, ...parsed, config: { ...DEFAULT_STATE.config, ...(parsed.config || {}) } };
+            } catch {
+                return JSON.parse(JSON.stringify(DEFAULT_STATE));
+            }
+        }
+
+        function saveState() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            renderAll();
+        }
+
+        function fmt(n) {
+            return "$" + Math.round(Number(n) || 0).toLocaleString("es-AR");
+        }
+
+        function nowStamp() {
+            return new Date().toLocaleString("es-AR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" });
+        }
+
+        function getActiveObra() {
+            return state.obras.find(o => o.id === activeObraId) || state.obras[0];
+        }
+
+        function showToast(msg, type = "ok") {
+            const t = document.getElementById("toast");
+            t.className = "toast " + type;
+            t.textContent = msg;
+            setTimeout(() => { t.className = "toast"; }, 4200);
+        }
+
+        // NAVIGATION
+        function switchView(view, btn) {
+            document.querySelectorAll(".view-section").forEach(s => s.classList.remove("active"));
+            document.querySelectorAll(".nav-tab").forEach(b => b.classList.remove("active"));
+            document.getElementById("view-" + view).classList.add("active");
+            btn.classList.add("active");
+            renderAll();
+        }
+
+        function openModule(mod, btn) {
+            document.querySelectorAll(".deploy-panel").forEach(p => p.classList.remove("active"));
+            document.querySelectorAll(".mod-btn").forEach(b => b.classList.remove("active"));
+            document.getElementById("mod-" + mod).classList.add("active");
+            btn.classList.add("active");
+        }
+
+        // RENDER OBRAS CHIPS & BANNER
+        function renderObras() {
+            const container = document.getElementById("obrasChips");
+            container.innerHTML = state.obras.map(o => `
+                <button class="chip ${o.id === activeObraId ? 'active' : ''}" onclick="selectObra('${o.id}')">
+                    ${o.rubro.split(' ')[0]} ${o.nombre}
+                </button>
+            `).join('') + `<button class="chip chip-new" onclick="openObraModal(false)">➕ Nueva Obra</button>`;
+
+            const o = getActiveObra();
+            if (!o) return;
+
+            const saldoTotalMO = Math.max(0, (o.totalMO + o.adicionalesMO) - o.cobradoAntes - o.cobradoMes - o.diferidoDic);
+            const totalCobrarHoy = saldoTotalMO + (o.reintegrosPendientes || 0);
+
+            let cajaBadge = `<span class="badge badge-condor">🦅 El Cóndor (50/50)</span>`;
+            if (o.caja === "AUGUSTO_PABLO") cajaBadge = `<span class="badge badge-augusto">🤝 Augusto (100% Pablo)</span>`;
+            if (o.caja === "AUGUSTO_50_50") cajaBadge = `<span class="badge badge-mixto">🤝 Augusto (50/50 con Cristian)</span>`;
+
+            document.getElementById("obraBanner").innerHTML = `
+                <div class="obra-top">
+                    <div>
+                        <div class="obra-name">${o.nombre}</div>
+                        <div style="font-size:12.5px;color:var(--muted);margin-top:3px;">📅 ${o.fechas || 'Sin fecha'} • <b>${o.estado}</b></div>
+                    </div>
+                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                        ${cajaBadge}
+                        <button class="btn-secondary" style="padding:5px 10px;font-size:11.5px;" onclick="openObraModal(true)">✏️ Editar Obra</button>
+                    </div>
+                </div>
+                <div class="obra-kpis">
+                    <div class="kpi-mini">
+                        <div class="lbl">Mano Obra + Adic.</div>
+                        <div class="val val-accent">${fmt(o.totalMO + o.adicionalesMO)}</div>
+                    </div>
+                    <div class="kpi-mini">
+                        <div class="lbl">Cobrado Antes / Mes</div>
+                        <div class="val">${fmt(o.cobradoAntes + o.cobradoMes)}</div>
+                    </div>
+                    <div class="kpi-mini">
+                        <div class="lbl">Reintegro Tickets</div>
+                        <div class="val val-gold">${fmt(o.reintegrosPendientes || 0)}</div>
+                    </div>
+                    <div class="kpi-mini">
+                        <div class="lbl">A Cobrar en Nov</div>
+                        <div class="val val-green">${fmt(totalCobrarHoy)}</div>
+                    </div>
+                </div>
+                ${o.diferidoDic > 0 ? `<div style="margin-top:8px;font-size:12px;color:#fcd34d;">📆 Diferido a cobrar en Diciembre: <b class="mono">${fmt(o.diferidoDic)}</b></div>` : ''}
+            `;
+
+            // Sync fields in panels
+            document.getElementById("matListaTexto").value = o.listaMateriales || "";
+            document.getElementById("agFechas").value = o.fechas || "";
+            document.getElementById("agEstado").value = o.estado || "3-Agendada";
+            document.getElementById("agEstrategia").value = o.estrategia || "";
+
+            // Render Obra History
+            const movs = o.movimientos || [];
+            document.getElementById("obraMovCount").textContent = movs.length + " reg.";
+            const hList = document.getElementById("obraHistoryList");
+            if (movs.length === 0) {
+                hList.innerHTML = `<div style="font-size:13px;color:var(--muted);">Sin movimientos diarios cargados todavía en esta obra.</div>`;
+            } else {
+                hList.innerHTML = movs.map((m, idx) => `
+                    <div class="log-item">
+                        <div class="log-meta">
+                            <span style="color:var(--accent);font-weight:700;">${m.tipo}</span>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span class="mono">${m.fecha}</span>
+                                <button onclick="borrarMovimiento('${o.id}', ${idx})" title="Borrar este registro" style="background:none;border:none;cursor:pointer;font-size:13px;opacity:0.75;">🗑️</button>
+                            </div>
+                        </div>
+                        <div>${m.resumen}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function selectObra(id) {
+            activeObraId = id;
+            renderObras();
+        }
+
+        // FECHA SELECCIONADA (HOY / AYER / CUSTOM)
+        let fechaModoActual = "hoy";
+        function setFechaModo(modo, btn) {
+            fechaModoActual = modo;
+            document.querySelectorAll("#fechaPills .mini-pill").forEach(p => p.classList.remove("active"));
+            if (btn) btn.classList.add("active");
+            if (modo !== "custom") document.getElementById("customFechaInput").value = "";
+        }
+        function setFechaCustom() {
+            fechaModoActual = "custom";
+            document.querySelectorAll("#fechaPills .mini-pill").forEach(p => p.classList.remove("active"));
+        }
+        function getSelectedStamp() {
+            const now = new Date();
+            const hm = now.toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit" });
+            if (fechaModoActual === "ayer") {
+                const y = new Date(now);
+                y.setDate(now.getDate() - 1);
+                return y.toLocaleDateString("es-AR", { day: "2-digit", month: "2-digit" }) + " (Ayer)";
+            }
+            if (fechaModoActual === "custom") {
+                const val = document.getElementById("customFechaInput").value;
+                if (val) {
+                    const [yr, mo, da] = val.split("-");
+                    return `${da}/${mo} (${yr})`;
+                }
+            }
+            return nowStamp();
+        }
+
+        // MOTOR ANTI-ECO PARA ANDROID CHROME + AUTODETECCIÓN DE OBRA
+        function normalizeStr(s) {
+            return (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        }
+
+        function extractCleanSpeech(results) {
+            const parts = [];
+            for (let i = 0; i < results.length; i++) {
+                const seg = (results[i][0].transcript || "").trim();
+                if (!seg) continue;
+                if (parts.length > 0) {
+                    const prev = parts[parts.length - 1];
+                    const pLow = normalizeStr(prev);
+                    const sLow = normalizeStr(seg);
+                    const pWords = pLow.split(/\s+/);
+                    const sWords = sLow.split(/\s+/);
+                    const sameOpening = pWords.length >= 2 && sWords.length >= 2 &&
+                        pWords[0] === sWords[0] && pWords[1] === sWords[1] && sLow.length >= pLow.length - 4;
+
+                    // En Android Chrome cada evento vuelve a mandar toda la oración acumulada:
+                    if (sLow.startsWith(pLow) || sameOpening) {
+                        parts[parts.length - 1] = seg;
+                        continue;
+                    }
+                    if (pLow === sLow || pLow.endsWith(" " + sLow)) {
+                        continue;
+                    }
+                }
+                parts.push(seg);
+            }
+            return parts.join(" ").replace(/\s+/g, " ").trim();
+        }
+
+        function ensureBandejaGeneral() {
+            let b = state.obras.find(o => o.id === "bandeja_general");
+            if (!b) {
+                b = {
+                    id: "bandeja_general",
+                    nombre: "Bandeja General",
+                    caja: "CONDOR_50_50",
+                    rubro: "📥 A Clasificar",
+                    estado: "📥 Notas / Nuevos",
+                    fechas: "A clasificar con Paul",
+                    totalMO: 0, cobradoAntes: 0, diferidoDic: 0, cobradoMes: 0, adicionalesMO: 0, reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    estrategia: "Acá caen automáticamente los dictados rápidos cuando no nombrás ningún cliente existente, para no ensuciar ninguna otra obra.",
+                    movimientos: []
+                };
+                state.obras.push(b);
+            }
+            return b;
+        }
+
+        function detectAndSwitchObra(rawText) {
+            const t = normalizeStr(rawText);
+            const badge = document.getElementById("detectedObraBadge");
+            if (!t || t.length < 3) { badge.textContent = ""; return null; }
+
+            const aliases = {
+                armenia: ["armenia", "estacionamiento", "cochera", "garage"],
+                hector: ["hector", "alzaga", "hibrido", "sintenax"],
+                olga: ["olga", "guayquiraro", "vecinal", "reflector"],
+                karina: ["karina", "carina"],
+                celeste: ["celeste"],
+                varela_aire: ["varela", "florencio varela"],
+                nora: ["nora"],
+                virrey: ["virrey", "leo"],
+                flash: ["en un flash", "flash"],
+                mariano: ["mariano"],
+                noely: ["noely", "noeli"],
+                debora: ["debora", "deborah", "prima"]
+            };
+
+            for (const o of state.obras) {
+                if (o.id === "bandeja_general") continue;
+                const keys = aliases[o.id] || [normalizeStr(o.nombre)];
+                for (const k of keys) {
+                    if (k.length >= 3 && t.includes(k)) {
+                        if (activeObraId !== o.id) {
+                            activeObraId = o.id;
+                            renderObras();
+                        }
+                        badge.style.color = "#34d399";
+                        badge.textContent = "🎯 Va directo a: " + o.nombre;
+                        return o;
+                    }
+                }
+            }
+            badge.style.color = "#fbbf24";
+            badge.textContent = "📥 Sin obra nombrada ➔ Bandeja General";
+            return null;
+        }
+
+        let quickRec = null;
+        let isQuickRec = false;
+        let quickBaseText = "";
+        function toggleQuickVoice() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showToast("Usá el micrófono 🎙️ del teclado de tu celular en la cajita de al lado.", "warn");
+                document.getElementById("quickVoiceInput").focus();
+                return;
+            }
+            if (isQuickRec && quickRec) { quickRec.stop(); return; }
+
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            quickRec = new SpeechRecognition();
+            quickRec.lang = "es-AR";
+            quickRec.continuous = !isAndroid;
+            quickRec.interimResults = true;
+
+            quickRec.onstart = () => {
+                isQuickRec = true;
+                quickBaseText = document.getElementById("quickVoiceInput").value.trim();
+                document.getElementById("quickMicBtn").classList.add("recording");
+                document.getElementById("quickMicLabel").textContent = "ESCUCHANDO... TOCÁ PARA CORTAR";
+            };
+            quickRec.onresult = (e) => {
+                const spoken = extractCleanSpeech(e.results);
+                const full = (quickBaseText ? quickBaseText + " " + spoken : spoken).trim();
+                document.getElementById("quickVoiceInput").value = full;
+                detectAndSwitchObra(full);
+            };
+            quickRec.onend = () => {
+                isQuickRec = false;
+                document.getElementById("quickMicBtn").classList.remove("recording");
+                document.getElementById("quickMicLabel").textContent = "TOCÁ PARA HABLAR";
+            };
+            quickRec.start();
+        }
+
+        async function guardarDictadoRapido() {
+            if (isQuickRec && quickRec) quickRec.stop();
+            const txt = document.getElementById("quickVoiceInput").value.trim();
+            if (txt.length < 3) { showToast("Hablá o escribí primero el mensaje.", "warn"); return; }
+
+            const matchedObra = detectAndSwitchObra(txt);
+            const targetObra = matchedObra || ensureBandejaGeneral();
+            activeObraId = targetObra.id;
+
+            targetObra.movimientos.unshift({ id: "m_" + Date.now(), fecha: getSelectedStamp(), tipo: "🎙️ Voz Rápida", resumen: txt });
+            saveState();
+            await syncToBitacora(targetObra.nombre, "🎙️ Voz Rápida", txt);
+
+            document.getElementById("quickVoiceInput").value = "";
+            document.getElementById("detectedObraBadge").textContent = "";
+            if (matchedObra) {
+                showToast("✅ Guardado directo en " + targetObra.nombre);
+            } else {
+                showToast("📥 Sin cliente nombrado: guardado en Bandeja General");
+            }
+        }
+
+        // BORRAR UN MOVIMIENTO INDIVIDUAL (CON REVERSIÓN DE NÚMEROS) Y RESETEAR PRUEBAS
+        function borrarMovimiento(obraId, idx) {
+            const o = state.obras.find(x => x.id === obraId);
+            if (!o || !o.movimientos[idx]) return;
+            const m = o.movimientos[idx];
+            if (!confirm(`¿Seguro querés borrar este registro de ${o.nombre}?\n"${m.resumen}"`)) return;
+
+            if (m.revert) {
+                if (m.revert.kind === "jornada") {
+                    state.gastosJornadas = state.gastosJornadas.filter(j => j.movId !== m.id);
+                } else if (m.revert.kind === "cobro_mo") {
+                    o.cobradoMes = Math.max(0, (o.cobradoMes || 0) - m.revert.monto);
+                } else if (m.revert.kind === "adicional_mo") {
+                    o.adicionalesMO = Math.max(0, (o.adicionalesMO || 0) - m.revert.monto);
+                } else if (m.revert.kind === "cobro_reintegro") {
+                    o.reintegrosPendientes = (o.reintegrosPendientes || 0) + m.revert.monto;
+                } else if (m.revert.kind === "ticket_reintegro") {
+                    o.reintegrosPendientes = Math.max(0, (o.reintegrosPendientes || 0) - m.revert.monto);
+                    if (m.revert.quien === "Pablo") state.reintegrosSocios.pablo = Math.max(0, (state.reintegrosSocios.pablo || 0) - m.revert.monto);
+                    if (m.revert.quien === "Cristian") state.reintegrosSocios.cristian = Math.max(0, (state.reintegrosSocios.cristian || 0) - m.revert.monto);
+                } else if (m.revert.kind === "ticket_gasto") {
+                    state.gastosJornadas = state.gastosJornadas.filter(j => j.movId !== m.id);
+                    if (m.revert.quien === "Pablo") state.reintegrosSocios.pablo = Math.max(0, (state.reintegrosSocios.pablo || 0) - m.revert.monto);
+                    if (m.revert.quien === "Cristian") state.reintegrosSocios.cristian = Math.max(0, (state.reintegrosSocios.cristian || 0) - m.revert.monto);
+                }
+            }
+            o.movimientos.splice(idx, 1);
+            saveState();
+            showToast("🗑️ Registro eliminado y números actualizados");
+        }
+
+        function resetearPruebas() {
+            if (!confirm("¿Seguro querés borrar las pruebas cargadas en este equipo y volver a la base limpia inicial?")) return;
+            localStorage.removeItem(STORAGE_KEY);
+            state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+            activeObraId = state.obras[0].id;
+            saveState();
+            showToast("🧹 Equipo restaurado limpio sin pruebas!");
+        }
+
+        // EQUIPO & VEHÍCULOS
+        function setHelper(who, val, btn) {
+            const parent = document.getElementById(who + "Pills");
+            parent.querySelectorAll(".mini-pill").forEach(p => p.classList.remove("active"));
+            btn.classList.add("active");
+            const amount = val === "STD" ? (who === "axel" ? state.config.axelStd : state.config.benjaStd) : val;
+            document.getElementById(who + "Monto").value = amount;
+        }
+
+        function toggleCar(car) {
+            const chk = document.getElementById("chk" + car).checked;
+            const det = document.getElementById("details" + car);
+            if (chk) {
+                det.classList.add("visible");
+                if (car === "Gol") document.getElementById("golDesgaste").value = state.config.golDesgasteDia;
+                if (car === "Tiggo") document.getElementById("tiggoDesgaste").value = state.config.tiggoDesgasteDia;
+            } else {
+                det.classList.remove("visible");
+            }
+        }
+
+        async function guardarJornada() {
+            const o = getActiveObra();
+            const movId = "j_" + Date.now();
+            const stamp = getSelectedStamp();
+            const pablo = document.getElementById("chkPablo").checked;
+            const cristian = document.getElementById("chkCristian").checked;
+            const axel = Number(document.getElementById("axelMonto").value) || 0;
+            const benja = Number(document.getElementById("benjaMonto").value) || 0;
+            const comida = Number(document.getElementById("comidaDia").value) || 0;
+
+            const salioGol = document.getElementById("chkGol").checked;
+            const golDesg = salioGol ? (Number(document.getElementById("golDesgaste").value) || 0) : 0;
+            const golNaf = salioGol ? (Number(document.getElementById("golNafta").value) || 0) : 0;
+            const golPea = salioGol ? (Number(document.getElementById("golPeaje").value) || 0) : 0;
+
+            const salioTiggo = document.getElementById("chkTiggo").checked;
+            const naftaPagaContratista = document.getElementById("chkNaftaContratista").checked;
+            const tiggoDesg = salioTiggo ? (Number(document.getElementById("tiggoDesgaste").value) || 0) : 0;
+            const tiggoNafReal = salioTiggo ? (Number(document.getElementById("tiggoNafta").value) || 0) : 0;
+            const tiggoNafCaja = naftaPagaContratista ? 0 : tiggoNafReal;
+            const tiggoPea = salioTiggo ? (Number(document.getElementById("tiggoPeaje").value) || 0) : 0;
+
+            const registro = {
+                movId,
+                obraId: o.id,
+                obraNombre: o.nombre,
+                caja: o.caja,
+                fecha: stamp,
+                pablo, cristian, axel, benja, comida,
+                golDesg, golNaf, golPea,
+                tiggoDesg, tiggoNaf: tiggoNafCaja, tiggoPea
+            };
+            state.gastosJornadas.push(registro);
+
+            const equipoTxt = [
+                pablo ? "Pablo" : null,
+                cristian ? "Cristian" : null,
+                axel > 0 ? `Axel (${fmt(axel)})` : null,
+                benja > 0 ? `Benja (${fmt(benja)})` : null
+            ].filter(Boolean).join(", ");
+
+            const autosTxt = [
+                salioGol ? `Gol [Desg ${fmt(golDesg)} + Naf ${fmt(golNaf)} + Pea ${fmt(golPea)}]` : null,
+                salioTiggo ? `Tiggo [Desg ${fmt(tiggoDesg)} + Naf ${naftaPagaContratista ? 'Pagó Augusto' : fmt(tiggoNafCaja)} + Pea ${fmt(tiggoPea)}]` : null
+            ].filter(Boolean).join(" | ");
+
+            const resumen = `Equipo: ${equipoTxt || 'Sin marcar'} • Comida: ${fmt(comida)}${autosTxt ? ' • ' + autosTxt : ''}`;
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "👷 Jornada", resumen, revert: { kind: "jornada" } });
+
+            saveState();
+            await syncToBitacora(o.nombre, `👷 Jornada (${stamp})`, resumen);
+
+            document.getElementById("comidaDia").value = "";
+            document.getElementById("golNafta").value = "";
+            document.getElementById("golPeaje").value = "";
+            document.getElementById("tiggoNafta").value = "";
+            document.getElementById("tiggoPeaje").value = "";
+            showToast("✅ Jornada (" + stamp + ") registrada en " + o.nombre);
+        }
+
+        // MATERIALES
+        function addMatChip(item) {
+            const box = document.getElementById("matListaTexto");
+            const prefix = box.value.trim() ? box.value.trim() + "\n" : "";
+            box.value = prefix + "• ___ x " + item;
+            box.focus();
+        }
+
+        function guardarListaEnObra() {
+            const o = getActiveObra();
+            o.listaMateriales = document.getElementById("matListaTexto").value;
+            saveState();
+            showToast("💾 Lista de materiales guardada en " + o.nombre);
+        }
+
+        function copiarPedidoElectricidad() {
+            const o = getActiveObra();
+            const txt = document.getElementById("matListaTexto").value.trim();
+            if (!txt) { showToast("Armá primero la lista de materiales arriba.", "warn"); return; }
+            o.listaMateriales = txt;
+            saveState();
+            const msg = `Hola! Te pido presupuesto de estos materiales (Obra: ${o.nombre} - El Cóndor):\n\n${txt}\n\nGracias!`;
+            navigator.clipboard.writeText(msg);
+            showToast("📲 Pedido copiado! Pegalo directo en el WhatsApp de la Casa de Electricidad.");
+        }
+
+        async function guardarCompraMaterial() {
+            const o = getActiveObra();
+            const movId = "t_" + Date.now();
+            const stamp = getSelectedStamp();
+            const monto = Number(document.getElementById("matTicketMonto").value) || 0;
+            const quien = document.getElementById("matQuienPago").value;
+            const destino = document.getElementById("matReintegro").value;
+            const det = document.getElementById("matTicketDetalle").value.trim() || "Materiales / Insumos";
+
+            if (monto <= 0) { showToast("Ingresá el monto del ticket.", "warn"); return; }
+
+            let revertObj = null;
+            if (quien !== "Cliente" && destino === "cobrar_cliente") {
+                o.reintegrosPendientes = (o.reintegrosPendientes || 0) + monto;
+                revertObj = { kind: "ticket_reintegro", monto, quien };
+            }
+            if (quien === "Pablo") state.reintegrosSocios.pablo += monto;
+            if (quien === "Cristian") state.reintegrosSocios.cristian += monto;
+
+            if (destino === "gasto_obra" && quien !== "Cliente") {
+                state.gastosJornadas.push({
+                    movId, obraId: o.id, obraNombre: o.nombre, caja: o.caja, fecha: stamp,
+                    pablo: false, cristian: false, axel: 0, benja: 0, comida: monto,
+                    golDesg: 0, golNaf: 0, golPea: 0, tiggoDesg: 0, tiggoNaf: 0, tiggoPea: 0
+                });
+                revertObj = { kind: "ticket_gasto", monto, quien };
+            }
+
+            const resumen = `Ticket ${fmt(monto)} (${det}) • Pagó: ${quien} • ${destino === 'cobrar_cliente' ? 'A reintegrar por Cliente' : 'Absorbido por obra'}`;
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "📦 Material", resumen, revert: revertObj });
+            saveState();
+            await syncToBitacora(o.nombre, "📦 Ticket Material", resumen);
+
+            document.getElementById("matTicketMonto").value = "";
+            document.getElementById("matTicketDetalle").value = "";
+            showToast("✅ Ticket registrado correctamente");
+        }
+
+        // PRESUPUESTO / COBROS
+        function simularMO() {
+            const base = Number(document.getElementById("simBase").value) || 0;
+            const viatico = base * 0.15;
+            const ganancia = base * 0.35;
+            const total = base + viatico + ganancia;
+            document.getElementById("simResultado").textContent = `Total: ${fmt(total)} (Viático 15%: ${fmt(viatico)} | Margen 35%: ${fmt(ganancia)})`;
+        }
+
+        async function guardarMovimientoDinero() {
+            const o = getActiveObra();
+            const movId = "d_" + Date.now();
+            const stamp = getSelectedStamp();
+            const tipo = document.getElementById("cobroTipo").value;
+            const monto = Number(document.getElementById("cobroMonto").value) || 0;
+            const medio = document.getElementById("cobroMedio").value;
+            const det = document.getElementById("cobroDetalle").value.trim() || "Movimiento";
+            const factura = document.getElementById("chkFactura").checked;
+
+            if (monto <= 0) { showToast("Ingresá un importe válido.", "warn"); return; }
+
+            let resumen = "";
+            if (tipo === "cobro_mo") {
+                o.cobradoMes = (o.cobradoMes || 0) + monto;
+                resumen = `Cobro Mano de Obra: ${fmt(monto)} (${medio}${factura ? ' • CON FACTURA' : ''}) - ${det}`;
+            } else if (tipo === "adicional_mo") {
+                o.adicionalesMO = (o.adicionalesMO || 0) + monto;
+                resumen = `Adicional Mano de Obra sumado: +${fmt(monto)} - ${det}`;
+            } else if (tipo === "cobro_reintegro") {
+                o.reintegrosPendientes = Math.max(0, (o.reintegrosPendientes || 0) - monto);
+                resumen = `Reintegro Materiales cobrado: ${fmt(monto)} (${medio}) - ${det}`;
+            }
+
+            o.movimientos.unshift({ id: movId, fecha: stamp, tipo: "💰 Dinero", resumen, revert: { kind: tipo, monto } });
+            saveState();
+            await syncToBitacora(o.nombre, "💰 Finanzas", resumen);
+
+            document.getElementById("cobroMonto").value = "";
+            document.getElementById("cobroDetalle").value = "";
+            showToast("✅ Movimiento económico guardado en " + o.nombre);
+        }
+
+        // AGENDA Y ESTRATEGIA
+        async function guardarAgendaObra() {
+            const o = getActiveObra();
+            o.fechas = document.getElementById("agFechas").value.trim();
+            o.estado = document.getElementById("agEstado").value;
+            o.estrategia = document.getElementById("agEstrategia").value.trim();
+
+            const resumen = `Estado: ${o.estado} • Fechas: ${o.fechas} • Estrategia: ${o.estrategia}`;
+            o.movimientos.unshift({ fecha: nowStamp(), tipo: "📅 Agenda", resumen });
+            saveState();
+            await syncToBitacora(o.nombre, "📅 Agenda / Estrategia", resumen);
+            showToast("✅ Agenda y estrategia actualizadas");
+        }
+
+        function copiarEstrategiaWhatsApp() {
+            const o = getActiveObra();
+            const fechas = document.getElementById("agFechas").value.trim();
+            const est = document.getElementById("agEstrategia").value.trim();
+            const msg = `🦅 *HOJA DE RUTA EL CÓNDOR*\n📍 *Obra:* ${o.nombre} (${o.rubro})\n📅 *Cronograma:* ${fechas}\n\n🛠️ *Plan de Trabajo y Herramientas:*\n${est || 'Coordinar en punto de encuentro.'}`;
+            navigator.clipboard.writeText(msg);
+            showToast("📲 Estrategia copiada para pegar en el grupo del equipo!");
+        }
+
+        // VOZ Y NOTAS TÉCNICAS
+        let tecBaseText = "";
+        function toggleVoice() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                showToast("Usá el micrófono 🎙️ del teclado de tu celular para dictar.", "warn");
+                document.getElementById("tecNota").focus();
+                return;
+            }
+            if (isRecording && recognition) { recognition.stop(); return; }
+
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            recognition = new SpeechRecognition();
+            recognition.lang = "es-AR";
+            recognition.continuous = !isAndroid;
+            recognition.interimResults = true;
+
+            recognition.onstart = () => {
+                isRecording = true;
+                tecBaseText = document.getElementById("tecNota").value.trim();
+                document.getElementById("micBtn").classList.add("recording");
+                document.getElementById("micLabel").textContent = "ESCUCHANDO... TOCÁ PARA DETENER";
+            };
+            recognition.onresult = (e) => {
+                const spoken = extractCleanSpeech(e.results);
+                document.getElementById("tecNota").value = (tecBaseText ? tecBaseText + " " + spoken : spoken).trim();
+            };
+            recognition.onend = () => {
+                isRecording = false;
+                document.getElementById("micBtn").classList.remove("recording");
+                document.getElementById("micLabel").textContent = "TOCAR PARA DICTAR POR VOZ (es-AR)";
+            };
+            recognition.start();
+        }
+
+        async function guardarNotaTecnica() {
+            if (isRecording && recognition) recognition.stop();
+            const o = getActiveObra();
+            const esp = document.getElementById("tecRubro").value;
+            const nota = document.getElementById("tecNota").value.trim();
+            if (nota.length < 3) { showToast("Escribí o dictá la nota técnica primero.", "warn"); return; }
+
+            const resumen = `[${esp}] ${nota}`;
+            o.movimientos.unshift({ fecha: nowStamp(), tipo: "🛠️ Técnica", resumen });
+            saveState();
+            await syncToBitacora(o.nombre, "🛠️ Nota Técnica", resumen);
+
+            document.getElementById("tecNota").value = "";
+            showToast("✅ Nota técnica guardada y enviada a Paul de Oficina");
+        }
+
+        // MODAL NUEVA / EDITAR OBRA
+        function openObraModal(isEdit) {
+            const modal = document.getElementById("obraModal");
+            if (isEdit) {
+                const o = getActiveObra();
+                document.getElementById("modalTitle").textContent = "✏️ Editar Ficha: " + o.nombre;
+                document.getElementById("editObraId").value = o.id;
+                document.getElementById("mNombre").value = o.nombre;
+                document.getElementById("mCaja").value = o.caja;
+                document.getElementById("mRubro").value = o.rubro;
+                document.getElementById("mTotalMO").value = o.totalMO;
+                document.getElementById("mCobradoAntes").value = o.cobradoAntes;
+                document.getElementById("mDiferidoDic").value = o.diferidoDic || 0;
+                document.getElementById("mFechas").value = o.fechas;
+                document.getElementById("mEstado").value = o.estado;
+                document.getElementById("mNotas").value = o.estrategia || "";
+            } else {
+                document.getElementById("modalTitle").textContent = "➕ Nueva Obra / Relevamiento (Minuto 1)";
+                document.getElementById("editObraId").value = "";
+                document.getElementById("mNombre").value = "";
+                document.getElementById("mCaja").value = "CONDOR_50_50";
+                document.getElementById("mRubro").value = "📹 CCTV";
+                document.getElementById("mTotalMO").value = "";
+                document.getElementById("mCobradoAntes").value = "0";
+                document.getElementById("mDiferidoDic").value = "0";
+                document.getElementById("mFechas").value = "";
+                document.getElementById("mEstado").value = "1-Relevamiento";
+                document.getElementById("mNotas").value = "";
+            }
+            modal.classList.add("visible");
+        }
+
+        function closeObraModal() {
+            document.getElementById("obraModal").classList.remove("visible");
+        }
+
+        async function salvarObraModal() {
+            const editId = document.getElementById("editObraId").value;
+            const nombre = document.getElementById("mNombre").value.trim();
+            if (!nombre) { showToast("Poné el nombre del cliente u obra.", "warn"); return; }
+
+            const data = {
+                nombre,
+                caja: document.getElementById("mCaja").value,
+                rubro: document.getElementById("mRubro").value,
+                totalMO: Number(document.getElementById("mTotalMO").value) || 0,
+                cobradoAntes: Number(document.getElementById("mCobradoAntes").value) || 0,
+                diferidoDic: Number(document.getElementById("mDiferidoDic").value) || 0,
+                fechas: document.getElementById("mFechas").value.trim(),
+                estado: document.getElementById("mEstado").value,
+                estrategia: document.getElementById("mNotas").value.trim()
+            };
+
+            if (editId) {
+                const o = state.obras.find(x => x.id === editId);
+                Object.assign(o, data);
+                saveState();
+                await syncToBitacora(o.nombre, "✏️ Ficha Actualizada", `MO Total: ${fmt(o.totalMO)} | Estado: ${o.estado} | Caja: ${o.caja}`);
+                showToast("✅ Obra actualizada");
+            } else {
+                const newId = "obra_" + Date.now();
+                state.obras.unshift({
+                    id: newId,
+                    ...data,
+                    cobradoMes: 0,
+                    adicionalesMO: 0,
+                    reintegrosPendientes: 0,
+                    listaMateriales: "",
+                    movimientos: [{ fecha: nowStamp(), tipo: "🆕 Relevamiento", resumen: data.estrategia || "Alta de obra en SGO" }]
+                });
+                activeObraId = newId;
+                saveState();
+                await syncToBitacora(nombre, "🆕 Nueva Obra / Relevamiento", `Caja: ${data.caja} | Rubro: ${data.rubro} | MO: ${fmt(data.totalMO)} | Notas: ${data.estrategia}`);
+                showToast("✅ Nueva obra creada y sincronizada con Paul");
+            }
+            closeObraModal();
+        }
+
+        // DASHBOARD FINANCIERO DEL MES
+        function calculateFinancials() {
+            const cfg = state.config;
+            const fijosTotal = (Number(cfg.seguro) || 0) + (Number(cfg.monotributo) || 0);
+
+            // Compartidas 50/50 (CONDOR_50_50 + AUGUSTO_50_50)
+            const obras5050 = state.obras.filter(o => o.caja !== "AUGUSTO_PABLO");
+            const obrasPablo100 = state.obras.filter(o => o.caja === "AUGUSTO_PABLO");
+
+            const cobrado5050 = obras5050.reduce((s, o) => s + (o.cobradoMes || 0), 0);
+            const porCobrarNov5050 = obras5050.reduce((s, o) => s + Math.max(0, (o.totalMO + o.adicionalesMO) - o.cobradoAntes - o.cobradoMes - (o.diferidoDic || 0)), 0);
+
+            const cobradoPablo100 = obrasPablo100.reduce((s, o) => s + (o.cobradoMes || 0), 0);
+            const porCobrarNovPablo100 = obrasPablo100.reduce((s, o) => s + Math.max(0, (o.totalMO + o.adicionalesMO) - o.cobradoAntes - o.cobradoMes - (o.diferidoDic || 0)), 0);
+
+            const diferidoDicTotal = state.obras.reduce((s, o) => s + (o.diferidoDic || 0), 0);
+
+            // Gastos en obras 50/50
+            const j5050 = state.gastosJornadas.filter(j => j.caja !== "AUGUSTO_PABLO");
+            const axel5050 = j5050.reduce((s, j) => s + j.axel, 0);
+            const benja5050 = j5050.reduce((s, j) => s + j.benja, 0);
+            const comida5050 = j5050.reduce((s, j) => s + j.comida, 0);
+            const reintAutoPablo5050 = j5050.reduce((s, j) => s + j.golDesg + j.golNaf + j.golPea, 0);
+            const reintAutoCristian5050 = j5050.reduce((s, j) => s + j.tiggoDesg + j.tiggoNaf + j.tiggoPea, 0);
+
+            // Gastos en obras 100% Pablo
+            const j100 = state.gastosJornadas.filter(j => j.caja === "AUGUSTO_PABLO");
+            const gastosDirectosPablo100 = j100.reduce((s, j) => s + j.axel + j.benja + j.comida + j.golDesg + j.golNaf + j.golPea, 0);
+
+            const desgasteGolTotal = state.gastosJornadas.reduce((s, j) => s + j.golDesg, 0);
+
+            // Proyección Quincena/Mes 50/50 (Proyectado con obras agendadas Nov + Cobrado real)
+            const ingresoProyectado5050 = cobrado5050 + porCobrarNov5050;
+            const gastos5050 = axel5050 + benja5050 + comida5050 + reintAutoPablo5050 + reintAutoCristian5050 + fijosTotal;
+            const netoRepartibleProyectado = ingresoProyectado5050 - gastos5050;
+            const mitadCadaSocioProy = netoRepartibleProyectado / 2;
+
+            const netoCobradoHoy5050 = cobrado5050 - (axel5050 + benja5050 + comida5050 + reintAutoPablo5050 + reintAutoCristian5050 + fijosTotal);
+
+            const ingresoProyPablo100 = cobradoPablo100 + porCobrarNovPablo100;
+            const netoProyPablo100 = ingresoProyPablo100 - gastosDirectosPablo100;
+
+            return {
+                cfg, fijosTotal,
+                cobrado5050, porCobrarNov5050, ingresoProyectado5050,
+                axel5050, benja5050, comida5050, reintAutoPablo5050, reintAutoCristian5050,
+                netoRepartibleProyectado, mitadCadaSocioProy, netoCobradoHoy5050,
+                cobradoPablo100, porCobrarNovPablo100, ingresoProyPablo100, gastosDirectosPablo100, netoProyPablo100,
+                diferidoDicTotal, desgasteGolTotal
+            };
+        }
+
+        function renderDashboard() {
+            const f = calculateFinancials();
+
+            // Semáforo Fijos 1ra Quincena
+            const cobradoTotalMes = f.cobrado5050 + f.cobradoPablo100;
+            const pctFijos = f.fijosTotal > 0 ? Math.min(100, Math.round((f.cobrado5050 / f.fijosTotal) * 100)) : 100;
+            document.getElementById("fijosBar").style.width = pctFijos + "%";
+            document.getElementById("fijosStatusBadge").textContent = pctFijos >= 100
+                ? "✅ 100% CUBIERTOS"
+                : `Cubierto ${pctFijos}% (${fmt(f.cobrado5050)} / ${fmt(f.fijosTotal)})`;
+            document.getElementById("fijosDetalleText").innerHTML =
+                `Seguro de los 4: <b>${fmt(f.cfg.seguro)}</b> (Vence día <b>${f.cfg.diaSeguro}</b>) • Monotributo: <b>${fmt(f.cfg.monotributo)}</b> (Vence día <b>20</b>) • Total Fijos: <b class="mono">${fmt(f.fijosTotal)}</b>`;
+
+            // Meta Gol Diciembre
+            const totalFondoGol = (f.cfg.ahorroManualGol || 0) + f.desgasteGolTotal;
+            const pctGol = f.cfg.metaGol > 0 ? Math.min(100, Math.round((totalFondoGol / f.cfg.metaGol) * 100)) : 100;
+            document.getElementById("golMetaBar").style.width = pctGol + "%";
+            document.getElementById("golMetaBadge").textContent = `${fmt(totalFondoGol)} / ${fmt(f.cfg.metaGol)} (${pctGol}%)`;
+            document.getElementById("golDesgasteAcumText").textContent = `Incluye ${fmt(f.desgasteGolTotal)} acumulados por desgaste diario del Gol.`;
+
+            // Caja 50/50
+            document.getElementById("cajaCondorBody").innerHTML = `
+                <div class="stat-line"><span>Cobrado en mano este mes:</span><b class="mono val-green">${fmt(f.cobrado5050)}</b></div>
+                <div class="stat-line"><span>A cobrar en Noviembre (Agendado):</span><b class="mono val-accent">${fmt(f.porCobrarNov5050)}</b></div>
+                <div class="stat-line"><span><b>Total Caja Compartida Nov:</b></span><b class="mono">${fmt(f.ingresoProyectado5050)}</b></div>
+                <div class="stat-line"><span>- Jornales Axel / Benja cargados:</span><span class="mono">-${fmt(f.axel5050 + f.benja5050)}</span></div>
+                <div class="stat-line"><span>- Comidas de obra cargadas:</span><span class="mono">-${fmt(f.comida5050)}</span></div>
+                <div class="stat-line"><span>- Reintegro Auto Pablo (Gol):</span><span class="mono">-${fmt(f.reintAutoPablo5050)}</span></div>
+                <div class="stat-line"><span>- Reintegro Auto Cristian (Tiggo):</span><span class="mono">-${fmt(f.reintAutoCristian5050)}</span></div>
+                <div class="stat-line"><span>- Fijos Mes (Seguro + Monotrib.):</span><span class="mono">-${fmt(f.fijosTotal)}</span></div>
+                <div class="stat-line" style="border-top:1px solid var(--border);margin-top:4px;padding-top:10px;">
+                    <span><b>50% Neto Proyectado PABLO:</b></span><b class="mono val-green">${fmt(f.mitadCadaSocioProy)}</b>
+                </div>
+                <div class="stat-line">
+                    <span><b>50% Neto Proyectado CRISTIAN:</b></span><b class="mono val-green">${fmt(f.mitadCadaSocioProy)}</b>
+                </div>
+            `;
+
+            // Caja 100% Pablo (Augusto)
+            document.getElementById("cajaAugustoBody").innerHTML = `
+                <div class="stat-line"><span>Cobrado en mano (Armenia $750k + Virrey $275k):</span><b class="mono val-green">${fmt(f.cobradoPablo100)}</b></div>
+                <div class="stat-line"><span>A cobrar pendiente de Augusto:</span><b class="mono val-gold">${fmt(f.porCobrarNovPablo100)}</b></div>
+                <div class="stat-line"><span>- Gastos directos en esas obras (Comidas Armenia):</span><span class="mono">-${fmt(f.gastosDirectosPablo100)}</span></div>
+                <div class="stat-line" style="border-top:1px solid rgba(245,158,11,0.35);margin-top:4px;padding-top:10px;">
+                    <span><b>100% CASH NETO EN TU MANO (Augusto Cerrado):</b></span><b class="mono val-gold" style="font-size:15.5px;">${fmt(f.netoProyPablo100)}</b>
+                </div>
+                <div style="font-size:11.5px;color:var(--muted);margin-top:8px;">
+                    * Ciclo Augusto cerrado (sin saldos pendientes). Cubre el 100% de tu Meta Gol (${fmt(f.cfg.metaGol)}) y te sobran ${fmt(f.netoProyPablo100 - f.cfg.metaGol)}.
+                </div>
+            `;
+
+            // Resumen Total Bolsillo Pablo (Separando CASH HOY vs PROYECTADO)
+            const cashBrutoHoyPablo = f.cobradoPablo100 + (f.cobrado5050 / 2);
+            const cashNetoAugustoHoy = f.cobradoPablo100 - f.gastosDirectosPablo100;
+            const totalBolsilloPabloNov = f.mitadCadaSocioProy + f.netoProyPablo100;
+            document.getElementById("resumenBolsilloBody").innerHTML = `
+                <div class="stat-line" style="background:rgba(16,185,129,0.12);padding:8px 10px;border-radius:9px;margin-bottom:6px;">
+                    <span>🟢 <b>YA COBRADO CASH EN MANO HOY (Neto Augusto $922k + 50% Héctor/Olga/Karina $600k):</b></span>
+                    <b class="mono val-green" style="font-size:16px;">${fmt(cashNetoAugustoHoy + (f.cobrado5050 / 2))}</b>
+                </div>
+                <div class="stat-line"><span>🔵 Proyectado Noviembre (con Karina saldo $898.138 mañana + Celeste $847.151 sáb + Débora):</span><b class="mono val-accent" style="font-size:15px;">${fmt(totalBolsilloPabloNov)}</b></div>
+                <div class="stat-line"><span>🚗 Si apartás los ${fmt(f.cfg.metaGol)} completos del Gol, te quedan limpios:</span><b class="mono val-green">${fmt(totalBolsilloPabloNov - f.cfg.metaGol)}</b></div>
+                <div class="stat-line"><span>📆 Ya asegurado para cobrar en Diciembre (Karina Cuota 2):</span><b class="mono val-gold">${fmt(f.diferidoDicTotal)}</b></div>
+            `;
+
+            // Rubros
+            const rubrosMap = {};
+            state.obras.forEach(o => {
+                if (o.id === "bandeja_general") return;
+                const k = o.rubro || "Otros";
+                rubrosMap[k] = (rubrosMap[k] || 0) + (o.totalMO + o.adicionalesMO);
+            });
+            document.getElementById("rubrosBody").innerHTML = Object.entries(rubrosMap).map(([r, tot]) => `
+                <div class="stat-line"><span>${r}</span><b class="mono">${fmt(tot)}</b></div>
+            `).join('');
+        }
+
+        function sumarAporteGol() {
+            const v = Number(document.getElementById("aporteGolInput").value) || 0;
+            if (v === 0) return;
+            state.config.ahorroManualGol = (state.config.ahorroManualGol || 0) + v;
+            document.getElementById("aporteGolInput").value = "";
+            saveState();
+            syncToBitacora("VW Gol 1.6", "🚗 Aporte Alcancía Gol", `Sumado ${fmt(v)} al fondo cubiertas/service`);
+            showToast("🚗 Guardado en tu Alcancía Gol Diciembre!");
+        }
+
+        function copiarResumenReunion() {
+            const f = calculateFinancials();
+            const msg = `🦅 *BALANCE EJECUTIVO SGO EL CÓNDOR (NOV 2026)*\n` +
+                `• Caja Compartida 50/50 (Cobrado + Agendado Nov): ${fmt(f.ingresoProyectado5050)}\n` +
+                `• Gastos Fijos Mes (Seguro + Monotributo): ${fmt(f.fijosTotal)}\n` +
+                `• Ayudantes + Comidas + Autos cargados: ${fmt(f.axel5050 + f.benja5050 + f.comida5050 + f.reintAutoPablo5050 + f.reintAutoCristian5050)}\n` +
+                `• 50% Neto Proyectado cada socio: ${fmt(f.mitadCadaSocioProy)}\n` +
+                `• Caja Exclusiva Pablo (Augusto): ${fmt(f.netoProyPablo100)}\n` +
+                `• Diferido asegurado Diciembre: ${fmt(f.diferidoDicTotal)}`;
+            navigator.clipboard.writeText(msg);
+            showToast("📋 Resumen copiado al portapapeles!");
+        }
+
+        // CONFIG
+        function renderConfig() {
+            const c = state.config;
+            document.getElementById("cfgSeguro").value = c.seguro;
+            document.getElementById("cfgDiaSeguro").value = c.diaSeguro;
+            document.getElementById("cfgMono").value = c.monotributo;
+            document.getElementById("cfgNaftaMes").value = c.naftaMes;
+            document.getElementById("cfgAxel").value = c.axelStd;
+            document.getElementById("cfgBenja").value = c.benjaStd;
+            document.getElementById("cfgGolDia").value = c.golDesgasteDia;
+            document.getElementById("cfgTiggoDia").value = c.tiggoDesgasteDia;
+            document.getElementById("cfgMetaGol").value = c.metaGol;
+        }
+
+        function guardarConfig() {
+            state.config.seguro = Number(document.getElementById("cfgSeguro").value) || 0;
+            state.config.diaSeguro = Number(document.getElementById("cfgDiaSeguro").value) || 10;
+            state.config.monotributo = Number(document.getElementById("cfgMono").value) || 0;
+            state.config.naftaMes = Number(document.getElementById("cfgNaftaMes").value) || 0;
+            state.config.axelStd = Number(document.getElementById("cfgAxel").value) || 100000;
+            state.config.benjaStd = Number(document.getElementById("cfgBenja").value) || 50000;
+            state.config.golDesgasteDia = Number(document.getElementById("cfgGolDia").value) || 3500;
+            state.config.tiggoDesgasteDia = Number(document.getElementById("cfgTiggoDia").value) || 4500;
+            state.config.metaGol = Number(document.getElementById("cfgMetaGol").value) || 550000;
+            saveState();
+            showToast("⚙️ Parámetros fijos actualizados!");
+        }
+
+        // CLOUD SYNC + MODO SUBSUELO OFFLINE QUEUE
+        function getQueue() {
+            try { return JSON.parse(localStorage.getItem("sgo_offline_queue") || "[]"); }
+            catch { return []; }
+        }
+        function setQueue(q) {
+            localStorage.setItem("sgo_offline_queue", JSON.stringify(q));
+            const b = document.getElementById("queueBanner");
+            if (q.length > 0) {
+                b.classList.add("visible");
+                document.getElementById("queueText").textContent = `⏳ Movimientos en Modo Subsuelo pendientes de subir: ${q.length}`;
+            } else {
+                b.classList.remove("visible");
+            }
+        }
+
+        async function syncToBitacora(obra, tipo, texto) {
+            const item = {
+                id: "SGO_" + Date.now(),
+                formattedText: `[SGO] [OBRA: ${obra}] [${tipo}] ${texto}`
+            };
+            if (!navigator.onLine) {
+                const q = getQueue(); q.push(item); setQueue(q);
+                return;
+            }
+            try {
+                await postItem(item);
+            } catch {
+                const q = getQueue(); q.push(item); setQueue(q);
+            }
+        }
+
+        async function postItem(item) {
+            await fetch(ENDPOINT_BITACORA, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain;charset=utf-8" },
+                body: JSON.stringify({
+                    message: { chat: { id: "SGO_EL_CONDOR" }, message_id: item.id, text: item.formattedText }
+                })
+            });
+        }
+
+        async function flushOfflineQueue() {
+            if (!navigator.onLine) return;
+            const q = getQueue();
+            if (!q.length) return;
+            const rem = [];
+            for (const it of q) {
+                try { await postItem(it); } catch { rem.push(it); }
+            }
+            setQueue(rem);
+            if (!rem.length) showToast("✅ Movimientos de Modo Subsuelo sincronizados con Paul");
+        }
+
+        function updateNetUI() {
+            const badge = document.getElementById("netBadge");
+            if (navigator.onLine) {
+                badge.className = "net-badge net-online";
+                badge.textContent = "● EN LÍNEA";
+                flushOfflineQueue();
+            } else {
+                badge.className = "net-badge net-offline";
+                badge.textContent = "● MODO SUBSUELO";
+            }
+        }
+
+        function renderAll() {
+            document.getElementById("todayLabel").textContent = new Date().toLocaleDateString("es-AR", { weekday: "short", day: "2-digit", month: "2-digit" });
+            renderObras();
+            renderDashboard();
+            renderConfig();
+            setQueue(getQueue());
+        }
+
+        window.addEventListener("online", updateNetUI);
+        window.addEventListener("offline", updateNetUI);
+        updateNetUI();
+        renderAll();
+    </script>
+</body>
+</html>

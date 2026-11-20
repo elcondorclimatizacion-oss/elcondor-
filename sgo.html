@@ -397,10 +397,11 @@
     </div>
 
     <!-- TOP NAVIGATION -->
-    <div class="main-nav">
+    <div class="main-nav" style="grid-template-columns: repeat(4, 1fr);">
         <button class="nav-tab active" onclick="switchView('obras', this)">🏗️ OBRAS Y CAMPO</button>
-        <button class="nav-tab" onclick="switchView('numeros', this)">📊 NÚMEROS DEL MES</button>
-        <button class="nav-tab" onclick="switchView('config', this)">⚙️ FIJOS Y EQUIPO</button>
+        <button class="nav-tab" onclick="switchView('relevamiento', this)">📞 RELEVAMIENTO</button>
+        <button class="nav-tab" onclick="switchView('numeros', this)">📊 NÚMEROS MES</button>
+        <button class="nav-tab" onclick="switchView('config', this)">⚙️ FIJOS / EQUIPO</button>
     </div>
 
     <!-- ================================================================= -->
@@ -726,6 +727,180 @@
     </div>
 
     <!-- ================================================================= -->
+    <!-- VISTA 1B: PROTOCOLO DE LLAMADAS Y RELEVAMIENTO RÁPIDO (3 RUBROS)  -->
+    <!-- ================================================================= -->
+    <div id="view-relevamiento" class="view-section">
+        <div class="card card-accent">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+                <div>
+                    <h2 style="font-size:18px;font-weight:800;color:#fff;">📞 Protocolo de Preguntas Clave y Relevamiento Rápido</h2>
+                    <p style="font-size:12px;color:var(--muted);">Tildá mientras hablás por teléfono o en la visita (ej. Varela Aire) para no olvidarte ningún dato crítico.</p>
+                </div>
+                <button class="btn-secondary" style="font-size:12px;padding:7px 11px;" onclick="limpiarChecklistRelevamiento()">🧹 Limpiar Ficha</button>
+            </div>
+
+            <div class="field-row">
+                <div class="field">
+                    <label>👤 Nombre Cliente / Referencia</label>
+                    <input type="text" id="relCliente" placeholder="Ej: Cliente Florencio Varela" oninput="actualizarResumenRelevamiento()">
+                </div>
+                <div class="field">
+                    <label>📍 Dirección / Localidad / Piso</label>
+                    <input type="text" id="relDireccion" placeholder="Ej: Fcio. Varela - Casa PB / 1er Piso" oninput="actualizarResumenRelevamiento()">
+                </div>
+                <div class="field">
+                    <label>📱 Teléfono / WhatsApp</label>
+                    <input type="text" id="relTel" placeholder="Ej: 11 4455-6677" oninput="actualizarResumenRelevamiento()">
+                </div>
+            </div>
+
+            <div class="section-label" style="margin-top:4px;">Seleccioná el Rubro de la Consulta:</div>
+            <div class="chips" style="margin-bottom:12px;">
+                <button class="chip active" id="btnRelRubroAire" onclick="setRelRubro('aire', this)">❄️ 1. Aire Acondicionado (Climatización)</button>
+                <button class="chip" id="btnRelRubroElec" onclick="setRelRubro('elec', this)">⚡ 2. Electricidad / Tableros / Fallas</button>
+                <button class="chip" id="btnRelRubroCctv" onclick="setRelRubro('cctv', this)">📹 3. Cámaras CCTV / Alarmas / Redes</button>
+            </div>
+
+            <!-- SUB-PANEL 1: AIRE ACONDICIONADO -->
+            <div id="relPanel-aire" class="rel-subpanel">
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px;">1️⃣ ¿Qué equipo es y qué capacidad tiene? (Pedir foto etiqueta lateral)</div>
+                    <div class="mini-pills" data-group="aire_cap">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">2250~2600 Fg (1/4 y 3/8)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">3000~3500 Fg (1/4 y 3/8 ó 1/2)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">4500~5500 Fg (1/4 y 1/2)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">6000+ Fg (3/8 y 5/8)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">No sabe frigorías (Ver etiqueta)</button>
+                    </div>
+                    <div class="mini-pills" data-group="aire_tipo" style="margin-top:8px;">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Equipo Nuevo en Caja</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Equipo Usado (Verificar si tiene gas y tuercas)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Hay que Desinstalar primero</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Inverter R32</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Inverter R410A</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">On/Off R410A</button>
+                    </div>
+                </div>
+
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px;">2️⃣ Geometría, Metros de Cañería y Montaje Exterior</div>
+                    <div class="mini-pills" data-group="aire_recorrido">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Espalda con Espalda (3m estándar)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Recorrido 4 a 5 metros</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Recorrido Largo 6 a 10m (+Gas adicional)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Con Preinstalación / Taparrollos</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Lleva Cablecanal Interior 80x60</button>
+                    </div>
+                    <div class="mini-pills" data-group="aire_exterior" style="margin-top:8px;">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Unidad Ext. en Ménsulas Pared (Altura normal)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Unidad Ext. apoyada en Losa / Techo (Bases piso)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Unidad Ext. en Balcón / Piso</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">⚠️ Altura +3.5m / Escalera grande / Al vacío</button>
+                    </div>
+                </div>
+
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--gold);margin-bottom:4px;">3️⃣ Alimentación Eléctrica y Materiales (¡Donde saltan los adicionales!)</div>
+                    <div class="mini-pills" data-group="aire_elec">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Ya tiene toma 20A exclusivo al lado</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">⚡ Hay que tirar línea nueva desde Tablero + Térmica 16A/20A</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Tablero cerca (< 10m)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Tablero lejos (15 a 30m Sintenax/Caño)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Materiales provee El Cóndor</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Cliente ya compró kit</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-PANEL 2: ELECTRICIDAD -->
+            <div id="relPanel-elec" class="rel-subpanel" style="display:none;">
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px;">1️⃣ Tipo de Trabajo Eléctrico Solicitado</div>
+                    <div class="mini-pills" data-group="elec_tipo">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Urgencia / Falla (Sin luz o salta protección)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Tendido Línea Nueva desde Medidor (Sintenax)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Armado / Cambio de Tablero Principal o Seccional</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Línea dedicada Aires / Horno / Termotanque</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Cableado / Recableado y Bocas Nuevas</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Jabalina Puesta a Tierra</button>
+                    </div>
+                </div>
+
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--gold);margin-bottom:4px;">2️⃣ Si es Falla: ¿Qué protección salta y cuándo?</div>
+                    <div class="mini-pills" data-group="elec_falla">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Salta Disyuntor Diferencial (Fuga a tierra / Humedad)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Salta Llave Térmica (Sobrecarga / Corto / Cable fino)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Olor a quemado / Térmica caliente</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Salta al prender un artefacto puntual</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Salta cuando llueve / humedad</button>
+                    </div>
+                </div>
+
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px;">3️⃣ Canalización, Suministro y Altura</div>
+                    <div class="mini-pills" data-group="elec_canal">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Monofásico (220V)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Trifásico (380V)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Caño Rígido PVC Exterior a la vista (Genrod)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Por cañería embutida existente</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Cablecanal a la vista</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">⚠️ Trabajo en Altura (2.5m a 4m+)</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SUB-PANEL 3: CCTV / ALARMAS / REDES -->
+            <div id="relPanel-cctv" class="rel-subpanel" style="display:none;">
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--accent);margin-bottom:4px;">1️⃣ Propiedad, Cantidad y Tecnología</div>
+                    <div class="mini-pills" data-group="cctv_prop">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Vivienda / Casa</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Galpón / Predio Industrial</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Local Comercial / Consorcio</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">2 a 4 Cámaras</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">5 a 8 Cámaras</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">9 a 16+ Cámaras</button>
+                    </div>
+                    <div class="mini-pills" data-group="cctv_tec" style="margin-top:8px;">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Cámaras IP PoE + NVR (Uniview / Dahua)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Disuasión Activa (Sirena + Luz + IA / Térmica)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Cámaras Wi-Fi Individuales (Ezviz / Imou)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Red Wi-Fi Mesh (Omada / UniFi)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Alarma Intelbras / Cerco Eléctrico</button>
+                    </div>
+                </div>
+
+                <div class="person-row">
+                    <div style="font-weight:800;font-size:13px;color:var(--gold);margin-bottom:4px;">2️⃣ Distancias, Canalización y Altura</div>
+                    <div class="mini-pills" data-group="cctv_dist">
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Tiradas cortas (< 40m)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Tiradas medias (40 a 80m)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">⚡ Tirada > 80m (Lleva Switch PoE Omada + Caja 20x20)</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">Con Cañería PVC Exterior 20/25mm + Cajas 10x10</button>
+                        <button class="mini-pill" onclick="toggleRelPill(this)">⚠️ Montaje en Altura (+4m / Postes / Nave)</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field" style="margin-top:10px;">
+                <label>📝 Medidas / Metros / Detalles adicionales relevados en llamada o visita:</label>
+                <textarea id="relNotasExtra" placeholder="Ej: 5m de caño de 1/4 y 1/2, motor en terraza sobre losa, tablero a 12m sin térmica libre..." style="min-height:65px;" oninput="actualizarResumenRelevamiento()"></textarea>
+            </div>
+
+            <div class="field">
+                <label>📋 Ficha Resumen Autogenerada (lista para guardar en Obra o mandar a Paul):</label>
+                <textarea id="relResumenFinal" readonly style="min-height:95px;background:rgba(6,10,18,0.85);border-color:var(--border);color:#6ee7b7;font-size:13px;"></textarea>
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                <button class="btn-primary" style="flex:1;" onclick="guardarRelevamientoEnSGO()">🦅 GUARDAR EN OBRA ACTIVA / CREAR FICHA SGO ⚡</button>
+                <button class="btn-gold" onclick="copiarCuestionarioClienteWA()">📲 Copiar Preguntas para WhatsApp del Cliente</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================================= -->
     <!-- VISTA 2: NÚMEROS DEL MES Y REPARTO                                -->
     <!-- ================================================================= -->
     <div id="view-numeros" class="view-section">
@@ -921,7 +1096,7 @@
 
     <script>
         const ENDPOINT_BITACORA = "https://script.google.com/macros/s/AKfycbzG0RQclI4K2Ct6G307sfa7wGRnH0j8FGl3_pNFfiykuxiZbplEeiHSfAF6FoIGHrY_/exec";
-        const STORAGE_KEY = "sgo_el_condor_v9_1911";
+        const STORAGE_KEY = "sgo_el_condor_v10_2011";
 
         const DEFAULT_STATE = {
             config: {
@@ -1599,7 +1774,65 @@
 
         let quickRec = null;
         let isQuickRec = false;
+        let quickWantRecord = false;
         let quickBaseText = "";
+        let quickLastSessionText = "";
+
+        function stopQuickVoice() {
+            quickWantRecord = false;
+            isQuickRec = false;
+            if (quickRec) {
+                try { quickRec.onend = null; quickRec.stop(); } catch {}
+            }
+            document.getElementById("quickMicBtn").classList.remove("recording");
+            document.getElementById("quickMicLabel").textContent = "TOCÁ PARA HABLAR";
+        }
+
+        function startQuickVoiceSession() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return;
+            quickRec = new SpeechRecognition();
+            quickRec.lang = "es-AR";
+            quickRec.continuous = true;
+            quickRec.interimResults = true;
+            quickLastSessionText = "";
+
+            quickRec.onstart = () => {
+                isQuickRec = true;
+                document.getElementById("quickMicBtn").classList.add("recording");
+                document.getElementById("quickMicLabel").textContent = "🔴 ESCUCHANDO SIN CORTE... TOCÁ PARA CORTAR";
+            };
+            quickRec.onresult = (e) => {
+                quickLastSessionText = extractCleanSpeech(e.results);
+                const full = (quickBaseText ? quickBaseText + " " + quickLastSessionText : quickLastSessionText).trim();
+                document.getElementById("quickVoiceInput").value = full;
+                detectAndSwitchObra(full);
+            };
+            quickRec.onerror = (e) => {
+                if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+                    stopQuickVoice();
+                }
+            };
+            quickRec.onend = () => {
+                if (quickLastSessionText) {
+                    quickBaseText = (quickBaseText ? quickBaseText + " " + quickLastSessionText : quickLastSessionText).trim();
+                    quickLastSessionText = "";
+                } else {
+                    quickBaseText = document.getElementById("quickVoiceInput").value.trim();
+                }
+                if (quickWantRecord) {
+                    setTimeout(() => {
+                        if (quickWantRecord) {
+                            try { startQuickVoiceSession(); } catch { stopQuickVoice(); }
+                        }
+                    }, 80);
+                } else {
+                    stopQuickVoice();
+                }
+            };
+            try { quickRec.start(); } catch { stopQuickVoice(); }
+        }
+
         function toggleQuickVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -1607,36 +1840,20 @@
                 document.getElementById("quickVoiceInput").focus();
                 return;
             }
-            if (isQuickRec && quickRec) { quickRec.stop(); return; }
-
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            quickRec = new SpeechRecognition();
-            quickRec.lang = "es-AR";
-            quickRec.continuous = !isAndroid;
-            quickRec.interimResults = true;
-
-            quickRec.onstart = () => {
-                isQuickRec = true;
-                quickBaseText = document.getElementById("quickVoiceInput").value.trim();
-                document.getElementById("quickMicBtn").classList.add("recording");
-                document.getElementById("quickMicLabel").textContent = "ESCUCHANDO... TOCÁ PARA CORTAR";
-            };
-            quickRec.onresult = (e) => {
-                const spoken = extractCleanSpeech(e.results);
-                const full = (quickBaseText ? quickBaseText + " " + spoken : spoken).trim();
-                document.getElementById("quickVoiceInput").value = full;
-                detectAndSwitchObra(full);
-            };
-            quickRec.onend = () => {
-                isQuickRec = false;
-                document.getElementById("quickMicBtn").classList.remove("recording");
-                document.getElementById("quickMicLabel").textContent = "TOCÁ PARA HABLAR";
-            };
-            quickRec.start();
+            if (quickWantRecord || isQuickRec) {
+                stopQuickVoice();
+                return;
+            }
+            if (wantTecRecord || isRecording) {
+                stopTecVoice();
+            }
+            quickWantRecord = true;
+            quickBaseText = document.getElementById("quickVoiceInput").value.trim();
+            startQuickVoiceSession();
         }
 
         async function guardarDictadoRapido() {
-            if (isQuickRec && quickRec) quickRec.stop();
+            if (quickWantRecord || isQuickRec) stopQuickVoice();
             const txt = document.getElementById("quickVoiceInput").value.trim();
             if (txt.length < 3) { showToast("Hablá o escribí primero el mensaje.", "warn"); return; }
 
@@ -1907,8 +2124,64 @@
             showToast("📲 Estrategia copiada para pegar en el grupo del equipo!");
         }
 
-        // VOZ Y NOTAS TÉCNICAS
+        // VOZ Y NOTAS TÉCNICAS (MODO CONTINUO CON AUTO-REENGANCHE SIN CORTES)
         let tecBaseText = "";
+        let wantTecRecord = false;
+        let tecLastSessionText = "";
+
+        function stopTecVoice() {
+            wantTecRecord = false;
+            isRecording = false;
+            if (recognition) {
+                try { recognition.onend = null; recognition.stop(); } catch {}
+            }
+            document.getElementById("micBtn").classList.remove("recording");
+            document.getElementById("micLabel").textContent = "TOCAR PARA DICTAR POR VOZ (es-AR)";
+        }
+
+        function startTecVoiceSession() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) return;
+            recognition = new SpeechRecognition();
+            recognition.lang = "es-AR";
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            tecLastSessionText = "";
+
+            recognition.onstart = () => {
+                isRecording = true;
+                document.getElementById("micBtn").classList.add("recording");
+                document.getElementById("micLabel").textContent = "🔴 ESCUCHANDO SIN CORTE... TOCÁ PARA DETENER";
+            };
+            recognition.onresult = (e) => {
+                tecLastSessionText = extractCleanSpeech(e.results);
+                document.getElementById("tecNota").value = (tecBaseText ? tecBaseText + " " + tecLastSessionText : tecLastSessionText).trim();
+            };
+            recognition.onerror = (e) => {
+                if (e.error === "not-allowed" || e.error === "service-not-allowed") {
+                    stopTecVoice();
+                }
+            };
+            recognition.onend = () => {
+                if (tecLastSessionText) {
+                    tecBaseText = (tecBaseText ? tecBaseText + " " + tecLastSessionText : tecLastSessionText).trim();
+                    tecLastSessionText = "";
+                } else {
+                    tecBaseText = document.getElementById("tecNota").value.trim();
+                }
+                if (wantTecRecord) {
+                    setTimeout(() => {
+                        if (wantTecRecord) {
+                            try { startTecVoiceSession(); } catch { stopTecVoice(); }
+                        }
+                    }, 80);
+                } else {
+                    stopTecVoice();
+                }
+            };
+            try { recognition.start(); } catch { stopTecVoice(); }
+        }
+
         function toggleVoice() {
             const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
             if (!SpeechRecognition) {
@@ -1916,34 +2189,20 @@
                 document.getElementById("tecNota").focus();
                 return;
             }
-            if (isRecording && recognition) { recognition.stop(); return; }
-
-            const isAndroid = /Android/i.test(navigator.userAgent);
-            recognition = new SpeechRecognition();
-            recognition.lang = "es-AR";
-            recognition.continuous = !isAndroid;
-            recognition.interimResults = true;
-
-            recognition.onstart = () => {
-                isRecording = true;
-                tecBaseText = document.getElementById("tecNota").value.trim();
-                document.getElementById("micBtn").classList.add("recording");
-                document.getElementById("micLabel").textContent = "ESCUCHANDO... TOCÁ PARA DETENER";
-            };
-            recognition.onresult = (e) => {
-                const spoken = extractCleanSpeech(e.results);
-                document.getElementById("tecNota").value = (tecBaseText ? tecBaseText + " " + spoken : spoken).trim();
-            };
-            recognition.onend = () => {
-                isRecording = false;
-                document.getElementById("micBtn").classList.remove("recording");
-                document.getElementById("micLabel").textContent = "TOCAR PARA DICTAR POR VOZ (es-AR)";
-            };
-            recognition.start();
+            if (wantTecRecord || isRecording) {
+                stopTecVoice();
+                return;
+            }
+            if (quickWantRecord || isQuickRec) {
+                stopQuickVoice();
+            }
+            wantTecRecord = true;
+            tecBaseText = document.getElementById("tecNota").value.trim();
+            startTecVoiceSession();
         }
 
         async function guardarNotaTecnica() {
-            if (isRecording && recognition) recognition.stop();
+            if (wantTecRecord || isRecording) stopTecVoice();
             const o = getActiveObra();
             const esp = document.getElementById("tecRubro").value;
             const nota = document.getElementById("tecNota").value.trim();
@@ -1956,6 +2215,138 @@
 
             document.getElementById("tecNota").value = "";
             showToast("✅ Nota técnica guardada y enviada a Paul de Oficina");
+        }
+
+        // PROTOCOLO DE LLAMADAS Y RELEVAMIENTO RÁPIDO (3 RUBROS)
+        let relRubroActual = "aire";
+        function setRelRubro(rubro, btn) {
+            relRubroActual = rubro;
+            document.querySelectorAll("#view-relevamiento .chips .chip").forEach(c => c.classList.remove("active"));
+            if (btn) btn.classList.add("active");
+            document.querySelectorAll(".rel-subpanel").forEach(p => p.style.display = "none");
+            const panel = document.getElementById("relPanel-" + rubro);
+            if (panel) panel.style.display = "block";
+            actualizarResumenRelevamiento();
+        }
+
+        function toggleRelPill(btn) {
+            btn.classList.toggle("active");
+            actualizarResumenRelevamiento();
+        }
+
+        function limpiarChecklistRelevamiento() {
+            document.getElementById("relCliente").value = "";
+            document.getElementById("relDireccion").value = "";
+            document.getElementById("relTel").value = "";
+            document.getElementById("relNotasExtra").value = "";
+            document.querySelectorAll("#view-relevamiento .mini-pill.active").forEach(p => p.classList.remove("active"));
+            actualizarResumenRelevamiento();
+            showToast("🧹 Ficha de relevamiento limpia");
+        }
+
+        function actualizarResumenRelevamiento() {
+            const cli = (document.getElementById("relCliente")?.value || "").trim() || "A confirmar";
+            const dir = (document.getElementById("relDireccion")?.value || "").trim();
+            const tel = (document.getElementById("relTel")?.value || "").trim();
+            const extra = (document.getElementById("relNotasExtra")?.value || "").trim();
+
+            const rubroNombres = {
+                aire: "❄️ CLIMATIZACIÓN (Aire Acondicionado)",
+                elec: "⚡ ELECTRICIDAD Y TABLEROS",
+                cctv: "📹 CCTV / ALARMAS / REDES"
+            };
+
+            const panel = document.getElementById("relPanel-" + relRubroActual);
+            const seleccionados = [];
+            if (panel) {
+                panel.querySelectorAll(".mini-pill.active").forEach(p => seleccionados.push(p.textContent.trim()));
+            }
+
+            let txt = `[RELEVAMIENTO ${rubroNombres[relRubroActual]}] Cliente: ${cli}`;
+            if (dir) txt += ` | Dir: ${dir}`;
+            if (tel) txt += ` | Tel: ${tel}`;
+            if (seleccionados.length > 0) txt += `\n• Datos Técnicos: ${seleccionados.join(" • ")}`;
+            if (extra) txt += `\n• Medidas / Observaciones: ${extra}`;
+
+            const resBox = document.getElementById("relResumenFinal");
+            if (resBox) resBox.value = txt;
+            return txt;
+        }
+
+        async function guardarRelevamientoEnSGO() {
+            const resumen = actualizarResumenRelevamiento();
+            const cli = (document.getElementById("relCliente")?.value || "").trim();
+            const panel = document.getElementById("relPanel-" + relRubroActual);
+            const countPills = panel ? panel.querySelectorAll(".mini-pill.active").length : 0;
+            const extra = (document.getElementById("relNotasExtra")?.value || "").trim();
+
+            if (!cli && countPills === 0 && !extra) {
+                showToast("Completá el nombre o tildá al menos un dato del relevamiento.", "warn");
+                return;
+            }
+
+            let targetObra = getActiveObra();
+            if (cli) {
+                const matched = detectAndSwitchObra(cli);
+                if (matched) {
+                    targetObra = matched;
+                } else {
+                    const rubroMap = { aire: "❄️ Climatización", elec: "⚡ Eléctrica", cctv: "📹 CCTV" };
+                    const newId = "obra_" + Date.now();
+                    const dir = (document.getElementById("relDireccion")?.value || "").trim();
+                    const nueva = {
+                        id: newId,
+                        nombre: dir ? `${cli} (${dir})` : cli,
+                        caja: "CONDOR_50_50",
+                        rubro: rubroMap[relRubroActual] || "❄️ Climatización",
+                        estado: "1-Relevamiento",
+                        fechas: "Relevado " + nowStamp(),
+                        totalMO: 0, cobradoAntes: 0, diferidoDic: 0, cobradoMes: 0, adicionalesMO: 0, reintegrosPendientes: 0,
+                        listaMateriales: "",
+                        estrategia: resumen,
+                        movimientos: []
+                    };
+                    state.obras.unshift(nueva);
+                    activeObraId = newId;
+                    targetObra = nueva;
+                }
+            }
+
+            targetObra.estrategia = (targetObra.estrategia ? targetObra.estrategia + "\n" : "") + resumen;
+            targetObra.movimientos.unshift({ id: "rel_" + Date.now(), fecha: nowStamp(), tipo: "📞 Relevamiento", resumen });
+            saveState();
+            await syncToBitacora(targetObra.nombre, "📞 Ficha Relevamiento", resumen);
+            showToast("✅ Relevamiento guardado en " + targetObra.nombre + " y enviado a Paul");
+        }
+
+        function copiarCuestionarioClienteWA() {
+            let msg = "";
+            if (relRubroActual === "aire") {
+                msg = `Hola! 🦅 Soy Pablo de *El Cóndor Climatización y Soluciones Integrales*.\n` +
+                    `Para pasarte un presupuesto exacto o ir preparados con todo a ver la instalación de tu Aire Acondicionado, contame cuando puedas estos datos rápidos:\n\n` +
+                    `1️⃣ *Capacidad y Estado:* ¿De cuántas Frigorías o Watts es el equipo? ¿Es nuevo en caja o usado? *(Si tenés a mano, mandame una foto de la etiqueta lateral o de la caja)*.\n` +
+                    `2️⃣ *Ubicación y Metros:* ¿La unidad interior y el motor exterior van espalda con espalda en la misma pared, o hay distancia entre ambos?\n` +
+                    `3️⃣ *Motor Exterior y Altura:* ¿El motor afuera va colgado con ménsulas en pared, apoyado en balcón o arriba en techo/losa?\n` +
+                    `4️⃣ *Electricidad:* ¿Ya tenés un enchufe exclusivo de 20A (patas anchas) al lado de donde va el aire, o hay que llevarle una línea con llave térmica desde el tablero?\n` +
+                    `5️⃣ *Fotos:* Si podés, mandame una foto de la pared donde va adentro/afuera y una foto de tu tablero eléctrico.\n\n` +
+                    `Muchas gracias!`;
+            } else if (relRubroActual === "elec") {
+                msg = `Hola! 🦅 Soy Pablo de *El Cóndor Climatización y Soluciones Integrales*.\n` +
+                    `Para darte una respuesta precisa sobre el trabajo eléctrico, contame por favor:\n\n` +
+                    `1️⃣ *Trabajo / Falla:* ¿Qué estás necesitando instalar o qué falla estás notando? *(Si salta una protección, contame si salta la llave térmica o el disyuntor diferencial con botón de test)*.\n` +
+                    `2️⃣ *Recorrido:* ¿Es para hacer con cañería exterior a la vista o embutido? ¿Cuántos metros aproximados hay desde el tablero o medidor?\n` +
+                    `3️⃣ *Fotos:* Si podés, mandame una foto del *Tablero Eléctrico* de cerca y del sector donde hay que trabajar.\n\n` +
+                    `Muchas gracias!`;
+            } else {
+                msg = `Hola! 🦅 Soy Pablo de *El Cóndor Climatización y Soluciones Integrales*.\n` +
+                    `Para armarte la mejor propuesta de Cámaras de Seguridad / Redes, contame por favor:\n\n` +
+                    `1️⃣ *Propiedad y Cantidad:* ¿Es para casa, comercio o galpón? ¿Cuántas cámaras o sectores querés cubrir?\n` +
+                    `2️⃣ *Tipo de Sistema:* ¿Buscás cámaras con grabador centralizado 24/7, cámaras con alerta inteligente (sirena/luz) o cámaras Wi-Fi?\n` +
+                    `3️⃣ *Distancias:* ¿A cuántos metros aproximados del módem de internet estaría la cámara más lejana?\n\n` +
+                    `Muchas gracias!`;
+            }
+            navigator.clipboard.writeText(msg);
+            showToast("📲 Cuestionario copiado para pegar en el WhatsApp del cliente!");
         }
 
         // MODAL NUEVA / EDITAR OBRA
